@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="@string/title_new_calc"
+        android:icon="@drawable/ic_create_white_24dp">
+        <menu>
+            <item android:title="@string/title_gearing">
+                <menu>
+                    <item
+                        android:id="@+id/mi_gears_common"
+                        android:title="@string/title_gears_common"/>
+                    <item
+                        android:id="@+id/mi_gears_extended"
+                        android:title="@string/title_gears_extended"/>
+                    <item
+                        android:id="@+id/mi_change_gears"
+                        android:title="@string/title_change_gears"/>
+                </menu>
+            </item>
+            <item android:title="@string/title_belting">
+                <menu>
+                    <item
+                        android:id="@+id/mi_belt"
+                        android:title="@string/title_belt"/>
+                </menu>
+            </item>
+        </menu>
+    </item>
+    
+    
+    
+</menu>
