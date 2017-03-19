@@ -94,10 +94,7 @@ implements NavigationView.OnNavigationItemSelectedListener
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater menuInflater = getMenuInflater();
-//        if (_currentTrain == null)
         menuInflater.inflate(R.menu.activity_main_menu, menu);
-//        else
-//            menuInflater.inflate(R.menu.content_train_menu, menu);
         return true;
     }
 
@@ -120,30 +117,20 @@ implements NavigationView.OnNavigationItemSelectedListener
         switch (id)
         {
             case R.id.mi_gears_common:
-//                _currentTrain = _contentCommonGearTrain;
-//                showContentFragment(_currentTrain);
                 break;
             case R.id.mi_gears_extended:
-//                _currentTrain = _contentExtendedGearTrain;
-//                showContentFragment(_currentTrain);
                 break;
             case R.id.mi_change_gears:
-//                _currentTrain = _contentMachineGearTrain;
-//                showContentFragment(_currentTrain);
                 break;
             case R.id.mi_belt:
                 break;
             case R.id.mi_action_save:
-                //if (_currentTrain != null) _currentTrain.save();
                 break;
             case R.id.mi_action_clear:
-                //if (_currentTrain != null) _currentTrain.clear();
                 break;
             case R.id.mi_action_close:
-                //if (_currentTrain != null) _currentTrain.save();
                 break;
             case R.id.mi_action_options:
-                //if (_currentTrain != null) _currentTrain.setOptions();
                 break;
         }
 
@@ -192,8 +179,6 @@ implements NavigationView.OnNavigationItemSelectedListener
             .replace(R.id.contentLayout, fragment)
             .addToBackStack(null)
             .commit();
-
-        //invalidateOptionsMenu();
     }
 
     private void showStartPage()
@@ -205,8 +190,6 @@ implements NavigationView.OnNavigationItemSelectedListener
             .replace(R.id.contentLayout, _contentMain)
             .addToBackStack(null)
             .commit();
-
-        //invalidateOptionsMenu();
     }
 
     private void showReferencesPage()
