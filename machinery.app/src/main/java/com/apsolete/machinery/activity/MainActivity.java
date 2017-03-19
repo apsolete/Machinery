@@ -221,8 +221,7 @@ implements NavigationView.OnNavigationItemSelectedListener
         alertDialogBuilder
             .setMessage("Click yes to exit!")
             .setCancelable(false)
-            .setPositiveButton("Yes",
-            new DialogInterface.OnClickListener()
+            .setPositiveButton("Yes", new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int id)
                 {
