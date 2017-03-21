@@ -1,10 +1,11 @@
-package com.apsolete.machinery.activity;
+package com.apsolete.machinery.activity.fabs;
 
 import android.animation.*;
 import android.support.design.widget.*;
 import android.support.v7.app.*;
 import android.view.*;
 import android.widget.*;
+import com.apsolete.machinery.activity.*;
 
 public class FabsManager
 {
@@ -38,7 +39,8 @@ public class FabsManager
         _fab1 = (FloatingActionButton) _activity.findViewById(R.id.fab1);
         _fab2 = (FloatingActionButton) _activity.findViewById(R.id.fab2);
         _fab3 = (FloatingActionButton) _activity.findViewById(R.id.fab3);
-        _fabsBackground = _activity.findViewById(R.id.fabBGLayout);
+        _fabsBackground = _activity.findViewById(R.id.fabsBackground);
+        
 
         _st_55 = _activity.getResources().getDimension(R.dimen.standard_55);
         _st_100 = _activity.getResources().getDimension(R.dimen.standard_100);
@@ -118,6 +120,7 @@ public class FabsManager
         _isExpanded = false;
         _fabsBackground.setVisibility(View.GONE);
         _fabMain.animate().rotationBy(-180);
+
         _fabLayout1.animate().translationY(0);
         _fabLayout2.animate().translationY(0);
         _fabLayout3.animate().translationY(0).setListener(new Animator.AnimatorListener()

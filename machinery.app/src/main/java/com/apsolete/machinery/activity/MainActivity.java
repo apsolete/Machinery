@@ -11,10 +11,11 @@ import android.support.v7.app.*;
 import android.support.v7.widget.*;
 import android.view.*;
 import android.widget.*;
-import com.apsolete.machinery.activity.references.*;
-
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+
+import com.apsolete.machinery.activity.fabs.*;
+import com.apsolete.machinery.activity.references.*;
 
 public class MainActivity extends AppCompatActivity
 implements NavigationView.OnNavigationItemSelectedListener
