@@ -22,12 +22,12 @@ public class FabView
     public void show()
     {
         _layout.setVisibility(View.VISIBLE);
-        _layout.animate().translationY(-_st);
+        //_layout.animate().translationY(-_st);
     }
     
     public void hide()
     {
-        _layout.animate().translationY(0);
+        //_layout.animate().translationY(0);
         _layout.setVisibility(View.GONE);
     }
 }
