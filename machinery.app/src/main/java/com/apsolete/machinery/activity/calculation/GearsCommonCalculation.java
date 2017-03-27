@@ -2,9 +2,9 @@ package com.apsolete.machinery.activity.calculation;
 
 import com.apsolete.machinery.activity.*;
 
-public class ContentCalcGearsCommon extends ContentCalculation
+public class GearsCommonCalculation extends CalculationContent
 {
-    public ContentCalcGearsCommon()
+    public GearsCommonCalculation()
     {
         super(R.layout.content_calc_gears_common, R.string.title_calc_gears_common);
     }

@@ -2,11 +2,11 @@ package com.apsolete.machinery.activity.calculation;
 
 import com.apsolete.machinery.activity.*;
 
-public class ContentCalcChangeGears extends ContentCalculation
+public class GearsExtendedCalculation extends CalculationContent
 {
-    public ContentCalcChangeGears()
+    public GearsExtendedCalculation()
     {
-        super(R.layout.content_calc_change_gears, R.string.title_calc_change_gears);
+        super(R.layout.content_calc_gears_extended, R.string.title_calc_gears_extended);
     }
 
     @Override

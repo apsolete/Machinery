@@ -1,6 +1,6 @@
 package com.apsolete.machinery.activity;
 
-import android.animation.*;
+import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.support.design.widget.*;
@@ -10,12 +10,14 @@ import android.support.v4.widget.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
 import android.view.*;
-import android.widget.*;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
-
+import com.apsolete.machinery.activity.calculation.*;
 import com.apsolete.machinery.activity.fabs.*;
 import com.apsolete.machinery.activity.references.*;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 
 public class MainActivity extends AppCompatActivity
 implements NavigationView.OnNavigationItemSelectedListener
@@ -42,7 +44,8 @@ implements NavigationView.OnNavigationItemSelectedListener
         {
             public void OnClick(int fabId)
             {
-                Snackbar.make(findViewById(R.id.contentLayout), "Fab " + fabId + " was tapped.", Snackbar.LENGTH_SHORT).show();
+                //Snackbar.make(findViewById(R.id.contentLayout), "Fab " + fabId + " was tapped.", Snackbar.LENGTH_SHORT).show();
+                showCalculation(fabId);
             }
         });
 
@@ -191,6 +194,27 @@ implements NavigationView.OnNavigationItemSelectedListener
             .replace(R.id.contentLayout, _contentMain)
             .addToBackStack(null)
             .commit();
+    }
+    
+    private void showCalculation(int id)
+    {
+        Intent intent = new Intent();
+        intent.setClass(this, CalculationActivity.class);
+        Bundle bundle = new Bundle();
+        switch (id)
+        {
+            case R.id.fab1:
+                bundle.putInt("calc_type", CalculationType.GearsExtended.Value);
+                break;
+            case R.id.fab2:
+                bundle.putInt("calc_type", CalculationType.GearsCommon.Value);
+                break;
+            case R.id.fab3:
+                bundle.putInt("calc_type", CalculationType.ChangeGears.Value);
+                break;
+        }
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     private void showReferencesPage()
