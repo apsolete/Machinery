@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import com.apsolete.machinery.activity.R;
+import android.widget.*;
+import android.widget.ActionMenuView.*;
 
 public class TeethNumbersDialog extends DialogFragment
 {
@@ -27,7 +29,34 @@ public class TeethNumbersDialog extends DialogFragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        return inflater.inflate(R.layout.teeth_numbers, container, false);
+        View view = inflater.inflate(R.layout.teeth_numbers, container, false);
+        GridLayout grid = (GridLayout)view.findViewById(R.id.teethNumbersGrid);
+        grid.setColumnCount(5);
+        grid.setRowCount((_teethMax - _teethMin)/5 + 1);
+        if (grid != null)
+        {
+            int col = 0, row = 0;
+            
+            for (int t = _teethMin; t <= _teethMax; t++)
+            {
+                CheckBox checkBox = new CheckBox(grid.getContext());
+                checkBox.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                checkBox.setText(String.valueOf(t));
+                checkBox.setPadding(2,2,2,2);
+                grid.addView(checkBox);
+                
+                if (col < 6)
+                    col++;
+                else
+                {
+                    col = 0;
+                    row++;
+                }
+                
+            }
+        }
+        //grid.addView(
+        return view;
     }
 
     @NonNull

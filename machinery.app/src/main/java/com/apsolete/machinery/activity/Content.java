@@ -8,7 +8,7 @@ import android.view.*;
 
 public class Content extends Fragment
 {
-    private AppCompatActivity _activity;
+    protected AppCompatActivity _activity;
     private int _layoutId;
     private int _titleId;
     

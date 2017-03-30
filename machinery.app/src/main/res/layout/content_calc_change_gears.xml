@@ -45,10 +45,11 @@
                 android:minEms="3"/>
 
             <ImageButton
+                android:id="@+id/gearssetButton00"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_settings_white_24dp"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
         </LinearLayout>
 
