@@ -1,26 +1,30 @@
 package com.apsolete.machinery.activity.calculation;
 
-import android.app.Dialog;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
+import android.widget.*;
+
+import java.util.ArrayList;
 
 import com.apsolete.machinery.activity.R;
-import android.widget.*;
-import android.widget.ActionMenuView.*;
+import com.apsolete.machinery.activity.DialogBase;
 
-public class TeethNumbersDialog extends DialogFragment
+public class TeethNumbersDialog extends DialogBase
 {
-    private int[] _teethNumbers = new int[120];
+    private static final int COLUMNS = 5;
+
+    private ArrayList<Integer> _teethNumbers = null;
+
     private final int _teethMin = 19;
     private final int _teethMax = 127;
-    private OnClickListener _clickListener = new OnClickListener()
+    private GridLayout _grid;
+
+    private View.OnClickListener _clickListener = new View.OnClickListener()
     {
+        @Override
         public void onClick(View v)
         {
             int id = v.getId();
@@ -44,76 +48,94 @@ public class TeethNumbersDialog extends DialogFragment
 
     public TeethNumbersDialog()
     {
-        super();
+        super(R.layout.teeth_numbers);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.teeth_numbers, container, false);
-        GridLayout grid = (GridLayout)view.findViewById(R.id.teethNumbersGrid);
-        grid.setColumnCount(8);
-        grid.setRowCount((_teethMax - _teethMin) / 8 + 1);
-        if (grid != null)
-        {
-            //int col = 0, row = 0;
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
+        _grid = (GridLayout)view.findViewById(R.id.teethNumbersGrid);
+        _grid.setColumnCount(COLUMNS);
+        _grid.setRowCount((_teethMax - _teethMin) / COLUMNS + 1);
+
+        if (_grid != null)
+        {
             for (int t = _teethMin; t <= _teethMax; t++)
             {
-                CheckBox checkBox = new CheckBox(grid.getContext());
-                checkBox.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                CheckBox checkBox = new CheckBox(_grid.getContext());
+                checkBox.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 checkBox.setText(String.valueOf(t));
                 checkBox.setPadding(2, 2, 2, 2);
-                grid.addView(checkBox);
-
-//                if (col < 6)
-//                    col++;
-//                else
-//                {
-//                    col = 0;
-//                    row++;
-//                }
-
+                _grid.addView(checkBox);
             }
         }
+
         Button button = (Button)view.findViewById(R.id.buttonSelectAll);
         button.setOnClickListener(_clickListener);
 
-        button = (Button)view.findViewById(R.id.buttonSelectAll);
+        button = (Button)view.findViewById(R.id.buttonReset);
         button.setOnClickListener(_clickListener);
 
-        button = (Button)view.findViewById(R.id.buttonSelectAll);
+        button = (Button)view.findViewById(R.id.buttonOk);
         button.setOnClickListener(_clickListener);
 
-        button = (Button)view.findViewById(R.id.buttonSelectAll);
+        button = (Button)view.findViewById(R.id.buttonCancel);
         button.setOnClickListener(_clickListener);
+
         return view;
     }
 
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState)
+    public ArrayList<Integer> getTeethNumbers()
     {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        return dialog;
+        return _teethNumbers;
     }
 
     private void selectall()
     {
-
+        int count = _grid.getChildCount();
+        for (int i = 0; i < count; i++)
+        {
+            CheckBox cb = (CheckBox)_grid.getChildAt(i);
+            if (cb != null)
+                cb.setChecked(true);
+        }
     }
+
     private void reset()
     {
-
+        int count = _grid.getChildCount();
+        for (int i = 0; i < count; i++)
+        {
+            CheckBox cb = (CheckBox)_grid.getChildAt(i);
+            if (cb != null)
+                cb.setChecked(false);
+        }
     }
+
     private void apply()
     {
+        _teethNumbers = new ArrayList<>();
+        int count = _grid.getChildCount();
+        for (int i = 0; i < count; i++)
+        {
+            CheckBox cb = (CheckBox)_grid.getChildAt(i);
+            if (cb != null && cb.isChecked())
+            {
+                int teeth = Integer.parseInt(cb.getText().toString());
+                _teethNumbers.add(teeth);
+            }
+        }
+        _resultListener.onPositive();
         dismiss();
     }
+
     private void cancel()
     {
+        _teethNumbers = null;
+        _resultListener.onPositive();
         dismiss();
     }
 }

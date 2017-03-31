@@ -42,7 +42,7 @@ public class CalculationActivity  extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
             .replace(R.id.content_calculation, fragment)
-            .addToBackStack(null)
+            //.addToBackStack(null)
             .commit();
     }
 }
