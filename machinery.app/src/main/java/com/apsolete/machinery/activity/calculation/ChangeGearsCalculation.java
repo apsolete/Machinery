@@ -93,16 +93,23 @@ public class ChangeGearsCalculation extends CalculationContent
         edit = v.findViewById(R.id.gearset03);
         edit.setOnClickListener(_clickListener);
 
-//        ImageButton b = (ImageButton)v.findViewById(R.id.gearssetButton00);
-//        b.setOnClickListener(new OnClickListener()
-//            {
-//                public void onClick(View v)
-//                {
-//                    FragmentManager fragmentManager = _activity.getSupportFragmentManager();
-//                    TeethNumbersDialog newFragment = new TeethNumbersDialog();
-//                    newFragment.show(fragmentManager, "dialog");
-//                }
-//            });
+        edit = v.findViewById(R.id.gearset10);
+        edit.setOnClickListener(_clickListener);
+        edit = v.findViewById(R.id.gearset11);
+        edit.setOnClickListener(_clickListener);
+        edit = v.findViewById(R.id.gearset12);
+        edit.setOnClickListener(_clickListener);
+        edit = v.findViewById(R.id.gearset13);
+        edit.setOnClickListener(_clickListener);
+        
+        edit = v.findViewById(R.id.gearset20);
+        edit.setOnClickListener(_clickListener);
+        edit = v.findViewById(R.id.gearset21);
+        edit.setOnClickListener(_clickListener);
+        edit = v.findViewById(R.id.gearset22);
+        edit.setOnClickListener(_clickListener);
+        edit = v.findViewById(R.id.gearset23);
+        edit.setOnClickListener(_clickListener);
 
         return v;
     }
@@ -136,6 +143,7 @@ public class ChangeGearsCalculation extends CalculationContent
     {
         FragmentManager fragmentManager = _activity.getSupportFragmentManager();
         final TeethNumbersDialog dialog = new TeethNumbersDialog();
+        dialog.setSelection(((EditText)view).getText().toString());
         dialog.setResultListener(new DialogBase.ResultListener()
         {
             @Override

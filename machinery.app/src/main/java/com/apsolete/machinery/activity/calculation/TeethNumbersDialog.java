@@ -11,12 +11,15 @@ import java.util.ArrayList;
 
 import com.apsolete.machinery.activity.R;
 import com.apsolete.machinery.activity.DialogBase;
+import java.util.*;
+import android.util.*;
 
 public class TeethNumbersDialog extends DialogBase
 {
     private static final int COLUMNS = 5;
 
     private ArrayList<Integer> _teethNumbers = null;
+    private ArrayMap<Integer, CheckBox> _checkBoxes = new ArrayMap<Integer, CheckBox>();
 
     private final int _teethMin = 19;
     private final int _teethMax = 127;
@@ -69,7 +72,18 @@ public class TeethNumbersDialog extends DialogBase
                 checkBox.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 checkBox.setText(String.valueOf(t));
                 checkBox.setPadding(2, 2, 2, 2);
+                _checkBoxes.put(t, checkBox);
                 _grid.addView(checkBox);
+            }
+        }
+        
+        if (_teethNumbers != null && !_teethNumbers.isEmpty())
+        {
+            for (Integer n: _teethNumbers)
+            {
+                CheckBox checkBox = _checkBoxes.get(n);
+                if (checkBox != null)
+                    checkBox.setChecked(true);
             }
         }
 
@@ -137,5 +151,24 @@ public class TeethNumbersDialog extends DialogBase
         _teethNumbers = null;
         _resultListener.onPositive();
         dismiss();
+    }
+
+    public void setSelection(ArrayList<Integer> selection)
+    {
+        _teethNumbers = new ArrayList<Integer>(selection);
+    }
+
+    public void setSelection(String selection)
+    {
+        _teethNumbers = new ArrayList<Integer>();
+        String[] strs = selection.split(" ");
+        for (String s: strs)
+        {
+            if (!s.isEmpty())
+            {
+                int n = Integer.parseInt(s);
+                _teethNumbers.add(n);
+            }
+        }
     }
 }
