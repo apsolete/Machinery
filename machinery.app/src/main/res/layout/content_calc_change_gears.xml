@@ -19,13 +19,13 @@
         android:id="@+id/setofgears_text"/>
 
     <HorizontalScrollView
-        android:id="@+id/gearssetScroll"
+        android:id="@+id/gearsetScroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/setofgears_text">
 
         <GridLayout
-            android:id="@+id/gearssetGrid"
+            android:id="@+id/gearsetGrid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:columnCount="4"
@@ -40,12 +40,13 @@
                 android:orientation="horizontal"
                 android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/z1Text"
-                    android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/z1Set"
+                    android:layout_width="46dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Z1:"/>
+                    android:text="Z1:"
+                    android:textColor="@android:color/holo_red_dark"/>
 
                 <EditText
                     android:id="@+id/z1Gears"
@@ -54,12 +55,6 @@
                     android:inputType="number|text"
                     android:maxEms="6"
                     android:minEms="3"/>
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_settings_white_24dp"
-                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -72,12 +67,13 @@
                 android:orientation="horizontal"
                 android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/z2Text"
-                    android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/z2Set"
+                    android:layout_width="46dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Z2:"/>
+                    android:text="Z2:"
+                    android:textColor="@android:color/holo_blue_dark"/>
 
                 <EditText
                     android:id="@+id/z2Gears"
@@ -86,12 +82,6 @@
                     android:inputType="number|text"
                     android:maxEms="6"
                     android:minEms="3"/>
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_settings_white_24dp"
-                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -104,12 +94,13 @@
                 android:orientation="horizontal"
                 android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/z3Text"
-                    android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/z3Set"
+                    android:layout_width="46dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Z3:"/>
+                    android:text="Z3:"
+                    android:textColor="@android:color/holo_blue_dark"/>
 
                 <EditText
                     android:id="@+id/z3Gears"
@@ -118,12 +109,6 @@
                     android:inputType="number|text"
                     android:maxEms="6"
                     android:minEms="3"/>
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_settings_white_24dp"
-                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -136,12 +121,13 @@
                 android:orientation="horizontal"
                 android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/z4Text"
-                    android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/z4Set"
+                    android:layout_width="46dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Z4:"/>
+                    android:text="Z4:"
+                    android:textColor="@android:color/holo_green_dark"/>
 
                 <EditText
                     android:id="@+id/z4Gears"
@@ -150,12 +136,6 @@
                     android:inputType="number|text"
                     android:maxEms="6"
                     android:minEms="3"/>
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_settings_white_24dp"
-                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -168,12 +148,13 @@
                 android:orientation="horizontal"
                 android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/z5Text"
-                    android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/z5Set"
+                    android:layout_width="46dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Z5:"/>
+                    android:text="Z5:"
+                    android:textColor="@android:color/holo_green_dark"/>
 
                 <EditText
                     android:id="@+id/z5Gears"
@@ -182,12 +163,6 @@
                     android:inputType="number|text"
                     android:maxEms="6"
                     android:minEms="3"/>
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_settings_white_24dp"
-                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -200,12 +175,13 @@
                 android:orientation="horizontal"
                 android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/z6Text"
-                    android:layout_width="wrap_content"
+                <Button
+                    android:id="@+id/z6Set"
+                    android:layout_width="46dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Z6:"/>
+                    android:text="Z6:"
+                    android:textColor="@android:color/holo_orange_dark"/>
 
                 <EditText
                     android:id="@+id/z6Gears"
@@ -214,12 +190,6 @@
                     android:inputType="number|text"
                     android:maxEms="6"
                     android:minEms="3"/>
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_settings_white_24dp"
-                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -231,7 +201,7 @@
         android:id="@+id/gearRatioLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/gearssetScroll"
+        android:layout_below="@+id/gearsetScroll"
         android:orientation="horizontal">
 
         <TextView
@@ -249,6 +219,145 @@
             android:ems="10"
             android:inputType="numberDecimal"/>
 
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gearRatioLayout"
+        android:layout_margin="8dp"/>
+
+    <LinearLayout
+        android:id="@+id/resultLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progressBar"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/z1ResultText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="99"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="------"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:id="@+id/z2ResultText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="999"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_blue_dark"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center_horizontal"
+                android:text=" * "
+                android:textAlignment="center"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/z3ResultText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="99"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_blue_dark"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="------"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:id="@+id/z4ResultText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="99"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_green_dark"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center_horizontal"
+                android:text=" * "
+                android:textAlignment="center"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/z5ResultText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="99"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_green_dark"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="------"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:id="@+id/z6ResultText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="99"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_orange_dark"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center_horizontal"
+                android:text=" = "
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/ratioResultText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="0.99"/>
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

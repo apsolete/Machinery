@@ -3,7 +3,6 @@ package com.apsolete.machinery.activity.calculation;
 import android.os.*;
 import android.support.v4.app.*;
 import android.view.*;
-import android.view.View.*;
 import android.widget.*;
 import com.apsolete.machinery.activity.*;
 
@@ -17,6 +16,12 @@ public class ChangeGearsCalculation extends CalculationContent
     private static final int Z4 = 4;
     private static final int Z5 = 5;
     private static final int Z6 = 6;
+    private EditText _z1Gears;
+    private EditText _z2Gears;
+    private EditText _z3Gears;
+    private EditText _z4Gears;
+    private EditText _z5Gears;
+    private EditText _z6Gears;
 
     private View.OnClickListener _clickListener = new View.OnClickListener()
     {
@@ -26,23 +31,23 @@ public class ChangeGearsCalculation extends CalculationContent
             int id = view.getId();
             switch (id)
             {
-                case R.id.z1Gears:
-                    setGearsSet((EditText)view, Z1);
+                case R.id.z1Set:
+                    setGearsSet(Z1, _z1Gears);
                     break;
-                case R.id.z2Gears:
-                    setGearsSet((EditText)view, Z2);
+                case R.id.z2Set:
+                    setGearsSet(Z2, _z2Gears);
                     break;
-                case R.id.z3Gears:
-                    setGearsSet((EditText)view, Z3);
+                case R.id.z3Set:
+                    setGearsSet(Z3, _z3Gears);
                     break;
-                case R.id.z4Gears:
-                    setGearsSet((EditText)view, Z4);
+                case R.id.z4Set:
+                    setGearsSet(Z4, _z4Gears);
                     break;
-                case R.id.z5Gears:
-                    setGearsSet((EditText)view, Z5);
+                case R.id.z5Set:
+                    setGearsSet(Z5, _z5Gears);
                     break;
-                case R.id.z6Gears:
-                    setGearsSet((EditText)view, Z6);
+                case R.id.z6Set:
+                    setGearsSet(Z6, _z6Gears);
                     break;
             }
         }
@@ -58,17 +63,24 @@ public class ChangeGearsCalculation extends CalculationContent
     {
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
-        View edit = v.findViewById(R.id.z1Gears);
+        _z1Gears = (EditText) v.findViewById(R.id.z1Gears);
+        _z2Gears = (EditText) v.findViewById(R.id.z2Gears);
+        _z3Gears = (EditText) v.findViewById(R.id.z3Gears);
+        _z4Gears = (EditText) v.findViewById(R.id.z4Gears);
+        _z5Gears = (EditText) v.findViewById(R.id.z5Gears);
+        _z6Gears = (EditText) v.findViewById(R.id.z6Gears);
+
+        View edit = v.findViewById(R.id.z1Set);
         edit.setOnClickListener(_clickListener);
-        edit = v.findViewById(R.id.z2Gears);
+        edit = v.findViewById(R.id.z2Set);
         edit.setOnClickListener(_clickListener);
-        edit = v.findViewById(R.id.z3Gears);
+        edit = v.findViewById(R.id.z3Set);
         edit.setOnClickListener(_clickListener);
-        edit = v.findViewById(R.id.z4Gears);
+        edit = v.findViewById(R.id.z4Set);
         edit.setOnClickListener(_clickListener);
-        edit = v.findViewById(R.id.z5Gears);
+        edit = v.findViewById(R.id.z5Set);
         edit.setOnClickListener(_clickListener);
-        edit = v.findViewById(R.id.z6Gears);
+        edit = v.findViewById(R.id.z6Set);
         edit.setOnClickListener(_clickListener);
 
         return v;
@@ -99,7 +111,7 @@ public class ChangeGearsCalculation extends CalculationContent
         // TODO: Implement this method
     }
 
-    private void setGearsSet(final EditText view, int gearset)
+    private void setGearsSet(int gearset, final EditText view)
     {
         FragmentManager fragmentManager = _activity.getSupportFragmentManager();
         final TeethNumbersDialog dialog = new TeethNumbersDialog();
