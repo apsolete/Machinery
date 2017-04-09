@@ -2,6 +2,8 @@ package com.apsolete.machinery.activity.calculation;
 
 import android.os.*;
 import android.support.v4.app.*;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.*;
 import android.widget.*;
 import com.apsolete.machinery.activity.*;
@@ -10,6 +12,60 @@ import java.util.ArrayList;
 
 public class ChangeGearsCalculation extends CalculationContent
 {
+    public interface OnGearSetListener
+    {
+        void onSelectGears(int id);
+        void onGearsChanged(int id);
+    }
+
+    public class GearSetControl implements View.OnClickListener, TextWatcher
+    {
+        private OnGearSetListener _gearSetListener;
+        private int _gearId;
+        private Button _gearsButton;
+        private EditText _gearsText;
+
+        public GearSetControl(int id, Button button, EditText text, OnGearSetListener listener)
+        {
+            _gearId = id;
+            _gearSetListener = listener;
+
+            _gearsButton = button;
+            _gearsButton.setOnClickListener(this);
+
+            _gearsText = text;
+            _gearsText.addTextChangedListener(this);
+        }
+
+        @Override
+        public void onClick(View view)
+        {
+            _gearSetListener.onSelectGears(_gearId);
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+        {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+        {
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable)
+        {
+            _gearSetListener.onGearsChanged(_gearId);
+        }
+
+        public void setEnabled(Boolean enabled)
+        {
+            _gearsButton.setEnabled(enabled);
+            _gearsText.setEnabled(enabled);
+        }
+    }
+
     private static final int Z1 = 1;
     private static final int Z2 = 2;
     private static final int Z3 = 3;
@@ -23,31 +79,61 @@ public class ChangeGearsCalculation extends CalculationContent
     private EditText _z5Gears;
     private EditText _z6Gears;
 
-    private View.OnClickListener _clickListener = new View.OnClickListener()
+    private GearSetControl _z1Control;
+    private GearSetControl _z2Control;
+    private GearSetControl _z3Control;
+    private GearSetControl _z4Control;
+    private GearSetControl _z5Control;
+    private GearSetControl _z6Control;
+
+    private OnGearSetListener _gearSetListener = new OnGearSetListener()
     {
         @Override
-        public void onClick(View view)
+        public void onSelectGears(int id)
         {
-            int id = view.getId();
             switch (id)
             {
-                case R.id.z1Set:
+                case Z1:
                     setGearsSet(Z1, _z1Gears);
                     break;
-                case R.id.z2Set:
+                case Z2:
                     setGearsSet(Z2, _z2Gears);
                     break;
-                case R.id.z3Set:
+                case Z3:
                     setGearsSet(Z3, _z3Gears);
                     break;
-                case R.id.z4Set:
+                case Z4:
                     setGearsSet(Z4, _z4Gears);
                     break;
-                case R.id.z5Set:
+                case Z5:
                     setGearsSet(Z5, _z5Gears);
                     break;
-                case R.id.z6Set:
+                case Z6:
                     setGearsSet(Z6, _z6Gears);
+                    break;
+            }
+        }
+
+        @Override
+        public void onGearsChanged(int id)
+        {
+            switch (id)
+            {
+                case Z1:
+                    break;
+                case Z2:
+                    _z3Control.setEnabled(true);
+                    break;
+                case Z3:
+                    _z4Control.setEnabled(true);
+                    break;
+                case Z4:
+                    _z5Control.setEnabled(true);
+                    break;
+                case Z5:
+                    _z6Control.setEnabled(true);
+                    break;
+                case Z6:
                     break;
             }
         }
@@ -64,28 +150,31 @@ public class ChangeGearsCalculation extends CalculationContent
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
         _z1Gears = (EditText) v.findViewById(R.id.z1Gears);
-        _z2Gears = (EditText) v.findViewById(R.id.z2Gears);
-        _z3Gears = (EditText) v.findViewById(R.id.z3Gears);
-        _z4Gears = (EditText) v.findViewById(R.id.z4Gears);
-        _z5Gears = (EditText) v.findViewById(R.id.z5Gears);
-        _z6Gears = (EditText) v.findViewById(R.id.z6Gears);
+        Button z1Button = (Button)v.findViewById(R.id.z1Set);
+        _z1Control = new GearSetControl(Z1, z1Button, _z1Gears, _gearSetListener);
 
-        View edit = v.findViewById(R.id.z1Set);
-        edit.setOnClickListener(_clickListener);
-        edit = v.findViewById(R.id.z2Set);
-        edit.setOnClickListener(_clickListener);
-        edit = v.findViewById(R.id.z3Set);
-        edit.setOnClickListener(_clickListener);
-        edit = v.findViewById(R.id.z4Set);
-        edit.setOnClickListener(_clickListener);
-        edit = v.findViewById(R.id.z5Set);
-        edit.setOnClickListener(_clickListener);
-        edit = v.findViewById(R.id.z6Set);
-        edit.setOnClickListener(_clickListener);
+        _z2Gears = (EditText) v.findViewById(R.id.z2Gears);
+        Button z2Button = (Button)v.findViewById(R.id.z2Set);
+        _z2Control = new GearSetControl(Z2, z2Button, _z2Gears, _gearSetListener);
+
+        _z3Gears = (EditText) v.findViewById(R.id.z3Gears);
+        Button z3Button = (Button)v.findViewById(R.id.z3Set);
+        _z3Control = new GearSetControl(Z3, z3Button, _z3Gears, _gearSetListener);
+
+        _z4Gears = (EditText) v.findViewById(R.id.z4Gears);
+        Button z4Button = (Button)v.findViewById(R.id.z4Set);
+        _z4Control = new GearSetControl(Z4, z4Button, _z4Gears, _gearSetListener);
+
+        _z5Gears = (EditText) v.findViewById(R.id.z5Gears);
+        Button z5Button = (Button)v.findViewById(R.id.z5Set);
+        _z5Control = new GearSetControl(Z5, z5Button, _z5Gears, _gearSetListener);
+
+        _z6Gears = (EditText) v.findViewById(R.id.z6Gears);
+        Button z6Button = (Button)v.findViewById(R.id.z6Set);
+        _z6Control = new GearSetControl(Z6, z6Button, _z6Gears, _gearSetListener);
 
         return v;
     }
-    
 
     @Override
     public void save()
@@ -111,11 +200,11 @@ public class ChangeGearsCalculation extends CalculationContent
         // TODO: Implement this method
     }
 
-    private void setGearsSet(int gearset, final EditText view)
+    private void setGearsSet(int gearset, final EditText gears)
     {
         FragmentManager fragmentManager = _activity.getSupportFragmentManager();
         final TeethNumbersDialog dialog = new TeethNumbersDialog();
-        dialog.setSelection(view.getText().toString());
+        dialog.setSelection(gears.getText().toString());
         dialog.setResultListener(new DialogBase.ResultListener()
         {
             @Override
@@ -130,7 +219,7 @@ public class ChangeGearsCalculation extends CalculationContent
                         text += n.toString();
                         text += " ";
                     }
-                    view.setText(text);
+                    gears.setText(text);
                 }
             }
 
@@ -138,6 +227,5 @@ public class ChangeGearsCalculation extends CalculationContent
             public void onNegative(){}
         });
         dialog.show(fragmentManager, "dialog");
-
     }
 }
