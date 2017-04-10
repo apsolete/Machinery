@@ -1,5 +1,6 @@
 package com.apsolete.machinery.activity.calculation;
 
+import android.annotation.SuppressLint;
 import android.os.*;
 import android.support.v4.app.*;
 import android.text.Editable;
@@ -9,21 +10,22 @@ import android.widget.*;
 import com.apsolete.machinery.activity.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ChangeGearsCalculation extends CalculationContent
 {
     public interface OnGearSetListener
     {
         void onSelectGears(int id);
-        void onGearsChanged(int id);
+        void onGearsChanged(int id, boolean empty);
     }
 
     public class GearSetControl implements View.OnClickListener, TextWatcher
     {
-        private OnGearSetListener _gearSetListener;
-        private int _gearId;
-        private Button _gearsButton;
-        private EditText _gearsText;
+        private final OnGearSetListener _gearSetListener;
+        private final int _gearId;
+        private final Button _gearsButton;
+        private final EditText _gearsText;
 
         public GearSetControl(int id, Button button, EditText text, OnGearSetListener listener)
         {
@@ -56,13 +58,23 @@ public class ChangeGearsCalculation extends CalculationContent
         @Override
         public void afterTextChanged(Editable editable)
         {
-            _gearSetListener.onGearsChanged(_gearId);
+            _gearSetListener.onGearsChanged(_gearId, editable.length() == 0);
         }
 
         public void setEnabled(Boolean enabled)
         {
             _gearsButton.setEnabled(enabled);
             _gearsText.setEnabled(enabled);
+        }
+
+        public String getText()
+        {
+            return _gearsText.getText().toString();
+        }
+
+        public void setText(String text)
+        {
+            _gearsText.setText(text);
         }
     }
 
@@ -72,66 +84,36 @@ public class ChangeGearsCalculation extends CalculationContent
     private static final int Z4 = 4;
     private static final int Z5 = 5;
     private static final int Z6 = 6;
-    private EditText _z1Gears;
-    private EditText _z2Gears;
-    private EditText _z3Gears;
-    private EditText _z4Gears;
-    private EditText _z5Gears;
-    private EditText _z6Gears;
 
-    private GearSetControl _z1Control;
-    private GearSetControl _z2Control;
-    private GearSetControl _z3Control;
-    private GearSetControl _z4Control;
-    private GearSetControl _z5Control;
-    private GearSetControl _z6Control;
+    @SuppressLint("UseSparseArrays")
+    private final HashMap<Integer, GearSetControl> _gearsMap = new HashMap<>(6);
 
-    private OnGearSetListener _gearSetListener = new OnGearSetListener()
+    private final OnGearSetListener _gearSetListener = new OnGearSetListener()
     {
         @Override
         public void onSelectGears(int id)
         {
-            switch (id)
-            {
-                case Z1:
-                    setGearsSet(Z1, _z1Gears);
-                    break;
-                case Z2:
-                    setGearsSet(Z2, _z2Gears);
-                    break;
-                case Z3:
-                    setGearsSet(Z3, _z3Gears);
-                    break;
-                case Z4:
-                    setGearsSet(Z4, _z4Gears);
-                    break;
-                case Z5:
-                    setGearsSet(Z5, _z5Gears);
-                    break;
-                case Z6:
-                    setGearsSet(Z6, _z6Gears);
-                    break;
-            }
+            selectGears(id);
         }
 
         @Override
-        public void onGearsChanged(int id)
+        public void onGearsChanged(int id, boolean empty)
         {
             switch (id)
             {
                 case Z1:
                     break;
                 case Z2:
-                    _z3Control.setEnabled(true);
+                    _gearsMap.get(Z3).setEnabled(!empty);
                     break;
                 case Z3:
-                    _z4Control.setEnabled(true);
+                    _gearsMap.get(Z4).setEnabled(!empty);
                     break;
                 case Z4:
-                    _z5Control.setEnabled(true);
+                    _gearsMap.get(Z5).setEnabled(!empty);
                     break;
                 case Z5:
-                    _z6Control.setEnabled(true);
+                    _gearsMap.get(Z6).setEnabled(!empty);
                     break;
                 case Z6:
                     break;
@@ -148,30 +130,31 @@ public class ChangeGearsCalculation extends CalculationContent
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View v = super.onCreateView(inflater, container, savedInstanceState);
+        assert v != null;
 
-        _z1Gears = (EditText) v.findViewById(R.id.z1Gears);
+        EditText z1Gears = (EditText) v.findViewById(R.id.z1Gears);
         Button z1Button = (Button)v.findViewById(R.id.z1Set);
-        _z1Control = new GearSetControl(Z1, z1Button, _z1Gears, _gearSetListener);
+        _gearsMap.put(Z1, new GearSetControl(Z1, z1Button, z1Gears, _gearSetListener));
 
-        _z2Gears = (EditText) v.findViewById(R.id.z2Gears);
+        EditText z2Gears = (EditText) v.findViewById(R.id.z2Gears);
         Button z2Button = (Button)v.findViewById(R.id.z2Set);
-        _z2Control = new GearSetControl(Z2, z2Button, _z2Gears, _gearSetListener);
+        _gearsMap.put(Z2, new GearSetControl(Z2, z2Button, z2Gears, _gearSetListener));
 
-        _z3Gears = (EditText) v.findViewById(R.id.z3Gears);
+        EditText z3Gears = (EditText) v.findViewById(R.id.z3Gears);
         Button z3Button = (Button)v.findViewById(R.id.z3Set);
-        _z3Control = new GearSetControl(Z3, z3Button, _z3Gears, _gearSetListener);
+        _gearsMap.put(Z3, new GearSetControl(Z3, z3Button, z3Gears, _gearSetListener));
 
-        _z4Gears = (EditText) v.findViewById(R.id.z4Gears);
+        EditText z4Gears = (EditText) v.findViewById(R.id.z4Gears);
         Button z4Button = (Button)v.findViewById(R.id.z4Set);
-        _z4Control = new GearSetControl(Z4, z4Button, _z4Gears, _gearSetListener);
+        _gearsMap.put(Z4, new GearSetControl(Z4, z4Button, z4Gears, _gearSetListener));
 
-        _z5Gears = (EditText) v.findViewById(R.id.z5Gears);
+        EditText z5Gears = (EditText) v.findViewById(R.id.z5Gears);
         Button z5Button = (Button)v.findViewById(R.id.z5Set);
-        _z5Control = new GearSetControl(Z5, z5Button, _z5Gears, _gearSetListener);
+        _gearsMap.put(Z5, new GearSetControl(Z5, z5Button, z5Gears, _gearSetListener));
 
-        _z6Gears = (EditText) v.findViewById(R.id.z6Gears);
+        EditText z6Gears = (EditText) v.findViewById(R.id.z6Gears);
         Button z6Button = (Button)v.findViewById(R.id.z6Set);
-        _z6Control = new GearSetControl(Z6, z6Button, _z6Gears, _gearSetListener);
+        _gearsMap.put(Z6, new GearSetControl(Z6, z6Button, z6Gears, _gearSetListener));
 
         return v;
     }
@@ -200,11 +183,13 @@ public class ChangeGearsCalculation extends CalculationContent
         // TODO: Implement this method
     }
 
-    private void setGearsSet(int gearset, final EditText gears)
+    private void selectGears(int zId)
     {
+        final GearSetControl control = _gearsMap.get(zId);
+
         FragmentManager fragmentManager = _activity.getSupportFragmentManager();
         final TeethNumbersDialog dialog = new TeethNumbersDialog();
-        dialog.setSelection(gears.getText().toString());
+        dialog.setSelection(control.getText());
         dialog.setResultListener(new DialogBase.ResultListener()
         {
             @Override
@@ -213,13 +198,13 @@ public class ChangeGearsCalculation extends CalculationContent
                 ArrayList<Integer> teethNumbers = dialog.getTeethNumbers();
                 if (teethNumbers != null)
                 {
-                    String text = new String();
+                    String text = "";
                     for (Integer n : teethNumbers)
                     {
                         text += n.toString();
                         text += " ";
                     }
-                    gears.setText(text);
+                    control.setText(text);
                 }
             }
 
