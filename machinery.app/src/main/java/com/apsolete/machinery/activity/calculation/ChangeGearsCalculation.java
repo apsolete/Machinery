@@ -1,6 +1,6 @@
 package com.apsolete.machinery.activity.calculation;
 
-import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.*;
 import android.support.v4.app.*;
 import android.text.Editable;
@@ -85,7 +85,8 @@ public class ChangeGearsCalculation extends CalculationContent
     private static final int Z5 = 5;
     private static final int Z6 = 6;
 
-    @SuppressLint("UseSparseArrays")
+    private ViewGroup _resultView;
+
     private final HashMap<Integer, GearSetControl> _gearsMap = new HashMap<>(6);
 
     private final OnGearSetListener _gearSetListener = new OnGearSetListener()
@@ -132,6 +133,8 @@ public class ChangeGearsCalculation extends CalculationContent
         View v = super.onCreateView(inflater, container, savedInstanceState);
         assert v != null;
 
+        _resultView = (ViewGroup)v.findViewById(R.id.resultLayout);
+
         EditText z1Gears = (EditText) v.findViewById(R.id.z1Gears);
         Button z1Button = (Button)v.findViewById(R.id.z1Set);
         _gearsMap.put(Z1, new GearSetControl(Z1, z1Button, z1Gears, _gearSetListener));
@@ -155,6 +158,16 @@ public class ChangeGearsCalculation extends CalculationContent
         EditText z6Gears = (EditText) v.findViewById(R.id.z6Gears);
         Button z6Button = (Button)v.findViewById(R.id.z6Set);
         _gearsMap.put(Z6, new GearSetControl(Z6, z6Button, z6Gears, _gearSetListener));
+
+        Button button = (Button)v.findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                setResultItem(new int[]{12,23,34,45,56,67}, 1.234);
+            }
+        });
 
         return v;
     }
@@ -212,5 +225,34 @@ public class ChangeGearsCalculation extends CalculationContent
             public void onNegative(){}
         });
         dialog.show(fragmentManager, "dialog");
+    }
+
+    private void setResultItem(int[] gears, double ratio)
+    {
+        LayoutInflater layoutInflater = (LayoutInflater)_activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.change_gears_result, null);
+
+        TextView text = (TextView)view.findViewById(R.id.z1Text);
+        text.setText(gears[0] > 0 ? Integer.toString(gears[0]) : "");
+
+        text = (TextView)view.findViewById(R.id.z2Text);
+        text.setText(gears[1] > 0 ? Integer.toString(gears[1]) : "");
+
+        text = (TextView)view.findViewById(R.id.z3Text);
+        text.setText(gears[2] > 0 ? Integer.toString(gears[2]) : "");
+
+        text = (TextView)view.findViewById(R.id.z4Text);
+        text.setText(gears[3] > 0 ? Integer.toString(gears[3]) : "");
+
+        text = (TextView)view.findViewById(R.id.z5Text);
+        text.setText(gears[4] > 0 ? Integer.toString(gears[4]) : "");
+
+        text = (TextView)view.findViewById(R.id.z6Text);
+        text.setText(gears[5] > 0 ? Integer.toString(gears[5]) : "");
+
+        text = (TextView)view.findViewById(R.id.ratioText);
+        text.setText(Double.toString(ratio));
+
+        _resultView.addView(view);
     }
 }
