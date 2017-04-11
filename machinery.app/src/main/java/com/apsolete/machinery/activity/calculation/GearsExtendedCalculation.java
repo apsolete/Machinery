@@ -32,5 +32,10 @@ public class GearsExtendedCalculation extends CalculationContent
     {
         // TODO: Implement this method
     }
-
+    
+    @Override
+    protected void calculate()
+    {
+        // TODO: Implement this method
+    }
 }

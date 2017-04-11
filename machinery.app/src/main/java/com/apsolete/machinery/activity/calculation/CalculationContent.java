@@ -13,4 +13,5 @@ public abstract class CalculationContent extends Content
     public abstract void clear();
     public abstract void close();
     public abstract void setOptions();
+    protected abstract void calculate();
 }
