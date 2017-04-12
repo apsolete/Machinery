@@ -1,13 +1,11 @@
 package com.apsolete.machinery.activity.calculation;
 
+import com.apsolete.machinery.activity.*;
 import android.content.Context;
 import android.os.*;
 import android.support.v4.app.*;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.*;
 import android.widget.*;
-import com.apsolete.machinery.activity.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -113,7 +111,10 @@ public class ChangeGearsCalculation extends CalculationContent
     private static final int Z4 = 4;
     private static final int Z5 = 5;
     private static final int Z6 = 6;
+    private final double _accuracy = 0.0001;
+    private double _ratio = 0;
 
+    private EditText _ratioEdText;
     private ViewGroup _resultView;
 
     private final HashMap<Integer, GearSetControl> _gearsControls = new HashMap<>(6);
@@ -164,6 +165,7 @@ public class ChangeGearsCalculation extends CalculationContent
         View v = super.onCreateView(inflater, container, savedInstanceState);
         assert v != null;
 
+        _ratioEdText = (EditText)v.findViewById(R.id.gearRatio);
         _resultView = (ViewGroup)v.findViewById(R.id.resultLayout);
 
         EditText z1Gears = (EditText) v.findViewById(R.id.z1Gears);
@@ -246,6 +248,9 @@ public class ChangeGearsCalculation extends CalculationContent
             }
             _gears.put(z, zgears);
         }
+        Editable ratioEd = _ratioEdText.getText();
+        String ratioStr = ratioEd != null ? ratioEd.toString() : null;
+        _ratio = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr.toString()) : 0;
         calculateInternal();
     }
     
@@ -266,12 +271,13 @@ public class ChangeGearsCalculation extends CalculationContent
             {
                 clear();
                 // calculate by z1, z2
-                for(Integer z1: z1Gears)
+                for (Integer z1: z1Gears)
                 {
-                    for(Integer z2: z2Gears)
+                    for (Integer z2: z2Gears)
                     {
                         double ratio = (double)z1 / (double)z2;
-                        setResultItem(new int[] {z1,z2,0,0,0,0}, ratio);
+                        if (checkRatio(ratio))
+                            setResultItem(new int[] {z1,z2,0,0,0,0}, ratio);
                     }
                 }
             }
@@ -281,16 +287,17 @@ public class ChangeGearsCalculation extends CalculationContent
                 {
                     clear();
                     // calculate by z1, z2, z3, z4
-                    for(Integer z1: z1Gears)
+                    for (Integer z1: z1Gears)
                     {
-                        for(Integer z2: z2Gears)
+                        for (Integer z2: z2Gears)
                         {
-                            for(Integer z3: z3Gears)
+                            for (Integer z3: z3Gears)
                             {
-                                for(Integer z4: z4Gears)
+                                for (Integer z4: z4Gears)
                                 {
                                     double ratio = (double)z1 / (double)z2 * (double)z3 / (double)z4;
-                                    setResultItem(new int[] {z1,z2,z3,z4,0,0}, ratio);
+                                    if (checkRatio(ratio))
+                                        setResultItem(new int[] {z1,z2,z3,z4,0,0}, ratio);
                                 }
                             }
                         }
@@ -300,20 +307,21 @@ public class ChangeGearsCalculation extends CalculationContent
                 {
                     clear();
                     // calculate by z1, z2, z3, z4, z6
-                    for(Integer z1: z1Gears)
+                    for (Integer z1: z1Gears)
                     {
-                        for(Integer z2: z2Gears)
+                        for (Integer z2: z2Gears)
                         {
-                            for(Integer z3: z3Gears)
+                            for (Integer z3: z3Gears)
                             {
-                                for(Integer z4: z4Gears)
+                                for (Integer z4: z4Gears)
                                 {
-                                    for(Integer z5: z5Gears)
+                                    for (Integer z5: z5Gears)
                                     {
-                                        for(Integer z6: z6Gears)
+                                        for (Integer z6: z6Gears)
                                         {
                                             double ratio = (double)z1 / (double)z2 * (double)z3 / (double)z4 * (double)z5 / (double)z6;
-                                            setResultItem(new int[] {z1,z2,z3,z4,z5,z6}, ratio);
+                                            if (checkRatio(ratio))
+                                                setResultItem(new int[] {z1,z2,z3,z4,z5,z6}, ratio);
                                         }
                                     }
                                 }
@@ -323,6 +331,13 @@ public class ChangeGearsCalculation extends CalculationContent
                 }
             }
         }
+    }
+    
+    private boolean checkRatio(double ratio)
+    {
+        if (_ratio == 0)
+            return true;
+        return (Math.abs(ratio - _ratio) <= _accuracy) ? true : false;
     }
 
     private void selectGears(int zId)
