@@ -142,14 +142,16 @@ public class TeethNumbersDialog extends DialogBase
                 _teethNumbers.add(teeth);
             }
         }
-        _resultListener.onPositive();
         dismiss();
+        _resultListener.onPositive();
+        //dismiss();
     }
 
     private void cancel()
     {
         _teethNumbers = null;
-        _resultListener.onPositive();
+        //_resultListener.onPositive();
+        _resultListener.onNegative();
         dismiss();
     }
 

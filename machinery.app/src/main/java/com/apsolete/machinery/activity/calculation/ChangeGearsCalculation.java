@@ -10,6 +10,7 @@ import android.widget.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.text.*;
+import com.apsolete.machinery.activity.util.*;
 
 public class ChangeGearsCalculation extends CalculationContent
 {
@@ -19,7 +20,7 @@ public class ChangeGearsCalculation extends CalculationContent
         void onGearsChanged(int id, boolean empty);
     }
 
-    public class GearSetControl implements View.OnClickListener, InputFilter, TextWatcher
+    public class GearSetControl extends TextChangedListener implements View.OnClickListener, InputFilter
     {
         private final OnGearSetListener _gearSetListener;
         private final int _gearId;
@@ -61,19 +62,9 @@ public class ChangeGearsCalculation extends CalculationContent
             }
             return filteredStringBuilder.toString();
         }
-        
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
-        {
-        }
 
         @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
-        {
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable)
+        public void onTextChanged(Editable editable)
         {
             setError();
             _gearSetListener.onGearsChanged(_gearId, editable.length() == 0);
@@ -98,6 +89,22 @@ public class ChangeGearsCalculation extends CalculationContent
             _gearsText.setText(text);
         }
         
+        public ArrayList<Integer> getGears()
+        {
+            ArrayList<Integer> gears = new ArrayList<>();
+            String text = getText();
+            String[] strs = text.split(" ");
+            for (String s: strs)
+            {
+                if (!s.isEmpty())
+                {
+                    int n = Integer.parseInt(s);
+                    gears.add(n);
+                }
+            }
+            return gears;
+        }
+        
         private void setError()
         {
             //if (_gearsText.isEnabled() && _gearsText.length() == 0)
@@ -116,9 +123,10 @@ public class ChangeGearsCalculation extends CalculationContent
 
     private EditText _ratioEdText;
     private ViewGroup _resultView;
+    private ProgressBar _pb;
 
     private final HashMap<Integer, GearSetControl> _gearsControls = new HashMap<>(6);
-    private final HashMap<Integer, ArrayList<Integer>> _gears = new HashMap<>(6);
+    //private final HashMap<Integer, ArrayList<Integer>> _gears = new HashMap<>(6);
 
     private final OnGearSetListener _gearSetListener = new OnGearSetListener()
     {
@@ -166,6 +174,14 @@ public class ChangeGearsCalculation extends CalculationContent
         assert v != null;
 
         _ratioEdText = (EditText)v.findViewById(R.id.gearRatio);
+        _ratioEdText.addTextChangedListener(new TextChangedListener()
+        {
+                @Override
+                public void onTextChanged(Editable editable)
+                {
+                    calculate();
+                }
+        });
         _resultView = (ViewGroup)v.findViewById(R.id.resultLayout);
 
         EditText z1Gears = (EditText) v.findViewById(R.id.z1Gears);
@@ -202,6 +218,7 @@ public class ChangeGearsCalculation extends CalculationContent
                 }
             });
 
+        _pb = (ProgressBar)v.findViewById(R.id.progressBar);
         return v;
     }
 
@@ -214,6 +231,7 @@ public class ChangeGearsCalculation extends CalculationContent
     @Override
     public void clear()
     {
+        _pb.setProgress(0);
         _resultView.removeAllViews();
     }
 
@@ -232,36 +250,22 @@ public class ChangeGearsCalculation extends CalculationContent
     @Override
     protected void calculate()
     {
-        for(int z = Z1; z <= Z6; z++)
-        {
-            ArrayList<Integer> zgears = new ArrayList<>();
-            GearSetControl control = _gearsControls.get(z);
-            String text = control.getText();
-            String[] strs = text.split(" ");
-            for (String s: strs)
-            {
-                if (!s.isEmpty())
-                {
-                    int n = Integer.parseInt(s);
-                    zgears.add(n);
-                }
-            }
-            _gears.put(z, zgears);
-        }
         Editable ratioEd = _ratioEdText.getText();
         String ratioStr = ratioEd != null ? ratioEd.toString() : null;
         _ratio = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr.toString()) : 0;
-        calculateInternal();
+        
+        if (_ratio > 0)
+            calculateInternal();
     }
     
     private void calculateInternal()
     {
-        ArrayList<Integer> z1Gears = _gears.get(Z1);
-        ArrayList<Integer> z2Gears = _gears.get(Z2);
-        ArrayList<Integer> z3Gears = _gears.get(Z3);
-        ArrayList<Integer> z4Gears = _gears.get(Z4);
-        ArrayList<Integer> z5Gears = _gears.get(Z5);
-        ArrayList<Integer> z6Gears = _gears.get(Z6);
+        ArrayList<Integer> z1Gears = _gearsControls.get(Z1).getGears();
+        ArrayList<Integer> z2Gears = _gearsControls.get(Z2).getGears();
+        ArrayList<Integer> z3Gears = _gearsControls.get(Z3).getGears();
+        ArrayList<Integer> z4Gears = _gearsControls.get(Z4).getGears();
+        ArrayList<Integer> z5Gears = _gearsControls.get(Z5).getGears();
+        ArrayList<Integer> z6Gears = _gearsControls.get(Z6).getGears();
         
         if (z1Gears.isEmpty() || z2Gears.isEmpty())
             return;
@@ -269,12 +273,15 @@ public class ChangeGearsCalculation extends CalculationContent
         {
             if (z3Gears.isEmpty() || z4Gears.isEmpty())
             {
+                _pb.setMax(z1Gears.size()*z2Gears.size());
                 clear();
+                int p = 1;
                 // calculate by z1, z2
                 for (Integer z1: z1Gears)
                 {
                     for (Integer z2: z2Gears)
                     {
+                        _pb.setProgress(p++);
                         double ratio = (double)z1 / (double)z2;
                         if (checkRatio(ratio))
                             setResultItem(new int[] {z1,z2,0,0,0,0}, ratio);
@@ -335,8 +342,8 @@ public class ChangeGearsCalculation extends CalculationContent
     
     private boolean checkRatio(double ratio)
     {
-        if (_ratio == 0)
-            return true;
+        //if (_ratio == 0)
+        //    return true;
         return (Math.abs(ratio - _ratio) <= _accuracy) ? true : false;
     }
 
@@ -374,6 +381,7 @@ public class ChangeGearsCalculation extends CalculationContent
 
     private void setResultItem(int[] gears, double ratio)
     {
+        //_pb.setProgress(1);
         LayoutInflater layoutInflater = (LayoutInflater)_activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.change_gears_result, null);
 
