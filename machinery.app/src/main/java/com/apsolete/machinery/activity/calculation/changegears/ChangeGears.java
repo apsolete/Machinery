@@ -1,8 +1,9 @@
-package com.apsolete.machinery.activity.calculation;
+package com.apsolete.machinery.activity.calculation.changegears;
 
 import com.apsolete.machinery.activity.*;
 import android.content.Context;
 import android.os.*;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.*;
 import android.view.*;
 import android.widget.*;
@@ -10,106 +11,17 @@ import android.widget.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.text.*;
+
+import com.apsolete.machinery.activity.calculation.CalculationContent;
 import com.apsolete.machinery.activity.util.*;
 
-public class ChangeGearsCalculation extends CalculationContent
+public class ChangeGears extends CalculationContent
 {
-    public interface OnGearSetListener
+
+    private class Result
     {
-        void onSelectGears(int id);
-        void onGearsChanged(int id, boolean empty);
-    }
-
-    public class GearSetControl extends TextChangedListener implements View.OnClickListener, InputFilter
-    {
-        private final OnGearSetListener _gearSetListener;
-        private final int _gearId;
-        private final Button _gearsButton;
-        private final EditText _gearsText;
-
-        public GearSetControl(int id, Button button, EditText text, OnGearSetListener listener)
-        {
-            _gearId = id;
-            _gearSetListener = listener;
-
-            _gearsButton = button;
-            _gearsButton.setOnClickListener(this);
-
-            _gearsText = text;
-            _gearsText.addTextChangedListener(this);
-            _gearsText.setFilters(new InputFilter[] { this });
-            setError();
-        }
-
-        @Override
-        public void onClick(View view)
-        {
-            _gearSetListener.onSelectGears(_gearId);
-        }
-
-        @Override
-        public CharSequence filter(CharSequence source, int start, int end,
-                                   Spanned dest, int dstart, int dend)
-        {
-            StringBuilder filteredStringBuilder = new StringBuilder();
-            for (int i = start; i < end; i++)
-            { 
-                char currentChar = source.charAt(i);
-                if (Character.isDigit(currentChar) || Character.isSpaceChar(currentChar))
-                {    
-                    filteredStringBuilder.append(currentChar);
-                }     
-            }
-            return filteredStringBuilder.toString();
-        }
-
-        @Override
-        public void onTextChanged(Editable editable)
-        {
-            setError();
-            _gearSetListener.onGearsChanged(_gearId, editable.length() == 0);
-        }
-
-        public void setEnabled(Boolean enabled)
-        {
-            if (!enabled && _gearsText.length() > 0)
-                return;
-            _gearsButton.setEnabled(enabled);
-            _gearsText.setEnabled(enabled);
-            setError();
-        }
-
-        public String getText()
-        {
-            return _gearsText.getText().toString();
-        }
-
-        public void setText(String text)
-        {
-            _gearsText.setText(text);
-        }
-        
-        public ArrayList<Integer> getGears()
-        {
-            ArrayList<Integer> gears = new ArrayList<>();
-            String text = getText();
-            String[] strs = text.split(" ");
-            for (String s: strs)
-            {
-                if (!s.isEmpty())
-                {
-                    int n = Integer.parseInt(s);
-                    gears.add(n);
-                }
-            }
-            return gears;
-        }
-        
-        private void setError()
-        {
-            //if (_gearsText.isEnabled() && _gearsText.length() == 0)
-            //    _gearsText.setError("Set gears");
-        }
+        public double Ratio;
+        public int[] Gears = new int[6];
     }
 
     private static final int Z1 = 1;
@@ -120,13 +32,16 @@ public class ChangeGearsCalculation extends CalculationContent
     private static final int Z6 = 6;
     private final double _accuracy = 0.0001;
     private double _ratio = 0;
+    private boolean _showResults = false;
+    private boolean _watchResults = true;
 
+    private View _view;
     private EditText _ratioEdText;
     private ViewGroup _resultView;
     private ProgressBar _pb;
 
     private final HashMap<Integer, GearSetControl> _gearsControls = new HashMap<>(6);
-    //private final HashMap<Integer, ArrayList<Integer>> _gears = new HashMap<>(6);
+    private final ArrayList<Result> _results = new ArrayList<>();
 
     private final OnGearSetListener _gearSetListener = new OnGearSetListener()
     {
@@ -162,7 +77,7 @@ public class ChangeGearsCalculation extends CalculationContent
         }
     };
 
-    public ChangeGearsCalculation()
+    public ChangeGears()
     {
         super(R.layout.content_calc_change_gears, R.string.title_calc_change_gears);
     }
@@ -170,10 +85,10 @@ public class ChangeGearsCalculation extends CalculationContent
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View v = super.onCreateView(inflater, container, savedInstanceState);
-        assert v != null;
+        _view = super.onCreateView(inflater, container, savedInstanceState);
+        assert _view != null;
 
-        _ratioEdText = (EditText)v.findViewById(R.id.gearRatio);
+        _ratioEdText = (EditText)_view.findViewById(R.id.gearRatio);
         _ratioEdText.addTextChangedListener(new TextChangedListener()
         {
                 @Override
@@ -182,44 +97,58 @@ public class ChangeGearsCalculation extends CalculationContent
                     calculate();
                 }
         });
-        _resultView = (ViewGroup)v.findViewById(R.id.resultLayout);
+        _resultView = (ViewGroup)_view.findViewById(R.id.resultLayout);
 
-        EditText z1Gears = (EditText) v.findViewById(R.id.z1Gears);
-        Button z1Button = (Button)v.findViewById(R.id.z1Set);
+        EditText z1Gears = (EditText) _view.findViewById(R.id.z1Gears);
+        Button z1Button = (Button)_view.findViewById(R.id.z1Set);
         _gearsControls.put(Z1, new GearSetControl(Z1, z1Button, z1Gears, _gearSetListener));
 
-        EditText z2Gears = (EditText) v.findViewById(R.id.z2Gears);
-        Button z2Button = (Button)v.findViewById(R.id.z2Set);
+        EditText z2Gears = (EditText) _view.findViewById(R.id.z2Gears);
+        Button z2Button = (Button)_view.findViewById(R.id.z2Set);
         _gearsControls.put(Z2, new GearSetControl(Z2, z2Button, z2Gears, _gearSetListener));
 
-        EditText z3Gears = (EditText) v.findViewById(R.id.z3Gears);
-        Button z3Button = (Button)v.findViewById(R.id.z3Set);
+        EditText z3Gears = (EditText) _view.findViewById(R.id.z3Gears);
+        Button z3Button = (Button)_view.findViewById(R.id.z3Set);
         _gearsControls.put(Z3, new GearSetControl(Z3, z3Button, z3Gears, _gearSetListener));
 
-        EditText z4Gears = (EditText) v.findViewById(R.id.z4Gears);
-        Button z4Button = (Button)v.findViewById(R.id.z4Set);
+        EditText z4Gears = (EditText) _view.findViewById(R.id.z4Gears);
+        Button z4Button = (Button)_view.findViewById(R.id.z4Set);
         _gearsControls.put(Z4, new GearSetControl(Z4, z4Button, z4Gears, _gearSetListener));
 
-        EditText z5Gears = (EditText) v.findViewById(R.id.z5Gears);
-        Button z5Button = (Button)v.findViewById(R.id.z5Set);
+        EditText z5Gears = (EditText) _view.findViewById(R.id.z5Gears);
+        Button z5Button = (Button)_view.findViewById(R.id.z5Set);
         _gearsControls.put(Z5, new GearSetControl(Z5, z5Button, z5Gears, _gearSetListener));
 
-        EditText z6Gears = (EditText) v.findViewById(R.id.z6Gears);
-        Button z6Button = (Button)v.findViewById(R.id.z6Set);
+        EditText z6Gears = (EditText) _view.findViewById(R.id.z6Gears);
+        Button z6Button = (Button)_view.findViewById(R.id.z6Set);
         _gearsControls.put(Z6, new GearSetControl(Z6, z6Button, z6Gears, _gearSetListener));
 
-        Button button = (Button)v.findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    setResultItem(new int[]{12,23,34,45,56,67}, 1.234);
-                }
-            });
+        _pb = (ProgressBar)_view.findViewById(R.id.progressBar);
 
-        _pb = (ProgressBar)v.findViewById(R.id.progressBar);
-        return v;
+        Thread watchResultsThread = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                while (_watchResults)
+                {
+                    if (_showResults)
+                    {
+                        showResults();
+                    }
+                }
+            }
+        });
+        watchResultsThread.start();
+
+        return _view;
+    }
+
+    @Override
+    public void onDetach()
+    {
+        _watchResults = false;
+        super.onDetach();
     }
 
     @Override
@@ -232,6 +161,7 @@ public class ChangeGearsCalculation extends CalculationContent
     public void clear()
     {
         _pb.setProgress(0);
+        _results.clear();
         _resultView.removeAllViews();
     }
 
@@ -250,12 +180,15 @@ public class ChangeGearsCalculation extends CalculationContent
     @Override
     protected void calculate()
     {
-        Editable ratioEd = _ratioEdText.getText();
-        String ratioStr = ratioEd != null ? ratioEd.toString() : null;
-        _ratio = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr.toString()) : 0;
+        String ratioStr = _ratioEdText.getText().toString();
+        _ratio = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
         
-        if (_ratio > 0)
+        //if (_ratio > 0)
+        {
             calculateInternal();
+            //_showResults = true;
+            showResults();
+        }
     }
     
     private void calculateInternal()
@@ -282,9 +215,20 @@ public class ChangeGearsCalculation extends CalculationContent
                     for (Integer z2: z2Gears)
                     {
                         _pb.setProgress(p++);
-                        double ratio = (double)z1 / (double)z2;
-                        if (checkRatio(ratio))
-                            setResultItem(new int[] {z1,z2,0,0,0,0}, ratio);
+                        if (_ratio == 1 && z1 == z2)
+                        {
+                            if (!setResult(1, z1, z2, 0, 0, 0, 0))
+                                break;
+                        }
+                        else
+                        {
+                            double ratio = (double)z1 / (double)z2;
+                            if (checkRatio(ratio))
+                            {
+                                if (!setResult(ratio, z1, z2, 0, 0, 0, 0))
+                                    break;
+                            }
+                        }
                     }
                 }
             }
@@ -302,9 +246,12 @@ public class ChangeGearsCalculation extends CalculationContent
                             {
                                 for (Integer z4: z4Gears)
                                 {
-                                    double ratio = (double)z1 / (double)z2 * (double)z3 / (double)z4;
+                                    double ratio = (double)(z1 * z3) / (double)(z2 * z4);
                                     if (checkRatio(ratio))
-                                        setResultItem(new int[] {z1,z2,z3,z4,0,0}, ratio);
+                                    {
+                                        if (!setResult(ratio, z1, z2, z3, z4, 0, 0))
+                                            break;
+                                    }
                                 }
                             }
                         }
@@ -326,9 +273,12 @@ public class ChangeGearsCalculation extends CalculationContent
                                     {
                                         for (Integer z6: z6Gears)
                                         {
-                                            double ratio = (double)z1 / (double)z2 * (double)z3 / (double)z4 * (double)z5 / (double)z6;
+                                            double ratio = (double)(z1 * z3 * z5) / (double)(z2 * z4 * z6);
                                             if (checkRatio(ratio))
-                                                setResultItem(new int[] {z1,z2,z3,z4,z5,z6}, ratio);
+                                            {
+                                                if (!setResult(ratio, z1, z2, z3, z4, z5, z6))
+                                                    break;
+                                            }
                                         }
                                     }
                                 }
@@ -342,8 +292,8 @@ public class ChangeGearsCalculation extends CalculationContent
     
     private boolean checkRatio(double ratio)
     {
-        //if (_ratio == 0)
-        //    return true;
+        if (_ratio == 0)
+            return true;
         return (Math.abs(ratio - _ratio) <= _accuracy) ? true : false;
     }
 
@@ -379,33 +329,82 @@ public class ChangeGearsCalculation extends CalculationContent
         dialog.show(fragmentManager, "dialog");
     }
 
+    private boolean setResult(double ratio, int z1, int z2, int z3, int z4, int z5, int z6)
+    {
+        if (_results.size() < 100)
+        {
+            Result res = new Result();
+            res.Ratio = ratio;
+            res.Gears[0] = z1;
+            res.Gears[1] = z2;
+            res.Gears[2] = z3;
+            res.Gears[3] = z4;
+            res.Gears[4] = z5;
+            res.Gears[5] = z6;
+            _results.add(res);
+
+            return true;
+        }
+
+        Snackbar.make(_view, "Too much results. Only 100 are shown.", Snackbar.LENGTH_SHORT).show();
+        return false;
+    }
+
+    private void showResults()
+    {
+        int count = 0;
+        for (Result res: _results)
+        {
+            count++;
+            if (count > 100)
+                break;
+            setResultItem(res.Gears, res.Ratio);
+        }
+        _showResults = false;
+    }
+
     private void setResultItem(int[] gears, double ratio)
     {
-        //_pb.setProgress(1);
-        LayoutInflater layoutInflater = (LayoutInflater)_activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.change_gears_result, null);
+        try
+        {
+            //_pb.setProgress(1);
+            LayoutInflater layoutInflater = (LayoutInflater)_activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = layoutInflater.inflate(R.layout.change_gears_result, null);
 
-        TextView text = (TextView)view.findViewById(R.id.z1Text);
-        text.setText(gears[0] > 0 ? Integer.toString(gears[0]) : "");
+            int visibility;
+            TextView text = (TextView)view.findViewById(R.id.z1Text);
+            text.setText(Integer.toString(gears[0]));
+            text = (TextView)view.findViewById(R.id.z2Text);
+            text.setText(Integer.toString(gears[1]));
 
-        text = (TextView)view.findViewById(R.id.z2Text);
-        text.setText(gears[1] > 0 ? Integer.toString(gears[1]) : "");
+            visibility = gears[2] > 0 ? View.VISIBLE : View.INVISIBLE;
+            view.findViewById(R.id.mult1).setVisibility(visibility);
+            view.findViewById(R.id.z3z4Div).setVisibility(visibility);
+            text = (TextView)view.findViewById(R.id.z3Text);
+            text.setVisibility(visibility);
+            if (visibility == View.VISIBLE) text.setText(Integer.toString(gears[2]));
+            text = (TextView)view.findViewById(R.id.z4Text);
+            text.setVisibility(visibility);
+            if (visibility == View.VISIBLE) text.setText(Integer.toString(gears[3]));
 
-        text = (TextView)view.findViewById(R.id.z3Text);
-        text.setText(gears[2] > 0 ? Integer.toString(gears[2]) : "");
+            visibility = gears[4] > 0 ? View.VISIBLE : View.INVISIBLE;
+            view.findViewById(R.id.mult2).setVisibility(visibility);
+            view.findViewById(R.id.z5z6Div).setVisibility(visibility);
+            text = (TextView)view.findViewById(R.id.z5Text);
+            text.setVisibility(visibility);
+            if (visibility == View.VISIBLE) text.setText(Integer.toString(gears[4]));
+            text = (TextView)view.findViewById(R.id.z6Text);
+            text.setVisibility(visibility);
+            if (visibility == View.VISIBLE) text.setText(Integer.toString(gears[5]));
 
-        text = (TextView)view.findViewById(R.id.z4Text);
-        text.setText(gears[3] > 0 ? Integer.toString(gears[3]) : "");
+            text = (TextView)view.findViewById(R.id.ratioText);
+            text.setText(Double.toString(ratio));
 
-        text = (TextView)view.findViewById(R.id.z5Text);
-        text.setText(gears[4] > 0 ? Integer.toString(gears[4]) : "");
-
-        text = (TextView)view.findViewById(R.id.z6Text);
-        text.setText(gears[5] > 0 ? Integer.toString(gears[5]) : "");
-
-        text = (TextView)view.findViewById(R.id.ratioText);
-        text.setText(Double.toString(ratio));
-
-        _resultView.addView(view);
+            _resultView.addView(view);
+        }
+        catch (Exception e)
+        {
+            //
+        }
     }
 }

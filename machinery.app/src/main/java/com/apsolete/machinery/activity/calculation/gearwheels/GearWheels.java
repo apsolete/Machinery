@@ -1,12 +1,13 @@
-package com.apsolete.machinery.activity.calculation;
+package com.apsolete.machinery.activity.calculation.gearwheels;
 
 import com.apsolete.machinery.activity.*;
+import com.apsolete.machinery.activity.calculation.CalculationContent;
 
-public class GearsExtendedCalculation extends CalculationContent
+public class GearWheels extends CalculationContent
 {
-    public GearsExtendedCalculation()
+    public GearWheels()
     {
-        super(R.layout.content_calc_gears_extended, R.string.title_calc_gears_extended);
+        super(R.layout.content_calc_gears_common, R.string.title_calc_gears_common);
     }
 
     @Override

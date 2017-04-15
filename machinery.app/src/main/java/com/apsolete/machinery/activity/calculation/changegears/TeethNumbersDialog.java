@@ -1,4 +1,4 @@
-package com.apsolete.machinery.activity.calculation;
+package com.apsolete.machinery.activity.calculation.changegears;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,8 +10,8 @@ import android.widget.*;
 import java.util.ArrayList;
 
 import com.apsolete.machinery.activity.R;
-import com.apsolete.machinery.activity.DialogBase;
-import java.util.*;
+import com.apsolete.machinery.activity.util.DialogBase;
+
 import android.util.*;
 
 public class TeethNumbersDialog extends DialogBase

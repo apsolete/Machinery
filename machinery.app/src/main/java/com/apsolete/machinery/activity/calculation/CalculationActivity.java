@@ -5,10 +5,11 @@ import android.support.v4.app.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
 import com.apsolete.machinery.activity.*;
+import com.apsolete.machinery.activity.calculation.changegears.ChangeGears;
 
 public class CalculationActivity  extends AppCompatActivity
 {
-    private CalculationContent _changeGears = new ChangeGearsCalculation();
+    private CalculationContent _changeGears = new ChangeGears();
     
     @Override
     protected void onCreate(Bundle savedInstanceState)

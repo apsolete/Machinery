@@ -1,0 +1,103 @@
+package com.apsolete.machinery.activity.calculation.changegears;
+
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import com.apsolete.machinery.activity.util.TextChangedListener;
+
+import java.util.ArrayList;
+
+/**
+ * Created by eLVeeN on 15.04.2017.
+ */
+public class GearSetControl extends TextChangedListener implements View.OnClickListener, InputFilter
+{
+    private final OnGearSetListener _gearSetListener;
+    private final int _gearId;
+    private final Button _gearsButton;
+    private final EditText _gearsText;
+
+    public GearSetControl(int id, Button button, EditText text, OnGearSetListener listener)
+    {
+        _gearId = id;
+        _gearSetListener = listener;
+
+        _gearsButton = button;
+        _gearsButton.setOnClickListener(this);
+
+        _gearsText = text;
+        _gearsText.addTextChangedListener(this);
+        _gearsText.setFilters(new InputFilter[]{this});
+        setError();
+    }
+
+    @Override
+    public void onClick(View view)
+    {
+        _gearSetListener.onSelectGears(_gearId);
+    }
+
+    @Override
+    public CharSequence filter(CharSequence source, int start, int end,
+                               Spanned dest, int dstart, int dend)
+    {
+        StringBuilder filteredStringBuilder = new StringBuilder();
+        for (int i = start; i < end; i++) {
+            char currentChar = source.charAt(i);
+            if (Character.isDigit(currentChar) || Character.isSpaceChar(currentChar)) {
+                filteredStringBuilder.append(currentChar);
+            }
+        }
+        return filteredStringBuilder.toString();
+    }
+
+    @Override
+    public void onTextChanged(Editable editable)
+    {
+        setError();
+        _gearSetListener.onGearsChanged(_gearId, editable.length() == 0);
+    }
+
+    public void setEnabled(Boolean enabled)
+    {
+        if (!enabled && _gearsText.length() > 0)
+            return;
+        _gearsButton.setEnabled(enabled);
+        _gearsText.setEnabled(enabled);
+        setError();
+    }
+
+    public String getText()
+    {
+        return _gearsText.getText().toString();
+    }
+
+    public void setText(String text)
+    {
+        _gearsText.setText(text);
+    }
+
+    public ArrayList<Integer> getGears()
+    {
+        ArrayList<Integer> gears = new ArrayList<>();
+        String text = getText();
+        String[] strs = text.split(" ");
+        for (String s : strs) {
+            if (!s.isEmpty()) {
+                int n = Integer.parseInt(s);
+                gears.add(n);
+            }
+        }
+        return gears;
+    }
+
+    private void setError()
+    {
+        //if (_gearsText.isEnabled() && _gearsText.length() == 0)
+        //    _gearsText.setError("Set gears");
+    }
+}

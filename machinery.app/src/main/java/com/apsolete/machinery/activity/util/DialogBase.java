@@ -1,4 +1,4 @@
-package com.apsolete.machinery.activity;
+package com.apsolete.machinery.activity.util;
 
 import android.app.Dialog;
 import android.os.Bundle;
