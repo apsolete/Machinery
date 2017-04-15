@@ -8,12 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.apsolete.machinery.activity.util.TextChangedListener;
-
 import java.util.ArrayList;
 
-/**
- * Created by eLVeeN on 15.04.2017.
- */
 public class GearSetControl extends TextChangedListener implements View.OnClickListener, InputFilter
 {
     private final OnGearSetListener _gearSetListener;
@@ -93,6 +89,24 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
             }
         }
         return gears;
+    }
+    
+    public int[] gears()
+    {
+        String text = getText();
+        String[] strs = text.split(" ");
+        int[] gs = new int[strs.length];
+        int i = 0;
+        for (String s : strs)
+        {
+            if (!s.isEmpty())
+            {
+                int n = Integer.parseInt(s);
+                gs[i] = n;
+                i++;
+            }
+        }
+        return gs;
     }
 
     private void setError()

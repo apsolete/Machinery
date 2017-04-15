@@ -73,7 +73,7 @@ public class ChangeGears extends CalculationContent
                 case Z6:
                     break;
             }
-            calculate();
+            //calculate();
         }
     };
 
@@ -89,14 +89,14 @@ public class ChangeGears extends CalculationContent
         assert _view != null;
 
         _ratioEdText = (EditText)_view.findViewById(R.id.gearRatio);
-        _ratioEdText.addTextChangedListener(new TextChangedListener()
-        {
-                @Override
-                public void onTextChanged(Editable editable)
-                {
-                    calculate();
-                }
-        });
+//        _ratioEdText.addTextChangedListener(new TextChangedListener()
+//            {
+//                @Override
+//                public void onTextChanged(Editable editable)
+//                {
+//                    calculate();
+//                }
+//            });
         _resultView = (ViewGroup)_view.findViewById(R.id.resultLayout);
 
         EditText z1Gears = (EditText) _view.findViewById(R.id.z1Gears);
@@ -124,22 +124,31 @@ public class ChangeGears extends CalculationContent
         _gearsControls.put(Z6, new GearSetControl(Z6, z6Button, z6Gears, _gearSetListener));
 
         _pb = (ProgressBar)_view.findViewById(R.id.progressBar);
-
-        Thread watchResultsThread = new Thread(new Runnable()
-        {
-            @Override
-            public void run()
+        ImageButton calc = (ImageButton)_view.findViewById(R.id.calculate);
+        calc.setOnClickListener(new View.OnClickListener()
             {
-                while (_watchResults)
+                @Override
+                public void onClick(View p1)
                 {
-                    if (_showResults)
-                    {
-                        showResults();
-                    }
+                    calculate();
                 }
-            }
-        });
-        watchResultsThread.start();
+            });
+
+//        Thread watchResultsThread = new Thread(new Runnable()
+//        {
+//            @Override
+//            public void run()
+//            {
+//                while (_watchResults)
+//                {
+//                    if (_showResults)
+//                    {
+//                        showResults();
+//                    }
+//                }
+//            }
+//        });
+//        watchResultsThread.start();
 
         return _view;
     }
@@ -182,7 +191,7 @@ public class ChangeGears extends CalculationContent
     {
         String ratioStr = _ratioEdText.getText().toString();
         _ratio = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
-        
+
         //if (_ratio > 0)
         {
             calculateInternal();
@@ -190,7 +199,7 @@ public class ChangeGears extends CalculationContent
             showResults();
         }
     }
-    
+
     private void calculateInternal()
     {
         ArrayList<Integer> z1Gears = _gearsControls.get(Z1).getGears();
@@ -199,14 +208,14 @@ public class ChangeGears extends CalculationContent
         ArrayList<Integer> z4Gears = _gearsControls.get(Z4).getGears();
         ArrayList<Integer> z5Gears = _gearsControls.get(Z5).getGears();
         ArrayList<Integer> z6Gears = _gearsControls.get(Z6).getGears();
-        
+
         if (z1Gears.isEmpty() || z2Gears.isEmpty())
             return;
         else if (!z1Gears.isEmpty() && !z2Gears.isEmpty())
         {
             if (z3Gears.isEmpty() || z4Gears.isEmpty())
             {
-                _pb.setMax(z1Gears.size()*z2Gears.size());
+                _pb.setMax(z1Gears.size() * z2Gears.size());
                 clear();
                 int p = 1;
                 // calculate by z1, z2
@@ -289,7 +298,7 @@ public class ChangeGears extends CalculationContent
             }
         }
     }
-    
+
     private boolean checkRatio(double ratio)
     {
         if (_ratio == 0)
