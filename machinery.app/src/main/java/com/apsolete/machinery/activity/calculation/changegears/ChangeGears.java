@@ -34,6 +34,8 @@ public class ChangeGears extends DesignContent
     private double _ratio = 0;
     private boolean _showResults = false;
     private boolean _watchResults = true;
+    private boolean _deffTeethGearing = true;
+    private boolean _diffTeethDoubleGear = true;
 
     private View _view;
     private EditText _ratioEdText;
@@ -73,7 +75,6 @@ public class ChangeGears extends DesignContent
                 case Z6:
                     break;
             }
-            //calculate();
         }
     };
 
@@ -202,100 +203,128 @@ public class ChangeGears extends DesignContent
 
     private void calculateInternal()
     {
-        ArrayList<Integer> z1Gears = _gearsControls.get(Z1).getGears();
-        ArrayList<Integer> z2Gears = _gearsControls.get(Z2).getGears();
-        ArrayList<Integer> z3Gears = _gearsControls.get(Z3).getGears();
-        ArrayList<Integer> z4Gears = _gearsControls.get(Z4).getGears();
-        ArrayList<Integer> z5Gears = _gearsControls.get(Z5).getGears();
-        ArrayList<Integer> z6Gears = _gearsControls.get(Z6).getGears();
+        int[] gs1 = _gearsControls.get(Z1).getGears();
+        int[] gs2 = _gearsControls.get(Z2).getGears();
+        int[] gs3 = _gearsControls.get(Z3).getGears();
+        int[] gs4 = _gearsControls.get(Z4).getGears();
+        int[] gs5 = _gearsControls.get(Z5).getGears();
+        int[] gs6 = _gearsControls.get(Z6).getGears();
 
-        if (z1Gears.isEmpty() || z2Gears.isEmpty())
+        if (gs1 == null || gs2 == null)
             return;
-        else if (!z1Gears.isEmpty() && !z2Gears.isEmpty())
+        else if (gs1.length > 0 && gs2.length > 0)
         {
-            if (z3Gears.isEmpty() || z4Gears.isEmpty())
+            if (gs3 == null || gs4 == null)
             {
-                _pb.setMax(z1Gears.size() * z2Gears.size());
+                //_pb.setMax(z1Gears.length * z2Gears.length);
                 clear();
-                int p = 1;
-                // calculate by z1, z2
-                for (Integer z1: z1Gears)
+                //int p = 1;
+                calculateBy(gs1, gs2);
+            }
+            else if (gs3.length > 0 && gs4.length > 0)
+            {
+                if (gs5 == null || gs6 == null)
                 {
-                    for (Integer z2: z2Gears)
+                    clear();
+                    calculateBy(gs1, gs2, gs3, gs4);
+                }
+                else if (gs5.length > 0 && gs6.length > 0)
+                {
+                    clear();
+                    calculateBy(gs1, gs2, gs3, gs4, gs5, gs6);
+                }
+            }
+        }
+    }
+    
+    private void calculateBy(int[] gs1, int[] gs2)
+    {
+        // calculate by z1, z2
+        for (int z1: gs1)
+        {
+            for (int z2: gs2)
+            {
+                if (_deffTeethGearing && z1 == z2)
+                    continue;
+
+                //_pb.setProgress(p++);
+                double ratio = (double)z1 / (double)z2;
+                if (checkRatio(ratio))
+                {
+                    if (!setResult(ratio, z1, z2, 0, 0, 0, 0))
+                        break;
+                }
+            }
+        }
+    }
+    
+    private void calculateBy(int[] gs1, int[] gs2, int[] gs3, int[] gs4)
+    {
+        // calculate by z1, z2, z3, z4
+        for (int z1: gs1)
+        {
+            for (int z2: gs2)
+            {
+                if (_deffTeethGearing && z1 == z2)
+                    continue;
+
+                for (int z3: gs3)
+                {
+                    if (_diffTeethDoubleGear && z2 == z3)
+                        continue;
+
+                    for (int z4: gs4)
                     {
-                        _pb.setProgress(p++);
-                        if (_ratio == 1 && z1 == z2)
+                        if (_deffTeethGearing && z3 == z4)
+                            continue;
+
+                        double ratio = (double)(z1 * z3) / (double)(z2 * z4);
+                        if (checkRatio(ratio))
                         {
-                            if (!setResult(1, z1, z2, 0, 0, 0, 0))
+                            if (!setResult(ratio, z1, z2, z3, z4, 0, 0))
                                 break;
-                        }
-                        else
-                        {
-                            double ratio = (double)z1 / (double)z2;
-                            if (checkRatio(ratio))
-                            {
-                                if (!setResult(ratio, z1, z2, 0, 0, 0, 0))
-                                    break;
-                            }
                         }
                     }
                 }
             }
-            else if (!z3Gears.isEmpty() && !z4Gears.isEmpty())
+        }
+    }
+    
+    private void calculateBy(int[] gs1, int[] gs2, int[] gs3, int[] gs4, int[] gs5, int[] gs6)
+    {
+        // calculate by z1, z2, z3, z4, z6
+        for (int z1: gs1)
+        {
+            for (int z2: gs2)
             {
-                if (z5Gears.isEmpty() || z6Gears.isEmpty())
+                if (_deffTeethGearing && z1 == z2)
+                    continue;
+
+                for (int z3: gs3)
                 {
-                    clear();
-                    // calculate by z1, z2, z3, z4
-                    for (Integer z1: z1Gears)
+                    if (_diffTeethDoubleGear && z2 == z3)
+                        continue;
+
+                    for (int z4: gs4)
                     {
-                        for (Integer z2: z2Gears)
+                        if (_deffTeethGearing && z1 == z2)
+                            continue;
+
+                        for (int z5: gs5)
                         {
-                            for (Integer z3: z3Gears)
+                            if (_diffTeethDoubleGear && z4 == z5)
+                                continue;
+
+                            for (int z6: gs6)
                             {
-                                if (z2 == z3)
+                                if (_deffTeethGearing && z1 == z2)
                                     continue;
-                                for (Integer z4: z4Gears)
+
+                                double ratio = (double)(z1 * z3 * z5) / (double)(z2 * z4 * z6);
+                                if (checkRatio(ratio))
                                 {
-                                    double ratio = (double)(z1 * z3) / (double)(z2 * z4);
-                                    if (checkRatio(ratio))
-                                    {
-                                        if (!setResult(ratio, z1, z2, z3, z4, 0, 0))
-                                            break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                else if (!z5Gears.isEmpty() && !z6Gears.isEmpty())
-                {
-                    clear();
-                    // calculate by z1, z2, z3, z4, z6
-                    for (Integer z1: z1Gears)
-                    {
-                        for (Integer z2: z2Gears)
-                        {
-                            for (Integer z3: z3Gears)
-                            {
-                                if (z2 == z3)
-                                    continue;
-                                for (Integer z4: z4Gears)
-                                {
-                                    for (Integer z5: z5Gears)
-                                    {
-                                        if (z4 == z5)
-                                            continue;
-                                        for (Integer z6: z6Gears)
-                                        {
-                                            double ratio = (double)(z1 * z3 * z5) / (double)(z2 * z4 * z6);
-                                            if (checkRatio(ratio))
-                                            {
-                                                if (!setResult(ratio, z1, z2, z3, z4, z5, z6))
-                                                    break;
-                                            }
-                                        }
-                                    }
+                                    if (!setResult(ratio, z1, z2, z3, z4, z5, z6))
+                                        break;
                                 }
                             }
                         }

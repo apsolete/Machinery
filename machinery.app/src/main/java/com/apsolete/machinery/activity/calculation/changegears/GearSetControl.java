@@ -76,24 +76,13 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
     {
         _gearsText.setText(text);
     }
-
-    public ArrayList<Integer> getGears()
-    {
-        ArrayList<Integer> gears = new ArrayList<>();
-        String text = getText();
-        String[] strs = text.split(" ");
-        for (String s : strs) {
-            if (!s.isEmpty()) {
-                int n = Integer.parseInt(s);
-                gears.add(n);
-            }
-        }
-        return gears;
-    }
     
-    public int[] gears()
+    public int[] getGears()
     {
         String text = getText();
+        if (text.isEmpty())
+            return null;
+            
         String[] strs = text.split(" ");
         int[] gs = new int[strs.length];
         int i = 0;
