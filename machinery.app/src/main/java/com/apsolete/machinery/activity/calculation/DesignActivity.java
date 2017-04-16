@@ -21,7 +21,7 @@ public class DesignActivity  extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calculation);
+        setContentView(R.layout.activity_design);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_calculation);
         setSupportActionBar(toolbar);
 
@@ -32,7 +32,7 @@ public class DesignActivity  extends AppCompatActivity
         ab.setDisplayHomeAsUpEnabled(true);
         int calc_type = getIntent().getExtras().getInt("calc_type");
         DesignType calcType = DesignType.values()[calc_type];
-        showCalculationContent(calcType);
+        showDesignContent(calcType);
     }
 
     @Override
@@ -59,7 +59,10 @@ public class DesignActivity  extends AppCompatActivity
                 break;
             case R.id.mi_action_options:
                 if (_currentDesign != null)
-                    _currentDesign.setOptions();
+                {
+                    showDesignContentSettings();
+                    //_currentDesign.setOptions();
+                }
                 break;
             case R.id.mi_action_close:
                 if (_currentDesign != null)
@@ -69,7 +72,7 @@ public class DesignActivity  extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
     
-    public void showCalculationContent(DesignType type)
+    public void showDesignContent(DesignType type)
     {
         switch (type)
         {
@@ -90,8 +93,37 @@ public class DesignActivity  extends AppCompatActivity
         Fragment fragment = _currentDesign;
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-            .replace(R.id.content_calculation, fragment)
+            .replace(R.id.content_design, fragment)
             //.addToBackStack(null)
+            .commit();
+    }
+    
+    private void showDesignContentSettings()
+    {
+        if (_currentDesign == null)
+            return;
+            
+        Fragment fragment = null;
+        switch (_currentDesign.type())
+        {
+            case ChangeGears:
+                fragment = new ChangeGearsSettings();
+                break;
+            case GearWheels:
+                //_currentDesign = _gearWheels;
+                break;
+            case GearWheelsExt:
+                //_currentDesign = _gearWheelsExt;
+                break;
+        }
+
+        if (fragment == null)
+            return;
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+            .replace(R.id.content_design, fragment)
+            .addToBackStack(null)
             .commit();
     }
 }

@@ -2,12 +2,13 @@ package com.apsolete.machinery.activity.calculation.gearwheelsext;
 
 import com.apsolete.machinery.activity.*;
 import com.apsolete.machinery.activity.calculation.DesignContent;
+import com.apsolete.machinery.activity.calculation.*;
 
 public class GearWheelsExt extends DesignContent
 {
     public GearWheelsExt()
     {
-        super(R.layout.content_gearwheelsext_design, R.string.title_gearwheelsext_design);
+        super(DesignType.GearWheelsExt, R.layout.content_gearwheelsext_design, R.string.title_gearwheelsext_design);
     }
 
     @Override

@@ -4,9 +4,17 @@ import com.apsolete.machinery.activity.*;
 
 public abstract class DesignContent extends Content
 {
-    public DesignContent(int layout, int title)
+    private DesignType _type;
+    
+    public DesignContent(DesignType type, int layout, int title)
     {
         super(layout, title);
+        _type = type;
+    }
+    
+    public DesignType type()
+    {
+        return _type;
     }
     
     public abstract void save();

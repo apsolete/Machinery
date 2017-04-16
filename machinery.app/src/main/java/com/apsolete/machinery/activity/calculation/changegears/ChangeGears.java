@@ -14,6 +14,7 @@ import android.text.*;
 
 import com.apsolete.machinery.activity.calculation.DesignContent;
 import com.apsolete.machinery.activity.util.*;
+import com.apsolete.machinery.activity.calculation.*;
 
 public class ChangeGears extends DesignContent
 {
@@ -80,7 +81,7 @@ public class ChangeGears extends DesignContent
 
     public ChangeGears()
     {
-        super(R.layout.content_changegears_design, R.string.title_change_gears_design);
+        super(DesignType.ChangeGears, R.layout.content_changegears_design, R.string.title_change_gears_design);
     }
 
     @Override
@@ -184,7 +185,7 @@ public class ChangeGears extends DesignContent
     @Override
     public void setOptions()
     {
-        // TODO: Implement this method
+
     }
 
     @Override
