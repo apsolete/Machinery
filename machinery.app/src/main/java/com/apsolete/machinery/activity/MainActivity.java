@@ -199,18 +199,18 @@ implements NavigationView.OnNavigationItemSelectedListener
     private void showCalculation(int id)
     {
         Intent intent = new Intent();
-        intent.setClass(this, CalculationActivity.class);
+        intent.setClass(this, DesignActivity.class);
         Bundle bundle = new Bundle();
         switch (id)
         {
             case R.id.fab1:
-                bundle.putInt("calc_type", CalculationType.GearsExtended.Value);
+                bundle.putInt("calc_type", DesignType.GearWheelsExtended.Value);
                 break;
             case R.id.fab2:
-                bundle.putInt("calc_type", CalculationType.GearsCommon.Value);
+                bundle.putInt("calc_type", DesignType.GearWheels.Value);
                 break;
             case R.id.fab3:
-                bundle.putInt("calc_type", CalculationType.ChangeGears.Value);
+                bundle.putInt("calc_type", DesignType.ChangeGears.Value);
                 break;
         }
         intent.putExtras(bundle);

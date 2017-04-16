@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_gears_extended"/>
+            android:text="@string/title_gearwheels_extended"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab1"
@@ -55,7 +55,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/title_gears_common"/>
+            android:text="@string/title_gearwheels"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab2"

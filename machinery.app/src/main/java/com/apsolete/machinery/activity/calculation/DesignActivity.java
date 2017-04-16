@@ -6,10 +6,12 @@ import android.support.v7.app.*;
 import android.support.v7.widget.*;
 import com.apsolete.machinery.activity.*;
 import com.apsolete.machinery.activity.calculation.changegears.ChangeGears;
+import android.view.*;
+import android.view.ContextMenu.*;
 
-public class CalculationActivity  extends AppCompatActivity
+public class DesignActivity  extends AppCompatActivity
 {
-    private CalculationContent _changeGears = new ChangeGears();
+    private DesignContent _changeGears = new ChangeGears();
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,11 +27,19 @@ public class CalculationActivity  extends AppCompatActivity
         // Enable the Up button
         ab.setDisplayHomeAsUpEnabled(true);
         int calc_type = getIntent().getExtras().getInt("calc_type");
-        CalculationType calcType = CalculationType.values()[calc_type];
+        DesignType calcType = DesignType.values()[calc_type];
         showCalculationContent(calcType);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.design_content_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
     
-    public void showCalculationContent(CalculationType type)
+    public void showCalculationContent(DesignType type)
     {
         Fragment fragment = null;
         switch (type)
@@ -37,8 +47,8 @@ public class CalculationActivity  extends AppCompatActivity
             case ChangeGears:
                 fragment = _changeGears;
                 break;
-            case GearsCommon: break;
-            case GearsExtended: break;
+            case GearWheels: break;
+            case GearWheelsExtended: break;
         }
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()

@@ -1,13 +1,14 @@
 package com.apsolete.machinery.activity.calculation;
 
-public enum CalculationType
+public enum DesignType
 {
     ChangeGears(0),
-    GearsCommon(1),
-    GearsExtended(2);
+    GearWheels(1),
+    GearWheelsExtended(2);
     
     public final int Value;
-    private CalculationType(int value)
+    
+    private DesignType(int value)
     {
         Value = value;
     }

@@ -7,9 +7,10 @@
 
     <string name="title_new_calc">New...</string>
     <string name="title_gearing">Gearing...</string>
-    <string name="title_gears_common">Gears Common</string>
-    <string name="title_gears_extended">Gears Extended</string>
     <string name="title_change_gears">Change Gears</string>
+    <string name="title_gearwheels">Gear Wheels</string>
+    <string name="title_gearwheels_extended">Gear Wheels Extended</string>
+    
     <string name="title_belting">Belting...</string>
     <string name="title_belt">Belt</string>
     
@@ -19,7 +20,7 @@
     <string name="title_options">Options</string>
     
     <!-- nav bar items -->
-    <string name="nav_start_page">Start page</string>
+    <string name="nav_start_page">Start Page</string>
     <string name="nav_references">References</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_help">Help</string>
@@ -28,10 +29,10 @@
     
     <string name="title_start_page">Machinery</string>
     <string name="title_references">References</string>
-    <string name="title_calculation">Calculation</string>
+    <string name="title_gears_design">Gears Design</string>
     <string name="title_settings">Settings</string>
-    <string name="title_calc_change_gears">Change gears</string>
-    <string name="title_calc_gears_common">Gears common</string>
-    <string name="title_calc_gears_extended">Gears extended</string>
+    <string name="title_change_gears_design">Change Gears</string>
+    <string name="title_gearwheels_design">Gear Wheels</string>
+    <string name="title_gearwheelsext_design">Gear Wheels Extended</string>
 
 </resources>

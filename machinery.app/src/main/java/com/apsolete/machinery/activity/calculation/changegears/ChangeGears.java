@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import android.text.*;
 
-import com.apsolete.machinery.activity.calculation.CalculationContent;
+import com.apsolete.machinery.activity.calculation.DesignContent;
 import com.apsolete.machinery.activity.util.*;
 
-public class ChangeGears extends CalculationContent
+public class ChangeGears extends DesignContent
 {
 
     private class Result
@@ -79,7 +79,7 @@ public class ChangeGears extends CalculationContent
 
     public ChangeGears()
     {
-        super(R.layout.content_calc_change_gears, R.string.title_calc_change_gears);
+        super(R.layout.content_calc_change_gears, R.string.title_change_gears_design);
     }
 
     @Override

@@ -2,9 +2,9 @@ package com.apsolete.machinery.activity.calculation;
 
 import com.apsolete.machinery.activity.*;
 
-public abstract class CalculationContent extends Content
+public abstract class DesignContent extends Content
 {
-    public CalculationContent(int layout, int title)
+    public DesignContent(int layout, int title)
     {
         super(layout, title);
     }
