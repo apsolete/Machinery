@@ -4,14 +4,18 @@ import android.os.*;
 import android.support.v4.app.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
-import com.apsolete.machinery.activity.*;
-import com.apsolete.machinery.activity.calculation.changegears.ChangeGears;
 import android.view.*;
-import android.view.ContextMenu.*;
+import com.apsolete.machinery.activity.*;
+import com.apsolete.machinery.activity.calculation.changegears.*;
+import com.apsolete.machinery.activity.calculation.gearwheels.*;
+import com.apsolete.machinery.activity.calculation.gearwheelsext.*;
 
 public class DesignActivity  extends AppCompatActivity
 {
+    private DesignContent _currentDesign;
     private DesignContent _changeGears = new ChangeGears();
+    private DesignContent _gearWheels = new GearWheels();
+    private DesignContent _gearWheelsExt = new GearWheelsExt();
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,17 +43,51 @@ public class DesignActivity  extends AppCompatActivity
         return super.onCreateOptionsMenu(menu);
     }
     
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int id = item.getItemId();
+        switch (id)
+        {
+            case R.id.mi_action_save:
+                if (_currentDesign != null)
+                    _currentDesign.save();
+                break;
+            case R.id.mi_action_clear:
+                if (_currentDesign != null)
+                    _currentDesign.clear();
+                break;
+            case R.id.mi_action_options:
+                if (_currentDesign != null)
+                    _currentDesign.setOptions();
+                break;
+            case R.id.mi_action_close:
+                if (_currentDesign != null)
+                    _currentDesign.close();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
     public void showCalculationContent(DesignType type)
     {
-        Fragment fragment = null;
         switch (type)
         {
             case ChangeGears:
-                fragment = _changeGears;
+                _currentDesign = _changeGears;
                 break;
-            case GearWheels: break;
-            case GearWheelsExtended: break;
+            case GearWheels:
+                _currentDesign = _gearWheels;
+                break;
+            case GearWheelsExt:
+                _currentDesign = _gearWheelsExt;
+                break;
         }
+        
+        if (_currentDesign == null)
+            return;
+            
+        Fragment fragment = _currentDesign;
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
             .replace(R.id.content_calculation, fragment)

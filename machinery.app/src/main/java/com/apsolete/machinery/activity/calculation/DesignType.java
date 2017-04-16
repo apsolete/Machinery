@@ -4,7 +4,8 @@ public enum DesignType
 {
     ChangeGears(0),
     GearWheels(1),
-    GearWheelsExtended(2);
+    GearWheelsExt(2),
+    Belt(3);
     
     public final int Value;
     

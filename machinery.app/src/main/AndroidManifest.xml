@@ -27,7 +27,7 @@
             android:parentActivityName="com.apsolete.machinery.activity.MainActivity">
         </activity>
         <activity
-            android:name=".calculation.CalculationActivity"
+            android:name=".calculation.DesignActivity"
             android:label="@string/title_gears_design"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName="com.apsolete.machinery.activity.MainActivity">

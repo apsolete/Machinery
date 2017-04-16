@@ -45,7 +45,21 @@ implements NavigationView.OnNavigationItemSelectedListener
             public void OnClick(int fabId)
             {
                 //Snackbar.make(findViewById(R.id.contentLayout), "Fab " + fabId + " was tapped.", Snackbar.LENGTH_SHORT).show();
-                showCalculation(fabId);
+                DesignType type;
+                switch (fabId)
+                {
+                    case R.id.fab1:
+                        type = DesignType.GearWheelsExt;
+                        break;
+                    case R.id.fab2:
+                        type = DesignType.GearWheels;
+                        break;
+                    case R.id.fab3:
+                    default:
+                        type = DesignType.ChangeGears;
+                        break;
+                }
+                showDesignActivity(type);
             }
         });
 
@@ -120,11 +134,14 @@ implements NavigationView.OnNavigationItemSelectedListener
         //noinspection SimplifiableIfStatement
         switch (id)
         {
-            case R.id.mi_gears_common:
-                break;
-            case R.id.mi_gears_extended:
-                break;
             case R.id.mi_change_gears:
+                showDesignActivity(DesignType.ChangeGears);
+                break;
+            case R.id.mi_gearwheels:
+                showDesignActivity(DesignType.GearWheels);
+                break;
+            case R.id.mi_gearwheels_extended:
+                showDesignActivity(DesignType.GearWheelsExt);
                 break;
             case R.id.mi_belt:
                 break;
@@ -196,23 +213,12 @@ implements NavigationView.OnNavigationItemSelectedListener
             .commit();
     }
     
-    private void showCalculation(int id)
+    private void showDesignActivity(DesignType type)
     {
         Intent intent = new Intent();
         intent.setClass(this, DesignActivity.class);
         Bundle bundle = new Bundle();
-        switch (id)
-        {
-            case R.id.fab1:
-                bundle.putInt("calc_type", DesignType.GearWheelsExtended.Value);
-                break;
-            case R.id.fab2:
-                bundle.putInt("calc_type", DesignType.GearWheels.Value);
-                break;
-            case R.id.fab3:
-                bundle.putInt("calc_type", DesignType.ChangeGears.Value);
-                break;
-        }
+        bundle.putInt("calc_type", type.Value);
         intent.putExtras(bundle);
         startActivity(intent);
     }

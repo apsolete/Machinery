@@ -7,14 +7,14 @@
             <item android:title="@string/title_gearing">
                 <menu>
                     <item
-                        android:id="@+id/mi_gears_common"
-                        android:title="@string/title_gearwheels"/>
-                    <item
-                        android:id="@+id/mi_gears_extended"
-                        android:title="@string/title_gearwheels_extended"/>
-                    <item
                         android:id="@+id/mi_change_gears"
                         android:title="@string/title_change_gears"/>
+                    <item
+                        android:id="@+id/mi_gearwheels"
+                        android:title="@string/title_gearwheels"/>
+                    <item
+                        android:id="@+id/mi_gearwheels_extended"
+                        android:title="@string/title_gearwheels_extended"/>
                 </menu>
             </item>
             <item android:title="@string/title_belting">

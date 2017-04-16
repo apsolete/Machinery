@@ -79,7 +79,7 @@ public class ChangeGears extends DesignContent
 
     public ChangeGears()
     {
-        super(R.layout.content_calc_change_gears, R.string.title_change_gears_design);
+        super(R.layout.content_changegears_design, R.string.title_change_gears_design);
     }
 
     @Override
@@ -253,6 +253,8 @@ public class ChangeGears extends DesignContent
                         {
                             for (Integer z3: z3Gears)
                             {
+                                if (z2 == z3)
+                                    continue;
                                 for (Integer z4: z4Gears)
                                 {
                                     double ratio = (double)(z1 * z3) / (double)(z2 * z4);
@@ -276,10 +278,14 @@ public class ChangeGears extends DesignContent
                         {
                             for (Integer z3: z3Gears)
                             {
+                                if (z2 == z3)
+                                    continue;
                                 for (Integer z4: z4Gears)
                                 {
                                     for (Integer z5: z5Gears)
                                     {
+                                        if (z4 == z5)
+                                            continue;
                                         for (Integer z6: z6Gears)
                                         {
                                             double ratio = (double)(z1 * z3 * z5) / (double)(z2 * z4 * z6);
