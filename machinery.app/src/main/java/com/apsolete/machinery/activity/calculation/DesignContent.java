@@ -1,8 +1,9 @@
 package com.apsolete.machinery.activity.calculation;
 
 import com.apsolete.machinery.activity.*;
+import com.apsolete.machinery.activity.util.ContentFragment;
 
-public abstract class DesignContent extends Content
+public abstract class DesignContent extends ContentFragment
 {
     private DesignType _type;
     

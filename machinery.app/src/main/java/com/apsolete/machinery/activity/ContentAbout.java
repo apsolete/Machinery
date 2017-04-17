@@ -1,6 +1,8 @@
 package com.apsolete.machinery.activity;
 
-public class ContentAbout extends Content
+import com.apsolete.machinery.activity.util.ContentFragment;
+
+public class ContentAbout extends ContentFragment
 {
     public ContentAbout()
     {

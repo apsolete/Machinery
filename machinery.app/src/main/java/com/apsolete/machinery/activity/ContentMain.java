@@ -1,6 +1,8 @@
 package com.apsolete.machinery.activity;
 
-public class ContentMain extends Content
+import com.apsolete.machinery.activity.util.ContentFragment;
+
+public class ContentMain extends ContentFragment
 {
     public ContentMain()
     {

@@ -1,24 +1,12 @@
 package com.apsolete.machinery.activity.calculation;
 
-import android.os.*;
-import android.support.v7.preference.PreferenceFragmentCompat;
 import com.apsolete.machinery.activity.*;
+import com.apsolete.machinery.activity.util.SettingsFragment;
 
-public class DesignContentSettings extends PreferenceFragmentCompat
+public class DesignContentSettings extends SettingsFragment
 {
-    private int _layoutId;
-    private int _titleId;
-
-    protected DesignContentSettings(int layoutId, int titleId)
+    protected DesignContentSettings()
     {
-        _layoutId = layoutId;
-        _titleId = titleId;
-    }
-    
-    @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey)
-    {
-        // Load the preferences from an XML resource
-        setPreferencesFromResource(R.xml.settings_changegears, rootKey);
+        super(R.xml.settings_changegears, 0);
     }
 }

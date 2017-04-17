@@ -1,6 +1,8 @@
 package com.apsolete.machinery.activity;
 
-public class ContentHelp extends Content
+import com.apsolete.machinery.activity.util.ContentFragment;
+
+public class ContentHelp extends ContentFragment
 {
     public ContentHelp()
     {

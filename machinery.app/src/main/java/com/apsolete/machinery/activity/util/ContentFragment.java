@@ -1,35 +1,35 @@
-package com.apsolete.machinery.activity;
+package com.apsolete.machinery.activity.util;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
-import android.app.Activity;
 import android.support.v7.app.*;
 import android.os.*;
 import android.view.*;
 
-public class Content extends Fragment
+public class ContentFragment extends Fragment
 {
     protected AppCompatActivity _activity;
     private int _layoutId;
     private int _titleId;
-    
-    public Content(int layoutId, int titleId)
+
+    public ContentFragment(int layoutId, int titleId)
     {
         _layoutId = layoutId;
         _titleId = titleId;
     }
-    
+
     @Override
-    public void onAttach(Activity activity)
+    public void onAttach(Context context)
     {
-        super.onAttach(activity);
-        _activity = (AppCompatActivity)activity;
+        _activity = (AppCompatActivity)getActivity();
+        super.onAttach(context);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        
+
         if (savedInstanceState != null)
         {
             _layoutId = savedInstanceState.getInt("layout");
@@ -58,5 +58,4 @@ public class Content extends Fragment
         outState.putInt("layout", _layoutId);
         outState.putInt("title", _titleId);
     }
-    
 }
