@@ -1,4 +1,4 @@
-package com.apsolete.machinery.activity.calculation.changegears;
+package com.apsolete.machinery.activity.design.changegears;
 
 public interface OnGearSetListener
 {

@@ -1,7 +1,7 @@
-package com.apsolete.machinery.activity.calculation;
+package com.apsolete.machinery.activity.design;
 
 import com.apsolete.machinery.activity.*;
-import com.apsolete.machinery.activity.util.SettingsFragment;
+import com.apsolete.machinery.activity.common.SettingsFragment;
 
 public class DesignContentSettings extends SettingsFragment
 {

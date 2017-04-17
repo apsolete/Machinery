@@ -1,4 +1,4 @@
-package com.apsolete.machinery.activity.calculation;
+package com.apsolete.machinery.activity.design;
 
 public enum DesignType
 {

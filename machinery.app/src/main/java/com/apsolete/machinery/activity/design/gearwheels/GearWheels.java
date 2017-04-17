@@ -1,8 +1,8 @@
-package com.apsolete.machinery.activity.calculation.gearwheels;
+package com.apsolete.machinery.activity.design.gearwheels;
 
 import com.apsolete.machinery.activity.*;
-import com.apsolete.machinery.activity.calculation.DesignContent;
-import com.apsolete.machinery.activity.calculation.*;
+import com.apsolete.machinery.activity.design.DesignContent;
+import com.apsolete.machinery.activity.design.*;
 
 public class GearWheels extends DesignContent
 {

@@ -1,4 +1,4 @@
-package com.apsolete.machinery.activity.calculation.changegears;
+package com.apsolete.machinery.activity.design.changegears;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +10,7 @@ import android.widget.*;
 import java.util.ArrayList;
 
 import com.apsolete.machinery.activity.R;
-import com.apsolete.machinery.activity.util.DialogBase;
+import com.apsolete.machinery.activity.common.DialogBase;
 
 import android.util.*;
 

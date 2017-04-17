@@ -1,8 +1,7 @@
-package com.apsolete.machinery.activity.calculation.changegears;
+package com.apsolete.machinery.activity.design.changegears;
 
 import com.apsolete.machinery.activity.*;
-import com.apsolete.machinery.activity.calculation.*;
-import com.apsolete.machinery.activity.util.SettingsFragment;
+import com.apsolete.machinery.activity.common.SettingsFragment;
 
 public class ChangeGearsSettings extends SettingsFragment
 {

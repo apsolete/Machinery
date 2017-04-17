@@ -1,4 +1,4 @@
-package com.apsolete.machinery.activity.calculation.changegears;
+package com.apsolete.machinery.activity.design.changegears;
 
 import com.apsolete.machinery.activity.*;
 import android.content.Context;
@@ -10,11 +10,10 @@ import android.widget.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import android.text.*;
 
-import com.apsolete.machinery.activity.calculation.DesignContent;
-import com.apsolete.machinery.activity.util.*;
-import com.apsolete.machinery.activity.calculation.*;
+import com.apsolete.machinery.activity.design.DesignContent;
+import com.apsolete.machinery.activity.common.*;
+import com.apsolete.machinery.activity.design.*;
 
 public class ChangeGears extends DesignContent
 {

@@ -1,4 +1,4 @@
-package com.apsolete.machinery.activity.calculation.changegears;
+package com.apsolete.machinery.activity.design.changegears;
 
 import android.text.Editable;
 import android.text.InputFilter;
@@ -7,8 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.apsolete.machinery.activity.util.TextChangedListener;
-import java.util.ArrayList;
+import com.apsolete.machinery.activity.common.TextChangedListener;
 
 public class GearSetControl extends TextChangedListener implements View.OnClickListener, InputFilter
 {

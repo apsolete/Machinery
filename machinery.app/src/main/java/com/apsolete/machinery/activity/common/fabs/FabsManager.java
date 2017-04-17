@@ -1,4 +1,4 @@
-package com.apsolete.machinery.activity.fabs;
+package com.apsolete.machinery.activity.common.fabs;
 
 import android.animation.*;
 import android.support.design.widget.*;

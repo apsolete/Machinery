@@ -1,4 +1,4 @@
-package com.apsolete.machinery.activity.util;
+package com.apsolete.machinery.activity.common;
 
 import android.text.*;
 

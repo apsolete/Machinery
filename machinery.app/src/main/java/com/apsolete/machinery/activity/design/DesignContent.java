@@ -1,7 +1,6 @@
-package com.apsolete.machinery.activity.calculation;
+package com.apsolete.machinery.activity.design;
 
-import com.apsolete.machinery.activity.*;
-import com.apsolete.machinery.activity.util.ContentFragment;
+import com.apsolete.machinery.activity.common.ContentFragment;
 
 public abstract class DesignContent extends ContentFragment
 {

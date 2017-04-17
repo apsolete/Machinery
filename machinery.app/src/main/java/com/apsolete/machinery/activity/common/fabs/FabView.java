@@ -1,6 +1,5 @@
-package com.apsolete.machinery.activity.fabs;
+package com.apsolete.machinery.activity.common.fabs;
 import android.widget.*;
-import android.content.*;
 import android.support.design.widget.*;
 import android.view.*;
 

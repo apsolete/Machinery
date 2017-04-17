@@ -1,4 +1,4 @@
-package com.apsolete.machinery.activity.calculation;
+package com.apsolete.machinery.activity.design;
 
 import android.os.*;
 import android.support.v4.app.*;
@@ -6,9 +6,9 @@ import android.support.v7.app.*;
 import android.support.v7.widget.*;
 import android.view.*;
 import com.apsolete.machinery.activity.*;
-import com.apsolete.machinery.activity.calculation.changegears.*;
-import com.apsolete.machinery.activity.calculation.gearwheels.*;
-import com.apsolete.machinery.activity.calculation.gearwheelsext.*;
+import com.apsolete.machinery.activity.design.changegears.*;
+import com.apsolete.machinery.activity.design.gearwheels.*;
+import com.apsolete.machinery.activity.design.gearwheelsext.*;
 
 public class DesignActivity  extends AppCompatActivity
 {

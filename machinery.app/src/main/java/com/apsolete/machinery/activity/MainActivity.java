@@ -1,17 +1,20 @@
 package com.apsolete.machinery.activity;
 
-import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.support.design.widget.*;
-import android.support.v4.app.*;
 import android.support.v4.view.*;
 import android.support.v4.widget.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
 import android.view.*;
-import com.apsolete.machinery.activity.calculation.*;
-import com.apsolete.machinery.activity.fabs.*;
+
+import com.apsolete.machinery.activity.contents.AboutContent;
+import com.apsolete.machinery.activity.contents.HelpContent;
+import com.apsolete.machinery.activity.contents.SettingsContent;
+import com.apsolete.machinery.activity.contents.StartPageContent;
+import com.apsolete.machinery.activity.design.*;
+import com.apsolete.machinery.activity.common.fabs.*;
 import com.apsolete.machinery.activity.references.*;
 
 import android.support.v4.app.Fragment;
@@ -26,10 +29,10 @@ implements NavigationView.OnNavigationItemSelectedListener
     private ActionBarDrawerToggle _drawerToggle;
     private FabsManager _fabs;
 
-    private ContentMain _contentMain = new ContentMain();
-    private ContentSettings _contentSettings = new ContentSettings();
-    private ContentHelp _contentHelp = new ContentHelp();
-    private ContentAbout _contentAbout = new ContentAbout();
+    private StartPageContent _contentMain = new StartPageContent();
+    private SettingsContent _contentSettings = new SettingsContent();
+    private HelpContent _contentHelp = new HelpContent();
+    private AboutContent _contentAbout = new AboutContent();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

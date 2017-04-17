@@ -1,7 +1,7 @@
 package com.apsolete.machinery.activity.references;
 
 import com.apsolete.machinery.activity.*;
-import com.apsolete.machinery.activity.util.ContentFragment;
+import com.apsolete.machinery.activity.common.ContentFragment;
 
 public class ContentReference extends ContentFragment
 {

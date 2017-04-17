@@ -1,4 +1,4 @@
-package com.apsolete.machinery.activity.util;
+package com.apsolete.machinery.activity.common;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
