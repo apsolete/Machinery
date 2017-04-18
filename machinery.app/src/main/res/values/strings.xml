@@ -34,5 +34,7 @@
     <string name="title_change_gears_design">Change Gears</string>
     <string name="title_gearwheels_design">Gear Wheels</string>
     <string name="title_gearwheelsext_design">Gear Wheels Extended</string>
+    <string name="machinery">Machinery</string>
+    <string name="machinery_apsolete_email">machinery.apsolete@gmail.com</string>
 
 </resources>

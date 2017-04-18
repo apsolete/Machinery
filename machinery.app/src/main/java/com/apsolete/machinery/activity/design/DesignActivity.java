@@ -39,7 +39,7 @@ public class DesignActivity  extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.design_content_menu, menu);
+        inflater.inflate(R.menu.content_design_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
     

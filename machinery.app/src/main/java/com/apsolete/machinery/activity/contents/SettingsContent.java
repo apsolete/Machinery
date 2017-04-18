@@ -7,6 +7,6 @@ public class SettingsContent extends SettingsFragment
 {
     public SettingsContent()
     {
-        super(R.xml.preferences_main, R.string.nav_settings);
+        super(R.xml.settings_main, R.string.nav_settings);
     }
 }
