@@ -77,6 +77,35 @@ public class ChangeGears extends DesignContent
             }
         }
     };
+    
+    private CgCalculator.OnResultListener _resultListener = new CgCalculator.OnResultListener()
+    {
+        @Override
+        public void onResult(final double ratio, final int[] gears)
+        {
+            _activity.runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        setResultItem(ratio, gears);
+                    }
+                });
+        }
+        @Override
+        public void onCompleted()
+        {
+            _activity.runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        Snackbar.make(_view, "Completed.", Snackbar.LENGTH_SHORT).show();
+                    }
+                });
+            
+        }
+    };
 
     public ChangeGears()
     {
@@ -197,7 +226,7 @@ public class ChangeGears extends DesignContent
         {
             calculateInternal();
             //_showResults = true;
-            showResults();
+            //showResults();
         }
     }
 
@@ -209,7 +238,9 @@ public class ChangeGears extends DesignContent
         int[] gs4 = _gearsControls.get(Z4).getGears();
         int[] gs5 = _gearsControls.get(Z5).getGears();
         int[] gs6 = _gearsControls.get(Z6).getGears();
-
+        (new CgCalculator(_ratio, _accuracy, _deffTeethGearing, _diffTeethDoubleGear,
+        _resultListener)).execute(gs1, gs2, gs3, gs4, gs5, gs6);
+/*
         if (gs1 == null || gs2 == null)
             return;
         else if (gs1.length > 0 && gs2.length > 0)
@@ -234,7 +265,7 @@ public class ChangeGears extends DesignContent
                     calculateBy(gs1, gs2, gs3, gs4, gs5, gs6);
                 }
             }
-        }
+        }*/
     }
     
     private void calculateBy(int[] gs1, int[] gs2)
@@ -402,12 +433,12 @@ public class ChangeGears extends DesignContent
             count++;
             if (count > 100)
                 break;
-            setResultItem(res.Gears, res.Ratio);
+            setResultItem(res.Ratio, res.Gears);
         }
         _showResults = false;
     }
 
-    private void setResultItem(int[] gears, double ratio)
+    private void setResultItem(double ratio, int[] gears)
     {
         try
         {

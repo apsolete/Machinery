@@ -6,6 +6,7 @@ import android.support.v7.app.*;
 import android.view.*;
 import android.widget.*;
 import com.apsolete.machinery.activity.*;
+import java.util.*;
 
 public class FabsManager
 {
@@ -21,12 +22,16 @@ public class FabsManager
     private boolean _isExpanded = false;
     private boolean _isVisible = true;
     private float _st_55, _st_100, _st_145;
+    private ArrayList<FabView> _fabs = new ArrayList<>();
 
     public interface OnFabClickListener
     {
         void OnClick(int fabId);
     }
     private OnFabClickListener _listener;
+    
+    public FabsManager()
+    {}
     
     public FabsManager(AppCompatActivity activity)
     {
