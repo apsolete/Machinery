@@ -24,12 +24,12 @@ public class ChangeGears extends DesignContent
         public int[] Gears = new int[6];
     }
 
-    private static final int Z1 = 1;
-    private static final int Z2 = 2;
-    private static final int Z3 = 3;
-    private static final int Z4 = 4;
-    private static final int Z5 = 5;
-    private static final int Z6 = 6;
+    private static final int Z1 = 0;//1;
+    private static final int Z2 = 1;//2;
+    private static final int Z3 = 2;//3;
+    private static final int Z4 = 3;//4;
+    private static final int Z5 = 4;//5;
+    private static final int Z6 = 5;//6;
     private final double _accuracy = 0.0001;
     private double _ratio = 0;
     private boolean _showResults = false;
@@ -42,7 +42,7 @@ public class ChangeGears extends DesignContent
     private ViewGroup _resultView;
     private ProgressBar _pb;
 
-    private final HashMap<Integer, GearSetControl> _gearsControls = new HashMap<>(6);
+    private final GearSetControl[] _gearsControls = new GearSetControl[6];
     private final ArrayList<Result> _results = new ArrayList<>();
 
     private final OnGearSetListener _gearSetListener = new OnGearSetListener()
@@ -61,23 +61,23 @@ public class ChangeGears extends DesignContent
                 case Z1:
                     break;
                 case Z2:
-                    _gearsControls.get(Z3).setEnabled(!empty);
+                    _gearsControls[Z3].setEnabled(!empty);
                     break;
                 case Z3:
-                    _gearsControls.get(Z4).setEnabled(!empty);
+                    _gearsControls[Z4].setEnabled(!empty);
                     break;
                 case Z4:
-                    _gearsControls.get(Z5).setEnabled(!empty);
+                    _gearsControls[Z5].setEnabled(!empty);
                     break;
                 case Z5:
-                    _gearsControls.get(Z6).setEnabled(!empty);
+                    _gearsControls[Z6].setEnabled(!empty);
                     break;
                 case Z6:
                     break;
             }
         }
     };
-    
+
     private CgCalculator.OnResultListener _resultListener = new CgCalculator.OnResultListener()
     {
         @Override
@@ -92,6 +92,21 @@ public class ChangeGears extends DesignContent
                     }
                 });
         }
+
+        @Override
+        public void onProgress(final int percent)
+        {
+            _activity.runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        _pb.setProgress(percent);
+                    }
+                });
+        }
+
+
         @Override
         public void onCompleted()
         {
@@ -103,7 +118,7 @@ public class ChangeGears extends DesignContent
                         Snackbar.make(_view, "Completed.", Snackbar.LENGTH_SHORT).show();
                     }
                 });
-            
+
         }
     };
 
@@ -119,39 +134,32 @@ public class ChangeGears extends DesignContent
         assert _view != null;
 
         _ratioEdText = (EditText)_view.findViewById(R.id.gearRatio);
-//        _ratioEdText.addTextChangedListener(new TextChangedListener()
-//            {
-//                @Override
-//                public void onTextChanged(Editable editable)
-//                {
-//                    calculate();
-//                }
-//            });
+
         _resultView = (ViewGroup)_view.findViewById(R.id.resultLayout);
 
         EditText z1Gears = (EditText) _view.findViewById(R.id.z1Gears);
         Button z1Button = (Button)_view.findViewById(R.id.z1Set);
-        _gearsControls.put(Z1, new GearSetControl(Z1, z1Button, z1Gears, _gearSetListener));
+        _gearsControls[Z1] = new GearSetControl(Z1, z1Button, z1Gears, _gearSetListener);
 
         EditText z2Gears = (EditText) _view.findViewById(R.id.z2Gears);
         Button z2Button = (Button)_view.findViewById(R.id.z2Set);
-        _gearsControls.put(Z2, new GearSetControl(Z2, z2Button, z2Gears, _gearSetListener));
+        _gearsControls[Z2] = new GearSetControl(Z2, z2Button, z2Gears, _gearSetListener);
 
         EditText z3Gears = (EditText) _view.findViewById(R.id.z3Gears);
         Button z3Button = (Button)_view.findViewById(R.id.z3Set);
-        _gearsControls.put(Z3, new GearSetControl(Z3, z3Button, z3Gears, _gearSetListener));
+        _gearsControls[Z3] = new GearSetControl(Z3, z3Button, z3Gears, _gearSetListener);
 
         EditText z4Gears = (EditText) _view.findViewById(R.id.z4Gears);
         Button z4Button = (Button)_view.findViewById(R.id.z4Set);
-        _gearsControls.put(Z4, new GearSetControl(Z4, z4Button, z4Gears, _gearSetListener));
+        _gearsControls[Z4] = new GearSetControl(Z4, z4Button, z4Gears, _gearSetListener);
 
         EditText z5Gears = (EditText) _view.findViewById(R.id.z5Gears);
         Button z5Button = (Button)_view.findViewById(R.id.z5Set);
-        _gearsControls.put(Z5, new GearSetControl(Z5, z5Button, z5Gears, _gearSetListener));
+        _gearsControls[Z5] = new GearSetControl(Z5, z5Button, z5Gears, _gearSetListener);
 
         EditText z6Gears = (EditText) _view.findViewById(R.id.z6Gears);
         Button z6Button = (Button)_view.findViewById(R.id.z6Set);
-        _gearsControls.put(Z6, new GearSetControl(Z6, z6Button, z6Gears, _gearSetListener));
+        _gearsControls[Z6] = new GearSetControl(Z6, z6Button, z6Gears, _gearSetListener);
 
         _pb = (ProgressBar)_view.findViewById(R.id.progressBar);
         ImageButton calc = (ImageButton)_view.findViewById(R.id.calculate);
@@ -163,22 +171,6 @@ public class ChangeGears extends DesignContent
                     calculate();
                 }
             });
-
-//        Thread watchResultsThread = new Thread(new Runnable()
-//        {
-//            @Override
-//            public void run()
-//            {
-//                while (_watchResults)
-//                {
-//                    if (_showResults)
-//                    {
-//                        showResults();
-//                    }
-//                }
-//            }
-//        });
-//        watchResultsThread.start();
 
         return _view;
     }
@@ -222,159 +214,21 @@ public class ChangeGears extends DesignContent
         String ratioStr = _ratioEdText.getText().toString();
         _ratio = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
 
-        //if (_ratio > 0)
-        {
-            calculateInternal();
-            //_showResults = true;
-            //showResults();
-        }
-    }
+        int[] gs1 = _gearsControls[Z1].getGears();
+        int[] gs2 = _gearsControls[Z2].getGears();
+        int[] gs3 = _gearsControls[Z3].getGears();
+        int[] gs4 = _gearsControls[Z4].getGears();
+        int[] gs5 = _gearsControls[Z5].getGears();
+        int[] gs6 = _gearsControls[Z6].getGears();
 
-    private void calculateInternal()
-    {
-        int[] gs1 = _gearsControls.get(Z1).getGears();
-        int[] gs2 = _gearsControls.get(Z2).getGears();
-        int[] gs3 = _gearsControls.get(Z3).getGears();
-        int[] gs4 = _gearsControls.get(Z4).getGears();
-        int[] gs5 = _gearsControls.get(Z5).getGears();
-        int[] gs6 = _gearsControls.get(Z6).getGears();
-        (new CgCalculator(_ratio, _accuracy, _deffTeethGearing, _diffTeethDoubleGear,
-        _resultListener)).execute(gs1, gs2, gs3, gs4, gs5, gs6);
-/*
-        if (gs1 == null || gs2 == null)
-            return;
-        else if (gs1.length > 0 && gs2.length > 0)
-        {
-            if (gs3 == null || gs4 == null)
-            {
-                //_pb.setMax(z1Gears.length * z2Gears.length);
-                clear();
-                //int p = 1;
-                calculateBy(gs1, gs2);
-            }
-            else if (gs3.length > 0 && gs4.length > 0)
-            {
-                if (gs5 == null || gs6 == null)
-                {
-                    clear();
-                    calculateBy(gs1, gs2, gs3, gs4);
-                }
-                else if (gs5.length > 0 && gs6.length > 0)
-                {
-                    clear();
-                    calculateBy(gs1, gs2, gs3, gs4, gs5, gs6);
-                }
-            }
-        }*/
-    }
-    
-    private void calculateBy(int[] gs1, int[] gs2)
-    {
-        // calculate by z1, z2
-        for (int z1: gs1)
-        {
-            for (int z2: gs2)
-            {
-                if (_deffTeethGearing && z1 == z2)
-                    continue;
-
-                //_pb.setProgress(p++);
-                double ratio = (double)z1 / (double)z2;
-                if (checkRatio(ratio))
-                {
-                    if (!setResult(ratio, z1, z2, 0, 0, 0, 0))
-                        break;
-                }
-            }
-        }
-    }
-    
-    private void calculateBy(int[] gs1, int[] gs2, int[] gs3, int[] gs4)
-    {
-        // calculate by z1, z2, z3, z4
-        for (int z1: gs1)
-        {
-            for (int z2: gs2)
-            {
-                if (_deffTeethGearing && z1 == z2)
-                    continue;
-
-                for (int z3: gs3)
-                {
-                    if (_diffTeethDoubleGear && z2 == z3)
-                        continue;
-
-                    for (int z4: gs4)
-                    {
-                        if (_deffTeethGearing && z3 == z4)
-                            continue;
-
-                        double ratio = (double)(z1 * z3) / (double)(z2 * z4);
-                        if (checkRatio(ratio))
-                        {
-                            if (!setResult(ratio, z1, z2, z3, z4, 0, 0))
-                                break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    private void calculateBy(int[] gs1, int[] gs2, int[] gs3, int[] gs4, int[] gs5, int[] gs6)
-    {
-        // calculate by z1, z2, z3, z4, z6
-        for (int z1: gs1)
-        {
-            for (int z2: gs2)
-            {
-                if (_deffTeethGearing && z1 == z2)
-                    continue;
-
-                for (int z3: gs3)
-                {
-                    if (_diffTeethDoubleGear && z2 == z3)
-                        continue;
-
-                    for (int z4: gs4)
-                    {
-                        if (_deffTeethGearing && z1 == z2)
-                            continue;
-
-                        for (int z5: gs5)
-                        {
-                            if (_diffTeethDoubleGear && z4 == z5)
-                                continue;
-
-                            for (int z6: gs6)
-                            {
-                                if (_deffTeethGearing && z1 == z2)
-                                    continue;
-
-                                double ratio = (double)(z1 * z3 * z5) / (double)(z2 * z4 * z6);
-                                if (checkRatio(ratio))
-                                {
-                                    if (!setResult(ratio, z1, z2, z3, z4, z5, z6))
-                                        break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private boolean checkRatio(double ratio)
-    {
-        if (_ratio == 0)
-            return true;
-        return (Math.abs(ratio - _ratio) <= _accuracy) ? true : false;
+        CgCalculator calc = new CgCalculator(_ratio, _accuracy, _deffTeethGearing, _diffTeethDoubleGear,
+                                             _resultListener);
+        calc.execute(gs1, gs2, gs3, gs4, gs5, gs6);
     }
 
     private void selectGears(int zId)
     {
-        final GearSetControl control = _gearsControls.get(zId);
+        final GearSetControl control = _gearsControls[zId];
 
         FragmentManager fragmentManager = _activity.getSupportFragmentManager();
         final TeethNumbersDialog dialog = new TeethNumbersDialog();
@@ -402,40 +256,6 @@ public class ChangeGears extends DesignContent
                 {}
             });
         dialog.show(fragmentManager, "dialog");
-    }
-
-    private boolean setResult(double ratio, int z1, int z2, int z3, int z4, int z5, int z6)
-    {
-        if (_results.size() < 100)
-        {
-            Result res = new Result();
-            res.Ratio = ratio;
-            res.Gears[0] = z1;
-            res.Gears[1] = z2;
-            res.Gears[2] = z3;
-            res.Gears[3] = z4;
-            res.Gears[4] = z5;
-            res.Gears[5] = z6;
-            _results.add(res);
-
-            return true;
-        }
-
-        Snackbar.make(_view, "Too much results. Only 100 are shown.", Snackbar.LENGTH_SHORT).show();
-        return false;
-    }
-
-    private void showResults()
-    {
-        int count = 0;
-        for (Result res: _results)
-        {
-            count++;
-            if (count > 100)
-                break;
-            setResultItem(res.Ratio, res.Gears);
-        }
-        _showResults = false;
     }
 
     private void setResultItem(double ratio, int[] gears)

@@ -8,6 +8,7 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
     public interface OnResultListener
     {
         void onResult(double ratio, int[] gears);
+        void onProgress(int percent);
         void onCompleted();
     }
     
@@ -64,6 +65,7 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
     {
         // TODO: Implement this method
         super.onProgressUpdate(values);
+        _resultListener.onProgress(values[0]);
     }
     
     private void calculateBy(int[] gs1, int[] gs2)
@@ -73,10 +75,10 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
         int i = 0;
         for (int z1: gs1)
         {
-            i++;
+            publishProgress((100 * i++) / count);
             for (int z2: gs2)
             {
-                i++;
+                publishProgress((100 * i++) / count);
                 if (_diffTeethGearing && z1 == z2)
                     continue;
 
@@ -85,7 +87,7 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
                 {
                     if (_resultListener != null)
                     {
-                        publishProgress((100 * i)/count);
+                        //publishProgress((100 * i)/count);
                         _resultListener.onResult(ratio, new int[]{z1, z2, 0, 0, 0, 0});
                     }
                 }
@@ -100,22 +102,22 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
         int i = 0;
         for (int z1: gs1)
         {
-            i++;
+            publishProgress((100 * i++) / count);
             for (int z2: gs2)
             {
-                i++;
+                publishProgress((100 * i++) / count);
                 if (_diffTeethGearing && z1 == z2)
                     continue;
 
                 for (int z3: gs3)
                 {
-                    i++;
+                    publishProgress((100 * i++) / count);
                     if (_diffTeethDoubleGear && z2 == z3)
                         continue;
 
                     for (int z4: gs4)
                     {
-                        i++;
+                        publishProgress((100 * i++) / count);
                         if (_diffTeethGearing && z3 == z4)
                             continue;
 
@@ -124,7 +126,7 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
                         {
                             if (_resultListener != null)
                             {
-                                publishProgress((100 * i)/count);
+                                //publishProgress((100 * i)/count);
                                 _resultListener.onResult(ratio, new int[]{z1, z2, z3, z4, 0, 0});
                             }
                         }
@@ -141,34 +143,34 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
         int i = 0;
         for (int z1: gs1)
         {
-            i++;
+            publishProgress((100 * i++) / count);
             for (int z2: gs2)
             {
-                i++;
+                publishProgress((100 * i++) / count);
                 if (_diffTeethGearing && z1 == z2)
                     continue;
 
                 for (int z3: gs3)
                 {
-                    i++;
+                    publishProgress((100 * i++) / count);
                     if (_diffTeethDoubleGear && z2 == z3)
                         continue;
 
                     for (int z4: gs4)
                     {
-                        i++;
+                        publishProgress((100 * i++) / count);
                         if (_diffTeethGearing && z1 == z2)
                             continue;
 
                         for (int z5: gs5)
                         {
-                            i++;
+                            publishProgress((100 * i++) / count);
                             if (_diffTeethDoubleGear && z4 == z5)
                                 continue;
 
                             for (int z6: gs6)
                             {
-                                i++;
+                                publishProgress((100 * i++) / count);
                                 if (_diffTeethGearing && z1 == z2)
                                     continue;
                                     
@@ -177,7 +179,7 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
                                 {
                                     if (_resultListener != null)
                                     {
-                                        publishProgress((100 * i) / count);
+                                        //publishProgress((100 * i++) / count);
                                         _resultListener.onResult(ratio, new int[]{z1, z2, z3, z4, z5, z6});
                                     }
                                 }
@@ -187,14 +189,6 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
                 }
             }
         }
-    }
-
-    private void setResult(double ratio, int z1, int z2, int z3, int z4, int z5, int z6)
-    {
-        if (_resultListener == null)
-            return;
-            
-        _resultListener.onResult(ratio, new int[]{z1, z2, z3, z4, z5, z6});
     }
     
     private boolean checkRatio(double ratio)
