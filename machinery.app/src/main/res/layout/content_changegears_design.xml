@@ -16,13 +16,20 @@
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:text="Set of gears"
-		android:id="@+id/setofgears_text"/>
+		android:id="@+id/setOfGearsText"/>
+    
+    <CheckBox
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+		android:text="One set for all gears"
+		android:id="@+id/oneSetForAllGears"
+        android:layout_below="@id/setOfGearsText"/>
 
 	<HorizontalScrollView
 		android:id="@+id/gearsetScroll"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/setofgears_text">
+		android:layout_below="@id/oneSetForAllGears">
 
 		<GridLayout
 			android:id="@+id/gearsetGrid"

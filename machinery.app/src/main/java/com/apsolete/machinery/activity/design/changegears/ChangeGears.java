@@ -38,6 +38,7 @@ public class ChangeGears extends DesignContent
     private boolean _diffTeethDoubleGear = true;
 
     private View _view;
+    private CheckBox _oneSetForAll;
     private EditText _ratioEdText;
     private ViewGroup _resultView;
     private ProgressBar _pb;
@@ -133,6 +134,8 @@ public class ChangeGears extends DesignContent
         _view = super.onCreateView(inflater, container, savedInstanceState);
         assert _view != null;
 
+        _oneSetForAll = (CheckBox)_view.findViewById(R.id.oneSetForAllGears);
+        
         _ratioEdText = (EditText)_view.findViewById(R.id.gearRatio);
 
         _resultView = (ViewGroup)_view.findViewById(R.id.resultLayout);
