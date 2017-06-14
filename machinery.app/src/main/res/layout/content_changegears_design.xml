@@ -17,13 +17,13 @@
 		android:layout_width="wrap_content"
 		android:text="Set of gears"
 		android:id="@+id/setOfGearsText"/>
-    
-    <CheckBox
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+
+	<CheckBox
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
 		android:text="One set for all gears"
 		android:id="@+id/oneSetForAllGears"
-        android:layout_below="@id/setOfGearsText"/>
+		android:layout_below="@id/setOfGearsText"/>
 
 	<HorizontalScrollView
 		android:id="@+id/gearsetScroll"
@@ -55,10 +55,18 @@
 					android:text="Z1:"
 					android:textColor="@android:color/holo_red_dark"/>
 
+				<CheckBox
+					android:id="@+id/z1Select"
+					android:layout_height="match_parent"
+					android:layout_width="wrap_content"
+					android:state_checked="true"
+					android:enabled="false"
+					android:visibility="gone"/>
+
 				<EditText
 					android:id="@+id/z1Gears"
 					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+					android:layout_height="match_parent"
 					android:inputType="number|text"
 					android:maxEms="6"
 					android:minEms="3"/>
@@ -82,10 +90,18 @@
 					android:text="Z2:"
 					android:textColor="@android:color/holo_blue_dark"/>
 
+				<CheckBox
+					android:id="@+id/z2Select"
+					android:layout_height="match_parent"
+					android:layout_width="wrap_content"
+                    android:state_checked="true"
+                    android:enabled="false"
+					android:visibility="gone"/>
+
 				<EditText
 					android:id="@+id/z2Gears"
 					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+					android:layout_height="match_parent"
 					android:inputType="number|text"
 					android:maxEms="6"
 					android:minEms="3"/>
@@ -110,10 +126,17 @@
 					android:text="Z3:"
 					android:textColor="@android:color/holo_blue_dark"/>
 
+				<CheckBox
+					android:id="@+id/z3Select"
+					android:layout_height="match_parent"
+					android:layout_width="wrap_content"
+                    android:state_checked="false"
+					android:visibility="gone"/>
+
 				<EditText
 					android:id="@+id/z3Gears"
 					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+					android:layout_height="match_parent"
 					android:enabled="false"
 					android:inputType="number|text"
 					android:maxEms="6"
@@ -139,10 +162,17 @@
 					android:text="Z4:"
 					android:textColor="@android:color/holo_green_dark"/>
 
+				<CheckBox
+					android:id="@+id/z4Select"
+					android:layout_height="match_parent"
+					android:layout_width="wrap_content"
+                    android:state_checked="false"
+					android:visibility="gone"/>
+
 				<EditText
 					android:id="@+id/z4Gears"
 					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+					android:layout_height="match_parent"
 					android:enabled="false"
 					android:inputType="number|text"
 					android:maxEms="6"
@@ -168,10 +198,17 @@
 					android:text="Z5:"
 					android:textColor="@android:color/holo_green_dark"/>
 
+				<CheckBox
+					android:id="@+id/z5Select"
+					android:layout_height="match_parent"
+					android:layout_width="wrap_content"
+                    android:state_checked="false"
+					android:visibility="gone"/>
+
 				<EditText
 					android:id="@+id/z5Gears"
 					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+					android:layout_height="match_parent"
 					android:enabled="false"
 					android:inputType="number|text"
 					android:maxEms="6"
@@ -197,10 +234,17 @@
 					android:text="Z6:"
 					android:textColor="@android:color/holo_orange_dark"/>
 
+				<CheckBox
+					android:id="@+id/z6Select"
+					android:layout_height="match_parent"
+					android:layout_width="wrap_content"
+                    android:state_checked="false"
+					android:visibility="gone"/>
+
 				<EditText
 					android:id="@+id/z6Gears"
 					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+					android:layout_height="match_parent"
 					android:enabled="false"
 					android:inputType="number|text"
 					android:maxEms="6"

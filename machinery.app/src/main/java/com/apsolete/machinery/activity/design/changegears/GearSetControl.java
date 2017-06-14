@@ -8,21 +8,25 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.apsolete.machinery.activity.common.TextChangedListener;
+import android.widget.*;
 
 public class GearSetControl extends TextChangedListener implements View.OnClickListener, InputFilter
 {
     private final OnGearSetListener _gearSetListener;
     private final int _gearId;
     private final Button _gearsButton;
+    private final CheckBox _gearSelect;
     private final EditText _gearsText;
 
-    public GearSetControl(int id, Button button, EditText text, OnGearSetListener listener)
+    public GearSetControl(int id, Button button, CheckBox checkbox, EditText text, OnGearSetListener listener)
     {
         _gearId = id;
         _gearSetListener = listener;
 
         _gearsButton = button;
         _gearsButton.setOnClickListener(this);
+        
+        _gearSelect = checkbox;
 
         _gearsText = text;
         _gearsText.addTextChangedListener(this);
@@ -97,6 +101,18 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
         return gs;
     }
 
+    public boolean isEmpty()
+    {
+        return _gearsText.length() == 0;
+    }
+    
+    public void setSelectable(boolean selectable)
+    {
+        setEnabled(false);
+        _gearsText.setVisibility(selectable?View.GONE:View.VISIBLE);
+        _gearSelect.setVisibility(selectable?View.VISIBLE:View.GONE);
+    }
+    
     private void setError()
     {
         //if (_gearsText.isEnabled() && _gearsText.length() == 0)

@@ -14,6 +14,7 @@ import java.util.HashMap;
 import com.apsolete.machinery.activity.design.DesignContent;
 import com.apsolete.machinery.activity.common.*;
 import com.apsolete.machinery.activity.design.*;
+import android.support.v7.app.*;
 
 public class ChangeGears extends DesignContent
 {
@@ -36,14 +37,15 @@ public class ChangeGears extends DesignContent
     private boolean _watchResults = true;
     private boolean _deffTeethGearing = true;
     private boolean _diffTeethDoubleGear = true;
+    private boolean _oneSetForAll = false;
 
     private View _view;
-    private CheckBox _oneSetForAll;
+    private CheckBox _oneSetCheckBox;
     private EditText _ratioEdText;
     private ViewGroup _resultView;
     private ProgressBar _pb;
 
-    private final GearSetControl[] _gearsControls = new GearSetControl[6];
+    private final GearSetControl[] _gearsCtrls = new GearSetControl[6];
     private final ArrayList<Result> _results = new ArrayList<>();
 
     private final OnGearSetListener _gearSetListener = new OnGearSetListener()
@@ -62,16 +64,16 @@ public class ChangeGears extends DesignContent
                 case Z1:
                     break;
                 case Z2:
-                    _gearsControls[Z3].setEnabled(!empty);
+                    _gearsCtrls[Z3].setEnabled(!empty);
                     break;
                 case Z3:
-                    _gearsControls[Z4].setEnabled(!empty);
+                    _gearsCtrls[Z4].setEnabled(!empty);
                     break;
                 case Z4:
-                    _gearsControls[Z5].setEnabled(!empty);
+                    _gearsCtrls[Z5].setEnabled(!empty);
                     break;
                 case Z5:
-                    _gearsControls[Z6].setEnabled(!empty);
+                    _gearsCtrls[Z6].setEnabled(!empty);
                     break;
                 case Z6:
                     break;
@@ -134,7 +136,15 @@ public class ChangeGears extends DesignContent
         _view = super.onCreateView(inflater, container, savedInstanceState);
         assert _view != null;
 
-        _oneSetForAll = (CheckBox)_view.findViewById(R.id.oneSetForAllGears);
+        _oneSetCheckBox = (CheckBox)_view.findViewById(R.id.oneSetForAllGears);
+        _oneSetCheckBox.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View p1)
+                {
+                    setOneSetForAllGears();
+                }
+            });
         
         _ratioEdText = (EditText)_view.findViewById(R.id.gearRatio);
 
@@ -142,27 +152,33 @@ public class ChangeGears extends DesignContent
 
         EditText z1Gears = (EditText) _view.findViewById(R.id.z1Gears);
         Button z1Button = (Button)_view.findViewById(R.id.z1Set);
-        _gearsControls[Z1] = new GearSetControl(Z1, z1Button, z1Gears, _gearSetListener);
+        CheckBox z1Select = (CheckBox)_view.findViewById(R.id.z1Select);
+        _gearsCtrls[Z1] = new GearSetControl(Z1, z1Button, z1Select, z1Gears, _gearSetListener);
 
         EditText z2Gears = (EditText) _view.findViewById(R.id.z2Gears);
         Button z2Button = (Button)_view.findViewById(R.id.z2Set);
-        _gearsControls[Z2] = new GearSetControl(Z2, z2Button, z2Gears, _gearSetListener);
+        CheckBox z2Select = (CheckBox)_view.findViewById(R.id.z2Select);
+        _gearsCtrls[Z2] = new GearSetControl(Z2, z2Button, z2Select, z2Gears, _gearSetListener);
 
         EditText z3Gears = (EditText) _view.findViewById(R.id.z3Gears);
         Button z3Button = (Button)_view.findViewById(R.id.z3Set);
-        _gearsControls[Z3] = new GearSetControl(Z3, z3Button, z3Gears, _gearSetListener);
+        CheckBox z3Select = (CheckBox)_view.findViewById(R.id.z3Select);
+        _gearsCtrls[Z3] = new GearSetControl(Z3, z3Button, z3Select, z3Gears, _gearSetListener);
 
         EditText z4Gears = (EditText) _view.findViewById(R.id.z4Gears);
         Button z4Button = (Button)_view.findViewById(R.id.z4Set);
-        _gearsControls[Z4] = new GearSetControl(Z4, z4Button, z4Gears, _gearSetListener);
+        CheckBox z4Select = (CheckBox)_view.findViewById(R.id.z4Select);
+        _gearsCtrls[Z4] = new GearSetControl(Z4, z4Button, z4Select, z4Gears, _gearSetListener);
 
         EditText z5Gears = (EditText) _view.findViewById(R.id.z5Gears);
         Button z5Button = (Button)_view.findViewById(R.id.z5Set);
-        _gearsControls[Z5] = new GearSetControl(Z5, z5Button, z5Gears, _gearSetListener);
+        CheckBox z5Select = (CheckBox)_view.findViewById(R.id.z5Select);
+        _gearsCtrls[Z5] = new GearSetControl(Z5, z5Button, z5Select, z5Gears, _gearSetListener);
 
         EditText z6Gears = (EditText) _view.findViewById(R.id.z6Gears);
         Button z6Button = (Button)_view.findViewById(R.id.z6Set);
-        _gearsControls[Z6] = new GearSetControl(Z6, z6Button, z6Gears, _gearSetListener);
+        CheckBox z6Select = (CheckBox)_view.findViewById(R.id.z6Select);
+        _gearsCtrls[Z6] = new GearSetControl(Z6, z6Button, z6Select, z6Gears, _gearSetListener);
 
         _pb = (ProgressBar)_view.findViewById(R.id.progressBar);
         ImageButton calc = (ImageButton)_view.findViewById(R.id.calculate);
@@ -217,12 +233,12 @@ public class ChangeGears extends DesignContent
         String ratioStr = _ratioEdText.getText().toString();
         _ratio = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
 
-        int[] gs1 = _gearsControls[Z1].getGears();
-        int[] gs2 = _gearsControls[Z2].getGears();
-        int[] gs3 = _gearsControls[Z3].getGears();
-        int[] gs4 = _gearsControls[Z4].getGears();
-        int[] gs5 = _gearsControls[Z5].getGears();
-        int[] gs6 = _gearsControls[Z6].getGears();
+        int[] gs1 = _gearsCtrls[Z1].getGears();
+        int[] gs2 = _gearsCtrls[Z2].getGears();
+        int[] gs3 = _gearsCtrls[Z3].getGears();
+        int[] gs4 = _gearsCtrls[Z4].getGears();
+        int[] gs5 = _gearsCtrls[Z5].getGears();
+        int[] gs6 = _gearsCtrls[Z6].getGears();
 
         CgCalculator calc = new CgCalculator(_ratio, _accuracy, _deffTeethGearing, _diffTeethDoubleGear,
                                              _resultListener);
@@ -231,7 +247,7 @@ public class ChangeGears extends DesignContent
 
     private void selectGears(int zId)
     {
-        final GearSetControl control = _gearsControls[zId];
+        final GearSetControl control = _gearsCtrls[zId];
 
         FragmentManager fragmentManager = _activity.getSupportFragmentManager();
         final TeethNumbersDialog dialog = new TeethNumbersDialog();
@@ -304,5 +320,37 @@ public class ChangeGears extends DesignContent
         {
             //
         }
+    }
+    
+    private void setOneSetForAllGears()
+    {
+        _oneSetForAll = !_oneSetForAll;
+        
+        if (_oneSetForAll)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this._activity);
+            builder.setTitle("One set for all gears").setMessage("Z1 defines one set for all gears. Select gears are using for calculation.");
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
+        _gearsCtrls[Z2].setSelectable(_oneSetForAll);
+        _gearsCtrls[Z3].setSelectable(_oneSetForAll);
+        _gearsCtrls[Z4].setSelectable(_oneSetForAll);
+        _gearsCtrls[Z5].setSelectable(_oneSetForAll);
+        _gearsCtrls[Z6].setSelectable(_oneSetForAll);
+        
+//        _gearsCtrls[Z2].setEnabled(!_oneSetForAll);
+//        
+//        if (!_gearsCtrls[Z3].isEmpty())
+//        {
+//            _gearsCtrls[Z3].setEnabled(!_oneSetForAll);
+//            _gearsCtrls[Z4].setEnabled(!_oneSetForAll);
+//        }
+//        
+//        if (!_gearsCtrls[Z5].isEmpty())
+//        {
+//            _gearsCtrls[Z5].setEnabled(!_oneSetForAll);
+//            _gearsCtrls[Z6].setEnabled(!_oneSetForAll);
+//        }
     }
 }
