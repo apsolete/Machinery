@@ -57,9 +57,9 @@
 
 				<CheckBox
 					android:id="@+id/z1Select"
-					android:layout_height="match_parent"
 					android:layout_width="wrap_content"
-					android:state_checked="true"
+					android:layout_height="match_parent"
+					android:checked="true"
 					android:enabled="false"
 					android:visibility="gone"/>
 
@@ -92,10 +92,10 @@
 
 				<CheckBox
 					android:id="@+id/z2Select"
-					android:layout_height="match_parent"
 					android:layout_width="wrap_content"
-                    android:state_checked="true"
-                    android:enabled="false"
+					android:layout_height="match_parent"
+					android:checked="true"
+					android:enabled="false"
 					android:visibility="gone"/>
 
 				<EditText
@@ -130,7 +130,6 @@
 					android:id="@+id/z3Select"
 					android:layout_height="match_parent"
 					android:layout_width="wrap_content"
-                    android:state_checked="false"
 					android:visibility="gone"/>
 
 				<EditText
@@ -166,7 +165,6 @@
 					android:id="@+id/z4Select"
 					android:layout_height="match_parent"
 					android:layout_width="wrap_content"
-                    android:state_checked="false"
 					android:visibility="gone"/>
 
 				<EditText
@@ -202,7 +200,6 @@
 					android:id="@+id/z5Select"
 					android:layout_height="match_parent"
 					android:layout_width="wrap_content"
-                    android:state_checked="false"
 					android:visibility="gone"/>
 
 				<EditText
@@ -238,7 +235,6 @@
 					android:id="@+id/z6Select"
 					android:layout_height="match_parent"
 					android:layout_width="wrap_content"
-                    android:state_checked="false"
 					android:visibility="gone"/>
 
 				<EditText
