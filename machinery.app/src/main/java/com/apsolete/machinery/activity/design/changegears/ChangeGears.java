@@ -1,20 +1,19 @@
 package com.apsolete.machinery.activity.design.changegears;
 
 import com.apsolete.machinery.activity.*;
+import com.apsolete.machinery.activity.common.*;
+import com.apsolete.machinery.activity.design.*;
+
 import android.content.Context;
 import android.os.*;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.*;
+import android.support.v7.app.*;
 import android.view.*;
 import android.widget.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import com.apsolete.machinery.activity.design.DesignContent;
-import com.apsolete.machinery.activity.common.*;
-import com.apsolete.machinery.activity.design.*;
-import android.support.v7.app.*;
 
 public class ChangeGears extends DesignContent
 {
@@ -52,13 +51,13 @@ public class ChangeGears extends DesignContent
     private final OnGearSetListener _gearSetListener = new OnGearSetListener()
     {
         @Override
-        public void onSelectGears(int id)
+        public void onDefineGearSet(int id)
         {
-            selectGears(id);
+            defineGearSet(id);
         }
 
         @Override
-        public void onGearsChanged(int id, boolean empty)
+        public void onGearSetChanged(int id, boolean empty)
         {
             switch (id)
             {
@@ -146,11 +145,11 @@ public class ChangeGears extends DesignContent
                     setOneSetForAllGears();
                 }
             });
-        
+
         _ratioEdText = (EditText)_view.findViewById(R.id.gearRatio);
 
         _resultView = (ViewGroup)_view.findViewById(R.id.resultLayout);
-        
+
         EditText z0Gears = (EditText) _view.findViewById(R.id.z0Gears);
         Button z0Button = (Button)_view.findViewById(R.id.z0Set);
         //CheckBox z1Select = (CheckBox)_view.findViewById(R.id.z1Select);
@@ -197,6 +196,12 @@ public class ChangeGears extends DesignContent
                     calculate();
                 }
             });
+        _gearsCtrls[Z1].setEnabled(true);
+        _gearsCtrls[Z2].setEnabled(true);
+        _gearsCtrls[Z3].setEnabled(false);
+        _gearsCtrls[Z4].setEnabled(false);
+        _gearsCtrls[Z5].setEnabled(false);
+        _gearsCtrls[Z6].setEnabled(false);
 
         return _view;
     }
@@ -252,7 +257,7 @@ public class ChangeGears extends DesignContent
         calc.execute(gs1, gs2, gs3, gs4, gs5, gs6);
     }
 
-    private void selectGears(int zId)
+    private void defineGearSet(int zId)
     {
         final GearSetControl control = _gearsCtrls[zId];
 
@@ -328,40 +333,30 @@ public class ChangeGears extends DesignContent
             //
         }
     }
-    
+
     private void setOneSetForAllGears()
     {
         _oneSetForAll = !_oneSetForAll;
-        
-//        if (_oneSetForAll)
-//        {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this._activity);
-//            builder.setTitle("One set for all gears").setMessage("Z1 defines one set for all gears. Select gears are using for calculation.");
-//            AlertDialog alertDialog = builder.create();
-//            alertDialog.show();
-//        }
-        
+
         _gearsCtrls[Z0].setEnabled(_oneSetForAll);
-        
-        _gearsCtrls[Z1].setSelectable(_oneSetForAll);
-        _gearsCtrls[Z2].setSelectable(_oneSetForAll);
-        _gearsCtrls[Z3].setSelectable(_oneSetForAll);
-        _gearsCtrls[Z4].setSelectable(_oneSetForAll);
-        _gearsCtrls[Z5].setSelectable(_oneSetForAll);
-        _gearsCtrls[Z6].setSelectable(_oneSetForAll);
-        
-//        _gearsCtrls[Z2].setEnabled(!_oneSetForAll);
-//        
-//        if (!_gearsCtrls[Z3].isEmpty())
-//        {
-//            _gearsCtrls[Z3].setEnabled(!_oneSetForAll);
-//            _gearsCtrls[Z4].setEnabled(!_oneSetForAll);
-//        }
-//        
-//        if (!_gearsCtrls[Z5].isEmpty())
-//        {
-//            _gearsCtrls[Z5].setEnabled(!_oneSetForAll);
-//            _gearsCtrls[Z6].setEnabled(!_oneSetForAll);
-//        }
+
+        _gearsCtrls[Z1].setOwnSetEnabled(_oneSetForAll);
+        _gearsCtrls[Z2].setOwnSetEnabled(_oneSetForAll);
+        _gearsCtrls[Z3].setOwnSetEnabled(_oneSetForAll);
+        _gearsCtrls[Z4].setOwnSetEnabled(_oneSetForAll);
+        _gearsCtrls[Z5].setOwnSetEnabled(_oneSetForAll);
+        _gearsCtrls[Z6].setOwnSetEnabled(_oneSetForAll);
+
+        if (!_oneSetForAll)
+        {
+            _gearsCtrls[Z1].setEnabled(true);
+            _gearsCtrls[Z2].setEnabled(true);
+
+            _gearsCtrls[Z3].setEnabled(!_gearsCtrls[Z2].isEmpty());
+            _gearsCtrls[Z4].setEnabled(!_gearsCtrls[Z3].isEmpty());
+            _gearsCtrls[Z5].setEnabled(!_gearsCtrls[Z4].isEmpty());
+            _gearsCtrls[Z6].setEnabled(!_gearsCtrls[Z5].isEmpty());
+        }
+
     }
 }

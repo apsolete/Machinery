@@ -37,7 +37,7 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
     @Override
     public void onClick(View view)
     {
-        _gearSetListener.onSelectGears(_gearId);
+        _gearSetListener.onDefineGearSet(_gearId);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
     public void onTextChanged(Editable editable)
     {
         setError();
-        _gearSetListener.onGearsChanged(_gearId, editable.length() == 0);
+        _gearSetListener.onGearSetChanged(_gearId, editable.length() == 0);
     }
 
     public void setEnabled(Boolean enabled)
@@ -106,12 +106,13 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
         return _gearsText.length() == 0;
     }
     
-    public void setSelectable(boolean selectable)
+    public void setOwnSetEnabled(boolean enable)
     {
-        setEnabled(false);
-        _gearsText.setVisibility(selectable?View.GONE:View.VISIBLE);
+        setEnabled(!enable);
+            
+        _gearsText.setVisibility(enable?View.GONE:View.VISIBLE);
         if (_gearSelect != null)
-            _gearSelect.setVisibility(selectable?View.VISIBLE:View.GONE);
+            _gearSelect.setVisibility(enable?View.VISIBLE:View.GONE);
     }
     
     private void setError()

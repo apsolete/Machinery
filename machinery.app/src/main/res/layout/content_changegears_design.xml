@@ -145,7 +145,6 @@
 					android:layout_width="46dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:enabled="false"
 					android:text="Z3:"
 					android:textColor="@android:color/holo_blue_dark"/>
 
@@ -159,7 +158,6 @@
 					android:id="@+id/z3Gears"
 					android:layout_width="wrap_content"
 					android:layout_height="match_parent"
-					android:enabled="false"
 					android:inputType="number|text"
 					android:maxEms="6"
 					android:minEms="3"/>
@@ -180,7 +178,6 @@
 					android:layout_width="46dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:enabled="false"
 					android:text="Z4:"
 					android:textColor="@android:color/holo_green_dark"/>
 
@@ -194,7 +191,6 @@
 					android:id="@+id/z4Gears"
 					android:layout_width="wrap_content"
 					android:layout_height="match_parent"
-					android:enabled="false"
 					android:inputType="number|text"
 					android:maxEms="6"
 					android:minEms="3"/>
@@ -215,7 +211,6 @@
 					android:layout_width="46dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:enabled="false"
 					android:text="Z5:"
 					android:textColor="@android:color/holo_green_dark"/>
 
@@ -229,7 +224,6 @@
 					android:id="@+id/z5Gears"
 					android:layout_width="wrap_content"
 					android:layout_height="match_parent"
-					android:enabled="false"
 					android:inputType="number|text"
 					android:maxEms="6"
 					android:minEms="3"/>
@@ -250,7 +244,6 @@
 					android:layout_width="46dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:enabled="false"
 					android:text="Z6:"
 					android:textColor="@android:color/holo_orange_dark"/>
 
@@ -264,7 +257,6 @@
 					android:id="@+id/z6Gears"
 					android:layout_width="wrap_content"
 					android:layout_height="match_parent"
-					android:enabled="false"
 					android:inputType="number|text"
 					android:maxEms="6"
 					android:minEms="3"/>
