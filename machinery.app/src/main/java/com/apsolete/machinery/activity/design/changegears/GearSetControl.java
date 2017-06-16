@@ -110,7 +110,8 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
     {
         setEnabled(false);
         _gearsText.setVisibility(selectable?View.GONE:View.VISIBLE);
-        _gearSelect.setVisibility(selectable?View.VISIBLE:View.GONE);
+        if (_gearSelect != null)
+            _gearSelect.setVisibility(selectable?View.VISIBLE:View.GONE);
     }
     
     private void setError()

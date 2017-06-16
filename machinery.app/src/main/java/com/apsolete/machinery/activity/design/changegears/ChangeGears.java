@@ -25,12 +25,13 @@ public class ChangeGears extends DesignContent
         public int[] Gears = new int[6];
     }
 
-    private static final int Z1 = 0;//1;
-    private static final int Z2 = 1;//2;
-    private static final int Z3 = 2;//3;
-    private static final int Z4 = 3;//4;
-    private static final int Z5 = 4;//5;
-    private static final int Z6 = 5;//6;
+    private static final int Z0 = 0;//one set for all;
+    private static final int Z1 = 1;//1;
+    private static final int Z2 = 2;//2;
+    private static final int Z3 = 3;//3;
+    private static final int Z4 = 4;//4;
+    private static final int Z5 = 5;//5;
+    private static final int Z6 = 6;//6;
     private final double _accuracy = 0.0001;
     private double _ratio = 0;
     private boolean _showResults = false;
@@ -45,7 +46,7 @@ public class ChangeGears extends DesignContent
     private ViewGroup _resultView;
     private ProgressBar _pb;
 
-    private final GearSetControl[] _gearsCtrls = new GearSetControl[6];
+    private final GearSetControl[] _gearsCtrls = new GearSetControl[7];
     private final ArrayList<Result> _results = new ArrayList<>();
 
     private final OnGearSetListener _gearSetListener = new OnGearSetListener()
@@ -149,6 +150,12 @@ public class ChangeGears extends DesignContent
         _ratioEdText = (EditText)_view.findViewById(R.id.gearRatio);
 
         _resultView = (ViewGroup)_view.findViewById(R.id.resultLayout);
+        
+        EditText z0Gears = (EditText) _view.findViewById(R.id.z0Gears);
+        Button z0Button = (Button)_view.findViewById(R.id.z0Set);
+        //CheckBox z1Select = (CheckBox)_view.findViewById(R.id.z1Select);
+        _gearsCtrls[Z0] = new GearSetControl(Z0, z0Button, null, z0Gears, _gearSetListener);
+        _gearsCtrls[Z0].setEnabled(_oneSetCheckBox.isChecked());
 
         EditText z1Gears = (EditText) _view.findViewById(R.id.z1Gears);
         Button z1Button = (Button)_view.findViewById(R.id.z1Set);
@@ -326,13 +333,17 @@ public class ChangeGears extends DesignContent
     {
         _oneSetForAll = !_oneSetForAll;
         
-        if (_oneSetForAll)
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this._activity);
-            builder.setTitle("One set for all gears").setMessage("Z1 defines one set for all gears. Select gears are using for calculation.");
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
-        }
+//        if (_oneSetForAll)
+//        {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this._activity);
+//            builder.setTitle("One set for all gears").setMessage("Z1 defines one set for all gears. Select gears are using for calculation.");
+//            AlertDialog alertDialog = builder.create();
+//            alertDialog.show();
+//        }
+        
+        _gearsCtrls[Z0].setEnabled(_oneSetForAll);
+        
+        _gearsCtrls[Z1].setSelectable(_oneSetForAll);
         _gearsCtrls[Z2].setSelectable(_oneSetForAll);
         _gearsCtrls[Z3].setSelectable(_oneSetForAll);
         _gearsCtrls[Z4].setSelectable(_oneSetForAll);
