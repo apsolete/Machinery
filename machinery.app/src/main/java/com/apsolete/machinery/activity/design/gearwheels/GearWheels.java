@@ -1,7 +1,7 @@
 package com.apsolete.machinery.activity.design.gearwheels;
 
 import com.apsolete.machinery.activity.*;
-import com.apsolete.machinery.activity.design.DesignContent;
+import com.apsolete.machinery.activity.common.*;
 import com.apsolete.machinery.activity.design.*;
 
 public class GearWheels extends DesignContent
@@ -10,7 +10,14 @@ public class GearWheels extends DesignContent
     {
         super(DesignType.GearWheels, R.layout.content_gearwheels_design, R.string.title_gearwheels_design);
     }
-
+    
+    @Override
+    public SettingsFragment getSettings()
+    {
+        // TODO: Implement this method
+        return null;
+    }
+    
     @Override
     public void save()
     {

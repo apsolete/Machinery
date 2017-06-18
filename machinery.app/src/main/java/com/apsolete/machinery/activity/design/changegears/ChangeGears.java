@@ -17,7 +17,6 @@ import java.util.HashMap;
 
 public class ChangeGears extends DesignContent
 {
-
     private class Result
     {
         public double Ratio;
@@ -35,7 +34,7 @@ public class ChangeGears extends DesignContent
     private double _ratio = 0;
     private boolean _showResults = false;
     private boolean _watchResults = true;
-    private boolean _deffTeethGearing = true;
+    private boolean _diffTeethGearing = true;
     private boolean _diffTeethDoubleGear = true;
     private boolean _oneSetForAll = false;
 
@@ -48,18 +47,19 @@ public class ChangeGears extends DesignContent
     private final GearSetControl[] _gearsCtrls = new GearSetControl[7];
     private final ArrayList<Result> _results = new ArrayList<>();
 
-    private final OnGearSetListener _gearSetListener = new OnGearSetListener()
+    private final GearSetControl.OnGearSetListener _gearSetListener = new GearSetControl.OnGearSetListener()
     {
         @Override
-        public void onDefineGearSet(int id)
+        public void onDefineGearSet(GearSetControl gearSetCtrl)
         {
-            defineGearSet(id);
+            defineGearSet(gearSetCtrl);
         }
 
         @Override
-        public void onGearSetChanged(int id, boolean empty)
+        public void onGearSetChanged(GearSetControl gearSetCtrl)
         {
-            switch (id)
+            boolean empty = gearSetCtrl.isEmpty();
+            switch (gearSetCtrl.getId())
             {
                 case Z1:
                     break;
@@ -214,6 +214,12 @@ public class ChangeGears extends DesignContent
     }
 
     @Override
+    public SettingsFragment getSettings()
+    {
+        return new ChangeGearsSettings();
+    }
+    
+    @Override
     public void save()
     {
         // TODO: Implement this method
@@ -245,21 +251,21 @@ public class ChangeGears extends DesignContent
         String ratioStr = _ratioEdText.getText().toString();
         _ratio = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
 
-        int[] gs1 = _gearsCtrls[Z1].getGears();
-        int[] gs2 = _gearsCtrls[Z2].getGears();
-        int[] gs3 = _gearsCtrls[Z3].getGears();
-        int[] gs4 = _gearsCtrls[Z4].getGears();
-        int[] gs5 = _gearsCtrls[Z5].getGears();
-        int[] gs6 = _gearsCtrls[Z6].getGears();
+        int[] gs1 = _oneSetCheckBox.isChecked() ? _gearsCtrls[Z0].getGears() : _gearsCtrls[Z1].getGears();
+        int[] gs2 = _oneSetCheckBox.isChecked() ? _gearsCtrls[Z0].getGears() : _gearsCtrls[Z2].getGears();
+        int[] gs3 = _oneSetCheckBox.isChecked() ? _gearsCtrls[Z0].getGears() : _gearsCtrls[Z3].getGears();
+        int[] gs4 = _oneSetCheckBox.isChecked() ? _gearsCtrls[Z0].getGears() : _gearsCtrls[Z4].getGears();
+        int[] gs5 = _oneSetCheckBox.isChecked() ? _gearsCtrls[Z0].getGears() : _gearsCtrls[Z5].getGears();
+        int[] gs6 = _oneSetCheckBox.isChecked() ? _gearsCtrls[Z0].getGears() : _gearsCtrls[Z6].getGears();
 
-        CgCalculator calc = new CgCalculator(_ratio, _accuracy, _deffTeethGearing, _diffTeethDoubleGear,
-                                             _resultListener);
+        CgCalculator calc = new CgCalculator(_ratio, _accuracy, _diffTeethGearing,
+                                             _diffTeethDoubleGear, _resultListener);
         calc.execute(gs1, gs2, gs3, gs4, gs5, gs6);
     }
 
-    private void defineGearSet(int zId)
+    private void defineGearSet(GearSetControl gearSetCtrl)
     {
-        final GearSetControl control = _gearsCtrls[zId];
+        final GearSetControl control = gearSetCtrl;
 
         FragmentManager fragmentManager = _activity.getSupportFragmentManager();
         final TeethNumbersDialog dialog = new TeethNumbersDialog();
@@ -340,12 +346,12 @@ public class ChangeGears extends DesignContent
 
         _gearsCtrls[Z0].setEnabled(_oneSetForAll);
 
-        _gearsCtrls[Z1].setOwnSetEnabled(_oneSetForAll);
-        _gearsCtrls[Z2].setOwnSetEnabled(_oneSetForAll);
-        _gearsCtrls[Z3].setOwnSetEnabled(_oneSetForAll);
-        _gearsCtrls[Z4].setOwnSetEnabled(_oneSetForAll);
-        _gearsCtrls[Z5].setOwnSetEnabled(_oneSetForAll);
-        _gearsCtrls[Z6].setOwnSetEnabled(_oneSetForAll);
+        _gearsCtrls[Z1].disableOwnSet(_oneSetForAll);
+        _gearsCtrls[Z2].disableOwnSet(_oneSetForAll);
+        _gearsCtrls[Z3].disableOwnSet(_oneSetForAll);
+        _gearsCtrls[Z4].disableOwnSet(_oneSetForAll);
+        _gearsCtrls[Z5].disableOwnSet(_oneSetForAll);
+        _gearsCtrls[Z6].disableOwnSet(_oneSetForAll);
 
         if (!_oneSetForAll)
         {

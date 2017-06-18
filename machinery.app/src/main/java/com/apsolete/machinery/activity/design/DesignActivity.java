@@ -103,19 +103,7 @@ public class DesignActivity  extends AppCompatActivity
         if (_currentDesign == null)
             return;
             
-        Fragment fragment = null;
-        switch (_currentDesign.type())
-        {
-            case ChangeGears:
-                fragment = new ChangeGearsSettings();
-                break;
-            case GearWheels:
-                //_currentDesign = _gearWheels;
-                break;
-            case GearWheelsExt:
-                //_currentDesign = _gearWheelsExt;
-                break;
-        }
+        Fragment fragment = _currentDesign.getSettings();
 
         if (fragment == null)
             return;

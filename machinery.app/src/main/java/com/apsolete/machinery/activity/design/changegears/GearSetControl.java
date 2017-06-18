@@ -12,6 +12,12 @@ import android.widget.*;
 
 public class GearSetControl extends TextChangedListener implements View.OnClickListener, InputFilter
 {
+    public interface OnGearSetListener
+    {
+        void onDefineGearSet(GearSetControl gearSetCtrl);
+        void onGearSetChanged(GearSetControl gearSetCtrl);
+    }
+    
     private final OnGearSetListener _gearSetListener;
     private final int _gearId;
     private final Button _gearsButton;
@@ -37,7 +43,7 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
     @Override
     public void onClick(View view)
     {
-        _gearSetListener.onDefineGearSet(_gearId);
+        _gearSetListener.onDefineGearSet(this);
     }
 
     @Override
@@ -58,7 +64,7 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
     public void onTextChanged(Editable editable)
     {
         setError();
-        _gearSetListener.onGearSetChanged(_gearId, editable.length() == 0);
+        _gearSetListener.onGearSetChanged(this);
     }
 
     public void setEnabled(Boolean enabled)
@@ -68,6 +74,11 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
         _gearsButton.setEnabled(enabled);
         _gearsText.setEnabled(enabled);
         setError();
+    }
+    
+    public int getId()
+    {
+        return _gearId;
     }
 
     public String getText()
@@ -106,7 +117,12 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
         return _gearsText.length() == 0;
     }
     
-    public void setOwnSetEnabled(boolean enable)
+    public boolean isSelected()
+    {
+        return _gearSelect != null && _gearSelect.isChecked();
+    }
+    
+    public void disableOwnSet(boolean enable)
     {
         setEnabled(!enable);
             
