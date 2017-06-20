@@ -14,8 +14,9 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
 {
     public interface OnGearSetListener
     {
-        void onDefineGearSet(GearSetControl gearSetCtrl);
-        void onGearSetChanged(GearSetControl gearSetCtrl);
+        void onSet(GearSetControl gearSetCtrl);
+        void onSetChanged(GearSetControl gearSetCtrl);
+        void onGearChecked(GearSetControl gearSetCtrl);
     }
     
     private final OnGearSetListener _gearSetListener;
@@ -23,8 +24,9 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
     private final Button _gearsButton;
     private final CheckBox _gearSelect;
     private final EditText _gearsText;
+    private boolean _allowedSet = true;
 
-    public GearSetControl(int id, Button button, CheckBox checkbox, EditText text, OnGearSetListener listener)
+    public GearSetControl(int id, Button button, EditText text, CheckBox checkbox, OnGearSetListener listener)
     {
         _gearId = id;
         _gearSetListener = listener;
@@ -33,6 +35,8 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
         _gearsButton.setOnClickListener(this);
         
         _gearSelect = checkbox;
+        if (_gearSelect != null)
+            _gearSelect.setOnClickListener(this);
 
         _gearsText = text;
         _gearsText.addTextChangedListener(this);
@@ -43,7 +47,10 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
     @Override
     public void onClick(View view)
     {
-        _gearSetListener.onDefineGearSet(this);
+        if (view == _gearsButton)
+            _gearSetListener.onSet(this);
+        if (view == _gearSelect)
+            _gearSetListener.onGearChecked(this);
     }
 
     @Override
@@ -64,16 +71,24 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
     public void onTextChanged(Editable editable)
     {
         setError();
-        _gearSetListener.onGearSetChanged(this);
+        _gearSetListener.onSetChanged(this);
     }
 
-    public void setEnabled(Boolean enabled)
+    public void setEnabled(boolean enabled)
     {
         if (!enabled && _gearsText.length() > 0)
             return;
-        _gearsButton.setEnabled(enabled);
-        _gearsText.setEnabled(enabled);
+        _gearsButton.setEnabled(enabled && _allowedSet);
+        _gearsText.setEnabled(enabled && _allowedSet);
+        if (_gearSelect != null)
+            _gearSelect.setEnabled(enabled);
         setError();
+    }
+
+    public void setChecked(boolean checked)
+    {
+        if (_gearSelect != null)
+            _gearSelect.setChecked(checked);
     }
     
     public int getId()
@@ -117,18 +132,19 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
         return _gearsText.length() == 0;
     }
     
-    public boolean isSelected()
+    public boolean isChecked()
     {
         return _gearSelect != null && _gearSelect.isChecked();
     }
     
-    public void disableOwnSet(boolean enable)
+    public void enableSet(boolean enable)
     {
-        setEnabled(!enable);
+        _allowedSet = enable;
+        setEnabled(enable);
             
-        _gearsText.setVisibility(enable?View.GONE:View.VISIBLE);
+        _gearsText.setVisibility(enable ? View.VISIBLE : View.GONE);
         if (_gearSelect != null)
-            _gearSelect.setVisibility(enable?View.VISIBLE:View.GONE);
+            _gearSelect.setVisibility(!enable ? View.VISIBLE : View.GONE);
     }
     
     private void setError()

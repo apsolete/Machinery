@@ -17,6 +17,7 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
     private double _ratio;
     private double _accuracy;
     private OnResultListener _resultListener;
+    private boolean _oneSet = false;
     
     public CgCalculator(double ratio, double accuracy, boolean dtg, boolean dtdg, OnResultListener resultListener)
     {
@@ -30,6 +31,14 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
     @Override
     protected Void doInBackground(int[]... params)
     {
+        if (_oneSet)
+        {
+            int[] set = params[0];
+            int gears = params[1][0];
+            calculateByOneSet(set, gears);
+            return null;
+        }
+
         int[] gs1 = params[0];
         int[] gs2 = params[1];
         int[] gs3 = params[2];
@@ -63,9 +72,19 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
     @Override
     protected void onProgressUpdate(Integer[] values)
     {
-        // TODO: Implement this method
         super.onProgressUpdate(values);
         _resultListener.onProgress(values[0]);
+    }
+
+    public void calculate(int[] gs1, int[] gs2, int[] gs3, int[] gs4, int[] gs5, int[] gs6)
+    {
+        this.execute(gs1, gs2, gs3, gs4, gs5, gs6);
+    }
+
+    public void calculate(int[] set, int[] gears)
+    {
+        _oneSet = true;
+        this.execute(set, gears);
     }
     
     private void calculateBy(int[] gs1, int[] gs2)
@@ -184,6 +203,82 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void calculateByOneSet(int[] set, int gears)
+    {
+        int count = gears;
+        if (count == 3) count = 2;
+        if (count == 5) count = 4;
+
+        for (int z1: set)
+        {
+            for (int z2 : set)
+            {
+                if (count > 2)
+                {
+                    for (int z3 : set)
+                    {
+                        for (int z4 : set)
+                        {
+                            if (count > 4)
+                            {
+                                for (int z5 : set)
+                                {
+                                    for (int z6 : set)
+                                    {
+                                        if (z1 == z2 || z1 == z3 || z1 == z4 || z1 == z5 || z1 == z6 ||
+                                            z2 == z3 || z2 == z4 || z2 == z5 || z2 == z6 ||
+                                            z3 == z4 || z3 == z5 || z3 == z6 ||
+                                            z4 == z5 || z4 == z6 ||
+                                            z5 == z6)
+                                            continue;
+                                        double ratio = (double)(z1 * z3 * z5) / (double)(z2 * z4 * z6);
+                                        if (checkRatio(ratio))
+                                        {
+                                            if (_resultListener != null)
+                                            {
+                                                //publishProgress((100 * i++) / count);
+                                                _resultListener.onResult(ratio, new int[]{z1, z2, z3, z4, z5, z6});
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (z1 == z2 || z1 == z3 || z1 == z4 || z2 == z3 || z2 == z4 || z3 == z4)
+                                    continue;
+
+                                double ratio = (double)(z1 * z3) / (double)(z2 * z4);
+                                if (checkRatio(ratio))
+                                {
+                                    if (_resultListener != null)
+                                    {
+                                        //publishProgress((100 * i)/count);
+                                        _resultListener.onResult(ratio, new int[]{z1, z2, z3, z4, 0, 0});
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (z1 == z2)
+                        continue;
+                    double ratio = (double) z1 / (double) z2;
+                    if (checkRatio(ratio))
+                    {
+                        if (_resultListener != null)
+                        {
+                            //publishProgress((100 * i++) / count);
+                            _resultListener.onResult(ratio, new int[]{z1, z2, 0, 0, 0, 0});
                         }
                     }
                 }
