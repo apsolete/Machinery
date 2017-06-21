@@ -389,14 +389,15 @@ public class ChangeGears extends DesignContent
     {
         _oneSetForAll = !_oneSetForAll;
 
+        _gearsCtrls[Z0].enableOwnSet(_oneSetForAll);
         _gearsCtrls[Z0].setEnabled(_oneSetForAll);
 
-        _gearsCtrls[Z1].enableSet(!_oneSetForAll);
-        _gearsCtrls[Z2].enableSet(!_oneSetForAll);
-        _gearsCtrls[Z3].enableSet(!_oneSetForAll);
-        _gearsCtrls[Z4].enableSet(!_oneSetForAll);
-        _gearsCtrls[Z5].enableSet(!_oneSetForAll);
-        _gearsCtrls[Z6].enableSet(!_oneSetForAll);
+        _gearsCtrls[Z1].enableOwnSet(!_oneSetForAll);
+        _gearsCtrls[Z2].enableOwnSet(!_oneSetForAll);
+        _gearsCtrls[Z3].enableOwnSet(!_oneSetForAll);
+        _gearsCtrls[Z4].enableOwnSet(!_oneSetForAll);
+        _gearsCtrls[Z5].enableOwnSet(!_oneSetForAll);
+        _gearsCtrls[Z6].enableOwnSet(!_oneSetForAll);
 
         if (_oneSetForAll)
         {
