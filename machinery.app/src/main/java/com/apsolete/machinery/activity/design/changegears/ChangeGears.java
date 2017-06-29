@@ -178,41 +178,20 @@ public class ChangeGears extends DesignContent
 
         _resultView = (ViewGroup)_view.findViewById(R.id.resultLayout);
 
-        EditText z0Gears = (EditText) _view.findViewById(R.id.z0Gears);
-        Button z0Button = (Button)_view.findViewById(R.id.z0Set);
-        //CheckBox z1Select = (CheckBox)_view.findViewById(R.id.z1Select);
-        _gearsCtrls[Z0] = new GearSetControl(Z0, z0Button, z0Gears, null, _gearSetListener);
+        _gearsCtrls[Z0] = new GearSetControl(Z0, _view, R.id.z0Set, R.id.z0Gears, 0, _gearSetListener);
         _gearsCtrls[Z0].setEnabled(_oneSetCheckBox.isChecked());
 
-        EditText z1Gears = (EditText) _view.findViewById(R.id.z1Gears);
-        Button z1Button = (Button)_view.findViewById(R.id.z1Set);
-        CheckBox z1Select = (CheckBox)_view.findViewById(R.id.z1Select);
-        _gearsCtrls[Z1] = new GearSetControl(Z1, z1Button, z1Gears, z1Select, _gearSetListener);
+        _gearsCtrls[Z1] = new GearSetControl(Z1, _view, R.id.z1Set, R.id.z1Gears, R.id.z1Select, _gearSetListener);
 
-        EditText z2Gears = (EditText) _view.findViewById(R.id.z2Gears);
-        Button z2Button = (Button)_view.findViewById(R.id.z2Set);
-        CheckBox z2Select = (CheckBox)_view.findViewById(R.id.z2Select);
-        _gearsCtrls[Z2] = new GearSetControl(Z2, z2Button, z2Gears, z2Select, _gearSetListener);
+        _gearsCtrls[Z2] = new GearSetControl(Z2, _view, R.id.z2Set, R.id.z2Gears, R.id.z2Select, _gearSetListener);
 
-        EditText z3Gears = (EditText) _view.findViewById(R.id.z3Gears);
-        Button z3Button = (Button)_view.findViewById(R.id.z3Set);
-        CheckBox z3Select = (CheckBox)_view.findViewById(R.id.z3Select);
-        _gearsCtrls[Z3] = new GearSetControl(Z3, z3Button, z3Gears, z3Select, _gearSetListener);
+        _gearsCtrls[Z3] = new GearSetControl(Z3, _view, R.id.z3Set, R.id.z3Gears, R.id.z3Select, _gearSetListener);
 
-        EditText z4Gears = (EditText) _view.findViewById(R.id.z4Gears);
-        Button z4Button = (Button)_view.findViewById(R.id.z4Set);
-        CheckBox z4Select = (CheckBox)_view.findViewById(R.id.z4Select);
-        _gearsCtrls[Z4] = new GearSetControl(Z4, z4Button, z4Gears, z4Select, _gearSetListener);
+        _gearsCtrls[Z4] = new GearSetControl(Z4, _view, R.id.z4Set, R.id.z4Gears, R.id.z4Select, _gearSetListener);
 
-        EditText z5Gears = (EditText) _view.findViewById(R.id.z5Gears);
-        Button z5Button = (Button)_view.findViewById(R.id.z5Set);
-        CheckBox z5Select = (CheckBox)_view.findViewById(R.id.z5Select);
-        _gearsCtrls[Z5] = new GearSetControl(Z5, z5Button, z5Gears, z5Select, _gearSetListener);
+        _gearsCtrls[Z5] = new GearSetControl(Z5, _view, R.id.z5Set, R.id.z5Gears, R.id.z5Select, _gearSetListener);
 
-        EditText z6Gears = (EditText) _view.findViewById(R.id.z6Gears);
-        Button z6Button = (Button)_view.findViewById(R.id.z6Set);
-        CheckBox z6Select = (CheckBox)_view.findViewById(R.id.z6Select);
-        _gearsCtrls[Z6] = new GearSetControl(Z6, z6Button, z6Gears, z6Select, _gearSetListener);
+        _gearsCtrls[Z6] = new GearSetControl(Z6, _view, R.id.z6Set, R.id.z6Gears, R.id.z6Select, _gearSetListener);
 
         _pb = (ProgressBar)_view.findViewById(R.id.progressBar);
         ImageButton calc = (ImageButton)_view.findViewById(R.id.calculate);

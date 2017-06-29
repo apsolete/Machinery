@@ -19,29 +19,31 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
         void onGearChecked(GearSetControl gearSetCtrl);
     }
     
-    private final OnGearSetListener _gearSetListener;
+    private OnGearSetListener _gearSetListener;
     private final int _gearId;
     private final Button _gearsButton;
-    private final CheckBox _gearSelect;
+    private CheckBox _gearSelect;
     private final EditText _gearsText;
     private boolean _ownSetEnabled = true;
 
-    public GearSetControl(int id, Button button, EditText text, CheckBox checkbox, OnGearSetListener listener)
+    public GearSetControl(int id, View parent, int buttonSetId, int textGearsId, int checkboxSelectId, OnGearSetListener listener)
     {
         _gearId = id;
         _gearSetListener = listener;
-
-        _gearsButton = button;
+        
+        _gearsButton = (Button)parent.findViewById(buttonSetId);
         _gearsButton.setOnClickListener(this);
         
-        _gearSelect = checkbox;
-        if (_gearSelect != null)
-            _gearSelect.setOnClickListener(this);
-
-        _gearsText = text;
+        _gearsText = (EditText)parent.findViewById(textGearsId);
         _gearsText.addTextChangedListener(this);
         _gearsText.setFilters(new InputFilter[]{this});
         setError();
+        
+        if (checkboxSelectId != 0)
+        {
+            _gearSelect = (CheckBox)parent.findViewById(checkboxSelectId);
+            _gearSelect.setOnClickListener(this);
+        }
     }
 
     @Override
