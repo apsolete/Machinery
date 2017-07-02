@@ -11,6 +11,8 @@ import android.support.v4.app.*;
 import android.view.*;
 import android.widget.*;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ChangeGears extends DesignContent
@@ -354,7 +356,9 @@ public class ChangeGears extends DesignContent
             if (visibility == View.VISIBLE) text.setText(Integer.toString(gears[5]));
 
             text = (TextView)view.findViewById(R.id.ratioText);
-            text.setText(Double.toString(ratio));
+            DecimalFormat decimalFormat = new DecimalFormat("#0.0000");
+            decimalFormat.setRoundingMode(RoundingMode.CEILING);
+            text.setText(decimalFormat.format(ratio));
 
             _resultView.addView(view);
         }

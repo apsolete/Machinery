@@ -1,7 +1,6 @@
 package com.apsolete.machinery.activity.design.changegears;
 
 import android.os.*;
-import java.util.*;
 
 public class CgCalculator extends AsyncTask<int[], Integer, Void>
 {
@@ -101,15 +100,7 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
                 if (_diffTeethGearing && z1 == z2)
                     continue;
 
-                double ratio = (double)z1 / (double)z2;
-                if (checkRatio(ratio))
-                {
-                    if (_resultListener != null)
-                    {
-                        //publishProgress((100 * i)/count);
-                        _resultListener.onResult(ratio, new int[]{z1, z2, 0, 0, 0, 0});
-                    }
-                }
+                calculateRatio(z1, z2, 1, 1, 1, 1);
             }
         }
     }
@@ -140,15 +131,7 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
                         if (_diffTeethGearing && z3 == z4)
                             continue;
 
-                        double ratio = (double)(z1 * z3) / (double)(z2 * z4);
-                        if (checkRatio(ratio))
-                        {
-                            if (_resultListener != null)
-                            {
-                                //publishProgress((100 * i)/count);
-                                _resultListener.onResult(ratio, new int[]{z1, z2, z3, z4, 0, 0});
-                            }
-                        }
+                        calculateRatio(z1, z2, z3, z4, 1, 1);
                     }
                 }
             }
@@ -192,16 +175,8 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
                                 publishProgress((100 * i++) / count);
                                 if (_diffTeethGearing && z1 == z2)
                                     continue;
-                                    
-                                double ratio = (double)(z1 * z3 * z5) / (double)(z2 * z4 * z6);
-                                if (checkRatio(ratio))
-                                {
-                                    if (_resultListener != null)
-                                    {
-                                        //publishProgress((100 * i++) / count);
-                                        _resultListener.onResult(ratio, new int[]{z1, z2, z3, z4, z5, z6});
-                                    }
-                                }
+
+                                calculateRatio(z1, z2, z3, z4, z5, z6);
                             }
                         }
                     }
@@ -220,68 +195,54 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
         {
             for (int z2 : set)
             {
-                if (count > 2)
+                if (z1 == z2)
+                    continue;
+
+                if (count == 2)
+                    calculateRatio(z1, z2, 1, 1, 1, 1);
+                else
                 {
                     for (int z3 : set)
                     {
                         for (int z4 : set)
                         {
-                            if (count > 4)
+                            if (z1 == z2 || z1 == z3 || z1 == z4 || z2 == z3 || z2 == z4 || z3 == z4)
+                                continue;
+
+                            if (count == 4)
+                                calculateRatio(z1, z2, z3, z4, 1, 1);
+                            else
                             {
                                 for (int z5 : set)
                                 {
                                     for (int z6 : set)
                                     {
                                         if (z1 == z2 || z1 == z3 || z1 == z4 || z1 == z5 || z1 == z6 ||
-                                            z2 == z3 || z2 == z4 || z2 == z5 || z2 == z6 ||
-                                            z3 == z4 || z3 == z5 || z3 == z6 ||
-                                            z4 == z5 || z4 == z6 ||
-                                            z5 == z6)
+                                                z2 == z3 || z2 == z4 || z2 == z5 || z2 == z6 ||
+                                                z3 == z4 || z3 == z5 || z3 == z6 ||
+                                                z4 == z5 || z4 == z6 ||
+                                                z5 == z6)
                                             continue;
-                                        double ratio = (double)(z1 * z3 * z5) / (double)(z2 * z4 * z6);
-                                        if (checkRatio(ratio))
-                                        {
-                                            if (_resultListener != null)
-                                            {
-                                                //publishProgress((100 * i++) / count);
-                                                _resultListener.onResult(ratio, new int[]{z1, z2, z3, z4, z5, z6});
-                                            }
-                                        }
+                                        calculateRatio(z1, z2, z3, z4, z5, z6);
                                     }
                                 }
                             }
-                            else
-                            {
-                                if (z1 == z2 || z1 == z3 || z1 == z4 || z2 == z3 || z2 == z4 || z3 == z4)
-                                    continue;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-                                double ratio = (double)(z1 * z3) / (double)(z2 * z4);
-                                if (checkRatio(ratio))
-                                {
-                                    if (_resultListener != null)
-                                    {
-                                        //publishProgress((100 * i)/count);
-                                        _resultListener.onResult(ratio, new int[]{z1, z2, z3, z4, 0, 0});
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (z1 == z2)
-                        continue;
-                    double ratio = (double) z1 / (double) z2;
-                    if (checkRatio(ratio))
-                    {
-                        if (_resultListener != null)
-                        {
-                            //publishProgress((100 * i++) / count);
-                            _resultListener.onResult(ratio, new int[]{z1, z2, 0, 0, 0, 0});
-                        }
-                    }
-                }
+    private void calculateRatio(int z1, int z2, int z3, int z4, int z5, int z6)
+    {
+        double ratio = (double)(z1 * z3 * z5) / (double)(z2 * z4 * z6);
+        if (checkRatio(ratio))
+        {
+            if (_resultListener != null)
+            {
+                //publishProgress((100 * i++) / count);
+                _resultListener.onResult(ratio, new int[]{z1, z2, z3>1?z3:0, z4>1?z4:0, z5>1?z5:0, z6>1?z6:0});
             }
         }
     }

@@ -1,14 +1,14 @@
 package com.apsolete.machinery.activity.design.changegears;
 
+import com.apsolete.machinery.activity.common.TextChangedListener;
+
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-
-import com.apsolete.machinery.activity.common.TextChangedListener;
 import android.widget.*;
+
+import java.util.Vector;
 
 public class GearSetControl extends TextChangedListener implements View.OnClickListener, InputFilter
 {
@@ -115,18 +115,25 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
             return null;
             
         String[] strs = text.split(" ");
-        int[] gs = new int[strs.length];
-        int i = 0;
+        Vector<Integer> numbers = new Vector<>();
+
         for (String s : strs)
         {
             if (!s.isEmpty())
             {
                 int n = Integer.parseInt(s);
-                gs[i] = n;
-                i++;
+                numbers.add(n);
             }
         }
-        return gs;
+
+        int[] gears = new int[numbers.size()];
+        int i = 0;
+        for (int n : numbers)
+        {
+            gears[i] = n;
+            i++;
+        }
+        return gears;
     }
 
     public boolean isEmpty()
