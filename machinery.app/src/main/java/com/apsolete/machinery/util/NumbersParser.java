@@ -9,7 +9,7 @@ public class NumbersParser
         if (strNumbers == null || strNumbers.isEmpty())
             return null;
 
-        List<Integer> numList = getNumbersAsList(strNumbers);
+        List<Integer> numList = getNumbersList(strNumbers);
         int[] numbers = new int[numList.size()];
         int i = 0;
         for (int n : numList)
@@ -20,7 +20,7 @@ public class NumbersParser
         return numbers;
     }
     
-    public static ArrayList<Integer> getNumbersAsList(String strNumbers)
+    public static ArrayList<Integer> getNumbersList(String strNumbers)
     {
         String[] strs = strNumbers.split(" ");
         ArrayList<Integer> numbers = new ArrayList<>();

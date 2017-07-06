@@ -398,6 +398,5 @@ public class ChangeGears extends DesignContent
             _gearsCtrls[Z5].setEnabled(!_gearsCtrls[Z4].isEmpty());
             _gearsCtrls[Z6].setEnabled(!_gearsCtrls[Z5].isEmpty());
         }
-
     }
 }
