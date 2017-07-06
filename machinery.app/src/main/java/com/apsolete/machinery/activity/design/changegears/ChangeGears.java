@@ -14,6 +14,7 @@ import android.widget.*;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import com.apsolete.machinery.util.*;
 
 public class ChangeGears extends DesignContent
 {
@@ -304,12 +305,7 @@ public class ChangeGears extends DesignContent
                     ArrayList<Integer> teethNumbers = dialog.getTeethNumbers();
                     if (teethNumbers != null)
                     {
-                        String text = "";
-                        for (Integer n : teethNumbers)
-                        {
-                            text += n.toString();
-                            text += " ";
-                        }
+                        String text = NumbersParser.getString(teethNumbers);
                         control.setText(text);
                     }
                 }

@@ -62,7 +62,7 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
         StringBuilder filteredStringBuilder = new StringBuilder();
         for (int i = start; i < end; i++) {
             char currentChar = source.charAt(i);
-            if (Character.isDigit(currentChar) || Character.isSpaceChar(currentChar)) {
+            if (Character.isDigit(currentChar) || Character.isSpaceChar(currentChar) || currentChar == '-') {
                 filteredStringBuilder.append(currentChar);
             }
         }
@@ -121,8 +121,25 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
         {
             if (!s.isEmpty())
             {
-                int n = Integer.parseInt(s);
-                numbers.add(n);
+                //if (s.startsWith("-")) s.re
+                if (s.contains("-"))
+                {
+                    String[] range = s.split("-");
+                    int r1 = Integer.parseInt(range[0]);
+                    int r2 = Integer.parseInt(range[1]);
+                    int start = Math.min(r1, r2);
+                    int end = Math.max(r1, r2);
+                    while (start <= end)
+                    {
+                        numbers.add(start);
+                        start++;
+                    }
+                }
+                else
+                {
+                    int n = Integer.parseInt(s);
+                    numbers.add(Math.abs(n));
+                }
             }
         }
 

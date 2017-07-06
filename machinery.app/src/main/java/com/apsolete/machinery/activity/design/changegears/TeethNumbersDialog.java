@@ -13,6 +13,7 @@ import com.apsolete.machinery.activity.R;
 import com.apsolete.machinery.activity.common.DialogBase;
 
 import android.util.*;
+import com.apsolete.machinery.util.*;
 
 public class TeethNumbersDialog extends DialogBase
 {
@@ -162,15 +163,6 @@ public class TeethNumbersDialog extends DialogBase
 
     public void setSelection(String selection)
     {
-        _teethNumbers = new ArrayList<Integer>();
-        String[] strs = selection.split(" ");
-        for (String s: strs)
-        {
-            if (!s.isEmpty())
-            {
-                int n = Integer.parseInt(s);
-                _teethNumbers.add(n);
-            }
-        }
+        _teethNumbers = NumbersParser.getNumbersAsList(selection);
     }
 }
