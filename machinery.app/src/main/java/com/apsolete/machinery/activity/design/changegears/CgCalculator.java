@@ -8,7 +8,7 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
     {
         void onResult(double ratio, int[] gears);
         void onProgress(int percent);
-        void onCompleted();
+        void onCompleted(int count);
     }
     
     private boolean _diffTeethGearing;
@@ -17,6 +17,7 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
     private double _accuracy;
     private OnResultListener _resultListener;
     private boolean _oneSet = false;
+    private int _calculatedRatioCount = 0;
     
     public CgCalculator(double ratio, double accuracy, boolean dtg, boolean dtdg, OnResultListener resultListener)
     {
@@ -30,40 +31,49 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
     @Override
     protected Void doInBackground(int[]... params)
     {
-        if (_oneSet)
-        {
-            int[] set = params[0];
-            int gears = params[1][0];
-            calculateByOneSet(set, gears);
-            return null;
-        }
-
-        int[] gs1 = params[0];
-        int[] gs2 = params[1];
-        int[] gs3 = params[2];
-        int[] gs4 = params[3];
-        int[] gs5 = params[4];
-        int[] gs6 = params[5];
+        _calculatedRatioCount = 0;
         
-        if (gs1 == null || gs2 == null)
-            return null;
-        else if (gs1.length > 0 && gs2.length > 0)
+        try
         {
-            if (gs3 == null || gs4 == null)
+            if (_oneSet)
             {
-                calculateBy(gs1, gs2);
+                int[] set = params[0];
+                int gears = params[1][0];
+                calculateByOneSet(set, gears);
+                return null;
             }
-            else if (gs3.length > 0 && gs4.length > 0)
+
+            int[] gs1 = params[0];
+            int[] gs2 = params[1];
+            int[] gs3 = params[2];
+            int[] gs4 = params[3];
+            int[] gs5 = params[4];
+            int[] gs6 = params[5];
+
+            if (gs1 == null || gs2 == null)
+                return null;
+            else if (gs1.length > 0 && gs2.length > 0)
             {
-                if (gs5 == null || gs6 == null)
+                if (gs3 == null || gs4 == null)
                 {
-                    calculateBy(gs1, gs2, gs3, gs4);
+                    calculateBy(gs1, gs2);
                 }
-                else if (gs5.length > 0 && gs6.length > 0)
+                else if (gs3.length > 0 && gs4.length > 0)
                 {
-                    calculateBy(gs1, gs2, gs3, gs4, gs5, gs6);
+                    if (gs5 == null || gs6 == null)
+                    {
+                        calculateBy(gs1, gs2, gs3, gs4);
+                    }
+                    else if (gs5.length > 0 && gs6.length > 0)
+                    {
+                        calculateBy(gs1, gs2, gs3, gs4, gs5, gs6);
+                    }
                 }
             }
+        }
+        finally
+        {
+            _resultListener.onCompleted(_calculatedRatioCount);
         }
         return null;
     }
@@ -234,17 +244,20 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
         }
     }
 
-    private void calculateRatio(int z1, int z2, int z3, int z4, int z5, int z6)
+    private boolean calculateRatio(int z1, int z2, int z3, int z4, int z5, int z6)
     {
         double ratio = (double)(z1 * z3 * z5) / (double)(z2 * z4 * z6);
         if (checkRatio(ratio))
         {
+            _calculatedRatioCount++;
             if (_resultListener != null)
             {
                 //publishProgress((100 * i++) / count);
                 _resultListener.onResult(ratio, new int[]{z1, z2, z3>1?z3:0, z4>1?z4:0, z5>1?z5:0, z6>1?z6:0});
             }
+            return true;
         }
+        return false;
     }
     
     private boolean checkRatio(double ratio)

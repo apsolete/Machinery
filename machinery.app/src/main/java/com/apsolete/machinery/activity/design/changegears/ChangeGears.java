@@ -141,14 +141,14 @@ public class ChangeGears extends DesignContent
         }
 
         @Override
-        public void onCompleted()
+        public void onCompleted(final int count)
         {
             _activity.runOnUiThread(new Runnable()
                 {
                     @Override
                     public void run()
                     {
-                        Snackbar.make(_view, "Completed.", Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(_view, "Calculated " + count + " ratios.", Snackbar.LENGTH_SHORT).show();
                     }
                 });
         }
