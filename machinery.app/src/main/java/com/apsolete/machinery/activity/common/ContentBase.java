@@ -6,13 +6,13 @@ import android.support.v7.app.*;
 import android.os.*;
 import android.view.*;
 
-public class ContentFragment extends Fragment
+public class ContentBase extends Fragment
 {
     protected AppCompatActivity _activity;
     private int _layoutId;
     private int _titleId;
 
-    public ContentFragment(int layoutId, int titleId)
+    public ContentBase(int layoutId, int titleId)
     {
         _layoutId = layoutId;
         _titleId = titleId;

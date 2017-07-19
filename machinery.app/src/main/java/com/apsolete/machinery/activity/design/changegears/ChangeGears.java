@@ -140,7 +140,6 @@ public class ChangeGears extends DesignContent
                 });
         }
 
-
         @Override
         public void onCompleted()
         {
@@ -152,7 +151,6 @@ public class ChangeGears extends DesignContent
                         Snackbar.make(_view, "Completed.", Snackbar.LENGTH_SHORT).show();
                     }
                 });
-
         }
     };
 
@@ -225,7 +223,7 @@ public class ChangeGears extends DesignContent
     }
 
     @Override
-    public SettingsFragment getSettings()
+    public SettingsBase getSettings()
     {
         return new ChangeGearsSettings();
     }

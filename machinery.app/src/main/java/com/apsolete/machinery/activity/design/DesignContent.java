@@ -1,9 +1,9 @@
 package com.apsolete.machinery.activity.design;
 
-import com.apsolete.machinery.activity.common.ContentFragment;
+import com.apsolete.machinery.activity.common.ContentBase;
 import com.apsolete.machinery.activity.common.*;
 
-public abstract class DesignContent extends ContentFragment
+public abstract class DesignContent extends ContentBase
 {
     private DesignType _type;
     
@@ -18,7 +18,7 @@ public abstract class DesignContent extends ContentFragment
         return _type;
     }
     
-    public abstract SettingsFragment  getSettings();
+    public abstract SettingsBase  getSettings();
     public abstract void save();
     public abstract void clear();
     public abstract void close();

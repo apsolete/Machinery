@@ -5,13 +5,13 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.app.*;
 import android.os.*;
 
-public class SettingsFragment extends PreferenceFragmentCompat
+public class SettingsBase extends PreferenceFragmentCompat
 {
     private AppCompatActivity _activity;
     private int _layoutId;
     private int _titleId;
 
-    public SettingsFragment(int layoutId, int titleId)
+    public SettingsBase(int layoutId, int titleId)
     {
         _layoutId = layoutId;
         _titleId = titleId;

@@ -1,9 +1,9 @@
 package com.apsolete.machinery.activity.design;
 
 import com.apsolete.machinery.activity.*;
-import com.apsolete.machinery.activity.common.SettingsFragment;
+import com.apsolete.machinery.activity.common.SettingsBase;
 
-public class DesignContentSettings extends SettingsFragment
+public class DesignContentSettings extends SettingsBase
 {
     protected DesignContentSettings()
     {

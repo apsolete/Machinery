@@ -12,7 +12,7 @@ public class GearWheelsExt extends DesignContent
     }
     
     @Override
-    public SettingsFragment getSettings()
+    public SettingsBase getSettings()
     {
         // TODO: Implement this method
         return null;
