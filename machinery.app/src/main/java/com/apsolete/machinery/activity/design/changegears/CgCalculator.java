@@ -11,13 +11,13 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
         void onCompleted(int count);
     }
     
-    private boolean _diffTeethGearing;
-    private boolean _diffTeethDoubleGear;
     private double _ratio;
     private double _accuracy;
+    private boolean _diffTeethGearing;
+    private boolean _diffTeethDoubleGear;
     private OnResultListener _resultListener;
-    private boolean _oneSet = false;
-    private int _calculatedRatioCount = 0;
+    private boolean _isOneSet = false;
+    private int _calculatedRatios = 0;
     
     public CgCalculator(double ratio, double accuracy, boolean dtg, boolean dtdg, OnResultListener resultListener)
     {
@@ -27,15 +27,65 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
         _diffTeethDoubleGear = dtdg;
         _resultListener = resultListener;
     }
+
+    public void setRatio(double ratio)
+    {
+        _ratio = ratio;
+    }
+
+    public double getRatio()
+    {
+        return _ratio;
+    }
+
+    public void setAccuracy(double accuracy)
+    {
+        _accuracy = accuracy;
+    }
+
+    public double getAccuracy()
+    {
+        return _accuracy;
+    }
+    
+    public void setDiffTeethGearing(boolean diffTeethGearing)
+    {
+        _diffTeethGearing = diffTeethGearing;
+    }
+
+    public boolean isDiffTeethGearing()
+    {
+        return _diffTeethGearing;
+    }
+
+    public void setDiffTeethDoubleGear(boolean diffTeethDoubleGear)
+    {
+        _diffTeethDoubleGear = diffTeethDoubleGear;
+    }
+
+    public boolean isDiffTeethDoubleGear()
+    {
+        return _diffTeethDoubleGear;
+    }
+
+    public void setResultListener(OnResultListener resultListener)
+    {
+        _resultListener = resultListener;
+    }
+
+    public OnResultListener getResultListener()
+    {
+        return _resultListener;
+    }
     
     @Override
     protected Void doInBackground(int[]... params)
     {
-        _calculatedRatioCount = 0;
+        _calculatedRatios = 0;
         
         try
         {
-            if (_oneSet)
+            if (_isOneSet)
             {
                 int[] set = params[0];
                 int gears = params[1][0];
@@ -73,7 +123,7 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
         }
         finally
         {
-            _resultListener.onCompleted(_calculatedRatioCount);
+            _resultListener.onCompleted(_calculatedRatios);
         }
         return null;
     }
@@ -92,7 +142,7 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
 
     public void calculate(int[] set, int[] gears)
     {
-        _oneSet = true;
+        _isOneSet = true;
         this.execute(set, gears);
     }
     
@@ -249,7 +299,7 @@ public class CgCalculator extends AsyncTask<int[], Integer, Void>
         double ratio = (double)(z1 * z3 * z5) / (double)(z2 * z4 * z6);
         if (checkRatio(ratio))
         {
-            _calculatedRatioCount++;
+            _calculatedRatios++;
             if (_resultListener != null)
             {
                 //publishProgress((100 * i++) / count);
