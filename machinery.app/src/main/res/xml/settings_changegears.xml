@@ -15,10 +15,11 @@
             app:key="@string/checkbox_diffteethdoublegear"
             app:title="@string/title_diffteethdoublegear"
             app:summary="@string/summary_diffteethdoublegear"/>
-        <EditTextPreference
+        <com.apsolete.machinery.activity.common.PrecisionPreference
             app:key="@string/edittext_accuracyofratio"
             app:title="@string/title_accuracyofratio"
-            app:summary="@string/summary_accuracyofratio"/>
+            app:summary="@string/summary_accuracyofratio"
+            app:defaultValue="2"/>
 
     </PreferenceCategory>
 
