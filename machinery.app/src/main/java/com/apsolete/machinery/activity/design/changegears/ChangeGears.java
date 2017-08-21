@@ -3,18 +3,21 @@ package com.apsolete.machinery.activity.design.changegears;
 import com.apsolete.machinery.activity.*;
 import com.apsolete.machinery.activity.common.*;
 import com.apsolete.machinery.activity.design.*;
+import com.apsolete.machinery.util.*;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.*;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.*;
+import android.support.v7.preference.PreferenceManager;
 import android.view.*;
 import android.widget.*;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import com.apsolete.machinery.util.*;
+
 
 public class ChangeGears extends DesignContent
 {
@@ -31,19 +34,19 @@ public class ChangeGears extends DesignContent
     private static final int Z4 = 4;//4;
     private static final int Z5 = 5;//5;
     private static final int Z6 = 6;//6;
-    private final double _accuracy = 0.0001;
+    private int _ratioPrecision = 1;
     private double _ratio = 0;
-    private boolean _showResults = false;
-    private boolean _watchResults = true;
     private boolean _diffTeethGearing = true;
     private boolean _diffTeethDoubleGear = true;
     private boolean _oneSetForAll = false;
+    private DecimalFormat _ratioFormat;
 
     private View _view;
     private CheckBox _oneSetCheckBox;
     private EditText _ratioEdText;
     private ViewGroup _resultView;
     private ProgressBar _pb;
+    private ChangeGearsSettings _settings;
 
     private final GearSetControl[] _gearsCtrls = new GearSetControl[7];
     private final ArrayList<Result> _results = new ArrayList<>();
@@ -153,6 +156,29 @@ public class ChangeGears extends DesignContent
                 });
         }
     };
+    
+    private ChangeGearsSettings.OnChangeListener _settingsChangeListener = new ChangeGearsSettings.OnChangeListener()
+    {
+
+        @Override
+        public void onDiffTeethGearingChanged(boolean newValue)
+        {
+            _diffTeethGearing = newValue;
+        }
+
+        @Override
+        public void onDiffTeethDoubleGearChanged(boolean newValue)
+        {
+            _diffTeethDoubleGear = newValue;
+        }
+
+        @Override
+        public void onRatioPrecisionChanged(int newValue)
+        {
+            _ratioPrecision = newValue;
+            setRatioFormat(_ratioPrecision);
+        }
+    };
 
     public ChangeGears()
     {
@@ -195,8 +221,8 @@ public class ChangeGears extends DesignContent
         _gearsCtrls[Z6] = new GearSetControl(Z6, _view, R.id.z6Set, R.id.z6Gears, R.id.z6Select, _gearSetListener);
 
         _pb = (ProgressBar)_view.findViewById(R.id.progressBar);
-        ImageButton calc = (ImageButton)_view.findViewById(R.id.calculate);
-        calc.setOnClickListener(new View.OnClickListener()
+        ImageButton calcButton = (ImageButton)_view.findViewById(R.id.calculate);
+        calcButton.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View p1)
@@ -212,20 +238,35 @@ public class ChangeGears extends DesignContent
         _gearsCtrls[Z5].setEnabled(false);
         _gearsCtrls[Z6].setEnabled(false);
 
+        _settings = new ChangeGearsSettings(_activity);
+        _settings.setListener(_settingsChangeListener);
+        setRatioFormat(_settings.getRatioPrecision());
+        
         return _view;
     }
 
     @Override
     public void onDetach()
     {
-        _watchResults = false;
         super.onDetach();
     }
 
     @Override
+    public void onPause()
+    {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
+    
+    @Override
     public SettingsBase getSettings()
     {
-        return new ChangeGearsSettings();
+        return _settings;//new ChangeGearsSettings();
     }
     
     @Override
@@ -269,7 +310,7 @@ public class ChangeGears extends DesignContent
             else if (_gearsCtrls[Z4].isChecked())
                 gears[0] = 4;
 
-            CgCalculator calc = new CgCalculator(_ratio, _accuracy, _diffTeethGearing,
+            CgCalculator calc = new CgCalculator(_ratio, _ratioPrecision, _diffTeethGearing,
                     _diffTeethDoubleGear, _resultListener);
             calc.calculate(set, gears);
         }
@@ -282,7 +323,7 @@ public class ChangeGears extends DesignContent
             int[] gs5 = _gearsCtrls[Z5].getGears();
             int[] gs6 = _gearsCtrls[Z6].getGears();
 
-            CgCalculator calc = new CgCalculator(_ratio, _accuracy, _diffTeethGearing,
+            CgCalculator calc = new CgCalculator(_ratio, _ratioPrecision, _diffTeethGearing,
                     _diffTeethDoubleGear, _resultListener);
             calc.calculate(gs1, gs2, gs3, gs4, gs5, gs6);
         }
@@ -350,9 +391,7 @@ public class ChangeGears extends DesignContent
             if (visibility == View.VISIBLE) text.setText(Integer.toString(gears[5]));
 
             text = (TextView)view.findViewById(R.id.ratioText);
-            DecimalFormat decimalFormat = new DecimalFormat("#0.0000");
-            decimalFormat.setRoundingMode(RoundingMode.CEILING);
-            text.setText(decimalFormat.format(ratio));
+            text.setText(_ratioFormat.format(ratio));
 
             _resultView.addView(view);
         }
@@ -396,5 +435,14 @@ public class ChangeGears extends DesignContent
             _gearsCtrls[Z5].setEnabled(!_gearsCtrls[Z4].isEmpty());
             _gearsCtrls[Z6].setEnabled(!_gearsCtrls[Z5].isEmpty());
         }
+    }
+    
+    private void setRatioFormat(int precision)
+    {
+        String format = "#0.";
+        for (int i = 0; i < precision; i++)
+            format += "0";
+        _ratioFormat = new DecimalFormat(format);
+        _ratioFormat.setRoundingMode(RoundingMode.CEILING);
     }
 }

@@ -1,12 +1,19 @@
 package com.apsolete.machinery.activity.contents;
 
-import com.apsolete.machinery.activity.R;
+import android.content.*;
+import com.apsolete.machinery.activity.*;
 import com.apsolete.machinery.activity.common.*;
 
 public class SettingsContent extends SettingsBase
 {
-    public SettingsContent()
+    public SettingsContent(Context context)
     {
-        super(R.xml.settings_main, R.string.nav_settings);
+        super(context, R.xml.settings_main, R.string.nav_settings);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key)
+    {
+        // TODO: Implement this method
     }
 }

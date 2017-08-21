@@ -10,7 +10,8 @@ import android.os.*;
 
 public class PrecisionPreference extends Preference
 {
-
+    private int _precision = 1;
+    
     private static class SavedState extends BaseSavedState
     {
         // Member that holds the setting's value
@@ -72,14 +73,15 @@ public class PrecisionPreference extends Preference
     public void onBindViewHolder(PreferenceViewHolder holder)
     {
         super.onBindViewHolder(holder);
+        _textView = (TextView)holder.findViewById(R.id.pp_precisiontext);
         _seekBar = (SeekBar)holder.findViewById(R.id.pp_precision);
+        _seekBar.setProgress(_precision - 1);
         _seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
             {
-
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
                 {
-                    setPrecisionText(progress + 1);
+                    setPrecision(progress + 1);
                 }
 
                 @Override
@@ -94,18 +96,29 @@ public class PrecisionPreference extends Preference
                     // TODO: Implement this method
                 }
             });
-        _textView = (TextView)holder.findViewById(R.id.pp_precisiontext);
-        setPrecisionText(_seekBar.getProgress() + 1);
+        setPrecision(_precision);
     }
 
-    private void setPrecisionText(int prec)
+    private void setPrecision(int prec)
     {
+        if (_precision != prec)
+        {
+            _precision = prec;
+            persistInt(_precision);
+        }
+        
         String text = "#.";
         for (int i = 0; i < prec; i++)
             text += "0";
         _textView.setText(text);
     }
 
+    @Override
+    protected void onSetInitialValue(boolean restoreValue, Object defaultValue)
+    {
+        _precision = restoreValue ? getPersistedInt(_precision) : (int) defaultValue;
+    }
+    
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index)
     {

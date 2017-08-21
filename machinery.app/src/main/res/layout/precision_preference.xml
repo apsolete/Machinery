@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@android:id/summary"
-    android:layout_alignStart="@android:id/title"
-    android:minWidth="220dp"
-    android:gravity="bottom"
-    android:orientation="vertical">
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_below="@android:id/summary"
+	android:layout_alignStart="@android:id/title"
+	android:minWidth="220dp"
+	android:gravity="bottom"
+	android:orientation="vertical">
 
-    <SeekBar
-        android:id="@+id/pp_precision"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.0"
-        android:layout_gravity="center_vertical"
-        android:max="4"/>
+	<SeekBar
+		android:id="@+id/pp_precision"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1.0"
+		android:layout_gravity="center_vertical"
+		android:max="4"/>
 
-    <TextView
-        android:id="@+id/pp_precisiontext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.0"
-        android:layout_gravity="center_vertical"/>
+	<TextView
+		android:id="@+id/pp_precisiontext"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_weight="1.0"
+		android:layout_gravity="left|center_vertical"/>
 
 </LinearLayout>
 

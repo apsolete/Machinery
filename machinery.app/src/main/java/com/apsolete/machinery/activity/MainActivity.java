@@ -30,7 +30,7 @@ implements NavigationView.OnNavigationItemSelectedListener
     private FabsManager _fabs;
 
     private StartPageContent _contentMain = new StartPageContent();
-    private SettingsContent _contentSettings = new SettingsContent();
+    private SettingsContent _contentSettings = new SettingsContent(this);
     private HelpContent _contentHelp = new HelpContent();
     private AboutContent _contentAbout = new AboutContent();
 
