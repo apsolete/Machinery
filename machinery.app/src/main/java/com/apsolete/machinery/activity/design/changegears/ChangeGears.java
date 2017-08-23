@@ -38,7 +38,7 @@ public class ChangeGears extends DesignContent
     private double _ratio = 0;
     private boolean _diffTeethGearing = true;
     private boolean _diffTeethDoubleGear = true;
-    private boolean _oneSetForAll = false;
+    private boolean _isOneSet = false;
     private DecimalFormat _ratioFormat;
 
     private View _view;
@@ -188,6 +188,9 @@ public class ChangeGears extends DesignContent
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        if (_view != null)
+            return _view;
+            
         _view = super.onCreateView(inflater, container, savedInstanceState);
         assert _view != null;
 
@@ -195,12 +198,13 @@ public class ChangeGears extends DesignContent
         _oneSetCheckBox.setOnClickListener(new View.OnClickListener()
             {
                 @Override
-                public void onClick(View p1)
+                public void onClick(View view)
                 {
-                    setOneSetForAllGears();
+                    _isOneSet = ((CheckBox)view).isChecked();
+                    setOneSetForAllGears(_isOneSet);
                 }
             });
-
+        
         _ratioEdText = (EditText)_view.findViewById(R.id.gearRatio);
 
         _resultView = (ViewGroup)_view.findViewById(R.id.resultLayout);
@@ -231,12 +235,15 @@ public class ChangeGears extends DesignContent
                 }
             });
 
-        _gearsCtrls[Z1].setEnabled(true);
-        _gearsCtrls[Z2].setEnabled(true);
-        _gearsCtrls[Z3].setEnabled(false);
-        _gearsCtrls[Z4].setEnabled(false);
-        _gearsCtrls[Z5].setEnabled(false);
-        _gearsCtrls[Z6].setEnabled(false);
+//        _gearsCtrls[Z1].setEnabled(true);
+//        _gearsCtrls[Z2].setEnabled(true);
+//        _gearsCtrls[Z3].setEnabled(false);
+//        _gearsCtrls[Z4].setEnabled(false);
+//        _gearsCtrls[Z5].setEnabled(false);
+//        _gearsCtrls[Z6].setEnabled(false);
+            
+        _isOneSet = _oneSetCheckBox.isChecked();
+        setOneSetForAllGears(_isOneSet);
 
         _settings = new ChangeGearsSettings(_activity);
         _settings.setListener(_settingsChangeListener);
@@ -301,7 +308,7 @@ public class ChangeGears extends DesignContent
         String ratioStr = _ratioEdText.getText().toString();
         _ratio = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
 
-        if (_oneSetForAll)
+        if (_isOneSet)
         {
             int[] set = _gearsCtrls[Z0].getGears();
             int[] gears = new int[]{2};
@@ -401,21 +408,19 @@ public class ChangeGears extends DesignContent
         }
     }
 
-    private void setOneSetForAllGears()
+    private void setOneSetForAllGears(boolean isOneSet)
     {
-        _oneSetForAll = !_oneSetForAll;
+        _gearsCtrls[Z0].enableOwnSet(isOneSet);
+        _gearsCtrls[Z0].setEnabled(isOneSet);
 
-        _gearsCtrls[Z0].enableOwnSet(_oneSetForAll);
-        _gearsCtrls[Z0].setEnabled(_oneSetForAll);
+        _gearsCtrls[Z1].enableOwnSet(!isOneSet);
+        _gearsCtrls[Z2].enableOwnSet(!isOneSet);
+        _gearsCtrls[Z3].enableOwnSet(!isOneSet);
+        _gearsCtrls[Z4].enableOwnSet(!isOneSet);
+        _gearsCtrls[Z5].enableOwnSet(!isOneSet);
+        _gearsCtrls[Z6].enableOwnSet(!isOneSet);
 
-        _gearsCtrls[Z1].enableOwnSet(!_oneSetForAll);
-        _gearsCtrls[Z2].enableOwnSet(!_oneSetForAll);
-        _gearsCtrls[Z3].enableOwnSet(!_oneSetForAll);
-        _gearsCtrls[Z4].enableOwnSet(!_oneSetForAll);
-        _gearsCtrls[Z5].enableOwnSet(!_oneSetForAll);
-        _gearsCtrls[Z6].enableOwnSet(!_oneSetForAll);
-
-        if (_oneSetForAll)
+        if (isOneSet)
         {
             _gearsCtrls[Z1].setEnabled(false);
             _gearsCtrls[Z2].setEnabled(false);
