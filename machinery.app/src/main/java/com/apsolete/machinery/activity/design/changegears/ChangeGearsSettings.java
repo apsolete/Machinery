@@ -47,6 +47,23 @@ public class ChangeGearsSettings extends SettingsBase
                 break;
         }
     }
+    public boolean getDiffTeethGearing()
+    {
+        PreferenceManager pm = getPreferenceManager();
+        SharedPreferences sharedPref = (pm != null)
+            ? pm.getSharedPreferences()
+            : PreferenceManager.getDefaultSharedPreferences(_context);
+        return sharedPref.getBoolean("diffteethgearing", false);
+    }
+    
+    public boolean getDiffTeethDoubleGear()
+    {
+        PreferenceManager pm = getPreferenceManager();
+        SharedPreferences sharedPref = (pm != null)
+            ? pm.getSharedPreferences()
+            : PreferenceManager.getDefaultSharedPreferences(_context);
+        return sharedPref.getBoolean("diffteethdoublegear", false);
+    }
     
     public int getRatioPrecision()
     {

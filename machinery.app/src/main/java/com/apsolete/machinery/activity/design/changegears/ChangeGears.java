@@ -235,19 +235,11 @@ public class ChangeGears extends DesignContent
                 }
             });
 
-//        _gearsCtrls[Z1].setEnabled(true);
-//        _gearsCtrls[Z2].setEnabled(true);
-//        _gearsCtrls[Z3].setEnabled(false);
-//        _gearsCtrls[Z4].setEnabled(false);
-//        _gearsCtrls[Z5].setEnabled(false);
-//        _gearsCtrls[Z6].setEnabled(false);
-            
         _isOneSet = _oneSetCheckBox.isChecked();
         setOneSetForAllGears(_isOneSet);
 
         _settings = new ChangeGearsSettings(_activity);
         _settings.setListener(_settingsChangeListener);
-        setRatioFormat(_settings.getRatioPrecision());
         
         return _view;
     }
@@ -273,7 +265,7 @@ public class ChangeGears extends DesignContent
     @Override
     public SettingsBase getSettings()
     {
-        return _settings;//new ChangeGearsSettings();
+        return _settings;
     }
     
     @Override
@@ -308,6 +300,11 @@ public class ChangeGears extends DesignContent
         String ratioStr = _ratioEdText.getText().toString();
         _ratio = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
 
+        // read settings
+        setRatioFormat(_settings.getRatioPrecision());
+        _diffTeethGearing = _settings.getDiffTeethGearing();
+        _diffTeethDoubleGear = _settings.getDiffTeethDoubleGear();
+        
         if (_isOneSet)
         {
             int[] set = _gearsCtrls[Z0].getGears();
