@@ -40,9 +40,12 @@ public class ChangeGears extends DesignContent
     private boolean _diffTeethDoubleGear = true;
     private boolean _isOneSet = false;
     private DecimalFormat _ratioFormat;
+    private CalculationType _calcType;
+    private boolean _isInchUnits;
 
     private View _view;
-    private CheckBox _oneSetCheckBox;
+    private Switch _oneSetSwitch;
+    private Spinner _calcTypeSpinner;
     private EditText _ratioEdText;
     private ViewGroup _resultView;
     private ProgressBar _pb;
@@ -159,7 +162,6 @@ public class ChangeGears extends DesignContent
     
     private ChangeGearsSettings.OnChangeListener _settingsChangeListener = new ChangeGearsSettings.OnChangeListener()
     {
-
         @Override
         public void onDiffTeethGearingChanged(boolean newValue)
         {
@@ -179,6 +181,28 @@ public class ChangeGears extends DesignContent
             setRatioFormat(_ratioPrecision);
         }
     };
+    
+    private AdapterView.OnItemSelectedListener _calcTypeSelectedListener = new AdapterView.OnItemSelectedListener()
+    {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+        {
+            //Object obj = parent.getItemAtPosition(pos);
+            switch (pos)
+            {
+                case 0: _calcType = CalculationType.RatiosByGears; break;
+                case 1: _calcType = CalculationType.ThreadByGears; break;
+                case 2: _calcType = CalculationType.GearsByRatio; break;
+                case 3: _calcType = CalculationType.GearsByThread; break;
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent)
+        {
+            // TODO: Implement this method
+        }
+    };
 
     public ChangeGears()
     {
@@ -194,13 +218,13 @@ public class ChangeGears extends DesignContent
         _view = super.onCreateView(inflater, container, savedInstanceState);
         assert _view != null;
 
-        _oneSetCheckBox = (CheckBox)_view.findViewById(R.id.oneSetForAllGears);
-        _oneSetCheckBox.setOnClickListener(new View.OnClickListener()
+        _oneSetSwitch = (Switch)_view.findViewById(R.id.oneSetForAllGears);
+        _oneSetSwitch.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View view)
                 {
-                    _isOneSet = ((CheckBox)view).isChecked();
+                    _isOneSet = ((Switch)view).isChecked();
                     setOneSetForAllGears(_isOneSet);
                 }
             });
@@ -210,7 +234,7 @@ public class ChangeGears extends DesignContent
         _resultView = (ViewGroup)_view.findViewById(R.id.resultLayout);
 
         _gearsCtrls[Z0] = new GearSetControl(Z0, _view, R.id.z0Set, R.id.z0Gears, 0, _gearSetListener);
-        _gearsCtrls[Z0].setEnabled(_oneSetCheckBox.isChecked());
+        _gearsCtrls[Z0].setEnabled(_oneSetSwitch.isChecked());
 
         _gearsCtrls[Z1] = new GearSetControl(Z1, _view, R.id.z1Set, R.id.z1Gears, R.id.z1Select, _gearSetListener);
 
@@ -235,9 +259,16 @@ public class ChangeGears extends DesignContent
                 }
             });
 
-        _isOneSet = _oneSetCheckBox.isChecked();
+        _isOneSet = _oneSetSwitch.isChecked();
         setOneSetForAllGears(_isOneSet);
 
+        _calcTypeSpinner = (Spinner)_view.findViewById(R.id.calcTypeSpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(_activity,
+            R.array.cg_calctype_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        _calcTypeSpinner.setAdapter(adapter);
+        _calcTypeSpinner.setOnItemSelectedListener(_calcTypeSelectedListener);
+        
         _settings = new ChangeGearsSettings(_activity);
         _settings.setListener(_settingsChangeListener);
         

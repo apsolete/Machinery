@@ -19,32 +19,47 @@
 		android:id="@+id/setOfGearsText"/>
 
 	<LinearLayout
-		android:id="@+id/oneSetLayout"
-		android:layout_width="wrap_content"
+		android:id="@+id/oneSetSwitchLayout"
 		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:orientation="horizontal"
 		android:layout_below="@id/setOfGearsText">
 
-		<CheckBox
+		<Switch
 			android:id="@+id/oneSetForAllGears"
 			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:text="One set for all"
+			android:layout_width="match_parent"
+			android:text="One Set for All Gears"
 			android:layout_gravity="center_vertical"
-			android:layout_marginEnd="8dp"/>
+			android:layout_margin="8dp"
+			android:textColor="@android:color/holo_green_dark"
+			android:textStyle="bold|italic"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/oneSetLayout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/oneSetSwitchLayout">
 
 		<Button
 			android:id="@+id/z0Set"
 			android:text="Gears"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"/>
-        
-        <EditText
-            android:id="@+id/z0Gears"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:inputType="number|text"
-            android:maxEms="16"
-            android:minEms="6"/>
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_margin="8dp"/>
+
+		<EditText
+			android:id="@+id/z0Gears"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:inputType="number|text"
+			android:maxEms="16"
+			android:minEms="6"
+			android:layout_weight="1"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_gravity="center_vertical"/>
 
 	</LinearLayout>
 
@@ -68,7 +83,7 @@
 				android:layout_column="0"
 				android:layout_row="0"
 				android:orientation="horizontal"
-				android:padding="10dp">
+				android:padding="8dp">
 
 				<Button
 					android:id="@+id/z1Set"
@@ -89,10 +104,12 @@
 				<EditText
 					android:id="@+id/z1Gears"
 					android:layout_width="wrap_content"
-					android:layout_height="match_parent"
+					android:layout_height="wrap_content"
 					android:inputType="number|text"
-					android:maxEms="6"
-					android:minEms="3"/>
+					android:maxEms="8"
+					android:minEms="3"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:layout_gravity="center_vertical"/>
 
 			</LinearLayout>
 
@@ -103,7 +120,7 @@
 				android:layout_column="1"
 				android:layout_row="0"
 				android:orientation="horizontal"
-				android:padding="10dp">
+				android:padding="8dp">
 
 				<Button
 					android:id="@+id/z2Set"
@@ -124,10 +141,12 @@
 				<EditText
 					android:id="@+id/z2Gears"
 					android:layout_width="wrap_content"
-					android:layout_height="match_parent"
+					android:layout_height="wrap_content"
 					android:inputType="number|text"
-					android:maxEms="6"
-					android:minEms="3"/>
+					android:maxEms="8"
+					android:minEms="3"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:layout_gravity="center_vertical"/>
 
 			</LinearLayout>
 
@@ -138,7 +157,7 @@
 				android:layout_column="1"
 				android:layout_row="1"
 				android:orientation="horizontal"
-				android:padding="10dp">
+				android:padding="8dp">
 
 				<Button
 					android:id="@+id/z3Set"
@@ -157,10 +176,12 @@
 				<EditText
 					android:id="@+id/z3Gears"
 					android:layout_width="wrap_content"
-					android:layout_height="match_parent"
+					android:layout_height="wrap_content"
 					android:inputType="number|text"
-					android:maxEms="6"
-					android:minEms="3"/>
+					android:maxEms="8"
+					android:minEms="3"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:layout_gravity="center_vertical"/>
 
 			</LinearLayout>
 
@@ -171,7 +192,7 @@
 				android:layout_column="2"
 				android:layout_row="1"
 				android:orientation="horizontal"
-				android:padding="10dp">
+				android:padding="8dp">
 
 				<Button
 					android:id="@+id/z4Set"
@@ -190,10 +211,12 @@
 				<EditText
 					android:id="@+id/z4Gears"
 					android:layout_width="wrap_content"
-					android:layout_height="match_parent"
+					android:layout_height="wrap_content"
 					android:inputType="number|text"
-					android:maxEms="6"
-					android:minEms="3"/>
+					android:maxEms="8"
+					android:minEms="3"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:layout_gravity="center_vertical"/>
 
 			</LinearLayout>
 
@@ -204,7 +227,7 @@
 				android:layout_column="2"
 				android:layout_row="2"
 				android:orientation="horizontal"
-				android:padding="10dp">
+				android:padding="8dp">
 
 				<Button
 					android:id="@+id/z5Set"
@@ -223,10 +246,12 @@
 				<EditText
 					android:id="@+id/z5Gears"
 					android:layout_width="wrap_content"
-					android:layout_height="match_parent"
+					android:layout_height="wrap_content"
 					android:inputType="number|text"
-					android:maxEms="6"
-					android:minEms="3"/>
+					android:maxEms="8"
+					android:minEms="3"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:layout_gravity="center_vertical"/>
 
 			</LinearLayout>
 
@@ -237,7 +262,7 @@
 				android:layout_column="3"
 				android:layout_row="2"
 				android:orientation="horizontal"
-				android:padding="10dp">
+				android:padding="8dp">
 
 				<Button
 					android:id="@+id/z6Set"
@@ -256,47 +281,162 @@
 				<EditText
 					android:id="@+id/z6Gears"
 					android:layout_width="wrap_content"
-					android:layout_height="match_parent"
+					android:layout_height="wrap_content"
 					android:inputType="number|text"
-					android:maxEms="6"
-					android:minEms="3"/>
+					android:maxEms="8"
+					android:minEms="3"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:layout_gravity="center_vertical"/>
 
 			</LinearLayout>
 
 		</GridLayout>
 
 	</HorizontalScrollView>
+    
+    <Spinner
+        android:id="@+id/calcTypeSpinner"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_gravity="center_vertical"
+        android:layout_below="@id/gearsetScroll"/>
+    
+    <LinearLayout
+        android:id="@+id/threadPitchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/calcTypeSpinner">
 
-	<LinearLayout
-		android:id="@+id/gearRatioLayout"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_below="@+id/gearsetScroll"
-		android:orientation="horizontal">
+        <TextView
+            android:id="@+id/threadPitchText"
+            android:text="Thread Pitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp"/>
 
-		<TextView
-			android:id="@+id/gearRatioText"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:text="Gear Ratio"
-			android:layout_gravity="center_vertical"/>
+        <EditText
+            android:id="@+id/threadPitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="6"
+            android:inputType="numberDecimal"
+            android:layout_gravity="center_vertical"/>
 
-		<EditText
-			android:id="@+id/gearRatio"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:ems="10"
-			android:inputType="numberDecimal"/>
+        <Spinner
+            android:id="@+id/threadUnitSpinner"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"/>
 
-	</LinearLayout>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/screwPitchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/threadPitchLayout"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/screwPitchText"
+            android:text="Screw Pitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp"/>
+
+        <EditText
+            android:id="@+id/screwPitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="6"
+            android:inputType="numberDecimal"
+            android:layout_gravity="center_vertical"/>
+
+        <Spinner
+            android:id="@+id/screwUnitSpinner"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"/>
+
+    </LinearLayout>
+    
+    <RelativeLayout
+        android:id="@+id/ratioLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/screwPitchLayout"
+        android:orientation="horizontal">
+
+        <Switch
+            android:id="@+id/ratioAsFractionSwitch"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="Set Ratio as a Fraction"
+            android:layout_margin="8dp"
+            android:textColor="@android:color/holo_green_dark"
+            android:textStyle="bold|italic"/>
+
+        <TextView
+            android:id="@+id/gearRatioText"
+            android:text="Gear Ratio:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp"
+            android:layout_below="@id/ratioAsFractionSwitch"/>
+
+        <EditText
+            android:id="@+id/gearRatio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ratioAsFractionSwitch"
+            android:layout_toRightOf="@id/gearRatioText"
+            android:ems="6"
+            android:inputType="numberDecimal"
+            android:layout_margin="8dp"/>
+
+        <TextView
+            android:id="@+id/solidusText"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/ratioAsFractionSwitch"
+            android:layout_toRightOf="@id/gearRatio"
+            android:text="/"
+            android:layout_margin="8dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+
+        <EditText
+            android:id="@+id/gearRatioDenominator"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/ratioAsFractionSwitch"
+            android:layout_toRightOf="@id/solidusText"
+            android:layout_margin="8dp"
+            android:ems="6"
+            android:inputType="numberDecimal"/>
+
+    </RelativeLayout>
+    
+    <TextView
+        android:id="@+id/ratioResultText"
+        android:text="R = 1 / 4 = 0.25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="8dp"
+        android:layout_below="@id/ratioLayout"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 
 	<LinearLayout
 		android:id="@+id/progressLayout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@+id/gearRatioLayout"
+		android:layout_below="@id/ratioResultText"
 		android:orientation="horizontal">
 
 		<ImageButton
@@ -308,7 +448,7 @@
 		<ProgressBar
 			android:id="@+id/progressBar"
 			style="?android:attr/progressBarStyleHorizontal"
-			android:layout_width="wrap_content"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_vertical"
 			android:layout_margin="10dp"/>

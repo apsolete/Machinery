@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="cg_calctype_array">
+        <item>Calculate Ratios by Gears</item>
+        <item>Calculate Thread Pitches by Gears</item>
+        <item>Calculate Gears by Ratio</item>
+        <item>Calculate Gears by Thread Pitch</item>
+    </string-array>
+</resources>
