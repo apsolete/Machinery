@@ -42,11 +42,26 @@ public class ChangeGears extends DesignContent
     private DecimalFormat _ratioFormat;
     private CalculationType _calcType;
     private boolean _isInchUnits;
+    private boolean _isRatioAsFraction;
 
     private View _view;
     private Switch _oneSetSwitch;
     private Spinner _calcTypeSpinner;
     private EditText _ratioEdText;
+
+    LinearLayout _threadPitchLayout;
+    EditText _threadPitchValue;
+    Spinner _threadUnitSpinner;
+    LinearLayout _screwPitchLayout;
+    EditText _screwPitchValue;
+    Spinner _screwUnitSpinner;
+    LinearLayout _gearRatioLayout;
+    Switch _ratioAsFractionSwitch;
+    EditText _gearRatioValue;
+    EditText _gearRatioDenominator;
+    LinearLayout _gearRatioDenominatorLayout;
+    TextView _ratioResultText;
+
     private ViewGroup _resultView;
     private ProgressBar _pb;
     private ChangeGearsSettings _settings;
@@ -93,8 +108,8 @@ public class ChangeGears extends DesignContent
             boolean checked = gearSetCtrl.isChecked();
             switch (gearSetCtrl.getId())
             {
-                //case Z1:
-                //case Z2:
+                    //case Z1:
+                    //case Z2:
                 case Z3:
                     _gearsCtrls[Z4].setEnabled(checked);
                     _gearsCtrls[Z4].setChecked(false);
@@ -159,7 +174,7 @@ public class ChangeGears extends DesignContent
                 });
         }
     };
-    
+
     private ChangeGearsSettings.OnChangeListener _settingsChangeListener = new ChangeGearsSettings.OnChangeListener()
     {
         @Override
@@ -181,7 +196,7 @@ public class ChangeGears extends DesignContent
             setRatioFormat(_ratioPrecision);
         }
     };
-    
+
     private AdapterView.OnItemSelectedListener _calcTypeSelectedListener = new AdapterView.OnItemSelectedListener()
     {
         @Override
@@ -190,11 +205,80 @@ public class ChangeGears extends DesignContent
             //Object obj = parent.getItemAtPosition(pos);
             switch (pos)
             {
-                case 0: _calcType = CalculationType.RatiosByGears; break;
-                case 1: _calcType = CalculationType.ThreadByGears; break;
-                case 2: _calcType = CalculationType.GearsByRatio; break;
-                case 3: _calcType = CalculationType.GearsByThread; break;
+                case 0:
+                    _calcType = CalculationType.RatiosByGears;
+                    showRatio(false);
+                    break;
+                case 1:
+                    _calcType = CalculationType.ThreadByGears;
+                    showPitches(false);
+                    break;
+                case 2:
+                    _calcType = CalculationType.GearsByRatio;
+                    showRatio(true);
+                    break;
+                case 3:
+                    _calcType = CalculationType.GearsByThread;
+                    showPitches(true);
+                    break;
             }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent)
+        {
+            // TODO: Implement this method
+        }
+
+        private void showPitches(boolean both)
+        {
+            _gearRatioLayout.setVisibility(View.GONE);
+            _threadPitchLayout.setVisibility(both ? View.VISIBLE : View.GONE);
+            _screwPitchLayout.setVisibility(View.VISIBLE);
+            _ratioResultText.setVisibility(both ? View.VISIBLE : View.GONE);
+        }
+
+        private void showRatio(boolean enable)
+        {
+            _threadPitchLayout.setVisibility(View.GONE);
+            _screwPitchLayout.setVisibility(View.GONE);
+            if (enable)
+            {
+                _gearRatioLayout.setVisibility(View.VISIBLE);
+                _ratioResultText.setVisibility(View.VISIBLE);
+                if (_ratioAsFractionSwitch.isChecked())
+                    _gearRatioDenominatorLayout.setVisibility(View.VISIBLE);
+                else
+                    _gearRatioDenominatorLayout.setVisibility(View.GONE);
+            }
+            else
+            {
+                _gearRatioLayout.setVisibility(View.GONE);
+                _ratioResultText.setVisibility(View.GONE);
+            }
+        }
+    };
+    
+    private AdapterView.OnItemSelectedListener _thrPitchUnitSelectedListener = new AdapterView.OnItemSelectedListener()
+    {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+        {
+            // TODO: Implement this method
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent)
+        {
+            // TODO: Implement this method
+        }
+    };
+    private AdapterView.OnItemSelectedListener _scrPitchUnitSelectedListener = new AdapterView.OnItemSelectedListener()
+    {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+        {
+            // TODO: Implement this method
         }
 
         @Override
@@ -214,7 +298,7 @@ public class ChangeGears extends DesignContent
     {
         if (_view != null)
             return _view;
-            
+
         _view = super.onCreateView(inflater, container, savedInstanceState);
         assert _view != null;
 
@@ -228,8 +312,8 @@ public class ChangeGears extends DesignContent
                     setOneSetForAllGears(_isOneSet);
                 }
             });
-        
-        _ratioEdText = (EditText)_view.findViewById(R.id.gearRatio);
+
+        _ratioEdText = (EditText)_view.findViewById(R.id.gearRatioValue);
 
         _resultView = (ViewGroup)_view.findViewById(R.id.resultLayout);
 
@@ -263,15 +347,37 @@ public class ChangeGears extends DesignContent
         setOneSetForAllGears(_isOneSet);
 
         _calcTypeSpinner = (Spinner)_view.findViewById(R.id.calcTypeSpinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(_activity,
-            R.array.cg_calctype_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        _calcTypeSpinner.setAdapter(adapter);
-        _calcTypeSpinner.setOnItemSelectedListener(_calcTypeSelectedListener);
+        initSpinner(_calcTypeSpinner, R.array.cg_calctype_array, _calcTypeSelectedListener);
+
+        _threadPitchLayout = (LinearLayout)_view.findViewById(R.id.threadPitchLayout);
+        _threadPitchValue = (EditText)_view.findViewById(R.id.threadPitchValue);
+        _threadUnitSpinner = (Spinner)_view.findViewById(R.id.threadUnitSpinner);
+        initSpinner(_threadUnitSpinner, R.array.cg_pitchunit_array, _thrPitchUnitSelectedListener);
+        _screwPitchLayout = (LinearLayout)_view.findViewById(R.id.screwPitchLayout);
+        _screwPitchValue = (EditText)_view.findViewById(R.id.screwPitchValue);
+        _screwUnitSpinner = (Spinner)_view.findViewById(R.id.screwUnitSpinner);
+        initSpinner(_screwUnitSpinner, R.array.cg_pitchunit_array, _scrPitchUnitSelectedListener);
         
+        _gearRatioLayout = (LinearLayout)_view.findViewById(R.id.gearRatioLayout);
+        _ratioAsFractionSwitch = (Switch)_view.findViewById(R.id.ratioAsFractionSwitch);
+        _gearRatioValue = (EditText)_view.findViewById(R.id.gearRatioValue);
+        _gearRatioDenominator = (EditText)_view.findViewById(R.id.gearRatioDenominator);
+        _gearRatioDenominatorLayout = (LinearLayout)_view.findViewById(R.id.gearRatioDenominatorLayout);
+        _ratioResultText = (TextView)_view.findViewById(R.id.ratioResultText);
+        
+        _ratioAsFractionSwitch.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    _isRatioAsFraction = ((Switch)view).isChecked();
+                    _gearRatioDenominatorLayout.setVisibility(_isRatioAsFraction ? View.VISIBLE : View.GONE);
+                }
+            });
+
         _settings = new ChangeGearsSettings(_activity);
         _settings.setListener(_settingsChangeListener);
-        
+
         return _view;
     }
 
@@ -292,13 +398,13 @@ public class ChangeGears extends DesignContent
     {
         super.onResume();
     }
-    
+
     @Override
     public SettingsBase getSettings()
     {
         return _settings;
     }
-    
+
     @Override
     public void save()
     {
@@ -335,7 +441,7 @@ public class ChangeGears extends DesignContent
         setRatioFormat(_settings.getRatioPrecision());
         _diffTeethGearing = _settings.getDiffTeethGearing();
         _diffTeethDoubleGear = _settings.getDiffTeethDoubleGear();
-        
+
         if (_isOneSet)
         {
             int[] set = _gearsCtrls[Z0].getGears();
@@ -346,7 +452,7 @@ public class ChangeGears extends DesignContent
                 gears[0] = 4;
 
             CgCalculator calc = new CgCalculator(_ratio, _ratioPrecision, _diffTeethGearing,
-                    _diffTeethDoubleGear, _resultListener);
+                                                 _diffTeethDoubleGear, _resultListener);
             calc.calculate(set, gears);
         }
         else
@@ -359,7 +465,7 @@ public class ChangeGears extends DesignContent
             int[] gs6 = _gearsCtrls[Z6].getGears();
 
             CgCalculator calc = new CgCalculator(_ratio, _ratioPrecision, _diffTeethGearing,
-                    _diffTeethDoubleGear, _resultListener);
+                                                 _diffTeethDoubleGear, _resultListener);
             calc.calculate(gs1, gs2, gs3, gs4, gs5, gs6);
         }
     }
@@ -469,7 +575,7 @@ public class ChangeGears extends DesignContent
             _gearsCtrls[Z6].setEnabled(!_gearsCtrls[Z5].isEmpty());
         }
     }
-    
+
     private void setRatioFormat(int precision)
     {
         String format = "#0.";
@@ -477,5 +583,15 @@ public class ChangeGears extends DesignContent
             format += "0";
         _ratioFormat = new DecimalFormat(format);
         _ratioFormat.setRoundingMode(RoundingMode.CEILING);
+    }
+    
+    private void initSpinner(Spinner spinner, int strarrayid, AdapterView.OnItemSelectedListener listener)
+    {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(_activity,
+                                                                             strarrayid,
+                                                                             android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(listener);
     }
 }

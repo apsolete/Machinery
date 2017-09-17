@@ -293,144 +293,157 @@
 		</GridLayout>
 
 	</HorizontalScrollView>
-    
-    <Spinner
-        android:id="@+id/calcTypeSpinner"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_gravity="center_vertical"
-        android:layout_below="@id/gearsetScroll"/>
-    
-    <LinearLayout
-        android:id="@+id/threadPitchLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/calcTypeSpinner">
 
-        <TextView
-            android:id="@+id/threadPitchText"
-            android:text="Thread Pitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="8dp"/>
+	<Spinner
+		android:id="@+id/calcTypeSpinner"
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_gravity="center_vertical"
+		android:layout_below="@id/gearsetScroll"/>
 
-        <EditText
-            android:id="@+id/threadPitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="6"
-            android:inputType="numberDecimal"
-            android:layout_gravity="center_vertical"/>
+	<LinearLayout
+		android:id="@+id/threadPitchLayout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_below="@id/calcTypeSpinner">
 
-        <Spinner
-            android:id="@+id/threadUnitSpinner"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="8dp"/>
+		<TextView
+			android:id="@+id/threadPitchText"
+			android:text="Thread Pitch"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_margin="8dp"/>
 
-    </LinearLayout>
-    
-    <LinearLayout
-        android:id="@+id/screwPitchLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/threadPitchLayout"
-        android:orientation="horizontal">
+		<EditText
+			android:id="@+id/threadPitchValue"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:ems="6"
+			android:inputType="numberDecimal"
+			android:layout_gravity="center_vertical"
+			android:layout_margin="8dp"/>
 
-        <TextView
-            android:id="@+id/screwPitchText"
-            android:text="Screw Pitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="8dp"/>
+		<Spinner
+			android:id="@+id/threadUnitSpinner"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_marginStart="8dp"/>
 
-        <EditText
-            android:id="@+id/screwPitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="6"
-            android:inputType="numberDecimal"
-            android:layout_gravity="center_vertical"/>
+	</LinearLayout>
 
-        <Spinner
-            android:id="@+id/screwUnitSpinner"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="8dp"/>
+	<LinearLayout
+		android:id="@+id/screwPitchLayout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/threadPitchLayout"
+		android:orientation="horizontal">
 
-    </LinearLayout>
-    
-    <RelativeLayout
-        android:id="@+id/ratioLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/screwPitchLayout"
-        android:orientation="horizontal">
+		<TextView
+			android:id="@+id/screwPitchText"
+			android:text="Screw Pitch"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_margin="8dp"/>
 
-        <Switch
-            android:id="@+id/ratioAsFractionSwitch"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:text="Set Ratio as a Fraction"
-            android:layout_margin="8dp"
-            android:textColor="@android:color/holo_green_dark"
-            android:textStyle="bold|italic"/>
+		<EditText
+			android:id="@+id/screwPitchValue"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:ems="6"
+			android:inputType="numberDecimal"
+			android:layout_gravity="center_vertical"
+			android:layout_margin="8dp"/>
 
-        <TextView
-            android:id="@+id/gearRatioText"
-            android:text="Gear Ratio:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="8dp"
-            android:layout_below="@id/ratioAsFractionSwitch"/>
+		<Spinner
+			android:id="@+id/screwUnitSpinner"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_marginStart="8dp"/>
 
-        <EditText
-            android:id="@+id/gearRatio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ratioAsFractionSwitch"
-            android:layout_toRightOf="@id/gearRatioText"
-            android:ems="6"
-            android:inputType="numberDecimal"
-            android:layout_margin="8dp"/>
+	</LinearLayout>
 
-        <TextView
-            android:id="@+id/solidusText"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_below="@id/ratioAsFractionSwitch"
-            android:layout_toRightOf="@id/gearRatio"
-            android:text="/"
-            android:layout_margin="8dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
+	<LinearLayout
+		android:id="@+id/gearRatioLayout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/screwPitchLayout"
+		android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/gearRatioDenominator"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_below="@id/ratioAsFractionSwitch"
-            android:layout_toRightOf="@id/solidusText"
-            android:layout_margin="8dp"
-            android:ems="6"
-            android:inputType="numberDecimal"/>
+		<Switch
+			android:id="@+id/ratioAsFractionSwitch"
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:text="Set Ratio as a Fraction"
+			android:layout_margin="8dp"
+			android:textColor="@android:color/holo_green_dark"
+			android:textStyle="bold|italic"/>
 
-    </RelativeLayout>
-    
-    <TextView
-        android:id="@+id/ratioResultText"
-        android:text="R = 1 / 4 = 0.25"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_margin="8dp"
-        android:layout_below="@id/ratioLayout"
-        android:textAppearance="?android:attr/textAppearanceLarge"/>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<TextView
+				android:id="@+id/gearRatioText"
+				android:text="Gear Ratio:"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_margin="8dp"/>
+
+			<EditText
+				android:id="@+id/gearRatioValue"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:ems="6"
+				android:inputType="numberDecimal"
+				android:layout_margin="8dp"
+				android:layout_gravity="center_vertical"/>
+
+            <LinearLayout
+                android:id="@+id/gearRatioDenominatorLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                
+                <TextView
+                    android:id="@+id/solidusText"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="/"
+                    android:layout_margin="8dp"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_gravity="center_vertical"/>
+
+                <EditText
+                    android:id="@+id/gearRatioDenominator"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_margin="8dp"
+                    android:ems="6"
+                    android:inputType="numberDecimal"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+	<TextView
+		android:id="@+id/ratioResultText"
+		android:text="R = 1 / 4 = 0.25"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_vertical"
+		android:layout_margin="8dp"
+		android:layout_below="@id/gearRatioLayout"
+		android:textAppearance="?android:attr/textAppearanceLarge"/>
 
 	<LinearLayout
 		android:id="@+id/progressLayout"
@@ -443,7 +456,9 @@
 			android:id="@+id/calculate"
 			android:src="@drawable/ic_settings_white_24dp"
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"/>
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_margin="8dp"/>
 
 		<ProgressBar
 			android:id="@+id/progressBar"

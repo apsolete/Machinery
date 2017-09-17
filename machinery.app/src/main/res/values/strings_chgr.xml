@@ -6,4 +6,8 @@
         <item>Calculate Gears by Ratio</item>
         <item>Calculate Gears by Thread Pitch</item>
     </string-array>
+    <string-array name="cg_pitchunit_array">
+        <item>mm</item>
+        <item>TPI</item>
+    </string-array>
 </resources>
