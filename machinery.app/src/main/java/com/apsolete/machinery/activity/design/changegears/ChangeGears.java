@@ -41,8 +41,10 @@ public class ChangeGears extends DesignContent
     private boolean _isOneSet = false;
     private DecimalFormat _ratioFormat;
     private CalculationType _calcType;
-    private boolean _isInchUnits;
+    //private boolean _isInchUnits;
     private boolean _isRatioAsFraction;
+    private PitchUnit _thrPitchUnit;
+    private PitchUnit _scrPitchUnit;
 
     private View _view;
     private Switch _oneSetSwitch;
@@ -264,13 +266,17 @@ public class ChangeGears extends DesignContent
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
         {
-            // TODO: Implement this method
+            if (pos == 0)
+                _thrPitchUnit = PitchUnit.Mm;
+            else
+                _thrPitchUnit = PitchUnit.Tpi;
+                
+            recalculateRatioInfo();
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> parent)
         {
-            // TODO: Implement this method
         }
     };
     private AdapterView.OnItemSelectedListener _scrPitchUnitSelectedListener = new AdapterView.OnItemSelectedListener()
@@ -278,13 +284,17 @@ public class ChangeGears extends DesignContent
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
         {
-            // TODO: Implement this method
+            if (pos == 0)
+                _scrPitchUnit = PitchUnit.Mm;
+            else
+                _scrPitchUnit = PitchUnit.Tpi;
+                
+            recalculateRatioInfo();
         }
 
         @Override
         public void onNothingSelected(AdapterView<?> parent)
         {
-            // TODO: Implement this method
         }
     };
 
@@ -593,5 +603,10 @@ public class ChangeGears extends DesignContent
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(listener);
+    }
+    
+    private void recalculateRatioInfo()
+    {
+        
     }
 }
