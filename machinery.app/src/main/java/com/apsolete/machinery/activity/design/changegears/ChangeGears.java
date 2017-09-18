@@ -202,7 +202,6 @@ public class ChangeGears extends DesignContent
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
         {
-            //Object obj = parent.getItemAtPosition(pos);
             switch (pos)
             {
                 case 0:
@@ -227,7 +226,6 @@ public class ChangeGears extends DesignContent
         @Override
         public void onNothingSelected(AdapterView<?> parent)
         {
-            // TODO: Implement this method
         }
 
         private void showPitches(boolean both)
@@ -242,20 +240,12 @@ public class ChangeGears extends DesignContent
         {
             _threadPitchLayout.setVisibility(View.GONE);
             _screwPitchLayout.setVisibility(View.GONE);
-            if (enable)
-            {
-                _gearRatioLayout.setVisibility(View.VISIBLE);
-                _ratioResultText.setVisibility(View.VISIBLE);
-                if (_ratioAsFractionSwitch.isChecked())
-                    _gearRatioDenominatorLayout.setVisibility(View.VISIBLE);
-                else
-                    _gearRatioDenominatorLayout.setVisibility(View.GONE);
-            }
+            _gearRatioLayout.setVisibility(enable ? View.VISIBLE : View.GONE);
+            _ratioResultText.setVisibility(enable ? View.VISIBLE : View.GONE);
+            if (enable && _ratioAsFractionSwitch.isChecked())
+                _gearRatioDenominatorLayout.setVisibility(View.VISIBLE);
             else
-            {
-                _gearRatioLayout.setVisibility(View.GONE);
-                _ratioResultText.setVisibility(View.GONE);
-            }
+                _gearRatioDenominatorLayout.setVisibility(View.GONE);
         }
     };
     
