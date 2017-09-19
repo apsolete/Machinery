@@ -42,7 +42,6 @@ public class ChangeGears extends DesignContent
     private boolean _isOneSet = false;
     private DecimalFormat _ratioFormat;
     private CalculationType _calcType;
-    //private boolean _isInchUnits;
     private boolean _isRatioAsFraction;
     private PitchUnit _thrPitchUnit;
     private PitchUnit _scrPitchUnit;
@@ -50,8 +49,6 @@ public class ChangeGears extends DesignContent
     private View _view;
     private Switch _oneSetSwitch;
     private Spinner _calcTypeSpinner;
-    //private EditText _ratioEdText;
-
     LinearLayout _threadPitchLayout;
     EditText _threadPitchValue;
     Spinner _threadUnitSpinner;
@@ -474,7 +471,7 @@ public class ChangeGears extends DesignContent
     @Override
     protected void calculate()
     {
-        _ratio = getRatio();
+        //_ratio = getRatio();
         
 
         // read settings
@@ -663,11 +660,13 @@ public class ChangeGears extends DesignContent
             
             if (scrPitch == 0.0)
             {
-                _ratioResultText.setText("R = " + thrPitch + " mm");
+                _ratio = thrPitch;
+                _ratioResultText.setText("R = " + _ratio + " mm");
             }
             else
             {
-                String rStr = "R = " + thrPitch + " mm / " + scrPitch + " mm = " + _ratioFormat.format(thrPitch/scrPitch);
+                _ratio = thrPitch/scrPitch;
+                String rStr = "R = " + thrPitch + " mm / " + scrPitch + " mm = " + _ratioFormat.format(_ratio);
                 _ratioResultText.setText(rStr);
             }
         }
@@ -680,11 +679,13 @@ public class ChangeGears extends DesignContent
 
             if (ratioDenom == 0.0)
             {
-                _ratioResultText.setText("R = " + ratio);
+                _ratio = ratio;
+                _ratioResultText.setText("R = " + _ratio);
             }
             else
             {
-                String rStr = "R = " + ratio + " / " + ratioDenom + " = " + _ratioFormat.format(ratio/ratioDenom);
+                _ratio = ratio/ratioDenom;
+                String rStr = "R = " + ratio + " / " + ratioDenom + " = " + _ratioFormat.format(_ratio);
                 _ratioResultText.setText(rStr);
             }
         }
