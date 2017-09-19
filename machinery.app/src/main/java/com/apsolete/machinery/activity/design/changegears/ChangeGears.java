@@ -632,10 +632,11 @@ public class ChangeGears extends DesignContent
 
     private void setRatioFormat(int precision)
     {
-        String format = "#0.";
-        for (int i = 0; i < precision; i++)
+        String format = "#0.0";
+        for (int i = 0; i < precision-1; i++)
             format += "0";
-        _ratioFormat = new DecimalFormat(format);
+        _ratioFormat = new DecimalFormat();//(format);
+        _ratioFormat.applyPattern(format);
         _ratioFormat.setRoundingMode(RoundingMode.CEILING);
     }
     
@@ -659,12 +660,33 @@ public class ChangeGears extends DesignContent
             pitchStr = _screwPitchValue.getText().toString();
             double scrPitch = (pitchStr != null && !pitchStr.isEmpty()) ? Double.parseDouble(pitchStr) : 0;
             scrPitch = _scrPitchUnit.ToMm(scrPitch);
+            
             if (scrPitch == 0.0)
-                return;
-            String rStr = "R = " + thrPitch + " / " + scrPitch + " = " + _ratioFormat.format(thrPitch/scrPitch);
-            _ratioResultText.setText(rStr);
+            {
+                _ratioResultText.setText("R = " + thrPitch + " mm");
+            }
+            else
+            {
+                String rStr = "R = " + thrPitch + " mm / " + scrPitch + " mm = " + _ratioFormat.format(thrPitch/scrPitch);
+                _ratioResultText.setText(rStr);
+            }
         }
         else if (_calcType == CalculationType.GearsByRatio)
-        {}
+        {
+            String ratioStr = _gearRatioValue.getText().toString();
+            double ratio = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
+            ratioStr = _gearRatioDenominator.getText().toString();
+            double ratioDenom = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
+
+            if (ratioDenom == 0.0)
+            {
+                _ratioResultText.setText("R = " + ratio);
+            }
+            else
+            {
+                String rStr = "R = " + ratio + " / " + ratioDenom + " = " + _ratioFormat.format(ratio/ratioDenom);
+                _ratioResultText.setText(rStr);
+            }
+        }
     }
 }
