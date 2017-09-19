@@ -17,6 +17,7 @@ import android.widget.*;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import android.text.*;
 
 
 public class ChangeGears extends DesignContent
@@ -49,7 +50,7 @@ public class ChangeGears extends DesignContent
     private View _view;
     private Switch _oneSetSwitch;
     private Spinner _calcTypeSpinner;
-    private EditText _ratioEdText;
+    //private EditText _ratioEdText;
 
     LinearLayout _threadPitchLayout;
     EditText _threadPitchValue;
@@ -199,7 +200,7 @@ public class ChangeGears extends DesignContent
         }
     };
 
-    private AdapterView.OnItemSelectedListener _calcTypeSelectedListener = new AdapterView.OnItemSelectedListener()
+    private AdapterView.OnItemSelectedListener _calcTypeListener = new AdapterView.OnItemSelectedListener()
     {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
@@ -251,7 +252,7 @@ public class ChangeGears extends DesignContent
         }
     };
     
-    private AdapterView.OnItemSelectedListener _thrPitchUnitSelectedListener = new AdapterView.OnItemSelectedListener()
+    private AdapterView.OnItemSelectedListener _thrPitchUnitListener = new AdapterView.OnItemSelectedListener()
     {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
@@ -269,7 +270,7 @@ public class ChangeGears extends DesignContent
         {
         }
     };
-    private AdapterView.OnItemSelectedListener _scrPitchUnitSelectedListener = new AdapterView.OnItemSelectedListener()
+    private AdapterView.OnItemSelectedListener _scrPitchUnitListener = new AdapterView.OnItemSelectedListener()
     {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
@@ -285,6 +286,42 @@ public class ChangeGears extends DesignContent
         @Override
         public void onNothingSelected(AdapterView<?> parent)
         {
+        }
+    };
+
+    private TextChangedListener _thrPitchChangedListener = new TextChangedListener()
+    {
+        @Override
+        public void onTextChanged(Editable editable)
+        {
+            recalculateRatioInfo();
+        }
+    };
+
+    private TextChangedListener _scrPitchChangedListener = new TextChangedListener()
+    {
+        @Override
+        public void onTextChanged(Editable editable)
+        {
+            recalculateRatioInfo();
+        }
+    };
+    
+    private TextChangedListener _gearRatioChangedListener = new TextChangedListener()
+    {
+        @Override
+        public void onTextChanged(Editable editable)
+        {
+            recalculateRatioInfo();
+        }
+    };
+
+    private TextChangedListener _gearRatioDenomChangedListener = new TextChangedListener()
+    {
+        @Override
+        public void onTextChanged(Editable editable)
+        {
+            recalculateRatioInfo();
         }
     };
 
@@ -312,8 +349,6 @@ public class ChangeGears extends DesignContent
                     setOneSetForAllGears(_isOneSet);
                 }
             });
-
-        _ratioEdText = (EditText)_view.findViewById(R.id.gearRatioValue);
 
         _resultView = (ViewGroup)_view.findViewById(R.id.resultLayout);
 
@@ -347,21 +382,25 @@ public class ChangeGears extends DesignContent
         setOneSetForAllGears(_isOneSet);
 
         _calcTypeSpinner = (Spinner)_view.findViewById(R.id.calcTypeSpinner);
-        initSpinner(_calcTypeSpinner, R.array.cg_calctype_array, _calcTypeSelectedListener);
+        initSpinner(_calcTypeSpinner, R.array.cg_calctype_array, _calcTypeListener);
 
         _threadPitchLayout = (LinearLayout)_view.findViewById(R.id.threadPitchLayout);
         _threadPitchValue = (EditText)_view.findViewById(R.id.threadPitchValue);
+        _threadPitchValue.addTextChangedListener(_thrPitchChangedListener);
         _threadUnitSpinner = (Spinner)_view.findViewById(R.id.threadUnitSpinner);
-        initSpinner(_threadUnitSpinner, R.array.cg_pitchunit_array, _thrPitchUnitSelectedListener);
+        initSpinner(_threadUnitSpinner, R.array.cg_pitchunit_array, _thrPitchUnitListener);
         _screwPitchLayout = (LinearLayout)_view.findViewById(R.id.screwPitchLayout);
         _screwPitchValue = (EditText)_view.findViewById(R.id.screwPitchValue);
+        _screwPitchValue.addTextChangedListener(_scrPitchChangedListener);
         _screwUnitSpinner = (Spinner)_view.findViewById(R.id.screwUnitSpinner);
-        initSpinner(_screwUnitSpinner, R.array.cg_pitchunit_array, _scrPitchUnitSelectedListener);
+        initSpinner(_screwUnitSpinner, R.array.cg_pitchunit_array, _scrPitchUnitListener);
         
         _gearRatioLayout = (LinearLayout)_view.findViewById(R.id.gearRatioLayout);
         _ratioAsFractionSwitch = (Switch)_view.findViewById(R.id.ratioAsFractionSwitch);
         _gearRatioValue = (EditText)_view.findViewById(R.id.gearRatioValue);
+        _gearRatioValue.addTextChangedListener(_gearRatioChangedListener);
         _gearRatioDenominator = (EditText)_view.findViewById(R.id.gearRatioDenominator);
+        _gearRatioDenominator.addTextChangedListener(_gearRatioDenomChangedListener);
         _gearRatioDenominatorLayout = (LinearLayout)_view.findViewById(R.id.gearRatioDenominatorLayout);
         _ratioResultText = (TextView)_view.findViewById(R.id.ratioResultText);
         
@@ -377,6 +416,7 @@ public class ChangeGears extends DesignContent
 
         _settings = new ChangeGearsSettings(_activity);
         _settings.setListener(_settingsChangeListener);
+        setRatioFormat(_settings.getRatioPrecision());
 
         return _view;
     }
@@ -434,8 +474,8 @@ public class ChangeGears extends DesignContent
     @Override
     protected void calculate()
     {
-        String ratioStr = _ratioEdText.getText().toString();
-        _ratio = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
+        _ratio = getRatio();
+        
 
         // read settings
         setRatioFormat(_settings.getRatioPrecision());
@@ -468,6 +508,20 @@ public class ChangeGears extends DesignContent
                                                  _diffTeethDoubleGear, _resultListener);
             calc.calculate(gs1, gs2, gs3, gs4, gs5, gs6);
         }
+    }
+
+    private double getRatio()
+    {
+        if (_calcType == CalculationType.GearsByRatio)
+        {
+            String ratioStr = _gearRatioValue.getText().toString();
+            return (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
+        }
+        else if (_calcType == CalculationType.GearsByThread)
+        {}
+        else if (_calcType == CalculationType.ThreadByGears)
+        {}
+        return 0;
     }
 
     private void defineGearSet(GearSetControl gearSetCtrl)
@@ -597,6 +651,20 @@ public class ChangeGears extends DesignContent
     
     private void recalculateRatioInfo()
     {
-        
+        if (_calcType == CalculationType.GearsByThread)
+        {
+            String pitchStr = _threadPitchValue.getText().toString();
+            double thrPitch = (pitchStr != null && !pitchStr.isEmpty()) ? Double.parseDouble(pitchStr) : 0;
+            thrPitch = _thrPitchUnit.ToMm(thrPitch);
+            pitchStr = _screwPitchValue.getText().toString();
+            double scrPitch = (pitchStr != null && !pitchStr.isEmpty()) ? Double.parseDouble(pitchStr) : 0;
+            scrPitch = _scrPitchUnit.ToMm(scrPitch);
+            if (scrPitch == 0.0)
+                return;
+            String rStr = "R = " + thrPitch + " / " + scrPitch + " = " + _ratioFormat.format(thrPitch/scrPitch);
+            _ratioResultText.setText(rStr);
+        }
+        else if (_calcType == CalculationType.GearsByRatio)
+        {}
     }
 }
