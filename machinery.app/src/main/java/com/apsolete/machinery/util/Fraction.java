@@ -41,6 +41,16 @@ public class Fraction
         denomenator = den.divide(gcd).longValue();
     }
     
+    public Fraction add(long num)
+    {
+        return new Fraction(numerator+num*denomenator, denomenator);
+    }
+
+    public Fraction add(Fraction fract)
+    {
+        return new Fraction(numerator*fract.denomenator+fract.numerator*denomenator, denomenator*fract.denomenator);
+    }
+    
     public Fraction multiply(long num)
     {
         return new Fraction(numerator*num, denomenator);

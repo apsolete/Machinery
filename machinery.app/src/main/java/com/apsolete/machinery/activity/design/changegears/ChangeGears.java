@@ -266,9 +266,9 @@ public class ChangeGears extends DesignContent
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
         {
             if (pos == 0)
-                _thrPitchUnit = PitchUnit.Mm;
+                _thrPitchUnit = PitchUnit.mm;
             else
-                _thrPitchUnit = PitchUnit.Tpi;
+                _thrPitchUnit = PitchUnit.TPI;
                 
             recalculateRatio();
         }
@@ -285,9 +285,9 @@ public class ChangeGears extends DesignContent
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
         {
             if (pos == 0)
-                _scrPitchUnit = PitchUnit.Mm;
+                _scrPitchUnit = PitchUnit.mm;
             else
-                _scrPitchUnit = PitchUnit.Tpi;
+                _scrPitchUnit = PitchUnit.TPI;
                 
             recalculateRatio();
         }
@@ -420,6 +420,7 @@ public class ChangeGears extends DesignContent
                 {
                     _isRatioFraction = ((Switch)view).isChecked();
                     _gearRatioDenominatorLayout.setVisibility(_isRatioFraction ? View.VISIBLE : View.GONE);
+                    _ratioResultText.setVisibility(_isRatioFraction ? View.VISIBLE : View.GONE);
                     if (_isRatioFraction)
                         recalculateRatio();
                 }
@@ -534,11 +535,13 @@ public class ChangeGears extends DesignContent
                 public void onPositive()
                 {
                     ArrayList<Integer> teethNumbers = dialog.getTeethNumbers();
-                    if (teethNumbers != null)
+                    if (teethNumbers != null && teethNumbers.size() > 0)
                     {
                         String text = NumbersParser.getString(teethNumbers);
                         control.setText(text);
                     }
+                    else
+                        control.setText("");
                 }
 
                 @Override

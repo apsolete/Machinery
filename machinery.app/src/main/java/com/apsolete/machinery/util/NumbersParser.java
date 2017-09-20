@@ -54,7 +54,7 @@ public class NumbersParser
 
     public static String getString(ArrayList<Integer> numbers)
     {
-        if (numbers == null)
+        if (numbers == null || numbers.size() == 0)
             return null;
             
         ArrayList<Integer> nums = new ArrayList<>(numbers);
