@@ -18,6 +18,8 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import android.text.*;
+import java.text.*;
+import java.util.*;
 
 
 public class ChangeGears extends DesignContent
@@ -42,25 +44,25 @@ public class ChangeGears extends DesignContent
     private boolean _isOneSet = false;
     private DecimalFormat _ratioFormat;
     private CalculationType _calcType;
-    private boolean _isRatioAsFraction;
+    private boolean _isRatioFraction;
     private PitchUnit _thrPitchUnit;
     private PitchUnit _scrPitchUnit;
 
     private View _view;
     private Switch _oneSetSwitch;
     private Spinner _calcTypeSpinner;
-    LinearLayout _threadPitchLayout;
-    EditText _threadPitchValue;
-    Spinner _threadUnitSpinner;
-    LinearLayout _screwPitchLayout;
-    EditText _screwPitchValue;
-    Spinner _screwUnitSpinner;
-    LinearLayout _gearRatioLayout;
-    Switch _ratioAsFractionSwitch;
-    EditText _gearRatioValue;
-    EditText _gearRatioDenominator;
-    LinearLayout _gearRatioDenominatorLayout;
-    TextView _ratioResultText;
+    private LinearLayout _threadPitchLayout;
+    private EditText _threadPitchValue;
+    private Spinner _threadUnitSpinner;
+    private LinearLayout _screwPitchLayout;
+    private EditText _screwPitchValue;
+    private Spinner _screwUnitSpinner;
+    private LinearLayout _gearRatioLayout;
+    private Switch _ratioAsFractionSwitch;
+    private EditText _gearRatioValue;
+    private EditText _gearRatioDenominator;
+    private LinearLayout _gearRatioDenominatorLayout;
+    private TextView _ratioResultText;
 
     private ViewGroup _resultView;
     private ProgressBar _pb;
@@ -234,6 +236,8 @@ public class ChangeGears extends DesignContent
             _threadPitchLayout.setVisibility(both ? View.VISIBLE : View.GONE);
             _screwPitchLayout.setVisibility(View.VISIBLE);
             _ratioResultText.setVisibility(both ? View.VISIBLE : View.GONE);
+            if (both)
+                recalculateRatio();
         }
 
         private void showRatio(boolean enable)
@@ -241,11 +245,18 @@ public class ChangeGears extends DesignContent
             _threadPitchLayout.setVisibility(View.GONE);
             _screwPitchLayout.setVisibility(View.GONE);
             _gearRatioLayout.setVisibility(enable ? View.VISIBLE : View.GONE);
-            _ratioResultText.setVisibility(enable ? View.VISIBLE : View.GONE);
+            
             if (enable && _ratioAsFractionSwitch.isChecked())
+            {
                 _gearRatioDenominatorLayout.setVisibility(View.VISIBLE);
+                _ratioResultText.setVisibility(View.VISIBLE);
+                recalculateRatio();
+            }
             else
+            {
                 _gearRatioDenominatorLayout.setVisibility(View.GONE);
+                _ratioResultText.setVisibility(View.GONE);
+            }
         }
     };
     
@@ -259,7 +270,7 @@ public class ChangeGears extends DesignContent
             else
                 _thrPitchUnit = PitchUnit.Tpi;
                 
-            recalculateRatioInfo();
+            recalculateRatio();
         }
 
         @Override
@@ -267,6 +278,7 @@ public class ChangeGears extends DesignContent
         {
         }
     };
+    
     private AdapterView.OnItemSelectedListener _scrPitchUnitListener = new AdapterView.OnItemSelectedListener()
     {
         @Override
@@ -277,7 +289,7 @@ public class ChangeGears extends DesignContent
             else
                 _scrPitchUnit = PitchUnit.Tpi;
                 
-            recalculateRatioInfo();
+            recalculateRatio();
         }
 
         @Override
@@ -291,7 +303,7 @@ public class ChangeGears extends DesignContent
         @Override
         public void onTextChanged(Editable editable)
         {
-            recalculateRatioInfo();
+            recalculateRatio();
         }
     };
 
@@ -300,7 +312,7 @@ public class ChangeGears extends DesignContent
         @Override
         public void onTextChanged(Editable editable)
         {
-            recalculateRatioInfo();
+            recalculateRatio();
         }
     };
     
@@ -309,7 +321,7 @@ public class ChangeGears extends DesignContent
         @Override
         public void onTextChanged(Editable editable)
         {
-            recalculateRatioInfo();
+            recalculateRatio();
         }
     };
 
@@ -318,7 +330,7 @@ public class ChangeGears extends DesignContent
         @Override
         public void onTextChanged(Editable editable)
         {
-            recalculateRatioInfo();
+            recalculateRatio();
         }
     };
 
@@ -406,8 +418,10 @@ public class ChangeGears extends DesignContent
                 @Override
                 public void onClick(View view)
                 {
-                    _isRatioAsFraction = ((Switch)view).isChecked();
-                    _gearRatioDenominatorLayout.setVisibility(_isRatioAsFraction ? View.VISIBLE : View.GONE);
+                    _isRatioFraction = ((Switch)view).isChecked();
+                    _gearRatioDenominatorLayout.setVisibility(_isRatioFraction ? View.VISIBLE : View.GONE);
+                    if (_isRatioFraction)
+                        recalculateRatio();
                 }
             });
 
@@ -505,20 +519,6 @@ public class ChangeGears extends DesignContent
                                                  _diffTeethDoubleGear, _resultListener);
             calc.calculate(gs1, gs2, gs3, gs4, gs5, gs6);
         }
-    }
-
-    private double getRatio()
-    {
-        if (_calcType == CalculationType.GearsByRatio)
-        {
-            String ratioStr = _gearRatioValue.getText().toString();
-            return (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
-        }
-        else if (_calcType == CalculationType.GearsByThread)
-        {}
-        else if (_calcType == CalculationType.ThreadByGears)
-        {}
-        return 0;
     }
 
     private void defineGearSet(GearSetControl gearSetCtrl)
@@ -629,11 +629,12 @@ public class ChangeGears extends DesignContent
 
     private void setRatioFormat(int precision)
     {
-        String format = "#0.0";
+        String pattern = "#0.0";
         for (int i = 0; i < precision-1; i++)
-            format += "0";
-        _ratioFormat = new DecimalFormat();//(format);
-        _ratioFormat.applyPattern(format);
+            pattern += "#";
+        DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols(Locale.getDefault());
+        formatSymbols.setDecimalSeparator('.');
+        _ratioFormat = new DecimalFormat(pattern, formatSymbols);
         _ratioFormat.setRoundingMode(RoundingMode.CEILING);
     }
     
@@ -647,47 +648,61 @@ public class ChangeGears extends DesignContent
         spinner.setOnItemSelectedListener(listener);
     }
     
-    private void recalculateRatioInfo()
+    private void recalculateRatio()
     {
+        String ratioInfo = "R = <Undefined>";
+        
         if (_calcType == CalculationType.GearsByThread)
         {
             String pitchStr = _threadPitchValue.getText().toString();
             double thrPitch = (pitchStr != null && !pitchStr.isEmpty()) ? Double.parseDouble(pitchStr) : 0;
-            thrPitch = _thrPitchUnit.ToMm(thrPitch);
             pitchStr = _screwPitchValue.getText().toString();
             double scrPitch = (pitchStr != null && !pitchStr.isEmpty()) ? Double.parseDouble(pitchStr) : 0;
-            scrPitch = _scrPitchUnit.ToMm(scrPitch);
             
-            if (scrPitch == 0.0)
+            if (thrPitch == 0.0)
+            {
+                _ratio = 0;
+            }
+            else if (scrPitch == 0.0)
             {
                 _ratio = thrPitch;
-                _ratioResultText.setText("R = " + _ratio + " mm");
+                ratioInfo = "R = " + _ratio + " " + _thrPitchUnit;
             }
             else
             {
-                _ratio = thrPitch/scrPitch;
-                String rStr = "R = " + thrPitch + " mm / " + scrPitch + " mm = " + _ratioFormat.format(_ratio);
-                _ratioResultText.setText(rStr);
+                Fraction tpf = _thrPitchUnit.toMmFraction(thrPitch);
+                Fraction spf = _scrPitchUnit.toMmFraction(scrPitch);
+                Fraction fract = tpf.divide(spf);
+                _ratio = fract.toDecimal();
+                ratioInfo = "R = " + thrPitch + " " + _thrPitchUnit + " / " +
+                    scrPitch + " " + _scrPitchUnit + " = " + fract.toString() +
+                    " = " + _ratioFormat.format(_ratio);
             }
         }
         else if (_calcType == CalculationType.GearsByRatio)
         {
             String ratioStr = _gearRatioValue.getText().toString();
-            double ratio = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
+            double ratioNum = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
             ratioStr = _gearRatioDenominator.getText().toString();
-            double ratioDenom = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
+            double ratioDen = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
 
-            if (ratioDenom == 0.0)
+            if (ratioNum == 0.0)
             {
-                _ratio = ratio;
-                _ratioResultText.setText("R = " + _ratio);
+                _ratio = 0;
+            }
+            else if (ratioDen == 0.0)
+            {
+                _ratio = ratioNum;
+                ratioInfo = "R = " + _ratio;
             }
             else
             {
-                _ratio = ratio/ratioDenom;
-                String rStr = "R = " + ratio + " / " + ratioDenom + " = " + _ratioFormat.format(_ratio);
-                _ratioResultText.setText(rStr);
+                Fraction fract = new Fraction(ratioNum, ratioDen);
+                _ratio = fract.toDecimal();
+                ratioInfo = "R = " + ratioNum + " / " + ratioDen + " = " +
+                    fract.toString() + " = " + _ratioFormat.format(_ratio);
             }
         }
+        _ratioResultText.setText(ratioInfo);
     }
 }
