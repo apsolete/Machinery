@@ -8,6 +8,8 @@ import android.widget.SeekBar.*;
 import android.content.res.*;
 import android.os.*;
 
+import com.apsolete.machinery.activity.R;
+
 public class PrecisionPreference extends Preference
 {
     private int _precision = 1;
@@ -42,7 +44,6 @@ public class PrecisionPreference extends Preference
         public static final Parcelable.Creator<SavedState> CREATOR =
         new Parcelable.Creator<SavedState>()
         {
-
             public SavedState createFromParcel(Parcel in)
             {
                 return new SavedState(in);
