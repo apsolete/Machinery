@@ -1,18 +1,19 @@
 package com.apsolete.machinery.activity.design;
 
-import android.os.*;
-import android.support.v4.app.*;
-import android.support.v7.app.*;
-import android.support.v7.widget.*;
-import android.view.*;
 import com.apsolete.machinery.activity.*;
 import com.apsolete.machinery.activity.design.changegears.*;
 import com.apsolete.machinery.activity.design.gearwheels.*;
 import com.apsolete.machinery.activity.design.gearwheelsext.*;
 
+import android.os.*;
+import android.support.v4.app.*;
+import android.support.v7.app.*;
+import android.support.v7.widget.*;
+import android.view.*;
+
 public class DesignActivity  extends AppCompatActivity
 {
-    private boolean _isOptionsOpened;
+    private boolean _isSettingsOpened;
     private DesignContent _currentDesign;
     private DesignContent _changeGears = new ChangeGears();
     private DesignContent _gearWheels = new GearWheels();
@@ -57,22 +58,6 @@ public class DesignActivity  extends AppCompatActivity
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
-        _miSave.setEnabled(!_isOptionsOpened);
-        _miSave.getIcon().setAlpha(_isOptionsOpened ? 130 : 255);
-        _miClear.setEnabled(!_isOptionsOpened);
-        _miClear.getIcon().setAlpha(_isOptionsOpened ? 130 : 255);
-        _miOptions.setEnabled(!_isOptionsOpened);
-        _miOptions.getIcon().setAlpha(_isOptionsOpened ? 130 : 255);
-        _miClose.setEnabled(!_isOptionsOpened);
-        _miClose.getIcon().setAlpha(_isOptionsOpened ? 130 : 255);
-        
-        return super.onPrepareOptionsMenu(menu);
-    }
-    
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         if (_currentDesign != null)
@@ -87,21 +72,19 @@ public class DesignActivity  extends AppCompatActivity
                     _currentDesign.clear();
                     break;
                 case R.id.mi_action_options:
-                    {
-                        showDesignContentSettings();
-                        //_currentDesign.setOptions();
-                    }
+                    openDesignContentSettings();
                     break;
                 case R.id.mi_action_close:
                 // button Up pressed
                 case android.R.id.home:
                 {
-                    if (_isOptionsOpened)
+                    if (_isSettingsOpened)
                     {
+                        // emulate Back press
                         FragmentManager fragmentManager = getSupportFragmentManager();
                         fragmentManager.popBackStack();
-                        _isOptionsOpened = false;
-                        invalidateOptionsMenu();
+                        _isSettingsOpened = false;
+                        setOptionsMenuEnabled(!_isSettingsOpened);
                         return true;
                     }
                     if (_currentDesign.close())
@@ -121,10 +104,10 @@ public class DesignActivity  extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-        if (_isOptionsOpened == true)
+        if (_isSettingsOpened == true)
         {
-            _isOptionsOpened = false;
-            invalidateOptionsMenu();
+            _isSettingsOpened = false;
+            setOptionsMenuEnabled(!_isSettingsOpened);
             super.onBackPressed();
         }
         else if (_currentDesign.close())
@@ -156,7 +139,7 @@ public class DesignActivity  extends AppCompatActivity
             .commit();
     }
 
-    private void showDesignContentSettings()
+    private void openDesignContentSettings()
     {
         if (_currentDesign == null)
             return;
@@ -166,13 +149,25 @@ public class DesignActivity  extends AppCompatActivity
         if (fragment == null)
             return;
 
-        _isOptionsOpened = true;
-        invalidateOptionsMenu();
+        _isSettingsOpened = true;
+        setOptionsMenuEnabled(!_isSettingsOpened);
         
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
             .replace(R.id.content_design, fragment)
             .addToBackStack(null)
             .commit();
+    }
+
+    private void setOptionsMenuEnabled(boolean enable)
+    {
+        _miSave.setEnabled(enable);
+        _miSave.getIcon().setAlpha(enable ? 255 : 130);
+        _miClear.setEnabled(enable);
+        _miClear.getIcon().setAlpha(enable ? 255 : 130);
+        _miOptions.setEnabled(enable);
+        _miOptions.getIcon().setAlpha(enable ? 255 : 130);
+        _miClose.setEnabled(enable);
+        _miClose.getIcon().setAlpha(enable ? 255 : 130);
     }
 }
