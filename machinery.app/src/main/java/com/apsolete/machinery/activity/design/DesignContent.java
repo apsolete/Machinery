@@ -21,7 +21,7 @@ public abstract class DesignContent extends ContentBase
     public abstract SettingsBase  getSettings();
     public abstract void save();
     public abstract void clear();
-    public abstract void close();
+    public abstract boolean close();
     public abstract void setOptions();
     protected abstract void calculate();
 }

@@ -13,11 +13,9 @@ import android.support.v4.app.*;
 import android.support.v7.preference.PreferenceManager;
 import android.view.*;
 import android.widget.*;
+import android.text.*;
 
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import android.text.*;
 import java.text.*;
 import java.util.*;
 
@@ -472,9 +470,9 @@ public class ChangeGears extends DesignContent
     }
 
     @Override
-    public void close()
+    public boolean close()
     {
-        // TODO: Implement this method
+        return true;
     }
 
     @Override

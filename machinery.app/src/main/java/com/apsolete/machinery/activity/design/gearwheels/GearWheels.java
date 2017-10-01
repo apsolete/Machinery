@@ -31,9 +31,9 @@ public class GearWheels extends DesignContent
     }
 
     @Override
-    public void close()
+    public boolean close()
     {
-        // TODO: Implement this method
+        return true;
     }
 
     @Override

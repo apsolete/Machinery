@@ -46,7 +46,6 @@ public class FabsManager
         _fab3 = (FloatingActionButton) _activity.findViewById(R.id.fab3);
         _fabsBackground = _activity.findViewById(R.id.fabsBackground);
         
-
         _st_55 = _activity.getResources().getDimension(R.dimen.standard_55);
         _st_100 = _activity.getResources().getDimension(R.dimen.standard_100);
         _st_145 = _activity.getResources().getDimension(R.dimen.standard_145);

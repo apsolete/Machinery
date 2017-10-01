@@ -221,7 +221,7 @@ implements NavigationView.OnNavigationItemSelectedListener
         Intent intent = new Intent();
         intent.setClass(this, DesignActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("calc_type", type.Value);
+        bundle.putInt("designType", type.Value);
         intent.putExtras(bundle);
         startActivity(intent);
     }

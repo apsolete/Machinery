@@ -12,11 +12,16 @@ import com.apsolete.machinery.activity.design.gearwheelsext.*;
 
 public class DesignActivity  extends AppCompatActivity
 {
+    private boolean _isOptionsOpened;
     private DesignContent _currentDesign;
     private DesignContent _changeGears = new ChangeGears();
     private DesignContent _gearWheels = new GearWheels();
     private DesignContent _gearWheelsExt = new GearWheelsExt();
-    
+    private MenuItem _miSave;
+    private MenuItem _miClear;
+    private MenuItem _miOptions;
+    private MenuItem _miClose;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -26,13 +31,15 @@ public class DesignActivity  extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         // Get a support ActionBar corresponding to this toolbar
-        ActionBar ab = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
 
         // Enable the Up button
-        ab.setDisplayHomeAsUpEnabled(true);
-        int calc_type = getIntent().getExtras().getInt("calc_type");
-        DesignType calcType = DesignType.values()[calc_type];
-        showDesignContent(calcType);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        // Show content
+        int intDesignType = getIntent().getExtras().getInt("designType");
+        DesignType designType = DesignType.values()[intDesignType];
+        showDesignContent(designType);
     }
 
     @Override
@@ -40,38 +47,90 @@ public class DesignActivity  extends AppCompatActivity
     {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.content_design_menu, menu);
+        
+        _miSave = menu.findItem(R.id.mi_action_save);
+        _miClear = menu.findItem(R.id.mi_action_clear);
+        _miOptions = menu.findItem(R.id.mi_action_options);
+        _miClose = menu.findItem(R.id.mi_action_close);
+        
         return super.onCreateOptionsMenu(menu);
     }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        _miSave.setEnabled(!_isOptionsOpened);
+        _miSave.getIcon().setAlpha(_isOptionsOpened ? 130 : 255);
+        _miClear.setEnabled(!_isOptionsOpened);
+        _miClear.getIcon().setAlpha(_isOptionsOpened ? 130 : 255);
+        _miOptions.setEnabled(!_isOptionsOpened);
+        _miOptions.getIcon().setAlpha(_isOptionsOpened ? 130 : 255);
+        _miClose.setEnabled(!_isOptionsOpened);
+        _miClose.getIcon().setAlpha(_isOptionsOpened ? 130 : 255);
+        
+        return super.onPrepareOptionsMenu(menu);
+    }
     
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        int id = item.getItemId();
-        switch (id)
+        if (_currentDesign != null)
         {
-            case R.id.mi_action_save:
-                if (_currentDesign != null)
+            int id = item.getItemId();
+            switch (id)
+            {
+                case R.id.mi_action_save:
                     _currentDesign.save();
-                break;
-            case R.id.mi_action_clear:
-                if (_currentDesign != null)
+                    break;
+                case R.id.mi_action_clear:
                     _currentDesign.clear();
-                break;
-            case R.id.mi_action_options:
-                if (_currentDesign != null)
+                    break;
+                case R.id.mi_action_options:
+                    {
+                        showDesignContentSettings();
+                        //_currentDesign.setOptions();
+                    }
+                    break;
+                case R.id.mi_action_close:
+                // button Up pressed
+                case android.R.id.home:
                 {
-                    showDesignContentSettings();
-                    //_currentDesign.setOptions();
+                    if (_isOptionsOpened)
+                    {
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.popBackStack();
+                        _isOptionsOpened = false;
+                        invalidateOptionsMenu();
+                        return true;
+                    }
+                    if (_currentDesign.close())
+                    {
+                        if (id == R.id.mi_action_close)
+                            onNavigateUp();
+                    }
+                    else
+                        return false;
                 }
-                break;
-            case R.id.mi_action_close:
-                if (_currentDesign != null)
-                    _currentDesign.close();
-                break;
+            }
         }
+
         return super.onOptionsItemSelected(item);
     }
-    
+
+    @Override
+    public void onBackPressed()
+    {
+        if (_isOptionsOpened == true)
+        {
+            _isOptionsOpened = false;
+            invalidateOptionsMenu();
+            super.onBackPressed();
+        }
+        else if (_currentDesign.close())
+            onNavigateUp();
+    }
+
     public void showDesignContent(DesignType type)
     {
         switch (type)
@@ -86,28 +145,30 @@ public class DesignActivity  extends AppCompatActivity
                 _currentDesign = _gearWheelsExt;
                 break;
         }
-        
+
         if (_currentDesign == null)
             return;
-            
+
         Fragment fragment = _currentDesign;
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
             .replace(R.id.content_design, fragment)
-            //.addToBackStack(null)
             .commit();
     }
-    
+
     private void showDesignContentSettings()
     {
         if (_currentDesign == null)
             return;
-            
+
         Fragment fragment = _currentDesign.getSettings();
 
         if (fragment == null)
             return;
 
+        _isOptionsOpened = true;
+        invalidateOptionsMenu();
+        
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
             .replace(R.id.content_design, fragment)
