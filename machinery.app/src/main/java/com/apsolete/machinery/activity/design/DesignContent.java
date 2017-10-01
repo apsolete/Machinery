@@ -1,6 +1,5 @@
 package com.apsolete.machinery.activity.design;
 
-import com.apsolete.machinery.activity.common.ContentBase;
 import com.apsolete.machinery.activity.common.*;
 
 public abstract class DesignContent extends ContentBase
