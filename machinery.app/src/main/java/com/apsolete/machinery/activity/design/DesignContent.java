@@ -4,15 +4,20 @@ import com.apsolete.machinery.activity.common.*;
 
 public abstract class DesignContent extends ContentBase
 {
-    private DesignType _type;
+    public static final int CHANGEGEARS = 0;
+    public static final int GEARWHEELS = 1;
+    public static final int GEARWHEELSEXT = 2;
+    public static final int BELTS = 3;
     
-    public DesignContent(DesignType type, int layout, int title)
+    private int _type;
+    
+    public DesignContent(int type, int layout, int title)
     {
         super(layout, title);
         _type = type;
     }
     
-    public DesignType type()
+    public int type()
     {
         return _type;
     }

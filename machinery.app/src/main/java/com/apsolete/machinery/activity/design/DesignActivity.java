@@ -38,8 +38,7 @@ public class DesignActivity  extends AppCompatActivity
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         // Show content
-        int intDesignType = getIntent().getExtras().getInt("designType");
-        DesignType designType = DesignType.values()[intDesignType];
+        int designType = getIntent().getExtras().getInt("designType");
         showDesignContent(designType);
     }
 
@@ -114,17 +113,17 @@ public class DesignActivity  extends AppCompatActivity
             onNavigateUp();
     }
 
-    public void showDesignContent(DesignType type)
+    public void showDesignContent(int type)
     {
         switch (type)
         {
-            case ChangeGears:
+            case DesignContent.CHANGEGEARS:
                 _currentDesign = _changeGears;
                 break;
-            case GearWheels:
+            case DesignContent.GEARWHEELS:
                 _currentDesign = _gearWheels;
                 break;
-            case GearWheelsExt:
+            case DesignContent.GEARWHEELSEXT:
                 _currentDesign = _gearWheelsExt;
                 break;
         }

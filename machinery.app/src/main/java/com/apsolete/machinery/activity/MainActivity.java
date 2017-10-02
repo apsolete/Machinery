@@ -48,18 +48,18 @@ implements NavigationView.OnNavigationItemSelectedListener
             public void OnClick(int fabId)
             {
                 //Snackbar.make(findViewById(R.id.contentLayout), "Fab " + fabId + " was tapped.", Snackbar.LENGTH_SHORT).show();
-                DesignType type;
+                int type;
                 switch (fabId)
                 {
                     case R.id.fab1:
-                        type = DesignType.GearWheelsExt;
+                        type = DesignContent.GEARWHEELSEXT;
                         break;
                     case R.id.fab2:
-                        type = DesignType.GearWheels;
+                        type = DesignContent.GEARWHEELS;
                         break;
                     case R.id.fab3:
                     default:
-                        type = DesignType.ChangeGears;
+                        type = DesignContent.CHANGEGEARS;
                         break;
                 }
                 showDesignActivity(type);
@@ -138,13 +138,13 @@ implements NavigationView.OnNavigationItemSelectedListener
         switch (id)
         {
             case R.id.mi_change_gears:
-                showDesignActivity(DesignType.ChangeGears);
+                showDesignActivity(DesignContent.CHANGEGEARS);
                 break;
             case R.id.mi_gearwheels:
-                showDesignActivity(DesignType.GearWheels);
+                showDesignActivity(DesignContent.GEARWHEELS);
                 break;
             case R.id.mi_gearwheels_extended:
-                showDesignActivity(DesignType.GearWheelsExt);
+                showDesignActivity(DesignContent.GEARWHEELSEXT);
                 break;
             case R.id.mi_belt:
                 break;
@@ -216,12 +216,12 @@ implements NavigationView.OnNavigationItemSelectedListener
             .commit();
     }
     
-    private void showDesignActivity(DesignType type)
+    private void showDesignActivity(int type)
     {
         Intent intent = new Intent();
         intent.setClass(this, DesignActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("designType", type.Value);
+        bundle.putInt("designType", type);
         intent.putExtras(bundle);
         startActivity(intent);
     }

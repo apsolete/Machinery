@@ -334,7 +334,7 @@ public class ChangeGears extends DesignContent
 
     public ChangeGears()
     {
-        super(DesignType.ChangeGears, R.layout.content_changegears_design, R.string.title_change_gears_design);
+        super(DesignContent.CHANGEGEARS, R.layout.content_changegears_design, R.string.title_change_gears_design);
     }
 
     @Override

@@ -8,7 +8,7 @@ public class GearWheelsExt extends DesignContent
 {
     public GearWheelsExt()
     {
-        super(DesignType.GearWheelsExt, R.layout.content_gearwheelsext_design, R.string.title_gearwheelsext_design);
+        super(DesignContent.GEARWHEELSEXT, R.layout.content_gearwheelsext_design, R.string.title_gearwheelsext_design);
     }
     
     @Override
