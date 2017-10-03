@@ -33,4 +33,9 @@ public class FabView
         //_layout.animate().translationY(0);
         _layout.setVisibility(View.GONE);
     }
+    
+    public void expand()
+    {
+        _layout.animate().translationY(-_st);
+    }
 }

@@ -10,6 +10,11 @@ import java.util.*;
 
 public class FabsManager
 {
+    public interface OnFabClickListener
+    {
+        void OnClick(int fabId);
+    }
+
     private AppCompatActivity _activity;
     private FloatingActionButton _fabMain;
     private FloatingActionButton _fab1;
@@ -21,18 +26,64 @@ public class FabsManager
     private View _fabsBackground;
     private boolean _isExpanded = false;
     private boolean _isVisible = true;
+    private float _start = 55, _interval = 45;
     private float _st_55, _st_100, _st_145;
     private ArrayList<FabView> _fabs = new ArrayList<>();
 
-    public interface OnFabClickListener
-    {
-        void OnClick(int fabId);
-    }
+    private ArrayList<LinearLayout> _fabLayouts = new ArrayList<>();
+
     private OnFabClickListener _listener;
-    
-    public FabsManager()
-    {}
-    
+
+    private View.OnClickListener _fabClickListener = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view)
+        {
+            if (_listener != null)
+                _listener.OnClick(view.getId());
+        }
+    };
+    private Animator.AnimatorListener _animatorListener = new Animator.AnimatorListener()
+    {
+        @Override
+        public void onAnimationStart(Animator animator)
+        {
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animator)
+        {
+            if (!_isExpanded)
+            {
+                _fabLayout1.setVisibility(View.GONE);
+                _fabLayout2.setVisibility(View.GONE);
+                _fabLayout3.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animator)
+        {
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animator)
+        {
+        }
+    };
+
+    public FabsManager(AppCompatActivity activity, int[] fabLayoutIds)
+    {
+        float st = _start;
+        for (int id: fabLayoutIds)
+        {
+            LinearLayout layout = (LinearLayout) _activity.findViewById(id);
+            FabView fv = new FabView(layout, st);
+            _fabs.add(fv);
+            st += _interval;
+        }
+    }
+
     public FabsManager(AppCompatActivity activity)
     {
         _activity = activity;
@@ -45,7 +96,7 @@ public class FabsManager
         _fab2 = (FloatingActionButton) _activity.findViewById(R.id.fab2);
         _fab3 = (FloatingActionButton) _activity.findViewById(R.id.fab3);
         _fabsBackground = _activity.findViewById(R.id.fabsBackground);
-        
+
         _st_55 = _activity.getResources().getDimension(R.dimen.standard_55);
         _st_100 = _activity.getResources().getDimension(R.dimen.standard_100);
         _st_145 = _activity.getResources().getDimension(R.dimen.standard_145);
@@ -67,36 +118,12 @@ public class FabsManager
                     collapse();
                 }
             });
-            
-        _fab1.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    if (_listener != null)
-                        _listener.OnClick(_fab1.getId());
-                }
-            });
-            
-        _fab2.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    if (_listener != null)
-                        _listener.OnClick(_fab2.getId());
-                }
-            });
-            
-        _fab3.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    if (_listener != null)
-                        _listener.OnClick(_fab3.getId());
-                }
-            });
+
+        _fab1.setOnClickListener(_fabClickListener);
+
+        _fab2.setOnClickListener(_fabClickListener);
+
+        _fab3.setOnClickListener(_fabClickListener);
     }
 
     public void expand()
@@ -127,34 +154,7 @@ public class FabsManager
 
         _fabLayout1.animate().translationY(0);
         _fabLayout2.animate().translationY(0);
-        _fabLayout3.animate().translationY(0).setListener(new Animator.AnimatorListener()
-            {
-                @Override
-                public void onAnimationStart(Animator animator)
-                {
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animator)
-                {
-                    if (!_isExpanded)
-                    {
-                        _fabLayout1.setVisibility(View.GONE);
-                        _fabLayout2.setVisibility(View.GONE);
-                        _fabLayout3.setVisibility(View.GONE);
-                    }
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animator)
-                {
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animator)
-                {
-                }
-            });
+        _fabLayout3.animate().translationY(0).setListener(_animatorListener);
     }
 
     public void toggle()
@@ -197,7 +197,7 @@ public class FabsManager
     {
         return _isExpanded;
     }
-    
+
     public void setClickListener(OnFabClickListener listener)
     {
         _listener = listener;
