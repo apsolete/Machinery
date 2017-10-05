@@ -1,11 +1,12 @@
 package com.apsolete.machinery.activity.common.fabs;
 
+import com.apsolete.machinery.activity.*;
+
 import android.animation.*;
 import android.support.design.widget.*;
 import android.support.v7.app.*;
 import android.view.*;
 import android.widget.*;
-import com.apsolete.machinery.activity.*;
 import java.util.*;
 
 public class FabsManager
@@ -14,68 +15,22 @@ public class FabsManager
     {
         void OnClick(int fabId);
     }
-    
-    public class FabAnimator implements Animator.AnimatorListener
-    {
-        private View _view;
-        private float _st;
-        private boolean _expanded;
 
-        public FabAnimator(View view, float st)
-        {
-            _view = view;
-            _st = st;
-        }
-
-        public void expand()
-        {
-            _expanded = true;
-            _view.animate().translationY(-_st);
-        }
-
-        public void collapse()
-        {
-            _expanded = false;
-            _view.animate().translationY(0).setListener(this);
-        }
-
-        @Override
-        public void onAnimationStart(Animator animator)
-        {
-        }
-
-        @Override
-        public void onAnimationEnd(Animator animator)
-        {
-            if(!_expanded)
-                _view.setVisibility(View.GONE);
-        }
-
-        @Override
-        public void onAnimationCancel(Animator animator)
-        {
-        }
-
-        @Override
-        public void onAnimationRepeat(Animator animator)
-        {
-        }
-    }
-    
-    public class FabView
+    public class FabView implements Animator.AnimatorListener
     {
         ViewGroup _layout;
         TextView _title;
         FloatingActionButton _fab;
-        FabAnimator _animator;
+        private float _st;
+        private boolean _expanded;
 
         public FabView(ViewGroup layout, float st, View.OnClickListener listener)
         {
             _layout = layout;
+            _st = st;
             _title = (TextView)_layout.getChildAt(0);
             _fab = (FloatingActionButton)_layout.getChildAt(1);
             _fab.setOnClickListener(listener);
-            _animator = new FabAnimator(_layout, st);
         }
 
         public void show()
@@ -90,12 +45,36 @@ public class FabsManager
 
         public void expand()
         {
-            _animator.expand();
+            _expanded = true;
+            _layout.animate().translationY(-_st);
         }
-        
+
         public void collapse()
         {
-            _animator.collapse();
+            _expanded = false;
+            _layout.animate().translationY(0).setListener(this);
+        }
+
+        @Override
+        public void onAnimationStart(Animator animator)
+        {
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animator)
+        {
+            if(!_expanded)
+                _layout.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animator)
+        {
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animator)
+        {
         }
     }
 
