@@ -14,23 +14,97 @@ public class FabsManager
     {
         void OnClick(int fabId);
     }
+    
+    public class FabAnimator implements Animator.AnimatorListener
+    {
+        private View _view;
+        private float _st;
+        private boolean _expanded;
+
+        public FabAnimator(View view, float st)
+        {
+            _view = view;
+            _st = st;
+        }
+
+        public void expand()
+        {
+            _expanded = true;
+            _view.animate().translationY(-_st);
+        }
+
+        public void collapse()
+        {
+            _expanded = false;
+            _view.animate().translationY(0).setListener(this);
+        }
+
+        @Override
+        public void onAnimationStart(Animator animator)
+        {
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animator)
+        {
+            if(!_expanded)
+                _view.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animator)
+        {
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animator)
+        {
+        }
+    }
+    
+    public class FabView
+    {
+        ViewGroup _layout;
+        TextView _title;
+        FloatingActionButton _fab;
+        FabAnimator _animator;
+
+        public FabView(ViewGroup layout, float st, View.OnClickListener listener)
+        {
+            _layout = layout;
+            _title = (TextView)_layout.getChildAt(0);
+            _fab = (FloatingActionButton)_layout.getChildAt(1);
+            _fab.setOnClickListener(listener);
+            _animator = new FabAnimator(_layout, st);
+        }
+
+        public void show()
+        {
+            _layout.setVisibility(View.VISIBLE);
+        }
+
+        public void hide()
+        {
+            _layout.setVisibility(View.GONE);
+        }
+
+        public void expand()
+        {
+            _animator.expand();
+        }
+        
+        public void collapse()
+        {
+            _animator.collapse();
+        }
+    }
 
     private AppCompatActivity _activity;
     private FloatingActionButton _fabMain;
-    private FloatingActionButton _fab1;
-    private FloatingActionButton _fab2;
-    private FloatingActionButton _fab3;
-    private LinearLayout _fabLayout1;
-    private LinearLayout _fabLayout2;
-    private LinearLayout _fabLayout3;
     private View _fabsBackground;
     private boolean _isExpanded = false;
     private boolean _isVisible = true;
-    private float _start = 55, _interval = 45;
-    private float _st_55, _st_100, _st_145;
     private ArrayList<FabView> _fabs = new ArrayList<>();
-
-    private ArrayList<LinearLayout> _fabLayouts = new ArrayList<>();
 
     private OnFabClickListener _listener;
 
@@ -43,63 +117,25 @@ public class FabsManager
                 _listener.OnClick(view.getId());
         }
     };
-    private Animator.AnimatorListener _animatorListener = new Animator.AnimatorListener()
-    {
-        @Override
-        public void onAnimationStart(Animator animator)
-        {
-        }
-
-        @Override
-        public void onAnimationEnd(Animator animator)
-        {
-            if (!_isExpanded)
-            {
-                _fabLayout1.setVisibility(View.GONE);
-                _fabLayout2.setVisibility(View.GONE);
-                _fabLayout3.setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        public void onAnimationCancel(Animator animator)
-        {
-        }
-
-        @Override
-        public void onAnimationRepeat(Animator animator)
-        {
-        }
-    };
-
-    public FabsManager(AppCompatActivity activity, int[] fabLayoutIds)
-    {
-        float st = _start;
-        for (int id: fabLayoutIds)
-        {
-            LinearLayout layout = (LinearLayout) _activity.findViewById(id);
-            FabView fv = new FabView(layout, st);
-            _fabs.add(fv);
-            st += _interval;
-        }
-    }
-
+    
     public FabsManager(AppCompatActivity activity)
     {
         _activity = activity;
 
-        _fabLayout1 = (LinearLayout) _activity.findViewById(R.id.fabLayout1);
-        _fabLayout2 = (LinearLayout) _activity.findViewById(R.id.fabLayout2);
-        _fabLayout3 = (LinearLayout) _activity.findViewById(R.id.fabLayout3);
+        LinearLayout fabLayout1 = (LinearLayout) _activity.findViewById(R.id.fabLayout1);
+        float st_55 = _activity.getResources().getDimension(R.dimen.standard_55);
+        _fabs.add(new FabView(fabLayout1, st_55, _fabClickListener));
+        
+        LinearLayout fabLayout2 = (LinearLayout) _activity.findViewById(R.id.fabLayout2);
+        float st_100 = _activity.getResources().getDimension(R.dimen.standard_100);
+        _fabs.add(new FabView(fabLayout2, st_100, _fabClickListener));
+        
+        LinearLayout fabLayout3 = (LinearLayout) _activity.findViewById(R.id.fabLayout3);
+        float st_145 = _activity.getResources().getDimension(R.dimen.standard_145);
+        _fabs.add(new FabView(fabLayout3, st_145, _fabClickListener));
+        
         _fabMain = (FloatingActionButton) _activity.findViewById(R.id.fab_main);
-        _fab1 = (FloatingActionButton) _activity.findViewById(R.id.fab1);
-        _fab2 = (FloatingActionButton) _activity.findViewById(R.id.fab2);
-        _fab3 = (FloatingActionButton) _activity.findViewById(R.id.fab3);
         _fabsBackground = _activity.findViewById(R.id.fabsBackground);
-
-        _st_55 = _activity.getResources().getDimension(R.dimen.standard_55);
-        _st_100 = _activity.getResources().getDimension(R.dimen.standard_100);
-        _st_145 = _activity.getResources().getDimension(R.dimen.standard_145);
 
         _fabMain.setOnClickListener(new View.OnClickListener()
             {
@@ -118,12 +154,6 @@ public class FabsManager
                     collapse();
                 }
             });
-
-        _fab1.setOnClickListener(_fabClickListener);
-
-        _fab2.setOnClickListener(_fabClickListener);
-
-        _fab3.setOnClickListener(_fabClickListener);
     }
 
     public void expand()
@@ -132,15 +162,13 @@ public class FabsManager
             return;
 
         _isExpanded = true;
-        _fabLayout1.setVisibility(View.VISIBLE);
-        _fabLayout2.setVisibility(View.VISIBLE);
-        _fabLayout3.setVisibility(View.VISIBLE);
+        for (FabView fv : _fabs)
+            fv.show();
         _fabsBackground.setVisibility(View.VISIBLE);
 
         _fabMain.animate().rotationBy(180);
-        _fabLayout1.animate().translationY(-_st_55);
-        _fabLayout2.animate().translationY(-_st_100);
-        _fabLayout3.animate().translationY(-_st_145);
+        for (FabView fv : _fabs)
+            fv.expand();
     }
 
     public void collapse()
@@ -152,9 +180,8 @@ public class FabsManager
         _fabsBackground.setVisibility(View.GONE);
         _fabMain.animate().rotationBy(-180);
 
-        _fabLayout1.animate().translationY(0);
-        _fabLayout2.animate().translationY(0);
-        _fabLayout3.animate().translationY(0).setListener(_animatorListener);
+        for (FabView fv : _fabs)
+            fv.collapse();
     }
 
     public void toggle()
