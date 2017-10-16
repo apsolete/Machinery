@@ -27,6 +27,11 @@ public class ChangeGears extends DesignContent
         public double Ratio;
         public int[] Gears = new int[6];
     }
+    
+    public static final int RATIOS_BY_GEARS = 0;
+    public static final int THREAD_BY_GEARS = 1;
+    public static final int GEARS_BY_RATIO = 2;
+    public static final int GEARS_BY_THREAD = 3;
 
     private static final int Z0 = 0;//one set for all;
     private static final int Z1 = 1;//1;
@@ -35,13 +40,14 @@ public class ChangeGears extends DesignContent
     private static final int Z4 = 4;//4;
     private static final int Z5 = 5;//5;
     private static final int Z6 = 6;//6;
+    
     private int _ratioPrecision = 1;
     private double _ratio = 0;
     private boolean _diffTeethGearing = true;
     private boolean _diffTeethDoubleGear = true;
     private boolean _isOneSet = false;
     private DecimalFormat _ratioFormat;
-    private CalculationType _calcType;
+    private int _calcType;
     private boolean _isRatioFraction;
     private PitchUnit _thrPitchUnit;
     private PitchUnit _scrPitchUnit;
@@ -205,19 +211,19 @@ public class ChangeGears extends DesignContent
             switch (pos)
             {
                 case 0:
-                    _calcType = CalculationType.RatiosByGears;
+                    _calcType = RATIOS_BY_GEARS;
                     showRatio(false);
                     break;
                 case 1:
-                    _calcType = CalculationType.ThreadByGears;
+                    _calcType = THREAD_BY_GEARS;
                     showPitches(false);
                     break;
                 case 2:
-                    _calcType = CalculationType.GearsByRatio;
+                    _calcType = GEARS_BY_RATIO;
                     showRatio(true);
                     break;
                 case 3:
-                    _calcType = CalculationType.GearsByThread;
+                    _calcType = GEARS_BY_THREAD;
                     showPitches(true);
                     break;
             }
@@ -653,7 +659,7 @@ public class ChangeGears extends DesignContent
     {
         String ratioInfo = "R = <Undefined>";
         
-        if (_calcType == CalculationType.GearsByThread)
+        if (_calcType == GEARS_BY_THREAD)
         {
             String pitchStr = _threadPitchValue.getText().toString();
             double thrPitch = (pitchStr != null && !pitchStr.isEmpty()) ? Double.parseDouble(pitchStr) : 0;
@@ -680,7 +686,7 @@ public class ChangeGears extends DesignContent
                     " = " + _ratioFormat.format(_ratio);
             }
         }
-        else if (_calcType == CalculationType.GearsByRatio)
+        else if (_calcType == GEARS_BY_RATIO)
         {
             String ratioStr = _gearRatioValue.getText().toString();
             double ratioNum = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;

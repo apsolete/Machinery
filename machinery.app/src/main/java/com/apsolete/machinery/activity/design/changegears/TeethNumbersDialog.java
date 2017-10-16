@@ -1,19 +1,18 @@
 package com.apsolete.machinery.activity.design.changegears;
 
+import com.apsolete.machinery.activity.R;
+import com.apsolete.machinery.activity.common.DialogBase;
+import com.apsolete.machinery.util.*;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+import android.util.*;
 
 import java.util.ArrayList;
-
-import com.apsolete.machinery.activity.R;
-import com.apsolete.machinery.activity.common.DialogBase;
-
-import android.util.*;
-import com.apsolete.machinery.util.*;
 
 public class TeethNumbersDialog extends DialogBase
 {
@@ -145,13 +144,11 @@ public class TeethNumbersDialog extends DialogBase
         }
         dismiss();
         _resultListener.onPositive();
-        //dismiss();
     }
 
     private void cancel()
     {
         _teethNumbers = null;
-        //_resultListener.onPositive();
         _resultListener.onNegative();
         dismiss();
     }
