@@ -1,11 +1,13 @@
 package com.apsolete.machinery.util;
 
+import android.support.annotation.NonNull;
+
 import java.math.*;
 
-public class Fraction
+public class Fraction implements Comparable<Fraction>
 {
-    private long numerator;
-    private long denomenator;
+    private long _numerator;
+    private long _denominator;
     
     public Fraction(double decimal)
     {
@@ -15,14 +17,9 @@ public class Fraction
         // numerator
         BigInteger num = (new BigInteger(parts[0]).multiply(den)).add(new BigInteger(parts[1]));
         
-        reduce(num, den);
+        setReduced(num, den);
     }
-    
-    public Fraction(long num, long den)
-    {
-        reduce(BigInteger.valueOf(num), BigInteger.valueOf(den));
-    }
-    
+
     public Fraction(double num, double den)
     {
         String[] numParts = Double.toString(num).split("\\.");
@@ -31,54 +28,111 @@ public class Fraction
         BigInteger m = BigInteger.TEN.pow(p);
         BigInteger binum = (new BigInteger(numParts[0]).multiply(m)).add(new BigInteger(numParts[1]));
         BigInteger biden = (new BigInteger(denParts[0]).multiply(m)).add(new BigInteger(denParts[1]));
-        reduce(binum, biden);
+
+        setReduced(binum, biden);
     }
-    
-    private void reduce(BigInteger num, BigInteger den)
+
+    public Fraction(long num)
+    {
+        this(num, 1, false);
+    }
+
+
+    public Fraction(long num, long den)
+    {
+        this(num, den, false);
+    }
+
+    protected Fraction(long num, long den, boolean reduced)
+    {
+        if (reduced)
+            setReduced(BigInteger.valueOf(num), BigInteger.valueOf(den));
+        else
+        {
+            _numerator = num;
+            _denominator = den;
+        }
+    }
+
+    private void setReduced(BigInteger num, BigInteger den)
     {
         BigInteger gcd = num.gcd(den);
-        numerator = num.divide(gcd).longValue();
-        denomenator = den.divide(gcd).longValue();
+        _numerator = num.divide(gcd).longValue();
+        _denominator = den.divide(gcd).longValue();
+    }
+
+    public Fraction getReduced()
+    {
+        return new Fraction(_numerator, _denominator, true);
+    }
+
+    public static Fraction reduced(long num, long den)
+    {
+        return new Fraction(num, den, true);
+    }
+
+    public static Fraction reduced(Fraction fraction)
+    {
+        return fraction.getReduced();
     }
     
     public Fraction add(long num)
     {
-        return new Fraction(numerator+num*denomenator, denomenator);
+        return new Fraction(_numerator + num * _denominator, _denominator);
     }
 
     public Fraction add(Fraction fract)
     {
-        return new Fraction(numerator*fract.denomenator+fract.numerator*denomenator, denomenator*fract.denomenator);
+        return new Fraction(_numerator * fract._denominator + fract._numerator * _denominator, _denominator * fract._denominator);
     }
     
     public Fraction multiply(long num)
     {
-        return new Fraction(numerator*num, denomenator);
+        return new Fraction(_numerator * num, _denominator);
     }
     
     public Fraction multiply(Fraction fract)
     {
-        return new Fraction(numerator*fract.numerator, denomenator*fract.denomenator);
+        return new Fraction(_numerator * fract._numerator, _denominator * fract._denominator);
     }
     
     public Fraction divide(long num)
     {
-        return new Fraction(numerator, denomenator*num);
+        return new Fraction(_numerator, _denominator * num);
     }
 
     public Fraction divide(Fraction fract)
     {
-        return new Fraction(numerator*fract.denomenator, denomenator*fract.numerator);
+        return new Fraction(_numerator * fract._denominator, _denominator * fract._numerator);
     }
     
-    public double toDecimal()
+    public double toDouble()
     {
-        return (double)numerator / (double)denomenator;
+        return (double) _numerator / (double) _denominator;
+    }
+
+    public Fraction getEquivalent(long factor)
+    {
+        return new Fraction(_numerator * factor, _denominator * factor);
     }
 
     @Override
     public String toString()
     {
-        return Long.toString(numerator) + " / " + Long.toString(denomenator);
+        return Long.toString(_numerator) + " / " + Long.toString(_denominator);
+    }
+
+    @Override
+    public int compareTo(@NonNull Fraction fraction)
+    {
+        if (_denominator == fraction._denominator)
+            return Long.compare(_numerator, fraction._numerator);
+
+        if (_numerator == fraction._numerator)
+            return Long.compare(fraction._denominator, _denominator);
+
+        BigInteger bi1 = BigInteger.valueOf(_numerator * fraction._denominator);
+        BigInteger bi2 = BigInteger.valueOf(_denominator * fraction._numerator);
+        return bi1.compareTo(bi2);
     }
 }
