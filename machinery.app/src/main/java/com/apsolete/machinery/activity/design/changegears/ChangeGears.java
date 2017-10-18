@@ -680,7 +680,7 @@ public class ChangeGears extends DesignContent
                 Fraction tpf = _thrPitchUnit.toMmFraction(thrPitch);
                 Fraction spf = _scrPitchUnit.toMmFraction(scrPitch);
                 Fraction fract = tpf.divide(spf);
-                _ratio = fract.toDecimal();
+                _ratio = fract.toDouble();
                 ratioInfo = "R = " + thrPitch + " " + _thrPitchUnit + " / " +
                     scrPitch + " " + _scrPitchUnit + " = " + fract.toString() +
                     " = " + _ratioFormat.format(_ratio);
@@ -705,7 +705,7 @@ public class ChangeGears extends DesignContent
             else
             {
                 Fraction fract = new Fraction(ratioNum, ratioDen);
-                _ratio = fract.toDecimal();
+                _ratio = fract.toDouble();
                 ratioInfo = "R = " + ratioNum + " / " + ratioDen + " = " +
                     fract.toString() + " = " + _ratioFormat.format(_ratio);
             }

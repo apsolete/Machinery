@@ -107,4 +107,34 @@ public class NumbersParser
         for (int n: numbers) nums.add(n);
         return getString(nums);
     }
+    
+    public static ArrayList<Long> factorizeList(long number)
+    {
+        long n = number;
+        ArrayList<Long> factors = new ArrayList<>();
+        for (long i = 2; i <= (long)Math.sqrt(n); i++)
+        {
+            while (n % i == 0)
+            {
+                factors.add(i);
+                n /= i;
+            }
+        }
+
+        if (n != 1)
+            factors.add(n);
+            
+        return factors;
+    }
+    
+    public static long[] factorize(long number)
+    {
+        ArrayList<Long> factors = factorizeList(number);
+        
+        long[] f = new long[factors.size()];
+        for (int i = 0; i < factors.size(); i++)
+            f[i] = factors.get(i);
+
+        return f;
+    }
 }

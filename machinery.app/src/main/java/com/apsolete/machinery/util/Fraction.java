@@ -9,6 +9,9 @@ public class Fraction implements Comparable<Fraction>
     private long _numerator;
     private long _denominator;
     
+    public static final Fraction ZERO = new Fraction(0, 1);
+    public static final Fraction ONE = new Fraction(1, 1);
+    
     public Fraction(double decimal)
     {
         String[] parts = Double.toString(decimal).split("\\.");
@@ -37,7 +40,6 @@ public class Fraction implements Comparable<Fraction>
         this(num, 1, false);
     }
 
-
     public Fraction(long num, long den)
     {
         this(num, den, false);
@@ -52,6 +54,26 @@ public class Fraction implements Comparable<Fraction>
             _numerator = num;
             _denominator = den;
         }
+    }
+
+    protected void setNumerator(long numerator)
+    {
+        _numerator = numerator;
+    }
+
+    public long getNumerator()
+    {
+        return _numerator;
+    }
+
+    protected void setDenominator(long denominator)
+    {
+        _denominator = denominator;
+    }
+
+    public long getDenominator()
+    {
+        return _denominator;
     }
 
     private void setReduced(BigInteger num, BigInteger den)
@@ -125,14 +147,17 @@ public class Fraction implements Comparable<Fraction>
     @Override
     public int compareTo(@NonNull Fraction fraction)
     {
-        if (_denominator == fraction._denominator)
-            return Long.compare(_numerator, fraction._numerator);
+        Fraction f1 = getReduced();
+        Fraction f2 = fraction.getReduced();
+        
+        if (f1._denominator == f2._denominator)
+            return Long.compare(f1._numerator, f2._numerator);
 
-        if (_numerator == fraction._numerator)
-            return Long.compare(fraction._denominator, _denominator);
+        if (f1._numerator == f2._numerator)
+            return Long.compare(f2._denominator, f1._denominator);
 
-        BigInteger bi1 = BigInteger.valueOf(_numerator * fraction._denominator);
-        BigInteger bi2 = BigInteger.valueOf(_denominator * fraction._numerator);
+        BigInteger bi1 = BigInteger.valueOf(f1._numerator).multiply(BigInteger.valueOf(f2._denominator));
+        BigInteger bi2 = BigInteger.valueOf(f1._denominator).multiply(BigInteger.valueOf(f2._numerator));
         return bi1.compareTo(bi2);
     }
 }
