@@ -10,13 +10,7 @@ public class NumbersParser
             return null;
 
         List<Integer> numList = getNumbersList(strNumbers);
-        int[] numbers = new int[numList.size()];
-        int i = 0;
-        for (int n : numList)
-        {
-            numbers[i] = n;
-            i++;
-        }
+        int[] numbers = toArray(numList);
         return numbers;
     }
     
@@ -129,12 +123,58 @@ public class NumbersParser
     
     public static long[] factorize(long number)
     {
-        ArrayList<Long> factors = factorizeList(number);
-        
-        long[] f = new long[factors.size()];
-        for (int i = 0; i < factors.size(); i++)
-            f[i] = factors.get(i);
+        ArrayList<Long> factorsList = factorizeList(number);
+        long[] factors = toArray(factorsList);
 
-        return f;
+        return factors;
+    }
+    
+    public static ArrayList<Long> dividersList(long number)
+    {
+        ArrayList<Long> dividers = new ArrayList<>();
+
+        for (long i = 1; i <= (long)Math.sqrt(number); i++)
+        {
+            if (number % i == 0)
+            {
+                dividers.add(i);
+
+                //для корня из x не существует парного делителя
+                if (i * i != number)
+                {
+                    dividers.add(number / i);
+                }
+            }
+        }
+        
+        Collections.sort(dividers);
+
+        return dividers;
+    }
+    
+    public static long[] dividers(long number)
+    {
+        ArrayList<Long> divList = dividersList(number);
+        long[] div = toArray(divList);
+
+        return div;
+    }
+    
+    public static int[] toArray(List<Integer> list)
+    {
+        int[] array = new int[list.size()];
+        for (int i = 0; i < list.size(); i++)
+            array[i] = list.get(i);
+
+        return array;
+    }
+    
+    public static long[] toArray(List<Long> list)
+    {
+        long[] array = new long[list.size()];
+        for (int i = 0; i < list.size(); i++)
+            array[i] = list.get(i);
+
+        return array;
     }
 }
