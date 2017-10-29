@@ -541,7 +541,7 @@ public class ChangeGears extends DesignContent
                     ArrayList<Integer> teethNumbers = dialog.getTeethNumbers();
                     if (teethNumbers != null && teethNumbers.size() > 0)
                     {
-                        String text = NumbersParser.getString(teethNumbers);
+                        String text = Numbers.getString(teethNumbers);
                         control.setText(text);
                     }
                     else

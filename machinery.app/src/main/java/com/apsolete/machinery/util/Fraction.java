@@ -1,8 +1,8 @@
 package com.apsolete.machinery.util;
 
-import android.support.annotation.NonNull;
-
+import android.support.annotation.*;
 import java.math.*;
+import java.util.*;
 
 public class Fraction implements Comparable<Fraction>
 {
@@ -128,6 +128,23 @@ public class Fraction implements Comparable<Fraction>
         return new Fraction(_numerator * fract._denominator, _denominator * fract._numerator);
     }
     
+//    public static Fraction product(List<Fraction> fractions)
+//    {
+//        long num = 1;
+//        long den = 1;
+//        for (Fraction fraction: fractions)
+//        {
+//            num *= fraction.getNumerator();
+//            den *= fraction.getDenominator();
+//        }
+//        return new Fraction(num, den);
+//    }
+    
+//    public static Fraction product(Fraction[] fractions)
+//    {
+//        return product(Arrays.asList(fractions));
+//    }
+    
     public double toDouble()
     {
         return (double) _numerator / (double) _denominator;
@@ -159,5 +176,21 @@ public class Fraction implements Comparable<Fraction>
         BigInteger bi1 = BigInteger.valueOf(f1._numerator).multiply(BigInteger.valueOf(f2._denominator));
         BigInteger bi2 = BigInteger.valueOf(f1._denominator).multiply(BigInteger.valueOf(f2._numerator));
         return bi1.compareTo(bi2);
+    }
+    
+    public static class Compound extends Fraction
+    {
+        protected List<Fraction> _fractions = new ArrayList<>();
+
+        private Compound(Fraction fraction)
+        {
+            super(fraction.getNumerator(), fraction.getDenominator());
+        }
+
+        public Compound(List<Fraction> fractions)
+        {
+            this(Fractions.product(fractions));
+            Collections.copy(_fractions, fractions);
+        }
     }
 }

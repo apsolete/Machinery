@@ -160,6 +160,6 @@ public class TeethNumbersDialog extends DialogBase
 
     public void setSelection(String selection)
     {
-        _teethNumbers = NumbersParser.getNumbersList(selection);
+        _teethNumbers = Numbers.getNumbersList(selection);
     }
 }
