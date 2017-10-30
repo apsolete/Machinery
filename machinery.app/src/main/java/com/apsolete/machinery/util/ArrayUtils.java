@@ -4,7 +4,7 @@ import java.util.*;
 
 public class ArrayUtils
 {
-    public static int[] toArray(List<Integer> list)
+    public static int[] toArrayInt(List<Integer> list)
     {
         int[] array = new int[list.size()];
         for (int i = 0; i < list.size(); i++)
@@ -13,7 +13,7 @@ public class ArrayUtils
         return array;
     }
 
-    public static long[] toArray(List<Long> list)
+    public static long[] toArrayLong(List<Long> list)
     {
         long[] array = new long[list.size()];
         for (int i = 0; i < list.size(); i++)

@@ -10,7 +10,7 @@ public class Numbers
             return null;
 
         List<Integer> numList = getNumbersList(strNumbers);
-        int[] numbers = ArrayUtils.toArray(numList);
+        int[] numbers = ArrayUtils.toArrayInt(numList);
         return numbers;
     }
 
@@ -124,7 +124,7 @@ public class Numbers
     public static long[] getFactors(long number)
     {
         List<Long> factors = getFactorsList(number);
-        long[] factorsArray = ArrayUtils.toArray(factors);
+        long[] factorsArray = ArrayUtils.toArrayLong(factors);
         return factorsArray;
     }
 
@@ -151,7 +151,7 @@ public class Numbers
     public static long[] getDividers(long number)
     {
         ArrayList<Long> dividersList = getDividersList(number);
-        long[] dividers = ArrayUtils.toArray(dividersList);
+        long[] dividers = ArrayUtils.toArrayLong(dividersList);
         return dividers;
     }
 
