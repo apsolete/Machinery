@@ -21,15 +21,15 @@ public class Fractions
         return product(Arrays.asList(fractions));
     }
     
-    public static Fraction.Compound compoundOfTwo(Fraction fraction)
+    public static CompoundFraction compoundOfTwo(Fraction fraction)
     {
         ArrayList<Fraction> fractions = new ArrayList<>();
-        return new Fraction.Compound(fractions);
+        return new CompoundFraction(fractions);
     }
     
-    public static Fraction.Compound compoundOfThree(Fraction fraction)
+    public static CompoundFraction compoundOfThree(Fraction fraction)
     {
         ArrayList<Fraction> fractions = new ArrayList<>();
-        return new Fraction.Compound(fractions);
+        return new CompoundFraction(fractions);
     }
 }

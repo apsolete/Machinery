@@ -217,7 +217,7 @@ public class Numbers
         else
         {
             long[] values = {1L, 1L, number};
-            List<List<Integer>> indexes = Combinations.combinations(Arrays.asList(new Integer[]{0, 1, 2}), 3);
+            List<List<Integer>> indexes = permutations(3);
             for (List<Integer> index: indexes)
             {
                 CompoundNumber item = compound(values[index.get(0)], values[index.get(1)], values[index.get(2)]);
@@ -259,5 +259,29 @@ public class Numbers
         }
 
         return numbers;
+    }
+
+    public static List<List<Integer>> combinations(int n, int k)
+    {
+        Combination c = new Combination(n,k);
+        List<List<Integer>> combinations = new ArrayList<List<Integer>>();
+        while (c.hasNext())
+        {
+            int[] comb = c.next();
+            combinations.add(ArrayUtils.toList(comb));
+        }
+        return combinations;
+    }
+
+    public static List<List<Integer>> permutations(int n)
+    {
+        Permutation p = new Permutation(n);
+        List<List<Integer>> permutations = new ArrayList<List<Integer>>();
+        while (p.hasNext())
+        {
+            int[] comb = p.next();
+            permutations.add(ArrayUtils.toList(comb));
+        }
+        return permutations;
     }
 }
