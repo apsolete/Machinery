@@ -1,6 +1,5 @@
 package com.apsolete.machinery.util;
 
-import android.support.annotation.*;
 import java.math.*;
 import java.util.*;
 
@@ -137,15 +136,25 @@ public class Fraction implements Comparable<Fraction>
     {
         return new Fraction(_numerator * factor, _denominator * factor);
     }
+    
+    public boolean isOne()
+    {
+        Fraction fr = getReduced();
+        return fr.getNumerator() == 1 && fr.getDenominator() == 1;
+    }
 
     @Override
     public String toString()
     {
-        return Long.toString(_numerator) + " / " + Long.toString(_denominator);
+        return new StringBuilder()
+            .append(_numerator)
+            .append(" / ")
+            .append(_denominator)
+            .toString();
     }
 
     @Override
-    public int compareTo(@NonNull Fraction fraction)
+    public int compareTo(Fraction fraction)
     {
         Fraction f1 = getReduced();
         Fraction f2 = fraction.getReduced();
@@ -159,5 +168,12 @@ public class Fraction implements Comparable<Fraction>
         BigInteger bi1 = BigInteger.valueOf(f1._numerator).multiply(BigInteger.valueOf(f2._denominator));
         BigInteger bi2 = BigInteger.valueOf(f1._denominator).multiply(BigInteger.valueOf(f2._numerator));
         return bi1.compareTo(bi2);
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        Fraction fraction = (Fraction)obj;
+        return compareTo(fraction) == 0;
     }
 }

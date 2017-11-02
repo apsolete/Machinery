@@ -45,8 +45,30 @@ public class CompoundNumber implements Comparable<CompoundNumber>
                         return c;
                 }
             }
+            else
+                return Integer.compare(_factors.length, number._factors.length);
         }
 
         return compareValue;
+    }
+    
+    @Override
+    public boolean equals(Object obj)
+    {
+        CompoundNumber number = (CompoundNumber)obj;
+        return compareTo(number) == 0;
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append(_factors[0]);
+        for (int i = 1; i < _factors.length; i++)
+        {
+            sb.append(" * ").append(_factors[i]);
+        }
+        sb.append(" = ").append(_value);
+        return sb.toString();
     }
 }

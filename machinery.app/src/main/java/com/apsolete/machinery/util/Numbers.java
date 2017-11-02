@@ -192,7 +192,7 @@ public class Numbers
         return compoundNumbers;
     }
     
-    public static List<CompoundNumber> toCompoundOfThree(long number)
+    public static List<CompoundNumber> getCompoundsOfThree(long number)
     {
         List<CompoundNumber> numbers = new ArrayList<>();
         long[] factors = getFactors(number);
@@ -231,22 +231,22 @@ public class Numbers
             }
             List<Long> factorsList = ArrayUtils.toList(factors);
             int fcount = factorsList.size();
-            for (int i = 1; i <= factorsList.size(); i++)
+            for (int i = 1; i <= fcount; i++)
             {
-                List<Long> n1s = factorsList.subList(0, i-1);
+                List<Long> n1s = factorsList.subList(0, i);
                 long n1 = product(n1s);
 
                 List<Long> rest = factorsList.subList(i, fcount);
                 for (int j = 1; j <= rest.size(); j++)
                 {
-                    List<Long> n2s = rest.subList(0, j-1);
+                    List<Long> n2s = rest.subList(0, j);
                     long n2 = product(n2s);
                     long n3 = number / (n1 * n2);
                     values = new long[]{ n1, n2, n3 };
                     for (List<Integer> index: indexes)
                     {
                         CompoundNumber item = compound(values[index.get(0)], values[index.get(1)], values[index.get(2)]);
-                        if (numbers.size() > 0)
+                        if (!numbers.isEmpty())
                         {
                             if (!numbers.contains(item))
                                 numbers.add(item);
