@@ -1,4 +1,5 @@
-package com.apsolete.machinery.activity.design.changegears;
+package com.apsolete.machinery.activity.design.changegears.lathe;
+
 import com.apsolete.machinery.util.*;
 
 public enum PitchUnit

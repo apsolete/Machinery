@@ -60,7 +60,7 @@ implements NavigationView.OnNavigationItemSelectedListener
                         break;
                     case R.id.fab3:
                     default:
-                        type = DesignContent.CHANGEGEARS;
+                        type = DesignContent.LATHECHANGEGEARS;
                         break;
                 }
                 showDesignActivity(type);
@@ -138,8 +138,11 @@ implements NavigationView.OnNavigationItemSelectedListener
         //noinspection SimplifiableIfStatement
         switch (id)
         {
-            case R.id.mi_change_gears:
-                showDesignActivity(DesignContent.CHANGEGEARS);
+            case R.id.mi_lathe_change_gears:
+                showDesignActivity(DesignContent.LATHECHANGEGEARS);
+                break;
+            case R.id.mi_hobber_change_gears:
+                showDesignActivity(DesignContent.HOBBERCHANGEGEARS);
                 break;
             case R.id.mi_gearwheels:
                 showDesignActivity(DesignContent.GEARWHEELS);

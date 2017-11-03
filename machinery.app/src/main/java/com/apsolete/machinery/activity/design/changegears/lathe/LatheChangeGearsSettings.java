@@ -1,13 +1,13 @@
-package com.apsolete.machinery.activity.design.changegears;
+package com.apsolete.machinery.activity.design.changegears.lathe;
+
+import com.apsolete.machinery.activity.*;
+import com.apsolete.machinery.activity.common.*;
+import com.apsolete.machinery.activity.R;
 
 import android.content.*;
 import android.support.v7.preference.*;
-import com.apsolete.machinery.activity.*;
-import com.apsolete.machinery.activity.common.*;
 
-import com.apsolete.machinery.activity.R;
-
-public class ChangeGearsSettings extends SettingsBase
+public class LatheChangeGearsSettings extends SettingsBase
 {
     public interface OnChangeListener
     {
@@ -18,7 +18,7 @@ public class ChangeGearsSettings extends SettingsBase
     
     private OnChangeListener _listener;
     
-    public ChangeGearsSettings(Context context)
+    public LatheChangeGearsSettings(Context context)
     {
         super(context, R.xml.settings_changegears, R.string.title_change_gears_design);
     }

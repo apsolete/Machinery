@@ -1,4 +1,4 @@
-package com.apsolete.machinery.activity.design.changegears;
+package com.apsolete.machinery.activity.design.changegears.lathe;
 
 import com.apsolete.machinery.activity.*;
 import com.apsolete.machinery.activity.common.*;
@@ -20,7 +20,7 @@ import java.text.*;
 import java.util.*;
 
 
-public class ChangeGears extends DesignContent
+public class LatheChangeGears extends DesignContent
 {
     private class Result
     {
@@ -70,7 +70,7 @@ public class ChangeGears extends DesignContent
 
     private ViewGroup _resultView;
     private ProgressBar _pb;
-    private ChangeGearsSettings _settings;
+    private LatheChangeGearsSettings _settings;
 
     private final GearSetControl[] _gearsCtrls = new GearSetControl[7];
     private final ArrayList<Result> _results = new ArrayList<>();
@@ -139,7 +139,7 @@ public class ChangeGears extends DesignContent
         }
     };
 
-    private CgCalculator.OnResultListener _resultListener = new CgCalculator.OnResultListener()
+    private ../lathe/LatheChangeGearCalculator.OnResultListener _resultListener = new ../lathe/LatheChangeGearCalculator.OnResultListener()
     {
         @Override
         public void onResult(final double ratio, final int[] gears)
@@ -340,7 +340,7 @@ public class ChangeGears extends DesignContent
 
     public ChangeGears()
     {
-        super(DesignContent.CHANGEGEARS, R.layout.content_changegears_design, R.string.title_change_gears_design);
+        super(DesignContent.LATHECHANGEGEARS, R.layout.content_changegears_design, R.string.title_change_gears_design);
     }
 
     @Override
@@ -507,7 +507,7 @@ public class ChangeGears extends DesignContent
             else if (_gearsCtrls[Z4].isChecked())
                 gears[0] = 4;
 
-            CgCalculator calc = new CgCalculator(_ratio, _ratioPrecision, _diffTeethGearing,
+            ../lathe/CgCalculator calc = new ../lathe/CgCalculator(_ratio, _ratioPrecision, _diffTeethGearing,
                                                  _diffTeethDoubleGear, _resultListener);
             calc.calculate(set, gears);
         }
@@ -520,7 +520,7 @@ public class ChangeGears extends DesignContent
             int[] gs5 = _gearsCtrls[Z5].getGears();
             int[] gs6 = _gearsCtrls[Z6].getGears();
 
-            CgCalculator calc = new CgCalculator(_ratio, _ratioPrecision, _diffTeethGearing,
+            ../lathe/CgCalculator calc = new ../lathe/CgCalculator(_ratio, _ratioPrecision, _diffTeethGearing,
                                                  _diffTeethDoubleGear, _resultListener);
             calc.calculate(gs1, gs2, gs3, gs4, gs5, gs6);
         }

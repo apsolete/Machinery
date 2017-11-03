@@ -4,20 +4,6 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="title_new_calc">New...</string>
-    <string name="title_gearing">Gearing...</string>
-    <string name="title_change_gears">Change Gears</string>
-    <string name="title_gearwheels">Gear Wheels</string>
-    <string name="title_gearwheels_extended">Gear Wheels Extended</string>
-    
-    <string name="title_belting">Belting...</string>
-    <string name="title_belt">Belt</string>
-    
-    <string name="title_save">Save</string>
-    <string name="title_clear">Clear</string>
-    <string name="title_close">Close</string>
-    <string name="title_options">Options</string>
     
     <!-- nav bar items -->
     <string name="nav_start_page">Start Page</string>

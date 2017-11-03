@@ -1,27 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:title="@string/title_new_calc"
+    <item android:title="@string/mi_title_new"
         android:icon="@drawable/ic_create_white_24dp">
         <menu>
-            <item android:title="@string/title_gearing">
+            <item android:title="@string/mi_title_change_gears">
                 <menu>
                     <item
-                        android:id="@+id/mi_change_gears"
-                        android:title="@string/title_change_gears"/>
+                        android:id="@+id/mi_lathe_change_gears"
+                        android:title="@string/mi_title_lathe_change_gears"/>
                     <item
-                        android:id="@+id/mi_gearwheels"
-                        android:title="@string/title_gearwheels"/>
-                    <item
-                        android:id="@+id/mi_gearwheels_extended"
-                        android:title="@string/title_gearwheels_extended"/>
+                        android:id="@+id/mi_hobber_change_gears"
+                        android:title="@string/mi_title_hobber_change_gears"/>
                 </menu>
             </item>
-            <item android:title="@string/title_belting">
+            <item android:title="@string/mi_title_gearing">
+                <menu>
+                    <item
+                        android:id="@+id/mi_gearwheels"
+                        android:title="@string/mi_title_gearwheels"/>
+                    <item
+                        android:id="@+id/mi_gearwheels_extended"
+                        android:title="@string/mi_title_gearwheels_extended"/>
+                </menu>
+            </item>
+            <item android:title="@string/mi_title_belting">
                 <menu>
                     <item
                         android:id="@+id/mi_belt"
-                        android:title="@string/title_belt"/>
+                        android:title="@string/mi_title_belt"/>
                 </menu>
             </item>
         </menu>
