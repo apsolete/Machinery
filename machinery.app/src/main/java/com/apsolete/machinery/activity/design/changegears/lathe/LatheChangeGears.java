@@ -3,6 +3,7 @@ package com.apsolete.machinery.activity.design.changegears.lathe;
 import com.apsolete.machinery.activity.*;
 import com.apsolete.machinery.activity.common.*;
 import com.apsolete.machinery.activity.design.*;
+import com.apsolete.machinery.activity.design.changegears.*;
 import com.apsolete.machinery.util.*;
 
 import android.content.Context;
@@ -26,6 +27,11 @@ public class LatheChangeGears extends DesignContent
     {
         public double Ratio;
         public int[] Gears = new int[6];
+        public Result(double ratio, int[] gears)
+        {
+            Ratio = ratio;
+            Gears = Arrays.copyOf(gears, 6);
+        }
     }
     
     public static final int RATIOS_BY_GEARS = 0;
@@ -67,13 +73,20 @@ public class LatheChangeGears extends DesignContent
     private EditText _gearRatioDenominator;
     private LinearLayout _gearRatioDenominatorLayout;
     private TextView _ratioResultText;
+    private TextView _resFromNumberText;
+    private TextView _resToNumberText;
 
     private ViewGroup _resultView;
     private ProgressBar _pb;
     private LatheChangeGearsSettings _settings;
+    private ListView _resultList;
 
     private final GearSetControl[] _gearsCtrls = new GearSetControl[7];
     private final ArrayList<Result> _results = new ArrayList<>();
+    private final ArrayList<String> _strResults = new ArrayList<>();
+    private ArrayAdapter<String> _adapter;
+    private int _resFromNumber = 1;
+    private int _resToNumber = 1;
 
     private final GearSetControl.OnGearSetListener _gearSetListener = new GearSetControl.OnGearSetListener()
     {
@@ -139,19 +152,27 @@ public class LatheChangeGears extends DesignContent
         }
     };
 
-    private ../lathe/LatheChangeGearCalculator.OnResultListener _resultListener = new ../lathe/LatheChangeGearCalculator.OnResultListener()
+    private LatheChangeGearCalculator.OnResultListener _resultListener = new LatheChangeGearCalculator.OnResultListener()
     {
         @Override
         public void onResult(final double ratio, final int[] gears)
         {
-            _activity.runOnUiThread(new Runnable()
-                {
-                    @Override
-                    public void run()
+            Result res = new Result(ratio, gears);
+            _results.add(res);
+            if (_results.size() < 100)
+            {
+                _resToNumber++;
+                _activity.runOnUiThread(new Runnable()
                     {
-                        setResultItem(ratio, gears);
-                    }
-                });
+                        @Override
+                        public void run()
+                        {
+                            _resToNumberText.setText(Integer.toString(_resToNumber));
+                            setResultItem(ratio, gears);
+                            //setResultItem2(ratio, gears);
+                        }
+                    });
+            }
         }
 
         @Override
@@ -181,7 +202,7 @@ public class LatheChangeGears extends DesignContent
         }
     };
 
-    private ChangeGearsSettings.OnChangeListener _settingsChangeListener = new ChangeGearsSettings.OnChangeListener()
+    private LatheChangeGearsSettings.OnChangeListener _settingsChangeListener = new LatheChangeGearsSettings.OnChangeListener()
     {
         @Override
         public void onDiffTeethGearingChanged(boolean newValue)
@@ -338,7 +359,7 @@ public class LatheChangeGears extends DesignContent
         }
     };
 
-    public ChangeGears()
+    public LatheChangeGears()
     {
         super(DesignContent.LATHECHANGEGEARS, R.layout.content_changegears_design, R.string.title_change_gears_design);
     }
@@ -390,6 +411,56 @@ public class LatheChangeGears extends DesignContent
                     calculate();
                 }
             });
+            
+        ImageButton showNextButton = (ImageButton)_view.findViewById(R.id.showNext);
+        showNextButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View p1)
+                {
+                    int fi = _resToNumber + 1;
+                    if (fi >= _results.size())
+                        return;
+                    int ti = fi + 99;
+                    if (ti > _results.size())
+                        ti = _results.size();
+                    _resFromNumber = fi;
+                    _resToNumber = ti;
+                    _resFromNumberText.setText(Integer.toString(_resFromNumber));
+                    _resToNumberText.setText(Integer.toString(_resToNumber));
+                    _resultView.removeAllViews();
+                    List<Result> next = _results.subList(_resFromNumber-1, _resToNumber-1);
+                    for (Result r: next)
+                    {
+                        setResultItem(r.Ratio, r.Gears);
+                    }
+                }
+            });
+            
+        ImageButton showPrevButton = (ImageButton)_view.findViewById(R.id.showPrev);
+        showPrevButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View p1)
+                {
+                    int fi = _resFromNumber - 100;
+                    if (fi < 0)
+                        return;
+                    int ti = fi + 99;
+                    if (ti > _results.size())
+                        ti = _results.size();
+                    _resFromNumber = fi;
+                    _resToNumber = ti;
+                    _resFromNumberText.setText(Integer.toString(_resFromNumber));
+                    _resToNumberText.setText(Integer.toString(_resToNumber));
+                    _resultView.removeAllViews();
+                    List<Result> next = _results.subList(_resFromNumber-1, _resToNumber-1);
+                    for (Result r: next)
+                    {
+                        setResultItem(r.Ratio, r.Gears);
+                    }
+                }
+            });
 
         _isOneSet = _oneSetSwitch.isChecked();
         setOneSetForAllGears(_isOneSet);
@@ -416,6 +487,8 @@ public class LatheChangeGears extends DesignContent
         _gearRatioDenominator.addTextChangedListener(_gearRatioDenomChangedListener);
         _gearRatioDenominatorLayout = (LinearLayout)_view.findViewById(R.id.gearRatioDenominatorLayout);
         _ratioResultText = (TextView)_view.findViewById(R.id.ratioResultText);
+        _resFromNumberText = (TextView)_view.findViewById(R.id.fromNumberText);
+        _resToNumberText = (TextView)_view.findViewById(R.id.toNumberText);
         
         _ratioAsFractionSwitch.setOnClickListener(new View.OnClickListener()
             {
@@ -430,9 +503,13 @@ public class LatheChangeGears extends DesignContent
                 }
             });
 
-        _settings = new ChangeGearsSettings(_activity);
+        _settings = new LatheChangeGearsSettings(_activity);
         _settings.setListener(_settingsChangeListener);
         setRatioFormat(_settings.getRatioPrecision());
+        
+        _resultList = (ListView)_view.findViewById(R.id.resultList);
+        _adapter = new ArrayAdapter<>(_activity, android.R.layout.simple_list_item_1, _strResults);
+        _resultList.setAdapter(_adapter);
 
         return _view;
     }
@@ -473,6 +550,10 @@ public class LatheChangeGears extends DesignContent
         _pb.setProgress(0);
         _results.clear();
         _resultView.removeAllViews();
+        _resFromNumber = 1;
+        _resToNumber = 1;
+        _resFromNumberText.setText(Integer.toString(_resFromNumber));
+        _resToNumberText.setText(Integer.toString(_resToNumber));
     }
 
     @Override
@@ -494,9 +575,11 @@ public class LatheChangeGears extends DesignContent
         
 
         // read settings
-        setRatioFormat(_settings.getRatioPrecision());
+        _ratioPrecision = _settings.getRatioPrecision();
         _diffTeethGearing = _settings.getDiffTeethGearing();
         _diffTeethDoubleGear = _settings.getDiffTeethDoubleGear();
+        setRatioFormat(_ratioPrecision);
+        double accuracy = Math.pow(10, -_ratioPrecision);
 
         if (_isOneSet)
         {
@@ -507,7 +590,7 @@ public class LatheChangeGears extends DesignContent
             else if (_gearsCtrls[Z4].isChecked())
                 gears[0] = 4;
 
-            ../lathe/CgCalculator calc = new ../lathe/CgCalculator(_ratio, _ratioPrecision, _diffTeethGearing,
+            LatheChangeGearCalculator calc = new LatheChangeGearCalculator(_ratio, accuracy, _diffTeethGearing,
                                                  _diffTeethDoubleGear, _resultListener);
             calc.calculate(set, gears);
         }
@@ -520,7 +603,7 @@ public class LatheChangeGears extends DesignContent
             int[] gs5 = _gearsCtrls[Z5].getGears();
             int[] gs6 = _gearsCtrls[Z6].getGears();
 
-            ../lathe/CgCalculator calc = new ../lathe/CgCalculator(_ratio, _ratioPrecision, _diffTeethGearing,
+            LatheChangeGearCalculator calc = new LatheChangeGearCalculator(_ratio, accuracy, _diffTeethGearing,
                                                  _diffTeethDoubleGear, _resultListener);
             calc.calculate(gs1, gs2, gs3, gs4, gs5, gs6);
         }
@@ -598,6 +681,13 @@ public class LatheChangeGears extends DesignContent
         {
             //
         }
+    }
+    
+    private void setResultItem2(double ratio, int[] gears)
+    {
+        String res = Arrays.toString(gears) + " = " + ratio;
+        _strResults.add(res);
+        _adapter.notifyDataSetChanged();
     }
 
     private void setOneSetForAllGears(boolean isOneSet)

@@ -264,9 +264,11 @@ public class LatheChangeGearCalculator extends AsyncTask<int[], Integer, Void>
                 {
                     for (int z3 : set)
                     {
+                        if (z1 == z3 || z2 == z3)
+                            continue;
                         for (int z4 : set)
                         {
-                            if (z1 == z2 || z1 == z3 || z1 == z4 || z2 == z3 || z2 == z4 || z3 == z4)
+                            if (z1 == z4 || z2 == z4 || z3 == z4)
                                 continue;
 
                             if (count == 4)
@@ -275,13 +277,11 @@ public class LatheChangeGearCalculator extends AsyncTask<int[], Integer, Void>
                             {
                                 for (int z5 : set)
                                 {
+                                    if (z1 == z5 || z2 == z5 || z3 == z5 || z4 == z5) 
+                                        continue;
                                     for (int z6 : set)
                                     {
-                                        if (z1 == z2 || z1 == z3 || z1 == z4 || z1 == z5 || z1 == z6 ||
-                                                z2 == z3 || z2 == z4 || z2 == z5 || z2 == z6 ||
-                                                z3 == z4 || z3 == z5 || z3 == z6 ||
-                                                z4 == z5 || z4 == z6 ||
-                                                z5 == z6)
+                                        if (z1 == z6 || z2 == z6 || z3 == z6 || z4 == z6 || z5 == z6)
                                             continue;
                                         calculateRatio(z1, z2, z3, z4, z5, z6);
                                     }

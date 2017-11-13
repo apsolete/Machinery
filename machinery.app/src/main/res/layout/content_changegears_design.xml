@@ -405,31 +405,31 @@
 				android:layout_margin="8dp"
 				android:layout_gravity="center_vertical"/>
 
-            <LinearLayout
-                android:id="@+id/gearRatioDenominatorLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                
-                <TextView
-                    android:id="@+id/solidusText"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:text="/"
-                    android:layout_margin="8dp"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:layout_gravity="center_vertical"/>
+			<LinearLayout
+				android:id="@+id/gearRatioDenominatorLayout"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/gearRatioDenominator"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_margin="8dp"
-                    android:ems="6"
-                    android:inputType="numberDecimal"
-                    android:layout_gravity="center_vertical"/>
+				<TextView
+					android:id="@+id/solidusText"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:text="/"
+					android:layout_margin="8dp"
+					android:textAppearance="?android:attr/textAppearanceLarge"
+					android:layout_gravity="center_vertical"/>
 
-            </LinearLayout>
+				<EditText
+					android:id="@+id/gearRatioDenominator"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:layout_margin="8dp"
+					android:ems="6"
+					android:inputType="numberDecimal"
+					android:layout_gravity="center_vertical"/>
+
+			</LinearLayout>
 
 		</LinearLayout>
 
@@ -463,10 +463,52 @@
 		<ProgressBar
 			android:id="@+id/progressBar"
 			style="?android:attr/progressBarStyleHorizontal"
-			android:layout_width="match_parent"
+			android:layout_width="200dp"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_vertical"
 			android:layout_margin="10dp"/>
+
+		<ImageButton
+			android:id="@+id/showPrev"
+			android:src="@drawable/ic_settings_white_24dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_margin="8dp"/>
+
+		<TextView
+			android:id="@+id/fromNumberText"
+			android:text="1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_margin="8dp"
+			android:gravity="center"/>
+
+		<TextView
+			android:text="-"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_margin="8dp"
+			android:gravity="center"/>
+
+		<TextView
+			android:id="@+id/toNumberText"
+			android:text="100"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_margin="8dp"
+			android:gravity="center"/>
+
+		<ImageButton
+			android:id="@+id/showNext"
+			android:src="@drawable/ic_settings_white_24dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"
+			android:layout_margin="8dp"/>
 
 	</LinearLayout>
 
@@ -474,8 +516,19 @@
 		android:id="@+id/resultLayout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@+id/progressLayout"
+		android:layout_below="@id/progressLayout"
 		android:orientation="vertical">
+
+		<Button
+			android:id="@+id/resultButton"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="result"/>
+
+		<ListView
+			android:id="@+id/resultList"
+			android:layout_width="match_parent"
+			android:layout_height="200dp"/>
 
 	</LinearLayout>
 
