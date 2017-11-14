@@ -15,7 +15,7 @@
             app:key="@string/checkbox_diffteethdoublegear"
             app:title="@string/title_diffteethdoublegear"
             app:summary="@string/summary_diffteethdoublegear"/>
-        <com.apsolete.machinery.activity.common.PrecisionPreference
+        <com.apsolete.machinery.common.PrecisionPreference
             app:key="@string/edittext_accuracyofratio"
             app:title="@string/title_accuracyofratio"
             app:summary="@string/summary_accuracyofratio"

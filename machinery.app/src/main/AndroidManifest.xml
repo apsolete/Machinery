@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="com.apsolete.machinery.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -21,16 +21,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".references.ReferencesActivity"
+            android:name="com.apsolete.machinery.references.ReferencesActivity"
             android:label="@string/title_references"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName="com.apsolete.machinery.activity.MainActivity">
+            android:parentActivityName="com.apsolete.machinery.activity.com.apsolete.machinery.MainActivity">
         </activity>
         <activity
-            android:name=".design.DesignActivity"
+            android:name="com.apsolete.machinery.design.DesignActivity"
             android:label="@string/title_gears_design"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName="com.apsolete.machinery.activity.MainActivity">
+            android:parentActivityName="com.apsolete.machinery.activity.com.apsolete.machinery.MainActivity">
         </activity>
     </application>
 
