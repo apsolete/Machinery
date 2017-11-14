@@ -12,16 +12,16 @@
 	android:paddingTop="@dimen/activity_vertical_margin"
 	app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <Switch
-        android:id="@+id/oneSetForAllGears"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:text="One Set for All Gears"
-        android:layout_gravity="center_vertical"
-        android:layout_margin="8dp"
-        android:textColor="@android:color/holo_green_dark"
-        android:textStyle="bold|italic"/>
-    
+	<Switch
+		android:id="@+id/oneSetForAllGears"
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:text="One Set for All Gears"
+		android:layout_gravity="center_vertical"
+		android:layout_margin="8dp"
+		android:textColor="@android:color/holo_green_dark"
+		android:textStyle="bold|italic"/>
+
 	<LinearLayout
 		android:id="@+id/oneSetLayout"
 		android:layout_width="match_parent"
@@ -455,7 +455,7 @@
 
 		<ImageButton
 			android:id="@+id/showPrev"
-			android:src="@drawable/ic_settings_white_24dp"
+			android:src="@drawable/ic_arrow_back_white_24dp"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_vertical"
@@ -489,7 +489,7 @@
 
 		<ImageButton
 			android:id="@+id/showNext"
-			android:src="@drawable/ic_settings_white_24dp"
+			android:src="@drawable/ic_arrow_forward_white_24dp"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_vertical"
@@ -497,18 +497,19 @@
 
 	</LinearLayout>
 
-    <ScrollView
-        android:id="@+id/resultsScroll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+	<ScrollView
+		android:id="@+id/resultsScroll"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
 		android:layout_below="@id/progressLayout">
-        <LinearLayout
-            android:id="@+id/resultsLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"/>
-    </ScrollView>
-	
+
+		<LinearLayout
+			android:id="@+id/resultsLayout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"/>
+
+	</ScrollView>
 
 </RelativeLayout>
 
