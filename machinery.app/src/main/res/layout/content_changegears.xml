@@ -519,16 +519,7 @@
 		android:layout_below="@id/progressLayout"
 		android:orientation="vertical">
 
-		<Button
-			android:id="@+id/resultButton"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="result"/>
 
-		<ListView
-			android:id="@+id/resultList"
-			android:layout_width="match_parent"
-			android:layout_height="200dp"/>
 
 	</LinearLayout>
 

@@ -24,10 +24,13 @@ public class ChangeGears extends DesignContent
     {
         public double Ratio;
         public int[] Gears = new int[6];
-        public Result(double ratio, int[] gears)
+        public int Number;
+
+        public Result(double ratio, int[] gears, int number)
         {
             Ratio = ratio;
             Gears = Arrays.copyOf(gears, 6);
+            Number = number;
         }
     }
     
@@ -76,12 +79,9 @@ public class ChangeGears extends DesignContent
     private ViewGroup _resultView;
     private ProgressBar _pb;
     private ChangeGearsSettings _settings;
-    private ListView _resultList;
 
     private final GearSetControl[] _gearsCtrls = new GearSetControl[7];
     private final ArrayList<Result> _results = new ArrayList<>();
-    private final ArrayList<String> _strResults = new ArrayList<>();
-    private ArrayAdapter<String> _adapter;
     private int _resFromNumber = 1;
     private int _resToNumber = 1;
 
@@ -154,22 +154,8 @@ public class ChangeGears extends DesignContent
         @Override
         public void onResult(final double ratio, final int[] gears)
         {
-            Result res = new Result(ratio, gears);
+            Result res = new Result(ratio, gears, _results.size()+1);
             _results.add(res);
-            if (_results.size() < 100)
-            {
-                _resToNumber++;
-                _activity.runOnUiThread(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            _resToNumberText.setText(Integer.toString(_resToNumber));
-                            setResultItem(ratio, gears);
-                            //setResultItem2(ratio, gears);
-                        }
-                    });
-            }
         }
 
         @Override
@@ -193,7 +179,17 @@ public class ChangeGears extends DesignContent
                     @Override
                     public void run()
                     {
-                        Snackbar.make(_view, "Calculated " + count + " ratios.", Snackbar.LENGTH_SHORT).show();
+                        int shown = 0;
+                        for (Result res: _results)
+                        {
+                            if (res.Number > 100)
+                                break;
+                            setResultItem(res);
+                            shown++;
+                            _resToNumber = res.Number;
+                            _resToNumberText.setText(Integer.toString(_resToNumber));
+                        }
+                        Snackbar.make(_view, "Calculated " + count + " ratios. Shown " + shown + " results.", Snackbar.LENGTH_SHORT).show();
                     }
                 });
         }
@@ -423,14 +419,7 @@ public class ChangeGears extends DesignContent
                         ti = _results.size();
                     _resFromNumber = fi;
                     _resToNumber = ti;
-                    _resFromNumberText.setText(Integer.toString(_resFromNumber));
-                    _resToNumberText.setText(Integer.toString(_resToNumber));
-                    _resultView.removeAllViews();
-                    List<Result> next = _results.subList(_resFromNumber-1, _resToNumber-1);
-                    for (Result r: next)
-                    {
-                        setResultItem(r.Ratio, r.Gears);
-                    }
+                    showResults();
                 }
             });
             
@@ -448,14 +437,7 @@ public class ChangeGears extends DesignContent
                         ti = _results.size();
                     _resFromNumber = fi;
                     _resToNumber = ti;
-                    _resFromNumberText.setText(Integer.toString(_resFromNumber));
-                    _resToNumberText.setText(Integer.toString(_resToNumber));
-                    _resultView.removeAllViews();
-                    List<Result> next = _results.subList(_resFromNumber-1, _resToNumber-1);
-                    for (Result r: next)
-                    {
-                        setResultItem(r.Ratio, r.Gears);
-                    }
+                    showResults();
                 }
             });
 
@@ -503,10 +485,6 @@ public class ChangeGears extends DesignContent
         _settings = new ChangeGearsSettings(_activity);
         _settings.setListener(_settingsChangeListener);
         setRatioFormat(_settings.getRatioPrecision());
-        
-        _resultList = (ListView)_view.findViewById(R.id.resultList);
-        _adapter = new ArrayAdapter<>(_activity, android.R.layout.simple_list_item_1, _strResults);
-        _resultList.setAdapter(_adapter);
 
         return _view;
     }
@@ -568,9 +546,6 @@ public class ChangeGears extends DesignContent
     @Override
     protected void calculate()
     {
-        //_ratio = getRatio();
-        
-
         // read settings
         _ratioPrecision = _settings.getRatioPrecision();
         _diffTeethGearing = _settings.getDiffTeethGearing();
@@ -635,7 +610,7 @@ public class ChangeGears extends DesignContent
         dialog.show(fragmentManager, "dialog");
     }
 
-    private void setResultItem(double ratio, int[] gears)
+    private void setResultItem(Result result)
     {
         try
         {
@@ -643,34 +618,37 @@ public class ChangeGears extends DesignContent
             LayoutInflater layoutInflater = (LayoutInflater)_activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = layoutInflater.inflate(R.layout.change_gears_result, null);
 
-            int visibility;
-            TextView text = (TextView)view.findViewById(R.id.z1Text);
-            text.setText(Integer.toString(gears[0]));
-            text = (TextView)view.findViewById(R.id.z2Text);
-            text.setText(Integer.toString(gears[1]));
+            TextView text = (TextView)view.findViewById(R.id.resultNumberText);
+            text.setText(Integer.toString(result.Number));
 
-            visibility = gears[2] > 0 ? View.VISIBLE : View.INVISIBLE;
+            int visibility;
+            text = (TextView)view.findViewById(R.id.z1Text);
+            text.setText(Integer.toString(result.Gears[0]));
+            text = (TextView)view.findViewById(R.id.z2Text);
+            text.setText(Integer.toString(result.Gears[1]));
+
+            visibility = result.Gears[2] > 0 ? View.VISIBLE : View.INVISIBLE;
             view.findViewById(R.id.mult1).setVisibility(visibility);
             view.findViewById(R.id.z3z4Div).setVisibility(visibility);
             text = (TextView)view.findViewById(R.id.z3Text);
             text.setVisibility(visibility);
-            if (visibility == View.VISIBLE) text.setText(Integer.toString(gears[2]));
+            if (visibility == View.VISIBLE) text.setText(Integer.toString(result.Gears[2]));
             text = (TextView)view.findViewById(R.id.z4Text);
             text.setVisibility(visibility);
-            if (visibility == View.VISIBLE) text.setText(Integer.toString(gears[3]));
+            if (visibility == View.VISIBLE) text.setText(Integer.toString(result.Gears[3]));
 
-            visibility = gears[4] > 0 ? View.VISIBLE : View.INVISIBLE;
+            visibility = result.Gears[4] > 0 ? View.VISIBLE : View.INVISIBLE;
             view.findViewById(R.id.mult2).setVisibility(visibility);
             view.findViewById(R.id.z5z6Div).setVisibility(visibility);
             text = (TextView)view.findViewById(R.id.z5Text);
             text.setVisibility(visibility);
-            if (visibility == View.VISIBLE) text.setText(Integer.toString(gears[4]));
+            if (visibility == View.VISIBLE) text.setText(Integer.toString(result.Gears[4]));
             text = (TextView)view.findViewById(R.id.z6Text);
             text.setVisibility(visibility);
-            if (visibility == View.VISIBLE) text.setText(Integer.toString(gears[5]));
+            if (visibility == View.VISIBLE) text.setText(Integer.toString(result.Gears[5]));
 
             text = (TextView)view.findViewById(R.id.ratioText);
-            text.setText(_ratioFormat.format(ratio));
+            text.setText(_ratioFormat.format(result.Ratio));
 
             _resultView.addView(view);
         }
@@ -680,11 +658,16 @@ public class ChangeGears extends DesignContent
         }
     }
     
-    private void setResultItem2(double ratio, int[] gears)
+    private void showResults()
     {
-        String res = Arrays.toString(gears) + " = " + ratio;
-        _strResults.add(res);
-        _adapter.notifyDataSetChanged();
+        _resFromNumberText.setText(Integer.toString(_resFromNumber));
+        _resToNumberText.setText(Integer.toString(_resToNumber));
+        _resultView.removeAllViews();
+        List<Result> next = _results.subList(_resFromNumber-1, _resToNumber);
+        for (Result r: next)
+        {
+            setResultItem(r);
+        }
     }
 
     private void setOneSetForAllGears(boolean isOneSet)
