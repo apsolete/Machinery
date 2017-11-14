@@ -16,7 +16,9 @@ public class Numbers
 
     public static ArrayList<Integer> getNumbersList(String strNumbers)
     {
-        String[] strs = strNumbers.split(" ");
+        String str = strNumbers.replaceAll(" +", " ")
+            .replaceAll(" -", "-").replaceAll("- ", "-").replaceAll("-+", "-");
+        String[] strs = str.split(" ");
         ArrayList<Integer> numbers = new ArrayList<>();
 
         for (String s : strs)
@@ -26,10 +28,15 @@ public class Numbers
                 if (s.contains("-"))
                 {
                     String[] range = s.split("-");
-                    int r1 = Integer.parseInt(range[0]);
-                    int r2 = Integer.parseInt(range[1]);
-                    int start = Math.min(r1, r2);
-                    int end = Math.max(r1, r2);
+                    int start = Integer.parseInt(range[0]);
+                    int end = Integer.parseInt(range[0]);
+                    for (int i = 1; i < range.length; i++)
+                    {
+                        int r = Integer.parseInt(range[i]);
+                        start = Math.min(start, r);
+                        end = Math.max(end, r);
+                    }
+                    
                     while (start <= end)
                     {
                         numbers.add(start);
