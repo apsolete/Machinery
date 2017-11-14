@@ -22,7 +22,7 @@ public abstract class DesignContent extends ContentBase
         return _type;
     }
     
-    public abstract SettingsBase  getSettings();
+    public abstract SettingsBase getSettings();
     public abstract void save();
     public abstract void clear();
     public abstract boolean close();

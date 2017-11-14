@@ -706,12 +706,12 @@ public class ChangeGears extends DesignContent
 
     private void setRatioFormat(int precision)
     {
-        String pattern = "#0.0";
+        StringBuilder pattern = new StringBuilder("#0.0");
         for (int i = 0; i < precision-1; i++)
-            pattern += "#";
+            pattern.append("#");
         DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols(Locale.getDefault());
         formatSymbols.setDecimalSeparator('.');
-        _ratioFormat = new DecimalFormat(pattern, formatSymbols);
+        _ratioFormat = new DecimalFormat(pattern.toString(), formatSymbols);
         _ratioFormat.setRoundingMode(RoundingMode.CEILING);
     }
     
@@ -732,9 +732,9 @@ public class ChangeGears extends DesignContent
         if (_calcType == GEARS_BY_THREAD)
         {
             String pitchStr = _threadPitchValue.getText().toString();
-            double thrPitch = (pitchStr != null && !pitchStr.isEmpty()) ? Double.parseDouble(pitchStr) : 0;
+            double thrPitch = !pitchStr.isEmpty() ? Double.parseDouble(pitchStr) : 0;
             pitchStr = _screwPitchValue.getText().toString();
-            double scrPitch = (pitchStr != null && !pitchStr.isEmpty()) ? Double.parseDouble(pitchStr) : 0;
+            double scrPitch = !pitchStr.isEmpty() ? Double.parseDouble(pitchStr) : 0;
             
             if (thrPitch == 0.0)
             {
@@ -759,9 +759,9 @@ public class ChangeGears extends DesignContent
         else if (_calcType == GEARS_BY_RATIO)
         {
             String ratioStr = _gearRatioValue.getText().toString();
-            double ratioNum = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
+            double ratioNum = !ratioStr.isEmpty() ? Double.parseDouble(ratioStr) : 0;
             ratioStr = _gearRatioDenominator.getText().toString();
-            double ratioDen = (ratioStr != null && !ratioStr.isEmpty()) ? Double.parseDouble(ratioStr) : 0;
+            double ratioDen = !ratioStr.isEmpty() ? Double.parseDouble(ratioStr) : 0;
 
             if (ratioNum == 0.0)
             {

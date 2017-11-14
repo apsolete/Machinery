@@ -19,7 +19,7 @@ public class ChangeGearsCalculator extends AsyncTask<int[], Integer, Void>
     private boolean _isOneSet = false;
     private int _calculatedRatios = 0;
     
-    public ChangeGearsCalculator(double ratio, double accuracy, boolean dtg, boolean dtdg, OnResultListener resultListener)
+    ChangeGearsCalculator(double ratio, double accuracy, boolean dtg, boolean dtdg, OnResultListener resultListener)
     {
         _ratio = ratio;
         _accuracy = accuracy;
@@ -33,29 +33,14 @@ public class ChangeGearsCalculator extends AsyncTask<int[], Integer, Void>
         _ratio = ratio;
     }
 
-    public double getRatio()
-    {
-        return _ratio;
-    }
-
     public void setAccuracy(double accuracy)
     {
         _accuracy = accuracy;
     }
 
-    public double getAccuracy()
-    {
-        return _accuracy;
-    }
-    
     public void setDiffTeethGearing(boolean diffTeethGearing)
     {
         _diffTeethGearing = diffTeethGearing;
-    }
-
-    public boolean isDiffTeethGearing()
-    {
-        return _diffTeethGearing;
     }
 
     public void setDiffTeethDoubleGear(boolean diffTeethDoubleGear)
@@ -63,21 +48,11 @@ public class ChangeGearsCalculator extends AsyncTask<int[], Integer, Void>
         _diffTeethDoubleGear = diffTeethDoubleGear;
     }
 
-    public boolean isDiffTeethDoubleGear()
-    {
-        return _diffTeethDoubleGear;
-    }
-
     public void setResultListener(OnResultListener resultListener)
     {
         _resultListener = resultListener;
     }
 
-    public OnResultListener getResultListener()
-    {
-        return _resultListener;
-    }
-    
     @Override
     protected Void doInBackground(int[]... params)
     {
