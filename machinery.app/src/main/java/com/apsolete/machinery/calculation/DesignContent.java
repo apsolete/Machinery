@@ -1,14 +1,13 @@
-package com.apsolete.machinery.design;
+package com.apsolete.machinery.calculation;
 
 import com.apsolete.machinery.common.*;
 
 public abstract class DesignContent extends ContentBase
 {
-    public static final int LATHECHANGEGEARS = 0;
-    public static final int HOBBERCHANGEGEARS = 1;
-    public static final int GEARWHEELS = 2;
-    public static final int GEARWHEELSEXT = 3;
-    public static final int BELTS = 4;
+    public static final int CHANGEGEARS = 0;
+    public static final int GEARWHEELS = 1;
+    public static final int GEARWHEELSEXT = 2;
+    public static final int BELTS = 3;
     
     private int _type;
     

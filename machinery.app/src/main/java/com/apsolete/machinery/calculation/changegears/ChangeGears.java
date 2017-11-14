@@ -1,9 +1,8 @@
-package com.apsolete.machinery.design.changegears.lathe;
+package com.apsolete.machinery.calculation.changegears;
 
 import com.apsolete.machinery.activity.*;
 import com.apsolete.machinery.common.*;
-import com.apsolete.machinery.design.*;
-import com.apsolete.machinery.design.changegears.*;
+import com.apsolete.machinery.calculation.*;
 import com.apsolete.machinery.utils.*;
 
 import android.content.Context;
@@ -19,7 +18,7 @@ import java.text.*;
 import java.util.*;
 
 
-public class LatheChangeGears extends DesignContent
+public class ChangeGears extends DesignContent
 {
     private class Result
     {
@@ -76,7 +75,7 @@ public class LatheChangeGears extends DesignContent
 
     private ViewGroup _resultView;
     private ProgressBar _pb;
-    private LatheChangeGearsSettings _settings;
+    private ChangeGearsSettings _settings;
     private ListView _resultList;
 
     private final GearSetControl[] _gearsCtrls = new GearSetControl[7];
@@ -150,7 +149,7 @@ public class LatheChangeGears extends DesignContent
         }
     };
 
-    private LatheChangeGearCalculator.OnResultListener _resultListener = new LatheChangeGearCalculator.OnResultListener()
+    private ChangeGearsCalculator.OnResultListener _resultListener = new ChangeGearsCalculator.OnResultListener()
     {
         @Override
         public void onResult(final double ratio, final int[] gears)
@@ -200,7 +199,7 @@ public class LatheChangeGears extends DesignContent
         }
     };
 
-    private LatheChangeGearsSettings.OnChangeListener _settingsChangeListener = new LatheChangeGearsSettings.OnChangeListener()
+    private ChangeGearsSettings.OnChangeListener _settingsChangeListener = new ChangeGearsSettings.OnChangeListener()
     {
         @Override
         public void onDiffTeethGearingChanged(boolean newValue)
@@ -357,9 +356,9 @@ public class LatheChangeGears extends DesignContent
         }
     };
 
-    public LatheChangeGears()
+    public ChangeGears()
     {
-        super(DesignContent.LATHECHANGEGEARS, R.layout.content_changegears_design, R.string.title_change_gears_design);
+        super(DesignContent.CHANGEGEARS, R.layout.content_changegears, R.string.title_change_gears_design);
     }
 
     @Override
@@ -501,7 +500,7 @@ public class LatheChangeGears extends DesignContent
                 }
             });
 
-        _settings = new LatheChangeGearsSettings(_activity);
+        _settings = new ChangeGearsSettings(_activity);
         _settings.setListener(_settingsChangeListener);
         setRatioFormat(_settings.getRatioPrecision());
         
@@ -588,7 +587,7 @@ public class LatheChangeGears extends DesignContent
             else if (_gearsCtrls[Z4].isChecked())
                 gears[0] = 4;
 
-            LatheChangeGearCalculator calc = new LatheChangeGearCalculator(_ratio, accuracy, _diffTeethGearing,
+            ChangeGearsCalculator calc = new ChangeGearsCalculator(_ratio, accuracy, _diffTeethGearing,
                                                  _diffTeethDoubleGear, _resultListener);
             calc.calculate(set, gears);
         }
@@ -601,7 +600,7 @@ public class LatheChangeGears extends DesignContent
             int[] gs5 = _gearsCtrls[Z5].getGears();
             int[] gs6 = _gearsCtrls[Z6].getGears();
 
-            LatheChangeGearCalculator calc = new LatheChangeGearCalculator(_ratio, accuracy, _diffTeethGearing,
+            ChangeGearsCalculator calc = new ChangeGearsCalculator(_ratio, accuracy, _diffTeethGearing,
                                                  _diffTeethDoubleGear, _resultListener);
             calc.calculate(gs1, gs2, gs3, gs4, gs5, gs6);
         }

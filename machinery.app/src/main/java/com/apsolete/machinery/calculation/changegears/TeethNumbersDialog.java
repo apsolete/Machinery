@@ -1,4 +1,4 @@
-package com.apsolete.machinery.design.changegears;
+package com.apsolete.machinery.calculation.changegears;
 
 import com.apsolete.machinery.activity.R;
 import com.apsolete.machinery.common.DialogBase;

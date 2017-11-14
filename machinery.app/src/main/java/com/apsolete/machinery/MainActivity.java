@@ -14,7 +14,7 @@ import com.apsolete.machinery.contents.AboutContent;
 import com.apsolete.machinery.contents.HelpContent;
 import com.apsolete.machinery.contents.SettingsContent;
 import com.apsolete.machinery.contents.StartPageContent;
-import com.apsolete.machinery.design.*;
+import com.apsolete.machinery.calculation.*;
 import com.apsolete.machinery.common.fabs.*;
 import com.apsolete.machinery.references.*;
 
@@ -61,7 +61,7 @@ implements NavigationView.OnNavigationItemSelectedListener
                         break;
                     case R.id.fab3:
                     default:
-                        type = DesignContent.LATHECHANGEGEARS;
+                        type = DesignContent.CHANGEGEARS;
                         break;
                 }
                 showDesignActivity(type);
@@ -139,11 +139,8 @@ implements NavigationView.OnNavigationItemSelectedListener
         //noinspection SimplifiableIfStatement
         switch (id)
         {
-            case R.id.mi_lathe_change_gears:
-                showDesignActivity(DesignContent.LATHECHANGEGEARS);
-                break;
-            case R.id.mi_hobber_change_gears:
-                showDesignActivity(DesignContent.HOBBERCHANGEGEARS);
+            case R.id.mi_change_gears:
+                showDesignActivity(DesignContent.CHANGEGEARS);
                 break;
             case R.id.mi_gearwheels:
                 showDesignActivity(DesignContent.GEARWHEELS);

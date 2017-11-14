@@ -4,16 +4,9 @@
     <item android:title="@string/mi_title_new"
         android:icon="@drawable/ic_create_white_24dp">
         <menu>
-            <item android:title="@string/mi_title_change_gears">
-                <menu>
-                    <item
-                        android:id="@+id/mi_lathe_change_gears"
-                        android:title="@string/mi_title_lathe_change_gears"/>
-                    <item
-                        android:id="@+id/mi_hobber_change_gears"
-                        android:title="@string/mi_title_hobber_change_gears"/>
-                </menu>
-            </item>
+            <item
+                android:id="@+id/mi_change_gears"
+                android:title="@string/mi_title_change_gears"/>
             <item android:title="@string/mi_title_gearing">
                 <menu>
                     <item

@@ -1,4 +1,4 @@
-package com.apsolete.machinery.design.changegears.lathe;
+package com.apsolete.machinery.calculation.changegears;
 
 import com.apsolete.machinery.common.TextChangedListener;
 

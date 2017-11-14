@@ -1,8 +1,8 @@
-package com.apsolete.machinery.design.changegears.lathe;
+package com.apsolete.machinery.calculation.changegears;
 
 import android.os.*;
 
-public class LatheChangeGearCalculator extends AsyncTask<int[], Integer, Void>
+public class ChangeGearsCalculator extends AsyncTask<int[], Integer, Void>
 {
     public interface OnResultListener
     {
@@ -19,7 +19,7 @@ public class LatheChangeGearCalculator extends AsyncTask<int[], Integer, Void>
     private boolean _isOneSet = false;
     private int _calculatedRatios = 0;
     
-    public LatheChangeGearCalculator(double ratio, double accuracy, boolean dtg, boolean dtdg, OnResultListener resultListener)
+    public ChangeGearsCalculator(double ratio, double accuracy, boolean dtg, boolean dtdg, OnResultListener resultListener)
     {
         _ratio = ratio;
         _accuracy = accuracy;

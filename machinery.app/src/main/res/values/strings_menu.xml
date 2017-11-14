@@ -2,10 +2,8 @@
 <resources>
     <string name="mi_title_new">New...</string>
     
-    <string name="mi_title_change_gears">Change Gears...</string>
-        <string name="mi_title_lathe_change_gears">Lathe Change Gears</string>
-        <string name="mi_title_hobber_change_gears">Hobber Change Gears</string>
-    
+    <string name="mi_title_change_gears">Change Gears</string>
+
     <string name="mi_title_gearing">Gearing...</string>
         <string name="mi_title_gearwheels">Gear Wheels</string>
         <string name="mi_title_gearwheels_extended">Gear Wheels Extended</string>

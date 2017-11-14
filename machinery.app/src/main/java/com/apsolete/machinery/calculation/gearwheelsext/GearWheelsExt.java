@@ -1,14 +1,14 @@
-package com.apsolete.machinery.design.gearwheelsext;
+package com.apsolete.machinery.calculation.gearwheelsext;
 
 import com.apsolete.machinery.activity.*;
 import com.apsolete.machinery.common.*;
-import com.apsolete.machinery.design.*;
+import com.apsolete.machinery.calculation.*;
 
 public class GearWheelsExt extends DesignContent
 {
     public GearWheelsExt()
     {
-        super(DesignContent.GEARWHEELSEXT, R.layout.content_gearwheelsext_design, R.string.title_gearwheelsext_design);
+        super(DesignContent.GEARWHEELSEXT, R.layout.content_gearwheelsext, R.string.title_gearwheelsext_design);
     }
     
     @Override

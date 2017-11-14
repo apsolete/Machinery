@@ -67,7 +67,7 @@ public class PrecisionPreference extends Preference
     public PrecisionPreference(Context context, AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);
-        setWidgetLayoutResource(R.layout.precision_preference);
+        setWidgetLayoutResource(R.layout.preference_precision);
     }
 
     @Override

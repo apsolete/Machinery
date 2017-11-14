@@ -1,9 +1,9 @@
-package com.apsolete.machinery.design;
+package com.apsolete.machinery.calculation;
 
 import com.apsolete.machinery.activity.*;
-import com.apsolete.machinery.design.changegears.lathe.*;
-import com.apsolete.machinery.design.gearwheels.*;
-import com.apsolete.machinery.design.gearwheelsext.*;
+import com.apsolete.machinery.calculation.changegears.ChangeGears;
+import com.apsolete.machinery.calculation.gearwheels.*;
+import com.apsolete.machinery.calculation.gearwheelsext.*;
 
 import android.os.*;
 import android.support.v4.app.*;
@@ -15,8 +15,7 @@ public class DesignActivity  extends AppCompatActivity
 {
     private boolean _isSettingsOpened;
     private DesignContent _currentDesign;
-    private DesignContent _latheChangeGears = new LatheChangeGears();
-    private DesignContent _hobberChangeGears = null;
+    private DesignContent _latheChangeGears = new ChangeGears();
     private DesignContent _gearWheels = new GearWheels();
     private DesignContent _gearWheelsExt = new GearWheelsExt();
     private MenuItem _miSave;
@@ -28,7 +27,7 @@ public class DesignActivity  extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_design);
+        setContentView(R.layout.activity_calculation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_calculation);
         setSupportActionBar(toolbar);
 
@@ -118,11 +117,8 @@ public class DesignActivity  extends AppCompatActivity
     {
         switch (type)
         {
-            case DesignContent.LATHECHANGEGEARS:
+            case DesignContent.CHANGEGEARS:
                 _currentDesign = _latheChangeGears;
-                break;
-            case DesignContent.HOBBERCHANGEGEARS:
-                _currentDesign = _hobberChangeGears;
                 break;
             case DesignContent.GEARWHEELS:
                 _currentDesign = _gearWheels;
