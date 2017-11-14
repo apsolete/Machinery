@@ -377,7 +377,7 @@ public class ChangeGears extends DesignContent
                 }
             });
 
-        _resultView = (ViewGroup)_view.findViewById(R.id.resultLayout);
+        _resultView = (ViewGroup)_view.findViewById(R.id.resultsLayout);
 
         _gearsCtrls[Z0] = new GearSetControl(Z0, _view, R.id.z0Set, R.id.z0Gears, 0, _gearSetListener);
         _gearsCtrls[Z0].setEnabled(_oneSetSwitch.isChecked());
@@ -616,7 +616,7 @@ public class ChangeGears extends DesignContent
         {
             //_pb.setProgress(1);
             LayoutInflater layoutInflater = (LayoutInflater)_activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = layoutInflater.inflate(R.layout.change_gears_result, null);
+            View view = layoutInflater.inflate(R.layout.change_gears_result2, null);
 
             TextView text = (TextView)view.findViewById(R.id.resultNumberText);
             text.setText(Integer.toString(result.Number));
@@ -627,25 +627,25 @@ public class ChangeGears extends DesignContent
             text = (TextView)view.findViewById(R.id.z2Text);
             text.setText(Integer.toString(result.Gears[1]));
 
-            visibility = result.Gears[2] > 0 ? View.VISIBLE : View.INVISIBLE;
-            view.findViewById(R.id.mult1).setVisibility(visibility);
-            view.findViewById(R.id.z3z4Div).setVisibility(visibility);
-            text = (TextView)view.findViewById(R.id.z3Text);
-            text.setVisibility(visibility);
-            if (visibility == View.VISIBLE) text.setText(Integer.toString(result.Gears[2]));
-            text = (TextView)view.findViewById(R.id.z4Text);
-            text.setVisibility(visibility);
-            if (visibility == View.VISIBLE) text.setText(Integer.toString(result.Gears[3]));
+            visibility = result.Gears[2] > 0 ? View.VISIBLE : View.GONE;
+            view.findViewById(R.id.gears34Layout).setVisibility(visibility);
+            if (visibility == View.VISIBLE)
+            {
+                text = (TextView)view.findViewById(R.id.z3Text);
+                text.setText(Integer.toString(result.Gears[2]));
+                text = (TextView)view.findViewById(R.id.z4Text);
+                text.setText(Integer.toString(result.Gears[3]));
+            }
 
-            visibility = result.Gears[4] > 0 ? View.VISIBLE : View.INVISIBLE;
-            view.findViewById(R.id.mult2).setVisibility(visibility);
-            view.findViewById(R.id.z5z6Div).setVisibility(visibility);
-            text = (TextView)view.findViewById(R.id.z5Text);
-            text.setVisibility(visibility);
-            if (visibility == View.VISIBLE) text.setText(Integer.toString(result.Gears[4]));
-            text = (TextView)view.findViewById(R.id.z6Text);
-            text.setVisibility(visibility);
-            if (visibility == View.VISIBLE) text.setText(Integer.toString(result.Gears[5]));
+            visibility = result.Gears[4] > 0 ? View.VISIBLE : View.GONE;
+            view.findViewById(R.id.gears56Layout).setVisibility(visibility);
+            if (visibility == View.VISIBLE)
+            {
+                text = (TextView)view.findViewById(R.id.z5Text);
+                text.setText(Integer.toString(result.Gears[4]));
+                text = (TextView)view.findViewById(R.id.z6Text);
+                text.setText(Integer.toString(result.Gears[5]));
+            }
 
             text = (TextView)view.findViewById(R.id.ratioText);
             text.setText(_ratioFormat.format(result.Ratio));
