@@ -1,5 +1,11 @@
 package com.apsolete.machinery;
 
+import com.apsolete.machinery.R;
+import com.apsolete.machinery.contents.*;
+import com.apsolete.machinery.calculation.*;
+import com.apsolete.machinery.common.fabs.*;
+import com.apsolete.machinery.references.*;
+
 import android.content.*;
 import android.os.*;
 import android.support.design.widget.*;
@@ -8,15 +14,6 @@ import android.support.v4.widget.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
 import android.view.*;
-
-import com.apsolete.machinery.activity.R;
-import com.apsolete.machinery.contents.AboutContent;
-import com.apsolete.machinery.contents.HelpContent;
-import com.apsolete.machinery.contents.SettingsContent;
-import com.apsolete.machinery.contents.StartPageContent;
-import com.apsolete.machinery.calculation.*;
-import com.apsolete.machinery.common.fabs.*;
-import com.apsolete.machinery.references.*;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -93,6 +90,7 @@ implements NavigationView.OnNavigationItemSelectedListener
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         _drawerToggle.syncState();
+        showStartPage();
     }
 
     @Override
@@ -214,7 +212,7 @@ implements NavigationView.OnNavigationItemSelectedListener
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
             .replace(R.id.contentLayout, _contentMain)
-            .addToBackStack(null)
+            //.addToBackStack(null)
             .commit();
     }
     

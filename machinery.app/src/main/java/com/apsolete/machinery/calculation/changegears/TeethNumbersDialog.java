@@ -1,6 +1,6 @@
 package com.apsolete.machinery.calculation.changegears;
 
-import com.apsolete.machinery.activity.R;
+import com.apsolete.machinery.R;
 import com.apsolete.machinery.common.DialogBase;
 import com.apsolete.machinery.utils.*;
 

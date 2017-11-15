@@ -1,6 +1,6 @@
 package com.apsolete.machinery.calculation.gearwheels;
 
-import com.apsolete.machinery.activity.*;
+import com.apsolete.machinery.*;
 import com.apsolete.machinery.common.*;
 import com.apsolete.machinery.calculation.*;
 

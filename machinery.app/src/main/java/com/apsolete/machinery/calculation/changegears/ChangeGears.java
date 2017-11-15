@@ -1,6 +1,6 @@
 package com.apsolete.machinery.calculation.changegears;
 
-import com.apsolete.machinery.activity.*;
+import com.apsolete.machinery.*;
 import com.apsolete.machinery.common.*;
 import com.apsolete.machinery.calculation.*;
 import com.apsolete.machinery.utils.*;

@@ -1,8 +1,9 @@
 package com.apsolete.machinery.contents;
 
-import android.content.*;
-import com.apsolete.machinery.activity.*;
+import com.apsolete.machinery.*;
 import com.apsolete.machinery.common.*;
+
+import android.content.*;
 
 public class SettingsContent extends SettingsBase
 {

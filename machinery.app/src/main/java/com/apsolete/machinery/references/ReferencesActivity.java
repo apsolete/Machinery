@@ -1,9 +1,10 @@
 package com.apsolete.machinery.references;
 
+import com.apsolete.machinery.*;
+
 import android.os.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
-import com.apsolete.machinery.activity.*;
 
 public class ReferencesActivity extends AppCompatActivity
 {

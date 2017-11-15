@@ -1,9 +1,9 @@
 package com.apsolete.machinery.calculation;
 
-import com.apsolete.machinery.activity.*;
+import com.apsolete.machinery.*;
 import com.apsolete.machinery.calculation.changegears.ChangeGears;
-import com.apsolete.machinery.calculation.gearwheels.*;
-import com.apsolete.machinery.calculation.gearwheelsext.*;
+import com.apsolete.machinery.calculation.gearwheels.GearWheels;
+import com.apsolete.machinery.calculation.gearwheelsext.GearWheelsExt;
 
 import android.os.*;
 import android.support.v4.app.*;

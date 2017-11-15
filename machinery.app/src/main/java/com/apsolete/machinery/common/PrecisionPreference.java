@@ -1,5 +1,7 @@
 package com.apsolete.machinery.common;
 
+import com.apsolete.machinery.R;
+
 import android.content.*;
 import android.support.v7.preference.*;
 import android.util.*;
@@ -7,8 +9,6 @@ import android.widget.*;
 import android.widget.SeekBar.*;
 import android.content.res.*;
 import android.os.*;
-
-import com.apsolete.machinery.activity.R;
 
 public class PrecisionPreference extends Preference
 {

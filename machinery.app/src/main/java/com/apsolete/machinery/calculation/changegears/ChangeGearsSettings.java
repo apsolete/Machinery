@@ -1,7 +1,7 @@
 package com.apsolete.machinery.calculation.changegears;
 
+import com.apsolete.machinery.R;
 import com.apsolete.machinery.common.*;
-import com.apsolete.machinery.activity.R;
 
 import android.content.*;
 import android.support.v7.preference.*;

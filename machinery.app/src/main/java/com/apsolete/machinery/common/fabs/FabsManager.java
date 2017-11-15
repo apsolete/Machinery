@@ -1,6 +1,6 @@
 package com.apsolete.machinery.common.fabs;
 
-import com.apsolete.machinery.activity.*;
+import com.apsolete.machinery.*;
 
 import android.animation.*;
 import android.support.design.widget.*;
