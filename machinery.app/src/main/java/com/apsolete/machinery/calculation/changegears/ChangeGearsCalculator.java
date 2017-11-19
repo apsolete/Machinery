@@ -2,23 +2,52 @@ package com.apsolete.machinery.calculation.changegears;
 
 import android.os.*;
 
-public class ChangeGearsCalculator extends AsyncTask<int[], Integer, Void>
+import com.apsolete.machinery.utils.ArrayUtils;
+
+import java.util.*;
+
+public class ChangeGearsCalculator extends AsyncTask<Void, Integer, Void>
 {
+    private static final int Z0 = 0;
+    private static final int Z1 = 1;
+    private static final int Z2 = 2;
+    private static final int Z3 = 3;
+    private static final int Z4 = 4;
+    private static final int Z5 = 5;
+    private static final int Z6 = 6;
+
     public interface OnResultListener
     {
-        void onResult(double ratio, int[] gears);
+        void onResult(ChangeGearsResult result);
         void onProgress(int percent);
         void onCompleted(int count);
     }
-    
-    private double _ratio;
-    private double _accuracy;
-    private boolean _diffTeethGearing;
-    private boolean _diffTeethDoubleGear;
+
     private OnResultListener _resultListener;
-    private boolean _isOneSet = false;
+
+    private double _ratio = 0;
+    private double _threadPitch = 0;
+    private double _screwPitch = 0;
+    private double _accuracy;
+    private boolean _diffTeethGearing = true;
+    private boolean _diffTeethDoubleGear = true;
+    private boolean _isOneSet = true;
+    private int _oneSetCount = 2;
+    private Map<Integer, int[]> _gearsSets = new HashMap<>();
+
     private int _calculatedRatios = 0;
-    
+
+    ChangeGearsCalculator()
+    {
+        _gearsSets.put(Z0, null);
+        _gearsSets.put(Z1, null);
+        _gearsSets.put(Z2, null);
+        _gearsSets.put(Z3, null);
+        _gearsSets.put(Z4, null);
+        _gearsSets.put(Z5, null);
+        _gearsSets.put(Z6, null);
+    }
+
     ChangeGearsCalculator(double ratio, double accuracy, boolean dtg, boolean dtdg, OnResultListener resultListener)
     {
         _ratio = ratio;
@@ -28,9 +57,39 @@ public class ChangeGearsCalculator extends AsyncTask<int[], Integer, Void>
         _resultListener = resultListener;
     }
 
+    public double getRatio()
+    {
+        return _ratio;
+    }
+
     public void setRatio(double ratio)
     {
         _ratio = ratio;
+    }
+
+    public double getThreadPitch()
+    {
+        return _threadPitch;
+    }
+
+    public void setThreadPitch(double pitch)
+    {
+        _threadPitch = pitch;
+    }
+
+    public double getScrewPitch()
+    {
+        return _screwPitch;
+    }
+
+    public void setScrewPitch(double pitch)
+    {
+        _screwPitch = pitch;
+    }
+
+    public double getAccuracy()
+    {
+        return _accuracy;
     }
 
     public void setAccuracy(double accuracy)
@@ -38,14 +97,34 @@ public class ChangeGearsCalculator extends AsyncTask<int[], Integer, Void>
         _accuracy = accuracy;
     }
 
+    public boolean isDiffTeethGearing()
+    {
+        return _diffTeethGearing;
+    }
+
     public void setDiffTeethGearing(boolean diffTeethGearing)
     {
         _diffTeethGearing = diffTeethGearing;
     }
 
+    public boolean isDiffTeethDoubleGear()
+    {
+        return _diffTeethDoubleGear;
+    }
+
     public void setDiffTeethDoubleGear(boolean diffTeethDoubleGear)
     {
         _diffTeethDoubleGear = diffTeethDoubleGear;
+    }
+
+    public int[] getGears(int z)
+    {
+        return _gearsSets.get(z);
+    }
+
+    public void setGears(int z, int[] gears)
+    {
+        _gearsSets.put(z, gears);
     }
 
     public void setResultListener(OnResultListener resultListener)
@@ -54,7 +133,7 @@ public class ChangeGearsCalculator extends AsyncTask<int[], Integer, Void>
     }
 
     @Override
-    protected Void doInBackground(int[]... params)
+    protected Void doInBackground(Void... params)
     {
         _calculatedRatios = 0;
         
@@ -62,18 +141,16 @@ public class ChangeGearsCalculator extends AsyncTask<int[], Integer, Void>
         {
             if (_isOneSet)
             {
-                int[] set = params[0];
-                int gears = params[1][0];
-                calculateByOneSet(set, gears);
+                calculateByOneSet();
                 return null;
             }
 
-            int[] gs1 = params[0];
-            int[] gs2 = params[1];
-            int[] gs3 = params[2];
-            int[] gs4 = params[3];
-            int[] gs5 = params[4];
-            int[] gs6 = params[5];
+            int[] gs1 = _gearsSets.get(Z1);
+            int[] gs2 = _gearsSets.get(Z2);
+            int[] gs3 = _gearsSets.get(Z3);
+            int[] gs4 = _gearsSets.get(Z4);
+            int[] gs5 = _gearsSets.get(Z5);
+            int[] gs6 = _gearsSets.get(Z6);
 
             if (gs1 == null || gs2 == null)
                 return null;
@@ -110,15 +187,9 @@ public class ChangeGearsCalculator extends AsyncTask<int[], Integer, Void>
         _resultListener.onProgress(values[0]);
     }
 
-    public void calculate(int[] gs1, int[] gs2, int[] gs3, int[] gs4, int[] gs5, int[] gs6)
+    public void calculate()
     {
-        this.execute(gs1, gs2, gs3, gs4, gs5, gs6);
-    }
-
-    public void calculate(int[] set, int[] gears)
-    {
-        _isOneSet = true;
-        this.execute(set, gears);
+        execute();
     }
     
     private void calculateBy(int[] gs1, int[] gs2)
@@ -220,12 +291,13 @@ public class ChangeGearsCalculator extends AsyncTask<int[], Integer, Void>
         }
     }
 
-    private void calculateByOneSet(int[] set, int gears)
+    private void calculateByOneSet()
     {
-        int count = gears;
+        int count = _oneSetCount;
         if (count == 3) count = 2;
         if (count == 5) count = 4;
 
+        int[] set = _gearsSets.get(0);
         for (int z1: set)
         {
             for (int z2 : set)
@@ -234,7 +306,7 @@ public class ChangeGearsCalculator extends AsyncTask<int[], Integer, Void>
                     continue;
 
                 if (count == 2)
-                    calculateRatio(z1, z2, 1, 1, 1, 1);
+                    calculateRatio(z1, z2);
                 else
                 {
                     for (int z3 : set)
@@ -247,7 +319,7 @@ public class ChangeGearsCalculator extends AsyncTask<int[], Integer, Void>
                                 continue;
 
                             if (count == 4)
-                                calculateRatio(z1, z2, z3, z4, 1, 1);
+                                calculateRatio(z1, z2, z3, z4);
                             else
                             {
                                 for (int z5 : set)
@@ -269,6 +341,38 @@ public class ChangeGearsCalculator extends AsyncTask<int[], Integer, Void>
         }
     }
 
+    private boolean calculateRatio(int z1, int z2)
+    {
+        double ratio = (double)(z1) / (double)(z2);
+        if (checkRatio(ratio))
+        {
+            _calculatedRatios++;
+            if (_resultListener != null)
+            {
+                //publishProgress((100 * i++) / count);
+                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, 0.0, new int[]{z1, z2, 0, 0, 0, 0}));
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean calculateRatio(int z1, int z2, int z3, int z4)
+    {
+        double ratio = (double)(z1 * z3) / (double)(z2 * z4);
+        if (checkRatio(ratio))
+        {
+            _calculatedRatios++;
+            if (_resultListener != null)
+            {
+                //publishProgress((100 * i++) / count);
+                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, 0.0, new int[]{z1, z2, z3, z4, 0, 0}));
+            }
+            return true;
+        }
+        return false;
+    }
+
     private boolean calculateRatio(int z1, int z2, int z3, int z4, int z5, int z6)
     {
         double ratio = (double)(z1 * z3 * z5) / (double)(z2 * z4 * z6);
@@ -278,13 +382,13 @@ public class ChangeGearsCalculator extends AsyncTask<int[], Integer, Void>
             if (_resultListener != null)
             {
                 //publishProgress((100 * i++) / count);
-                _resultListener.onResult(ratio, new int[]{z1, z2, z3>1?z3:0, z4>1?z4:0, z5>1?z5:0, z6>1?z6:0});
+                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, 0.0, new int[]{z1, z2, z3, z4, z5, z6}));
             }
             return true;
         }
         return false;
     }
-    
+
     private boolean checkRatio(double ratio)
     {
         if (_ratio == 0)

@@ -18,21 +18,21 @@ import java.text.*;
 import java.util.*;
 
 
-public class ChangeGears extends DesignContent
+public class ChangeGearsView extends DesignContent
 {
-    private class Result
-    {
-        public double Ratio;
-        public int[] Gears = new int[6];
-        public int Number;
-
-        public Result(double ratio, int[] gears, int number)
-        {
-            Ratio = ratio;
-            Gears = Arrays.copyOf(gears, 6);
-            Number = number;
-        }
-    }
+//    private class Result
+//    {
+//        public double Ratio;
+//        public int[] Gears = new int[6];
+//        public int Number;
+//
+//        public Result(double ratio, int[] gears, int number)
+//        {
+//            Ratio = ratio;
+//            Gears = Arrays.copyOf(gears, 6);
+//            Number = number;
+//        }
+//    }
     
     public static final int RATIOS_BY_GEARS = 0;
     public static final int THREAD_BY_GEARS = 1;
@@ -55,8 +55,8 @@ public class ChangeGears extends DesignContent
     private DecimalFormat _ratioFormat;
     private int _calcType;
     private boolean _isRatioFraction;
-    private PitchUnit _thrPitchUnit;
-    private PitchUnit _scrPitchUnit;
+    private ThreadPitchUnit _thrPitchUnit;
+    private ThreadPitchUnit _scrPitchUnit;
 
     private View _view;
     private Switch _oneSetSwitch;
@@ -81,7 +81,7 @@ public class ChangeGears extends DesignContent
     private ChangeGearsSettings _settings;
 
     private final GearSetControl[] _gearsCtrls = new GearSetControl[7];
-    private final ArrayList<Result> _results = new ArrayList<>();
+    private final ArrayList<ChangeGearsResult> _results = new ArrayList<>();
     private int _resFromNumber = 1;
     private int _resToNumber = 1;
 
@@ -152,10 +152,11 @@ public class ChangeGears extends DesignContent
     private ChangeGearsCalculator.OnResultListener _resultListener = new ChangeGearsCalculator.OnResultListener()
     {
         @Override
-        public void onResult(final double ratio, final int[] gears)
+        public void onResult(ChangeGearsResult result)
         {
-            Result res = new Result(ratio, gears, _results.size()+1);
-            _results.add(res);
+            //int id = _results.size() + 1;
+            //ChangeGearsResult res = new ChangeGearsResult(result.Id, ratio, 0.0, gears);
+            _results.add(result);
         }
 
         @Override
@@ -180,13 +181,13 @@ public class ChangeGears extends DesignContent
                     public void run()
                     {
                         int shown = 0;
-                        for (Result res: _results)
+                        for (ChangeGearsResult res: _results)
                         {
-                            if (res.Number > 100)
+                            if (res.Id > 100)
                                 break;
                             setResultItem(res);
                             shown++;
-                            _resToNumber = res.Number;
+                            _resToNumber = res.Id;
                             _resToNumberText.setText(Integer.toString(_resToNumber));
                         }
                         Snackbar.make(_view, "Calculated " + count + " ratios. Shown " + shown + " results.", Snackbar.LENGTH_SHORT).show();
@@ -284,9 +285,9 @@ public class ChangeGears extends DesignContent
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
         {
             if (pos == 0)
-                _thrPitchUnit = PitchUnit.mm;
+                _thrPitchUnit = ThreadPitchUnit.mm;
             else
-                _thrPitchUnit = PitchUnit.TPI;
+                _thrPitchUnit = ThreadPitchUnit.TPI;
                 
             recalculateRatio();
         }
@@ -303,9 +304,9 @@ public class ChangeGears extends DesignContent
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
         {
             if (pos == 0)
-                _scrPitchUnit = PitchUnit.mm;
+                _scrPitchUnit = ThreadPitchUnit.mm;
             else
-                _scrPitchUnit = PitchUnit.TPI;
+                _scrPitchUnit = ThreadPitchUnit.TPI;
                 
             recalculateRatio();
         }
@@ -352,7 +353,7 @@ public class ChangeGears extends DesignContent
         }
     };
 
-    public ChangeGears()
+    public ChangeGearsView()
     {
         super(DesignContent.CHANGEGEARS, R.layout.content_changegears, R.string.title_change_gears_design);
     }
@@ -564,7 +565,7 @@ public class ChangeGears extends DesignContent
 
             ChangeGearsCalculator calc = new ChangeGearsCalculator(_ratio, accuracy, _diffTeethGearing,
                                                  _diffTeethDoubleGear, _resultListener);
-            calc.calculate(set, gears);
+            //calc.calculate(set, gears);
         }
         else
         {
@@ -577,7 +578,7 @@ public class ChangeGears extends DesignContent
 
             ChangeGearsCalculator calc = new ChangeGearsCalculator(_ratio, accuracy, _diffTeethGearing,
                                                  _diffTeethDoubleGear, _resultListener);
-            calc.calculate(gs1, gs2, gs3, gs4, gs5, gs6);
+            //calc.calculate(gs1, gs2, gs3, gs4, gs5, gs6);
         }
     }
 
@@ -610,7 +611,7 @@ public class ChangeGears extends DesignContent
         dialog.show(fragmentManager, "dialog");
     }
 
-    private void setResultItem(Result result)
+    private void setResultItem(ChangeGearsResult result)
     {
         try
         {
@@ -619,7 +620,7 @@ public class ChangeGears extends DesignContent
             View view = layoutInflater.inflate(R.layout.change_gears_result2, null);
 
             TextView text = (TextView)view.findViewById(R.id.resultNumberText);
-            text.setText(Integer.toString(result.Number));
+            text.setText(Integer.toString(result.Id));
 
             int visibility;
             text = (TextView)view.findViewById(R.id.z1Text);
@@ -663,8 +664,8 @@ public class ChangeGears extends DesignContent
         _resFromNumberText.setText(Integer.toString(_resFromNumber));
         _resToNumberText.setText(Integer.toString(_resToNumber));
         _resultView.removeAllViews();
-        List<Result> next = _results.subList(_resFromNumber-1, _resToNumber);
-        for (Result r: next)
+        List<ChangeGearsResult> next = _results.subList(_resFromNumber-1, _resToNumber);
+        for (ChangeGearsResult r: next)
         {
             setResultItem(r);
         }

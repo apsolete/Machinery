@@ -1,7 +1,7 @@
 package com.apsolete.machinery.calculation;
 
 import com.apsolete.machinery.*;
-import com.apsolete.machinery.calculation.changegears.ChangeGears;
+import com.apsolete.machinery.calculation.changegears.ChangeGearsView;
 import com.apsolete.machinery.calculation.gearwheels.GearWheels;
 import com.apsolete.machinery.calculation.gearwheelsext.GearWheelsExt;
 
@@ -15,7 +15,7 @@ public class DesignActivity  extends AppCompatActivity
 {
     private boolean _isSettingsOpened;
     private DesignContent _currentDesign;
-    private DesignContent _latheChangeGears = new ChangeGears();
+    private DesignContent _latheChangeGears = new ChangeGearsView();
     private DesignContent _gearWheels = new GearWheels();
     private DesignContent _gearWheelsExt = new GearWheelsExt();
     private MenuItem _miSave;

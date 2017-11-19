@@ -2,7 +2,7 @@ package com.apsolete.machinery.calculation.changegears;
 
 import com.apsolete.machinery.utils.*;
 
-public enum PitchUnit
+public enum ThreadPitchUnit
 {
     mm,
     TPI;

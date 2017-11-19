@@ -12,7 +12,7 @@ public abstract class SettingsBase extends PreferenceFragmentCompat implements S
     protected AppCompatActivity _activity;
     private int _layoutId;
     private int _titleId;
-
+    
     public SettingsBase(Context context, int layoutId, int titleId)
     {
         _context = context;
