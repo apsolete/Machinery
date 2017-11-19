@@ -20,32 +20,18 @@ import java.util.*;
 
 public class ChangeGearsView extends DesignContent
 {
-//    private class Result
-//    {
-//        public double Ratio;
-//        public int[] Gears = new int[6];
-//        public int Number;
-//
-//        public Result(double ratio, int[] gears, int number)
-//        {
-//            Ratio = ratio;
-//            Gears = Arrays.copyOf(gears, 6);
-//            Number = number;
-//        }
-//    }
-    
     public static final int RATIOS_BY_GEARS = 0;
     public static final int THREAD_BY_GEARS = 1;
     public static final int GEARS_BY_RATIO = 2;
     public static final int GEARS_BY_THREAD = 3;
 
-    private static final int Z0 = 0;//one set for all;
-    private static final int Z1 = 1;//1;
-    private static final int Z2 = 2;//2;
-    private static final int Z3 = 3;//3;
-    private static final int Z4 = 4;//4;
-    private static final int Z5 = 5;//5;
-    private static final int Z6 = 6;//6;
+    private static final int Z0 = ChangeGearsCalculator.Z0;//one set for all;
+    private static final int Z1 = ChangeGearsCalculator.Z1;//1;
+    private static final int Z2 = ChangeGearsCalculator.Z2;//2;
+    private static final int Z3 = ChangeGearsCalculator.Z3;//3;
+    private static final int Z4 = ChangeGearsCalculator.Z4;//4;
+    private static final int Z5 = ChangeGearsCalculator.Z5;//5;
+    private static final int Z6 = ChangeGearsCalculator.Z6;//6;
     
     private int _ratioPrecision = 1;
     private double _ratio = 0;
@@ -79,6 +65,7 @@ public class ChangeGearsView extends DesignContent
     private ViewGroup _resultView;
     private ProgressBar _pb;
     private ChangeGearsSettings _settings;
+    private ChangeGearsCalculator _calculator = new ChangeGearsCalculator();
 
     private final GearSetControl[] _gearsCtrls = new GearSetControl[7];
     private final ArrayList<ChangeGearsResult> _results = new ArrayList<>();
@@ -553,19 +540,21 @@ public class ChangeGearsView extends DesignContent
         _diffTeethDoubleGear = _settings.getDiffTeethDoubleGear();
         setRatioFormat(_ratioPrecision);
         double accuracy = Math.pow(10, -_ratioPrecision);
+        
+        _calculator.setAccuracy(accuracy);
+        _calculator.setDiffTeethGearing(_diffTeethGearing);
+        _calculator.setDiffTeethDoubleGear(_diffTeethDoubleGear);
 
         if (_isOneSet)
         {
             int[] set = _gearsCtrls[Z0].getGears();
-            int[] gears = new int[]{2};
+            int gears = 2;
             if (_gearsCtrls[Z6].isChecked())
-                gears[0] = 6;
+                gears = 6;
             else if (_gearsCtrls[Z4].isChecked())
-                gears[0] = 4;
-
-            ChangeGearsCalculator calc = new ChangeGearsCalculator(_ratio, accuracy, _diffTeethGearing,
-                                                 _diffTeethDoubleGear, _resultListener);
-            //calc.calculate(set, gears);
+                gears = 4;
+                
+            _calculator.setGearsSet(gears, set);
         }
         else
         {
@@ -575,11 +564,16 @@ public class ChangeGearsView extends DesignContent
             int[] gs4 = _gearsCtrls[Z4].getGears();
             int[] gs5 = _gearsCtrls[Z5].getGears();
             int[] gs6 = _gearsCtrls[Z6].getGears();
-
-            ChangeGearsCalculator calc = new ChangeGearsCalculator(_ratio, accuracy, _diffTeethGearing,
-                                                 _diffTeethDoubleGear, _resultListener);
-            //calc.calculate(gs1, gs2, gs3, gs4, gs5, gs6);
+            _calculator.setGearsSet(gs1, gs2, gs3, gs4, gs5, gs6);
         }
+        
+        if (_calcType == THREAD_BY_GEARS || _calcType == GEARS_BY_THREAD)
+        {
+            String pitchStr = _screwPitchValue.getText().toString();
+            double scrPitch = !pitchStr.isEmpty() ? Double.parseDouble(pitchStr) : 0;
+            _calculator.setScrewPitch(scrPitch);
+        }
+        _calculator.calculate();
     }
 
     private void defineGearSet(GearSetControl gearSetCtrl)
@@ -650,6 +644,14 @@ public class ChangeGearsView extends DesignContent
 
             text = (TextView)view.findViewById(R.id.ratioText);
             text.setText(_ratioFormat.format(result.Ratio));
+            
+            visibility = (_calcType == THREAD_BY_GEARS || _calcType == GEARS_BY_THREAD) ? View.VISIBLE : View.GONE;
+            view.findViewById(R.id.threadPitchLayout).setVisibility(visibility);
+            if (visibility == View.VISIBLE)
+            {
+                text = (TextView)view.findViewById(R.id.threadPitchText);
+                text.setText(_ratioFormat.format(result.Pitch));
+            }
 
             _resultView.addView(view);
         }

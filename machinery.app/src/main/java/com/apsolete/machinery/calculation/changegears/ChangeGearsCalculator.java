@@ -8,14 +8,14 @@ import java.util.*;
 
 public class ChangeGearsCalculator extends AsyncTask<Void, Integer, Void>
 {
-    private static final int Z0 = 0;
-    private static final int Z1 = 1;
-    private static final int Z2 = 2;
-    private static final int Z3 = 3;
-    private static final int Z4 = 4;
-    private static final int Z5 = 5;
-    private static final int Z6 = 6;
-
+    public static final int Z0 = 0;
+    public static final int Z1 = 1;
+    public static final int Z2 = 2;
+    public static final int Z3 = 3;
+    public static final int Z4 = 4;
+    public static final int Z5 = 5;
+    public static final int Z6 = 6;
+    
     public interface OnResultListener
     {
         void onResult(ChangeGearsResult result);
@@ -27,12 +27,12 @@ public class ChangeGearsCalculator extends AsyncTask<Void, Integer, Void>
 
     private double _ratio = 0;
     private double _threadPitch = 0;
-    private double _screwPitch = 0;
+    private double _screwPitch = 1;
     private double _accuracy;
     private boolean _diffTeethGearing = true;
     private boolean _diffTeethDoubleGear = true;
-    private boolean _isOneSet = true;
-    private int _oneSetCount = 2;
+    private boolean _isOneSet = false;
+    private int _gearsCount = 2;
     private Map<Integer, int[]> _gearsSets = new HashMap<>();
 
     private int _calculatedRatios = 0;
@@ -75,6 +75,7 @@ public class ChangeGearsCalculator extends AsyncTask<Void, Integer, Void>
     public void setThreadPitch(double pitch)
     {
         _threadPitch = pitch;
+        _ratio = _threadPitch / _screwPitch;
     }
 
     public double getScrewPitch()
@@ -84,7 +85,10 @@ public class ChangeGearsCalculator extends AsyncTask<Void, Integer, Void>
 
     public void setScrewPitch(double pitch)
     {
+        if (pitch <= 0)
+            return;
         _screwPitch = pitch;
+        _ratio = _threadPitch / _screwPitch;
     }
 
     public double getAccuracy()
@@ -115,6 +119,34 @@ public class ChangeGearsCalculator extends AsyncTask<Void, Integer, Void>
     public void setDiffTeethDoubleGear(boolean diffTeethDoubleGear)
     {
         _diffTeethDoubleGear = diffTeethDoubleGear;
+    }
+    
+    public void setGearsSet(int gears, int[] set)
+    {
+        _isOneSet = true;
+        _gearsCount = gears;
+        _gearsSets.put(Z0, set);
+    }
+    
+    public void setGearsSet(int[] gs1, int[] gs2, int[] gs3, int[] gs4, int[] gs5, int[] gs6)
+    {
+        _isOneSet = false;
+        _gearsSets.put(Z1, gs1);
+        _gearsSets.put(Z2, gs2);
+        _gearsSets.put(Z3, gs3);
+        _gearsSets.put(Z4, gs4);
+        _gearsSets.put(Z5, gs5);
+        _gearsSets.put(Z6, gs6);
+    }
+    
+    public void setGearsCount(int count)
+    {
+        _gearsCount = count;
+    }
+
+    public int getGearsCount()
+    {
+        return _gearsCount;
     }
 
     public int[] getGears(int z)
@@ -293,7 +325,7 @@ public class ChangeGearsCalculator extends AsyncTask<Void, Integer, Void>
 
     private void calculateByOneSet()
     {
-        int count = _oneSetCount;
+        int count = _gearsCount;
         if (count == 3) count = 2;
         if (count == 5) count = 4;
 
@@ -350,7 +382,7 @@ public class ChangeGearsCalculator extends AsyncTask<Void, Integer, Void>
             if (_resultListener != null)
             {
                 //publishProgress((100 * i++) / count);
-                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, 0.0, new int[]{z1, z2, 0, 0, 0, 0}));
+                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, ratio*_screwPitch, new int[]{z1, z2, 0, 0, 0, 0}));
             }
             return true;
         }
@@ -366,7 +398,7 @@ public class ChangeGearsCalculator extends AsyncTask<Void, Integer, Void>
             if (_resultListener != null)
             {
                 //publishProgress((100 * i++) / count);
-                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, 0.0, new int[]{z1, z2, z3, z4, 0, 0}));
+                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, ratio*_screwPitch, new int[]{z1, z2, z3, z4, 0, 0}));
             }
             return true;
         }
@@ -382,7 +414,7 @@ public class ChangeGearsCalculator extends AsyncTask<Void, Integer, Void>
             if (_resultListener != null)
             {
                 //publishProgress((100 * i++) / count);
-                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, 0.0, new int[]{z1, z2, z3, z4, z5, z6}));
+                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, ratio*_screwPitch, new int[]{z1, z2, z3, z4, z5, z6}));
             }
             return true;
         }

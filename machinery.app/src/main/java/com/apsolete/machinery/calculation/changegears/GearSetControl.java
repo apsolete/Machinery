@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.*;
 
 import java.util.Vector;
+import com.apsolete.machinery.utils.*;
 
 public class GearSetControl extends TextChangedListener implements View.OnClickListener, InputFilter
 {
@@ -122,6 +123,8 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
         if (text.isEmpty())
             return null;
             
+        return Numbers.getNumbers(text);
+        /*
         String[] strs = text.split(" ");
         Vector<Integer> numbers = new Vector<>();
 
@@ -151,14 +154,14 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
             }
         }
 
-        int[] gears = new int[numbers.size()];
-        int i = 0;
-        for (int n : numbers)
-        {
-            gears[i] = n;
-            i++;
-        }
-        return gears;
+        int[] gears = ArrayUtils.toArrayInt(numbers);
+        //int i = 0;
+        //for (int n : numbers)
+        //{
+        //    gears[i] = n;
+        //    i++;
+        //}
+        return gears;*/
     }
 
     public boolean isEmpty()
