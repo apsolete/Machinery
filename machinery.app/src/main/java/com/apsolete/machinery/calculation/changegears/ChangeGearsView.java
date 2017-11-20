@@ -474,6 +474,8 @@ public class ChangeGearsView extends DesignContent
         _settings.setListener(_settingsChangeListener);
         setRatioFormat(_settings.getRatioPrecision());
 
+        _calculator.setResultListener(_resultListener);
+
         return _view;
     }
 
