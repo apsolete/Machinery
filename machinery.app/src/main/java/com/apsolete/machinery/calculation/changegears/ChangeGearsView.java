@@ -569,12 +569,7 @@ public class ChangeGearsView extends DesignContent
             _calculator.setGearsSet(gs1, gs2, gs3, gs4, gs5, gs6);
         }
         
-        if (_calcType == THREAD_BY_GEARS || _calcType == GEARS_BY_THREAD)
-        {
-            String pitchStr = _screwPitchValue.getText().toString();
-            double scrPitch = !pitchStr.isEmpty() ? Double.parseDouble(pitchStr) : 0;
-            _calculator.setScrewPitch(scrPitch);
-        }
+        _calculator.setRatio(_ratio);
         _calculator.calculate();
     }
 
@@ -652,7 +647,9 @@ public class ChangeGearsView extends DesignContent
             if (visibility == View.VISIBLE)
             {
                 text = (TextView)view.findViewById(R.id.threadPitchText);
-                text.setText(_ratioFormat.format(result.Pitch));
+                String pitchStr = _screwPitchValue.getText().toString();
+                double scrPitch = !pitchStr.isEmpty() ? Double.parseDouble(pitchStr) : 0;
+                text.setText(_ratioFormat.format(result.Ratio * scrPitch));
             }
 
             _resultView.addView(view);
@@ -734,6 +731,8 @@ public class ChangeGearsView extends DesignContent
     {
         String ratioInfo = "R = <Undefined>";
         
+        _ratio = 0.0;
+        
         if (_calcType == GEARS_BY_THREAD)
         {
             String pitchStr = _threadPitchValue.getText().toString();
@@ -743,7 +742,7 @@ public class ChangeGearsView extends DesignContent
             
             if (thrPitch == 0.0)
             {
-                _ratio = 0;
+                _ratio = 0.0;
             }
             else if (scrPitch == 0.0)
             {
@@ -770,7 +769,7 @@ public class ChangeGearsView extends DesignContent
 
             if (ratioNum == 0.0)
             {
-                _ratio = 0;
+                _ratio = 0.0;
             }
             else if (ratioDen == 0.0)
             {
