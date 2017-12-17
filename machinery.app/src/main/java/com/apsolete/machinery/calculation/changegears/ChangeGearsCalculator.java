@@ -5,15 +5,23 @@ import android.os.*;
 import com.apsolete.machinery.utils.ArrayUtils;
 
 import java.util.*;
+import com.apsolete.machinery.utils.*;
 
 public class ChangeGearsCalculator
 {
-    private class AsyncCalc extends AsyncTask<ChangeGearsCalculator, Integer, Void>
+    private class AsyncCalc extends AsyncTask<Void, Integer, Void>
     {
-        @Override
-        protected Void doInBackground(ChangeGearsCalculator... params)
+        ChangeGearsCalculator _calc;
+
+        public AsyncCalc(ChangeGearsCalculator calc)
         {
-            params[0].calculateInternal();
+            _calc = calc;
+        }
+        
+        @Override
+        protected Void doInBackground(Void... params)
+        {
+            _calc.calculateInternal();
             return null;
         }
     }
@@ -34,6 +42,7 @@ public class ChangeGearsCalculator
     }
 
     private OnResultListener _resultListener;
+    //private AsyncCalc _asyncCalc;
 
     private double _ratio = 0;
     private double _accuracy;
@@ -202,8 +211,8 @@ public class ChangeGearsCalculator
 
     public void calculate()
     {
-        AsyncCalc ac = new AsyncCalc();
-        ac.execute(this);
+        AsyncCalc asyncCalc = new AsyncCalc(this);
+        asyncCalc.execute();
     }
     
     private void calculateBy(int[] gs1, int[] gs2)
@@ -312,6 +321,12 @@ public class ChangeGearsCalculator
         if (count == 5) count = 4;
 
         int[] set = _gearsSets.get(0);
+        List<List<Integer>> combinations = Numbers.combinations(set.length, count);
+        for (List<Integer> comb: combinations)
+        {
+            if (count == 2)
+                calculateRatio(set[comb.get(0)], set[comb.get(1)]);
+        }
         for (int z1: set)
         {
             for (int z2 : set)
