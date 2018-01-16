@@ -146,7 +146,11 @@ implements NavigationView.OnNavigationItemSelectedListener
             case R.id.mi_gearwheels_extended:
                 showDesignActivity(DesignContent.GEARWHEELSEXT);
                 break;
-            case R.id.mi_belt:
+            case R.id.mi_vbelt:
+                break;
+            case R.id.mi_fbelt:
+                break;
+            case R.id.mi_tbelt:
                 break;
             case R.id.mi_action_save:
                 break;

@@ -3,6 +3,11 @@
     
     <group android:id="@+id/mg_content_train">
         <item
+            android:id="@+id/mi_action_calculate"
+            android:title="@string/mi_title_calculate"
+            android:icon="@drawable/ic_save_white_24dp"
+            app:showAsAction="ifRoom"/>
+        <item
             android:id="@+id/mi_action_save"
             android:title="@string/mi_title_save"
             android:icon="@drawable/ic_save_white_24dp"

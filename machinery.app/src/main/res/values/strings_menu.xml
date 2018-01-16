@@ -9,8 +9,11 @@
         <string name="mi_title_gearwheels_extended">Gear Wheels Extended</string>
 
     <string name="mi_title_belting">Belting...</string>
-        <string name="mi_title_belt">Belt</string>
+        <string name="mi_title_vbelt">V-Belt</string>
+        <string name="mi_title_fbelt">Flat belt</string>
+        <string name="mi_title_tbelt">Timing belt</string>
 
+    <string name="mi_title_calculate">Save</string>
     <string name="mi_title_save">Save</string>
     <string name="mi_title_clear">Clear</string>
     <string name="mi_title_close">Close</string>

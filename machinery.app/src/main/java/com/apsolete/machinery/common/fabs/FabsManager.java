@@ -21,13 +21,13 @@ public class FabsManager
         ViewGroup _layout;
         TextView _title;
         FloatingActionButton _fab;
-        private float _st;
+        private float _offset;
         private boolean _expanded;
 
-        public FabView(ViewGroup layout, float st, View.OnClickListener listener)
+        public FabView(ViewGroup layout, float offset, View.OnClickListener listener)
         {
             _layout = layout;
-            _st = st;
+            _offset = offset;
             _title = (TextView)_layout.getChildAt(0);
             _fab = (FloatingActionButton)_layout.getChildAt(1);
             _fab.setOnClickListener(listener);
@@ -46,7 +46,7 @@ public class FabsManager
         public void expand()
         {
             _expanded = true;
-            _layout.animate().translationY(-_st);
+            _layout.animate().translationY(-_offset);
         }
 
         public void collapse()
@@ -80,7 +80,7 @@ public class FabsManager
 
     private AppCompatActivity _activity;
     private FloatingActionButton _fabMain;
-    private View _fabsBackground;
+    private View _background;
     private boolean _isExpanded = false;
     private boolean _isVisible = true;
     private ArrayList<FabView> _fabs = new ArrayList<>();
@@ -102,19 +102,19 @@ public class FabsManager
         _activity = activity;
 
         LinearLayout fabLayout1 = (LinearLayout) _activity.findViewById(R.id.fabLayout1);
-        float st_55 = _activity.getResources().getDimension(R.dimen.standard_55);
-        _fabs.add(new FabView(fabLayout1, st_55, _fabClickListener));
+        float offset = _activity.getResources().getDimension(R.dimen.standard_55);
+        _fabs.add(new FabView(fabLayout1, offset, _fabClickListener));
         
         LinearLayout fabLayout2 = (LinearLayout) _activity.findViewById(R.id.fabLayout2);
-        float st_100 = _activity.getResources().getDimension(R.dimen.standard_100);
-        _fabs.add(new FabView(fabLayout2, st_100, _fabClickListener));
+        offset = _activity.getResources().getDimension(R.dimen.standard_100);
+        _fabs.add(new FabView(fabLayout2, offset, _fabClickListener));
         
         LinearLayout fabLayout3 = (LinearLayout) _activity.findViewById(R.id.fabLayout3);
-        float st_145 = _activity.getResources().getDimension(R.dimen.standard_145);
-        _fabs.add(new FabView(fabLayout3, st_145, _fabClickListener));
+        offset = _activity.getResources().getDimension(R.dimen.standard_145);
+        _fabs.add(new FabView(fabLayout3, offset, _fabClickListener));
         
         _fabMain = (FloatingActionButton) _activity.findViewById(R.id.fab_main);
-        _fabsBackground = _activity.findViewById(R.id.fabsBackground);
+        _background = _activity.findViewById(R.id.fabsBackground);
 
         _fabMain.setOnClickListener(new View.OnClickListener()
             {
@@ -125,7 +125,7 @@ public class FabsManager
                 }
             });
 
-        _fabsBackground.setOnClickListener(new View.OnClickListener()
+        _background.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View view)
@@ -143,7 +143,7 @@ public class FabsManager
         _isExpanded = true;
         for (FabView fv : _fabs)
             fv.show();
-        _fabsBackground.setVisibility(View.VISIBLE);
+        _background.setVisibility(View.VISIBLE);
 
         _fabMain.animate().rotationBy(180);
         for (FabView fv : _fabs)
@@ -156,7 +156,7 @@ public class FabsManager
             return;
 
         _isExpanded = false;
-        _fabsBackground.setVisibility(View.GONE);
+        _background.setVisibility(View.GONE);
         _fabMain.animate().rotationBy(-180);
 
         for (FabView fv : _fabs)
