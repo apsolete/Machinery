@@ -6,7 +6,7 @@ import com.apsolete.machinery.common.*;
 import android.content.*;
 import android.support.v7.preference.*;
 
-public class ChangeGearsSettings extends SettingsBase
+public class CgSettings extends SettingsBase
 {
     public interface OnChangeListener
     {
@@ -17,7 +17,7 @@ public class ChangeGearsSettings extends SettingsBase
     
     private OnChangeListener _listener;
     
-    public ChangeGearsSettings(Context context)
+    public CgSettings(Context context)
     {
         super(context, R.xml.settings_changegears, R.string.title_change_gears_design);
     }

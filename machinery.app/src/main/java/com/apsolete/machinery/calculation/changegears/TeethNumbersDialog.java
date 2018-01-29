@@ -21,8 +21,8 @@ public class TeethNumbersDialog extends DialogBase
     private ArrayList<Integer> _teethNumbers = null;
     private ArrayMap<Integer, CheckBox> _checkBoxes = new ArrayMap<Integer, CheckBox>();
 
-    private final int _teethMin = 18;
-    private final int _teethMax = 127;
+    private final int _teethMin = 13;
+    private final int _teethMax = 132;
     private GridLayout _grid;
 
     private View.OnClickListener _clickListener = new View.OnClickListener()

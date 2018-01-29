@@ -25,13 +25,13 @@ public class ChangeGearsView extends DesignContent
     public static final int GEARS_BY_RATIO = 2;
     public static final int GEARS_BY_THREAD = 3;
 
-    private static final int Z0 = ChangeGearsCalculator.Z0;//one set for all;
-    private static final int Z1 = ChangeGearsCalculator.Z1;//1;
-    private static final int Z2 = ChangeGearsCalculator.Z2;//2;
-    private static final int Z3 = ChangeGearsCalculator.Z3;//3;
-    private static final int Z4 = ChangeGearsCalculator.Z4;//4;
-    private static final int Z5 = ChangeGearsCalculator.Z5;//5;
-    private static final int Z6 = ChangeGearsCalculator.Z6;//6;
+    private static final int Z0 = CgCalculator.Z0;//one set for all;
+    private static final int Z1 = CgCalculator.Z1;//1;
+    private static final int Z2 = CgCalculator.Z2;//2;
+    private static final int Z3 = CgCalculator.Z3;//3;
+    private static final int Z4 = CgCalculator.Z4;//4;
+    private static final int Z5 = CgCalculator.Z5;//5;
+    private static final int Z6 = CgCalculator.Z6;//6;
     
     private int _ratioPrecision = 1;
     private double _ratio = 0;
@@ -64,11 +64,11 @@ public class ChangeGearsView extends DesignContent
 
     private ViewGroup _resultView;
     private ProgressBar _pb;
-    private ChangeGearsSettings _settings;
-    private ChangeGearsCalculator _calculator = new ChangeGearsCalculator();
+    private CgSettings _settings;
+    private CgCalculator _calculator = new CgCalculator();
 
     private final GearSetControl[] _gearsCtrls = new GearSetControl[7];
-    private final ArrayList<ChangeGearsResult> _results = new ArrayList<>();
+    private final ArrayList<CgResult> _results = new ArrayList<>();
     private int _resFromNumber = 1;
     private int _resToNumber = 1;
 
@@ -136,10 +136,10 @@ public class ChangeGearsView extends DesignContent
         }
     };
 
-    private ChangeGearsCalculator.OnResultListener _resultListener = new ChangeGearsCalculator.OnResultListener()
+    private CgCalculator.OnResultListener _resultListener = new CgCalculator.OnResultListener()
     {
         @Override
-        public void onResult(ChangeGearsResult result)
+        public void onResult(CgResult result)
         {
             //int id = _results.size() + 1;
             //ChangeGearsResult res = new ChangeGearsResult(result.Id, ratio, 0.0, gears);
@@ -168,7 +168,7 @@ public class ChangeGearsView extends DesignContent
                     public void run()
                     {
                         int shown = 0;
-                        for (ChangeGearsResult res: _results)
+                        for (CgResult res: _results)
                         {
                             if (res.Id > 100)
                                 break;
@@ -183,7 +183,7 @@ public class ChangeGearsView extends DesignContent
         }
     };
 
-    private ChangeGearsSettings.OnChangeListener _settingsChangeListener = new ChangeGearsSettings.OnChangeListener()
+    private CgSettings.OnChangeListener _settingsChangeListener = new CgSettings.OnChangeListener()
     {
         @Override
         public void onDiffTeethGearingChanged(boolean newValue)
@@ -256,13 +256,15 @@ public class ChangeGearsView extends DesignContent
             {
                 _gearRatioDenominatorLayout.setVisibility(View.VISIBLE);
                 _ratioResultText.setVisibility(View.VISIBLE);
-                recalculateRatio();
+                //recalculateRatio();
             }
             else
             {
                 _gearRatioDenominatorLayout.setVisibility(View.GONE);
                 _ratioResultText.setVisibility(View.GONE);
             }
+            
+            recalculateRatio();
         }
     };
     
@@ -383,7 +385,7 @@ public class ChangeGearsView extends DesignContent
         _gearsCtrls[Z6] = new GearSetControl(Z6, _view, R.id.z6Set, R.id.z6Gears, R.id.z6Select, _gearSetListener);
 
         _pb = (ProgressBar)_view.findViewById(R.id.progressBar);
-        ImageButton calcButton = (ImageButton)_view.findViewById(R.id.calculate);
+        /*ImageButton calcButton = (ImageButton)_view.findViewById(R.id.calculate);
         calcButton.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -391,7 +393,7 @@ public class ChangeGearsView extends DesignContent
                 {
                     calculate();
                 }
-            });
+            });*/
             
         ImageButton showNextButton = (ImageButton)_view.findViewById(R.id.showNext);
         showNextButton.setOnClickListener(new View.OnClickListener()
@@ -470,7 +472,7 @@ public class ChangeGearsView extends DesignContent
                 }
             });
 
-        _settings = new ChangeGearsSettings(_activity);
+        _settings = new CgSettings(_activity);
         _settings.setListener(_settingsChangeListener);
         setRatioFormat(_settings.getRatioPrecision());
 
@@ -555,6 +557,11 @@ public class ChangeGearsView extends DesignContent
                 gears = 6;
             else if (_gearsCtrls[Z4].isChecked())
                 gears = 4;
+            if (gears > set.length)
+            {
+                Snackbar.make(_view, "Gears set has less than " + gears + " wheels.", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
                 
             _calculator.setGearsSet(gears, set);
         }
@@ -566,8 +573,17 @@ public class ChangeGearsView extends DesignContent
             int[] gs4 = _gearsCtrls[Z4].getGears();
             int[] gs5 = _gearsCtrls[Z5].getGears();
             int[] gs6 = _gearsCtrls[Z6].getGears();
+            
+            if (gs1 == null || gs1.length == 0 || gs2 == null || gs2.length == 0)
+            {
+                Snackbar.make(_view, "Z1 and Z2 should have at least one wheel.", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
+            
             _calculator.setGearsSet(gs1, gs2, gs3, gs4, gs5, gs6);
         }
+        
+        clear();
         
         _calculator.setRatio(_ratio);
         _calculator.calculate();
@@ -602,7 +618,7 @@ public class ChangeGearsView extends DesignContent
         dialog.show(fragmentManager, "dialog");
     }
 
-    private void setResultItem(ChangeGearsResult result)
+    private void setResultItem(CgResult result)
     {
         try
         {
@@ -665,8 +681,8 @@ public class ChangeGearsView extends DesignContent
         _resFromNumberText.setText(Integer.toString(_resFromNumber));
         _resToNumberText.setText(Integer.toString(_resToNumber));
         _resultView.removeAllViews();
-        List<ChangeGearsResult> next = _results.subList(_resFromNumber-1, _resToNumber);
-        for (ChangeGearsResult r: next)
+        List<CgResult> next = _results.subList(_resFromNumber-1, _resToNumber);
+        for (CgResult r: next)
         {
             setResultItem(r);
         }

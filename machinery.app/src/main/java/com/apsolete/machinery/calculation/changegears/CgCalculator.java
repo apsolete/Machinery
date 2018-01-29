@@ -1,23 +1,20 @@
 package com.apsolete.machinery.calculation.changegears;
 
-import android.os.*;
-
-import com.apsolete.machinery.utils.ArrayUtils;
-
-import java.util.*;
 import com.apsolete.machinery.utils.*;
+import android.os.*;
+import java.util.*;
 
-public class ChangeGearsCalculator
+public class CgCalculator
 {
     private class AsyncCalc extends AsyncTask<Void, Integer, Void>
     {
-        ChangeGearsCalculator _calc;
+        CgCalculator _calc;
 
-        public AsyncCalc(ChangeGearsCalculator calc)
+        public AsyncCalc(CgCalculator calc)
         {
             _calc = calc;
         }
-        
+
         @Override
         protected Void doInBackground(Void... params)
         {
@@ -25,7 +22,7 @@ public class ChangeGearsCalculator
             return null;
         }
     }
-    
+
     public static final int Z0 = 0;
     public static final int Z1 = 1;
     public static final int Z2 = 2;
@@ -33,10 +30,10 @@ public class ChangeGearsCalculator
     public static final int Z4 = 4;
     public static final int Z5 = 5;
     public static final int Z6 = 6;
-    
+
     public interface OnResultListener
     {
-        void onResult(ChangeGearsResult result);
+        void onResult(CgResult result);
         void onProgress(int percent);
         void onCompleted(int count);
     }
@@ -54,7 +51,7 @@ public class ChangeGearsCalculator
 
     private int _calculatedRatios = 0;
 
-    ChangeGearsCalculator()
+    CgCalculator()
     {
         _gearsSets.put(Z0, null);
         _gearsSets.put(Z1, null);
@@ -113,14 +110,14 @@ public class ChangeGearsCalculator
     {
         _diffTeethDoubleGear = diffTeethDoubleGear;
     }
-    
+
     public void setGearsSet(int gears, int[] set)
     {
         _isOneSet = true;
         _gearsCount = gears;
         _gearsSets.put(Z0, set);
     }
-    
+
     public void setGearsSet(int[] gs1, int[] gs2, int[] gs3, int[] gs4, int[] gs5, int[] gs6)
     {
         _isOneSet = false;
@@ -131,7 +128,7 @@ public class ChangeGearsCalculator
         _gearsSets.put(Z5, gs5);
         _gearsSets.put(Z6, gs6);
     }
-    
+
     public void setGearsCount(int count)
     {
         _gearsCount = count;
@@ -160,7 +157,7 @@ public class ChangeGearsCalculator
     private void calculateInternal()
     {
         _calculatedRatios = 0;
-        
+
         try
         {
             if (_isOneSet)
@@ -214,18 +211,18 @@ public class ChangeGearsCalculator
         AsyncCalc asyncCalc = new AsyncCalc(this);
         asyncCalc.execute();
     }
-    
+
     private void calculateBy(int[] gs1, int[] gs2)
     {
         // calculate by z1, z2
-        int count = gs1.length * gs2.length;
+        int totalResults = gs1.length * gs2.length;
         int i = 0;
         for (int z1: gs1)
         {
-            publishProgress((100 * i++) / count);
+            publishProgress((100 * i++) / totalResults);
             for (int z2: gs2)
             {
-                publishProgress((100 * i++) / count);
+                publishProgress((100 * i++) / totalResults);
                 if (_diffTeethGearing && z1 == z2)
                     continue;
 
@@ -233,30 +230,30 @@ public class ChangeGearsCalculator
             }
         }
     }
-    
+
     private void calculateBy(int[] gs1, int[] gs2, int[] gs3, int[] gs4)
     {
         // calculate by z1, z2, z3, z4
-        int count = gs1.length * gs2.length * gs3.length * gs4.length;
+        int totalResults = gs1.length * gs2.length * gs3.length * gs4.length;
         int i = 0;
         for (int z1: gs1)
         {
-            publishProgress((100 * i++) / count);
+            publishProgress((100 * i++) / totalResults);
             for (int z2: gs2)
             {
-                publishProgress((100 * i++) / count);
+                publishProgress((100 * i++) / totalResults);
                 if (_diffTeethGearing && z1 == z2)
                     continue;
 
                 for (int z3: gs3)
                 {
-                    publishProgress((100 * i++) / count);
+                    publishProgress((100 * i++) / totalResults);
                     if (_diffTeethDoubleGear && z2 == z3)
                         continue;
 
                     for (int z4: gs4)
                     {
-                        publishProgress((100 * i++) / count);
+                        publishProgress((100 * i++) / totalResults);
                         if (_diffTeethGearing && z3 == z4)
                             continue;
 
@@ -270,38 +267,39 @@ public class ChangeGearsCalculator
     private void calculateBy(int[] gs1, int[] gs2, int[] gs3, int[] gs4, int[] gs5, int[] gs6)
     {
         // calculate by z1, z2, z3, z4, z6
-        int count = gs1.length * gs2.length * gs3.length * gs4.length * gs5.length * gs6.length;
+        int totalResults = gs1.length * gs2.length
+            * gs3.length * gs4.length * gs5.length * gs6.length;
         int i = 0;
         for (int z1: gs1)
         {
-            publishProgress((100 * i++) / count);
+            publishProgress((100 * i++) / totalResults);
             for (int z2: gs2)
             {
-                publishProgress((100 * i++) / count);
+                publishProgress((100 * i++) / totalResults);
                 if (_diffTeethGearing && z1 == z2)
                     continue;
 
                 for (int z3: gs3)
                 {
-                    publishProgress((100 * i++) / count);
+                    publishProgress((100 * i++) / totalResults);
                     if (_diffTeethDoubleGear && z2 == z3)
                         continue;
 
                     for (int z4: gs4)
                     {
-                        publishProgress((100 * i++) / count);
+                        publishProgress((100 * i++) / totalResults);
                         if (_diffTeethGearing && z1 == z2)
                             continue;
 
                         for (int z5: gs5)
                         {
-                            publishProgress((100 * i++) / count);
+                            publishProgress((100 * i++) / totalResults);
                             if (_diffTeethDoubleGear && z4 == z5)
                                 continue;
 
                             for (int z6: gs6)
                             {
-                                publishProgress((100 * i++) / count);
+                                publishProgress((100 * i++) / totalResults);
                                 if (_diffTeethGearing && z1 == z2)
                                     continue;
 
@@ -322,50 +320,33 @@ public class ChangeGearsCalculator
 
         int[] set = _gearsSets.get(0);
         List<List<Integer>> combinations = Numbers.combinations(set.length, count);
+        List<List<Integer>> permutations = Numbers.permutations(count);
+        int totalResults = combinations.size() * permutations.size();
+        int i = 0;
         for (List<Integer> comb: combinations)
         {
-            if (count == 2)
-                calculateRatio(set[comb.get(0)], set[comb.get(1)]);
-        }
-        for (int z1: set)
-        {
-            for (int z2 : set)
+            publishProgress((100 * i++) / totalResults);
+            for (List<Integer> perm: permutations)
             {
-                if (z1 == z2)
-                    continue;
-
+                publishProgress((100 * i++) / totalResults);
                 if (count == 2)
-                    calculateRatio(z1, z2);
-                else
-                {
-                    for (int z3 : set)
-                    {
-                        if (z1 == z3 || z2 == z3)
-                            continue;
-                        for (int z4 : set)
-                        {
-                            if (z1 == z4 || z2 == z4 || z3 == z4)
-                                continue;
-
-                            if (count == 4)
-                                calculateRatio(z1, z2, z3, z4);
-                            else
-                            {
-                                for (int z5 : set)
-                                {
-                                    if (z1 == z5 || z2 == z5 || z3 == z5 || z4 == z5) 
-                                        continue;
-                                    for (int z6 : set)
-                                    {
-                                        if (z1 == z6 || z2 == z6 || z3 == z6 || z4 == z6 || z5 == z6)
-                                            continue;
-                                        calculateRatio(z1, z2, z3, z4, z5, z6);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                    calculateRatio(
+                        set[comb.get(perm.get(0))],
+                        set[comb.get(perm.get(1))]);
+                else if (count == 4)
+                    calculateRatio(
+                        set[comb.get(perm.get(0))],
+                        set[comb.get(perm.get(1))],
+                        set[comb.get(perm.get(2))],
+                        set[comb.get(perm.get(3))]);
+                else if (count == 6)
+                    calculateRatio(
+                        set[comb.get(perm.get(0))],
+                        set[comb.get(perm.get(1))],
+                        set[comb.get(perm.get(2))],
+                        set[comb.get(perm.get(3))],
+                        set[comb.get(perm.get(4))],
+                        set[comb.get(perm.get(5))]);
             }
         }
     }
@@ -379,7 +360,7 @@ public class ChangeGearsCalculator
             if (_resultListener != null)
             {
                 //publishProgress((100 * i++) / count);
-                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, new int[]{z1, z2, 0, 0, 0, 0}));
+                _resultListener.onResult(new CgResult(_calculatedRatios, ratio, new int[]{z1, z2, 0, 0, 0, 0}));
             }
             return true;
         }
@@ -395,7 +376,7 @@ public class ChangeGearsCalculator
             if (_resultListener != null)
             {
                 //publishProgress((100 * i++) / count);
-                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, new int[]{z1, z2, z3, z4, 0, 0}));
+                _resultListener.onResult(new CgResult(_calculatedRatios, ratio, new int[]{z1, z2, z3, z4, 0, 0}));
             }
             return true;
         }
@@ -411,7 +392,7 @@ public class ChangeGearsCalculator
             if (_resultListener != null)
             {
                 //publishProgress((100 * i++) / count);
-                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, new int[]{z1, z2, z3, z4, z5, z6}));
+                _resultListener.onResult(new CgResult(_calculatedRatios, ratio, new int[]{z1, z2, z3, z4, z5, z6}));
             }
             return true;
         }

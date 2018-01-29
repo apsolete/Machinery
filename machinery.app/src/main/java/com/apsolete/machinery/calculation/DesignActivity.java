@@ -64,6 +64,9 @@ public class DesignActivity  extends AppCompatActivity
             int id = item.getItemId();
             switch (id)
             {
+                case R.id.mi_action_calculate:
+                    _currentDesign.calculate();
+                    break;
                 case R.id.mi_action_save:
                     _currentDesign.save();
                     break;
