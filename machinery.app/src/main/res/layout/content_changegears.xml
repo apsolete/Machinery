@@ -75,7 +75,7 @@
 					android:layout_width="46dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="Z1:"
+					android:text="Z1"
 					android:textColor="@android:color/holo_red_dark"/>
 
 				<CheckBox
@@ -112,7 +112,7 @@
 					android:layout_width="46dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="Z2:"
+					android:text="Z2"
 					android:textColor="@android:color/holo_blue_dark"/>
 
 				<CheckBox
@@ -149,7 +149,7 @@
 					android:layout_width="46dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="Z3:"
+					android:text="Z3"
 					android:textColor="@android:color/holo_blue_dark"/>
 
 				<CheckBox
@@ -184,7 +184,7 @@
 					android:layout_width="46dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="Z4:"
+					android:text="Z4"
 					android:textColor="@android:color/holo_green_dark"/>
 
 				<CheckBox
@@ -219,7 +219,7 @@
 					android:layout_width="46dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="Z5:"
+					android:text="Z5"
 					android:textColor="@android:color/holo_green_dark"/>
 
 				<CheckBox
@@ -254,7 +254,7 @@
 					android:layout_width="46dp"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
-					android:text="Z6:"
+					android:text="Z6"
 					android:textColor="@android:color/holo_orange_dark"/>
 
 				<CheckBox
@@ -436,14 +436,6 @@
 		android:layout_height="wrap_content"
 		android:layout_below="@id/ratioResultText"
 		android:orientation="horizontal">
-
-		<!--<ImageButton
-			android:id="@+id/calculate"
-			android:src="@drawable/ic_settings_white_24dp"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_vertical"
-			android:layout_margin="8dp"/>-->
 
 		<ProgressBar
 			android:id="@+id/progressBar"

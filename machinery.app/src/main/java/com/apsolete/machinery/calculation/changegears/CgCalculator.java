@@ -1,5 +1,6 @@
 package com.apsolete.machinery.calculation.changegears;
 
+import com.apsolete.machinery.common.*;
 import com.apsolete.machinery.utils.*;
 import android.os.*;
 import java.util.*;
@@ -23,23 +24,8 @@ public class CgCalculator
         }
     }
 
-    public static final int Z0 = 0;
-    public static final int Z1 = 1;
-    public static final int Z2 = 2;
-    public static final int Z3 = 3;
-    public static final int Z4 = 4;
-    public static final int Z5 = 5;
-    public static final int Z6 = 6;
-
-    public interface OnResultListener
-    {
-        void onResult(CgResult result);
-        void onProgress(int percent);
-        void onCompleted(int count);
-    }
-
-    private OnResultListener _resultListener;
-    //private AsyncCalc _asyncCalc;
+    private OnResultListener<CgResult> _resultListener;
+    private ProgressPublisher _progress;
 
     private double _ratio = 0;
     private double _accuracy;
@@ -51,15 +37,17 @@ public class CgCalculator
 
     private int _calculatedRatios = 0;
 
-    CgCalculator()
+    CgCalculator(OnResultListener<CgResult> resultListener)
     {
-        _gearsSets.put(Z0, null);
-        _gearsSets.put(Z1, null);
-        _gearsSets.put(Z2, null);
-        _gearsSets.put(Z3, null);
-        _gearsSets.put(Z4, null);
-        _gearsSets.put(Z5, null);
-        _gearsSets.put(Z6, null);
+        setResultListener(resultListener);
+        
+        _gearsSets.put(G.Z0, null);
+        _gearsSets.put(G.Z1, null);
+        _gearsSets.put(G.Z2, null);
+        _gearsSets.put(G.Z3, null);
+        _gearsSets.put(G.Z4, null);
+        _gearsSets.put(G.Z5, null);
+        _gearsSets.put(G.Z6, null);
     }
 
 //    ChangeGearsCalculator(double ratio, double accuracy, boolean dtg, boolean dtdg, OnResultListener resultListener)
@@ -115,18 +103,18 @@ public class CgCalculator
     {
         _isOneSet = true;
         _gearsCount = gears;
-        _gearsSets.put(Z0, set);
+        _gearsSets.put(G.Z0, set);
     }
 
     public void setGearsSet(int[] gs1, int[] gs2, int[] gs3, int[] gs4, int[] gs5, int[] gs6)
     {
         _isOneSet = false;
-        _gearsSets.put(Z1, gs1);
-        _gearsSets.put(Z2, gs2);
-        _gearsSets.put(Z3, gs3);
-        _gearsSets.put(Z4, gs4);
-        _gearsSets.put(Z5, gs5);
-        _gearsSets.put(Z6, gs6);
+        _gearsSets.put(G.Z1, gs1);
+        _gearsSets.put(G.Z2, gs2);
+        _gearsSets.put(G.Z3, gs3);
+        _gearsSets.put(G.Z4, gs4);
+        _gearsSets.put(G.Z5, gs5);
+        _gearsSets.put(G.Z6, gs6);
     }
 
     public void setGearsCount(int count)
@@ -149,9 +137,10 @@ public class CgCalculator
         _gearsSets.put(z, gears);
     }
 
-    public void setResultListener(OnResultListener resultListener)
+    private void setResultListener(OnResultListener<CgResult> resultListener)
     {
         _resultListener = resultListener;
+        _progress = new ProgressPublisher(_resultListener);
     }
 
     private void calculateInternal()
@@ -166,12 +155,12 @@ public class CgCalculator
                 return;
             }
 
-            int[] gs1 = _gearsSets.get(Z1);
-            int[] gs2 = _gearsSets.get(Z2);
-            int[] gs3 = _gearsSets.get(Z3);
-            int[] gs4 = _gearsSets.get(Z4);
-            int[] gs5 = _gearsSets.get(Z5);
-            int[] gs6 = _gearsSets.get(Z6);
+            int[] gs1 = _gearsSets.get(G.Z1);
+            int[] gs2 = _gearsSets.get(G.Z2);
+            int[] gs3 = _gearsSets.get(G.Z3);
+            int[] gs4 = _gearsSets.get(G.Z4);
+            int[] gs5 = _gearsSets.get(G.Z5);
+            int[] gs6 = _gearsSets.get(G.Z6);
 
             if (gs1 == null || gs2 == null)
                 return;
@@ -201,10 +190,10 @@ public class CgCalculator
         return;
     }
 
-    private void publishProgress(int values)
-    {
-        _resultListener.onProgress(values);
-    }
+//    private void publishProgress(int values)
+//    {
+//        _resultListener.onProgress(values);
+//    }
 
     public void calculate()
     {
@@ -216,13 +205,13 @@ public class CgCalculator
     {
         // calculate by z1, z2
         int totalResults = gs1.length * gs2.length;
-        int i = 0;
+        _progress.reset(totalResults);
         for (int z1: gs1)
         {
-            publishProgress((100 * i++) / totalResults);
+            _progress.publish();
             for (int z2: gs2)
             {
-                publishProgress((100 * i++) / totalResults);
+                _progress.publish();
                 if (_diffTeethGearing && z1 == z2)
                     continue;
 
@@ -235,25 +224,25 @@ public class CgCalculator
     {
         // calculate by z1, z2, z3, z4
         int totalResults = gs1.length * gs2.length * gs3.length * gs4.length;
-        int i = 0;
+        _progress.reset(totalResults);
         for (int z1: gs1)
         {
-            publishProgress((100 * i++) / totalResults);
+            _progress.publish();
             for (int z2: gs2)
             {
-                publishProgress((100 * i++) / totalResults);
+                _progress.publish();
                 if (_diffTeethGearing && z1 == z2)
                     continue;
 
                 for (int z3: gs3)
                 {
-                    publishProgress((100 * i++) / totalResults);
+                    _progress.publish();
                     if (_diffTeethDoubleGear && z2 == z3)
                         continue;
 
                     for (int z4: gs4)
                     {
-                        publishProgress((100 * i++) / totalResults);
+                        _progress.publish();
                         if (_diffTeethGearing && z3 == z4)
                             continue;
 
@@ -269,37 +258,37 @@ public class CgCalculator
         // calculate by z1, z2, z3, z4, z6
         int totalResults = gs1.length * gs2.length
             * gs3.length * gs4.length * gs5.length * gs6.length;
-        int i = 0;
+        _progress.reset(totalResults);
         for (int z1: gs1)
         {
-            publishProgress((100 * i++) / totalResults);
+            _progress.publish();
             for (int z2: gs2)
             {
-                publishProgress((100 * i++) / totalResults);
+                _progress.publish();
                 if (_diffTeethGearing && z1 == z2)
                     continue;
 
                 for (int z3: gs3)
                 {
-                    publishProgress((100 * i++) / totalResults);
+                    _progress.publish();
                     if (_diffTeethDoubleGear && z2 == z3)
                         continue;
 
                     for (int z4: gs4)
                     {
-                        publishProgress((100 * i++) / totalResults);
+                        _progress.publish();
                         if (_diffTeethGearing && z1 == z2)
                             continue;
 
                         for (int z5: gs5)
                         {
-                            publishProgress((100 * i++) / totalResults);
+                            _progress.publish();
                             if (_diffTeethDoubleGear && z4 == z5)
                                 continue;
 
                             for (int z6: gs6)
                             {
-                                publishProgress((100 * i++) / totalResults);
+                                _progress.publish();
                                 if (_diffTeethGearing && z1 == z2)
                                     continue;
 
@@ -322,13 +311,13 @@ public class CgCalculator
         List<List<Integer>> combinations = Numbers.combinations(set.length, count);
         List<List<Integer>> permutations = Numbers.permutations(count);
         int totalResults = combinations.size() * permutations.size();
-        int i = 0;
+        _progress.reset(totalResults);
         for (List<Integer> comb: combinations)
         {
-            publishProgress((100 * i++) / totalResults);
+            _progress.publish();
             for (List<Integer> perm: permutations)
             {
-                publishProgress((100 * i++) / totalResults);
+                _progress.publish();
                 if (count == 2)
                     calculateRatio(
                         set[comb.get(perm.get(0))],
@@ -359,7 +348,6 @@ public class CgCalculator
             _calculatedRatios++;
             if (_resultListener != null)
             {
-                //publishProgress((100 * i++) / count);
                 _resultListener.onResult(new CgResult(_calculatedRatios, ratio, new int[]{z1, z2, 0, 0, 0, 0}));
             }
             return true;
@@ -375,7 +363,6 @@ public class CgCalculator
             _calculatedRatios++;
             if (_resultListener != null)
             {
-                //publishProgress((100 * i++) / count);
                 _resultListener.onResult(new CgResult(_calculatedRatios, ratio, new int[]{z1, z2, z3, z4, 0, 0}));
             }
             return true;
@@ -391,7 +378,6 @@ public class CgCalculator
             _calculatedRatios++;
             if (_resultListener != null)
             {
-                //publishProgress((100 * i++) / count);
                 _resultListener.onResult(new CgResult(_calculatedRatios, ratio, new int[]{z1, z2, z3, z4, z5, z6}));
             }
             return true;

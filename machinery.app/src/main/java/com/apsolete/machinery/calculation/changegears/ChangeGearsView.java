@@ -20,19 +20,6 @@ import java.util.*;
 
 public class ChangeGearsView extends DesignContent
 {
-    public static final int RATIOS_BY_GEARS = 0;
-    public static final int THREAD_BY_GEARS = 1;
-    public static final int GEARS_BY_RATIO = 2;
-    public static final int GEARS_BY_THREAD = 3;
-
-    private static final int Z0 = CgCalculator.Z0;//one set for all;
-    private static final int Z1 = CgCalculator.Z1;//1;
-    private static final int Z2 = CgCalculator.Z2;//2;
-    private static final int Z3 = CgCalculator.Z3;//3;
-    private static final int Z4 = CgCalculator.Z4;//4;
-    private static final int Z5 = CgCalculator.Z5;//5;
-    private static final int Z6 = CgCalculator.Z6;//6;
-    
     private int _ratioPrecision = 1;
     private double _ratio = 0;
     private boolean _diffTeethGearing = true;
@@ -65,7 +52,7 @@ public class ChangeGearsView extends DesignContent
     private ViewGroup _resultView;
     private ProgressBar _pb;
     private CgSettings _settings;
-    private CgCalculator _calculator = new CgCalculator();
+    private CgCalculator _calculator;
 
     private final GearSetControl[] _gearsCtrls = new GearSetControl[7];
     private final ArrayList<CgResult> _results = new ArrayList<>();
@@ -86,21 +73,21 @@ public class ChangeGearsView extends DesignContent
             boolean empty = gearSetCtrl.isEmpty();
             switch (gearSetCtrl.getId())
             {
-                case Z1:
+                case G.Z1:
                     break;
-                case Z2:
-                    _gearsCtrls[Z3].setEnabled(!empty);
+                case G.Z2:
+                    _gearsCtrls[G.Z3].setEnabled(!empty);
                     break;
-                case Z3:
-                    _gearsCtrls[Z4].setEnabled(!empty);
+                case G.Z3:
+                    _gearsCtrls[G.Z4].setEnabled(!empty);
                     break;
-                case Z4:
-                    _gearsCtrls[Z5].setEnabled(!empty);
+                case G.Z4:
+                    _gearsCtrls[G.Z5].setEnabled(!empty);
                     break;
-                case Z5:
-                    _gearsCtrls[Z6].setEnabled(!empty);
+                case G.Z5:
+                    _gearsCtrls[G.Z6].setEnabled(!empty);
                     break;
-                case Z6:
+                case G.Z6:
                     break;
             }
         }
@@ -113,30 +100,30 @@ public class ChangeGearsView extends DesignContent
             {
                     //case Z1:
                     //case Z2:
-                case Z3:
-                    _gearsCtrls[Z4].setEnabled(checked);
-                    _gearsCtrls[Z4].setChecked(false);
-                    _gearsCtrls[Z5].setEnabled(false);
-                    _gearsCtrls[Z5].setChecked(false);
-                    _gearsCtrls[Z6].setEnabled(false);
-                    _gearsCtrls[Z6].setChecked(false);
+                case G.Z3:
+                    _gearsCtrls[G.Z4].setEnabled(checked);
+                    _gearsCtrls[G.Z4].setChecked(false);
+                    _gearsCtrls[G.Z5].setEnabled(false);
+                    _gearsCtrls[G.Z5].setChecked(false);
+                    _gearsCtrls[G.Z6].setEnabled(false);
+                    _gearsCtrls[G.Z6].setChecked(false);
                     break;
-                case Z4:
-                    _gearsCtrls[Z5].setEnabled(checked);
-                    _gearsCtrls[Z5].setChecked(false);
-                    _gearsCtrls[Z6].setEnabled(false);
-                    _gearsCtrls[Z6].setChecked(false);
+                case G.Z4:
+                    _gearsCtrls[G.Z5].setEnabled(checked);
+                    _gearsCtrls[G.Z5].setChecked(false);
+                    _gearsCtrls[G.Z6].setEnabled(false);
+                    _gearsCtrls[G.Z6].setChecked(false);
                     break;
-                case Z5:
-                    _gearsCtrls[Z6].setEnabled(checked);
-                    _gearsCtrls[Z6].setChecked(false);
+                case G.Z5:
+                    _gearsCtrls[G.Z6].setEnabled(checked);
+                    _gearsCtrls[G.Z6].setChecked(false);
                     break;
-                case Z6:
+                case G.Z6:
             }
         }
     };
 
-    private CgCalculator.OnResultListener _resultListener = new CgCalculator.OnResultListener()
+    private OnResultListener<CgResult> _resultListener = new OnResultListener<CgResult>()
     {
         @Override
         public void onResult(CgResult result)
@@ -213,19 +200,19 @@ public class ChangeGearsView extends DesignContent
             switch (pos)
             {
                 case 0:
-                    _calcType = RATIOS_BY_GEARS;
+                    _calcType = G.RATIOS_BY_GEARS;
                     showRatio(false);
                     break;
                 case 1:
-                    _calcType = THREAD_BY_GEARS;
+                    _calcType = G.THREAD_BY_GEARS;
                     showPitches(false);
                     break;
                 case 2:
-                    _calcType = GEARS_BY_RATIO;
+                    _calcType = G.GEARS_BY_RATIO;
                     showRatio(true);
                     break;
                 case 3:
-                    _calcType = GEARS_BY_THREAD;
+                    _calcType = G.GEARS_BY_THREAD;
                     showPitches(true);
                     break;
             }
@@ -369,20 +356,20 @@ public class ChangeGearsView extends DesignContent
 
         _resultView = (ViewGroup)_view.findViewById(R.id.resultsLayout);
 
-        _gearsCtrls[Z0] = new GearSetControl(Z0, _view, R.id.z0Set, R.id.z0Gears, 0, _gearSetListener);
-        _gearsCtrls[Z0].setEnabled(_oneSetSwitch.isChecked());
+        _gearsCtrls[G.Z0] = new GearSetControl(G.Z0, _view, R.id.z0Set, R.id.z0Gears, 0, _gearSetListener);
+        _gearsCtrls[G.Z0].setEnabled(_oneSetSwitch.isChecked());
 
-        _gearsCtrls[Z1] = new GearSetControl(Z1, _view, R.id.z1Set, R.id.z1Gears, R.id.z1Select, _gearSetListener);
+        _gearsCtrls[G.Z1] = new GearSetControl(G.Z1, _view, R.id.z1Set, R.id.z1Gears, R.id.z1Select, _gearSetListener);
 
-        _gearsCtrls[Z2] = new GearSetControl(Z2, _view, R.id.z2Set, R.id.z2Gears, R.id.z2Select, _gearSetListener);
+        _gearsCtrls[G.Z2] = new GearSetControl(G.Z2, _view, R.id.z2Set, R.id.z2Gears, R.id.z2Select, _gearSetListener);
 
-        _gearsCtrls[Z3] = new GearSetControl(Z3, _view, R.id.z3Set, R.id.z3Gears, R.id.z3Select, _gearSetListener);
+        _gearsCtrls[G.Z3] = new GearSetControl(G.Z3, _view, R.id.z3Set, R.id.z3Gears, R.id.z3Select, _gearSetListener);
 
-        _gearsCtrls[Z4] = new GearSetControl(Z4, _view, R.id.z4Set, R.id.z4Gears, R.id.z4Select, _gearSetListener);
+        _gearsCtrls[G.Z4] = new GearSetControl(G.Z4, _view, R.id.z4Set, R.id.z4Gears, R.id.z4Select, _gearSetListener);
 
-        _gearsCtrls[Z5] = new GearSetControl(Z5, _view, R.id.z5Set, R.id.z5Gears, R.id.z5Select, _gearSetListener);
+        _gearsCtrls[G.Z5] = new GearSetControl(G.Z5, _view, R.id.z5Set, R.id.z5Gears, R.id.z5Select, _gearSetListener);
 
-        _gearsCtrls[Z6] = new GearSetControl(Z6, _view, R.id.z6Set, R.id.z6Gears, R.id.z6Select, _gearSetListener);
+        _gearsCtrls[G.Z6] = new GearSetControl(G.Z6, _view, R.id.z6Set, R.id.z6Gears, R.id.z6Select, _gearSetListener);
 
         _pb = (ProgressBar)_view.findViewById(R.id.progressBar);
         /*ImageButton calcButton = (ImageButton)_view.findViewById(R.id.calculate);
@@ -476,7 +463,7 @@ public class ChangeGearsView extends DesignContent
         _settings.setListener(_settingsChangeListener);
         setRatioFormat(_settings.getRatioPrecision());
 
-        _calculator.setResultListener(_resultListener);
+        _calculator = new CgCalculator(_resultListener);
 
         return _view;
     }
@@ -551,11 +538,11 @@ public class ChangeGearsView extends DesignContent
 
         if (_isOneSet)
         {
-            int[] set = _gearsCtrls[Z0].getGears();
+            int[] set = _gearsCtrls[G.Z0].getGears();
             int gears = 2;
-            if (_gearsCtrls[Z6].isChecked())
+            if (_gearsCtrls[G.Z6].isChecked())
                 gears = 6;
-            else if (_gearsCtrls[Z4].isChecked())
+            else if (_gearsCtrls[G.Z4].isChecked())
                 gears = 4;
             if (gears > set.length)
             {
@@ -567,12 +554,12 @@ public class ChangeGearsView extends DesignContent
         }
         else
         {
-            int[] gs1 = _gearsCtrls[Z1].getGears();
-            int[] gs2 = _gearsCtrls[Z2].getGears();
-            int[] gs3 = _gearsCtrls[Z3].getGears();
-            int[] gs4 = _gearsCtrls[Z4].getGears();
-            int[] gs5 = _gearsCtrls[Z5].getGears();
-            int[] gs6 = _gearsCtrls[Z6].getGears();
+            int[] gs1 = _gearsCtrls[G.Z1].getGears();
+            int[] gs2 = _gearsCtrls[G.Z2].getGears();
+            int[] gs3 = _gearsCtrls[G.Z3].getGears();
+            int[] gs4 = _gearsCtrls[G.Z4].getGears();
+            int[] gs5 = _gearsCtrls[G.Z5].getGears();
+            int[] gs6 = _gearsCtrls[G.Z6].getGears();
             
             if (gs1 == null || gs1.length == 0 || gs2 == null || gs2.length == 0)
             {
@@ -658,7 +645,7 @@ public class ChangeGearsView extends DesignContent
             text = (TextView)view.findViewById(R.id.ratioText);
             text.setText(_ratioFormat.format(result.Ratio));
             
-            visibility = (_calcType == THREAD_BY_GEARS || _calcType == GEARS_BY_THREAD) ? View.VISIBLE : View.GONE;
+            visibility = (_calcType == G.THREAD_BY_GEARS || _calcType == G.GEARS_BY_THREAD) ? View.VISIBLE : View.GONE;
             view.findViewById(R.id.threadPitchLayout).setVisibility(visibility);
             if (visibility == View.VISIBLE)
             {
@@ -690,35 +677,35 @@ public class ChangeGearsView extends DesignContent
 
     private void setOneSetForAllGears(boolean isOneSet)
     {
-        _gearsCtrls[Z0].enableOwnSet(isOneSet);
-        _gearsCtrls[Z0].setEnabled(isOneSet);
+        _gearsCtrls[G.Z0].enableOwnSet(isOneSet);
+        _gearsCtrls[G.Z0].setEnabled(isOneSet);
 
-        _gearsCtrls[Z1].enableOwnSet(!isOneSet);
-        _gearsCtrls[Z2].enableOwnSet(!isOneSet);
-        _gearsCtrls[Z3].enableOwnSet(!isOneSet);
-        _gearsCtrls[Z4].enableOwnSet(!isOneSet);
-        _gearsCtrls[Z5].enableOwnSet(!isOneSet);
-        _gearsCtrls[Z6].enableOwnSet(!isOneSet);
+        _gearsCtrls[G.Z1].enableOwnSet(!isOneSet);
+        _gearsCtrls[G.Z2].enableOwnSet(!isOneSet);
+        _gearsCtrls[G.Z3].enableOwnSet(!isOneSet);
+        _gearsCtrls[G.Z4].enableOwnSet(!isOneSet);
+        _gearsCtrls[G.Z5].enableOwnSet(!isOneSet);
+        _gearsCtrls[G.Z6].enableOwnSet(!isOneSet);
 
         if (isOneSet)
         {
-            _gearsCtrls[Z1].setEnabled(false);
-            _gearsCtrls[Z2].setEnabled(false);
+            _gearsCtrls[G.Z1].setEnabled(false);
+            _gearsCtrls[G.Z2].setEnabled(false);
 
-            _gearsCtrls[Z3].setEnabled(true);
-            _gearsCtrls[Z4].setEnabled(false);
-            _gearsCtrls[Z5].setEnabled(false);
-            _gearsCtrls[Z6].setEnabled(false);
+            _gearsCtrls[G.Z3].setEnabled(true);
+            _gearsCtrls[G.Z4].setEnabled(false);
+            _gearsCtrls[G.Z5].setEnabled(false);
+            _gearsCtrls[G.Z6].setEnabled(false);
         }
         else
         {
-            _gearsCtrls[Z1].setEnabled(true);
-            _gearsCtrls[Z2].setEnabled(true);
+            _gearsCtrls[G.Z1].setEnabled(true);
+            _gearsCtrls[G.Z2].setEnabled(true);
 
-            _gearsCtrls[Z3].setEnabled(!_gearsCtrls[Z2].isEmpty());
-            _gearsCtrls[Z4].setEnabled(!_gearsCtrls[Z3].isEmpty());
-            _gearsCtrls[Z5].setEnabled(!_gearsCtrls[Z4].isEmpty());
-            _gearsCtrls[Z6].setEnabled(!_gearsCtrls[Z5].isEmpty());
+            _gearsCtrls[G.Z3].setEnabled(!_gearsCtrls[G.Z2].isEmpty());
+            _gearsCtrls[G.Z4].setEnabled(!_gearsCtrls[G.Z3].isEmpty());
+            _gearsCtrls[G.Z5].setEnabled(!_gearsCtrls[G.Z4].isEmpty());
+            _gearsCtrls[G.Z6].setEnabled(!_gearsCtrls[G.Z5].isEmpty());
         }
     }
 
@@ -749,7 +736,7 @@ public class ChangeGearsView extends DesignContent
         
         _ratio = 0.0;
         
-        if (_calcType == GEARS_BY_THREAD)
+        if (_calcType == G.GEARS_BY_THREAD)
         {
             String pitchStr = _threadPitchValue.getText().toString();
             double thrPitch = !pitchStr.isEmpty() ? Double.parseDouble(pitchStr) : 0;
@@ -776,7 +763,7 @@ public class ChangeGearsView extends DesignContent
                     " = " + _ratioFormat.format(_ratio);
             }
         }
-        else if (_calcType == GEARS_BY_RATIO)
+        else if (_calcType == G.GEARS_BY_RATIO)
         {
             String ratioStr = _gearRatioValue.getText().toString();
             double ratioNum = !ratioStr.isEmpty() ? Double.parseDouble(ratioStr) : 0;
