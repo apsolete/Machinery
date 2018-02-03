@@ -5,6 +5,13 @@ import android.os.*;
 
 public final class ChangeGears extends DesignModel<ChangeGears>
 {
+    private com.apsolete.machinery.gearing.ChangeGears _cg;
+
+    public ChangeGears(Parcel parcel)
+    {
+
+    }
+
     @Override
     public int describeContents()
     {
@@ -18,18 +25,18 @@ public final class ChangeGears extends DesignModel<ChangeGears>
         // TODO: Implement this method
     }
 
-//    public static final Parcelable.Creator<ChangeGears> CREATOR = new Parcelable.Creator<ChangeGears>()
-//    {
-//        @Override
-//        public ChangeGears createFromParcel(Parcel parcel)
-//        {
-//            return null;
-//        }
-//
-//        @Override
-//        public ChangeGears[] newArray(int size)
-//        {
-//            return new ChangeGears[size];
-//        }
-//    };
+    public static final Parcelable.Creator<ChangeGears> CREATOR = new Parcelable.Creator<ChangeGears>()
+    {
+        @Override
+        public ChangeGears createFromParcel(Parcel parcel)
+        {
+            return new ChangeGears(parcel);
+        }
+
+        @Override
+        public ChangeGears[] newArray(int size)
+        {
+            return new ChangeGears[size];
+        }
+    };
 }
