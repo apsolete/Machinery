@@ -20,7 +20,7 @@ public class ChangeGears
 
     public List<Integer> getGearSet(int set)
     {
-        return new ArrayList<Integer>(_gs.get(set));
+        return new ArrayList<>(_gs.get(set));
     }
 
     public void addGear(int set, int z)

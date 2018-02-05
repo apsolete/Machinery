@@ -25,11 +25,10 @@ android {
 }
 
 dependencies {
-	compile project(':machineries')
-    //compile project(':machinery.gearing')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:preference-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
     testCompile 'junit:junit:4.12'
+    compile project(path: ':machinery.gearing')
 }
