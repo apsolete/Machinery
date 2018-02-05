@@ -372,15 +372,6 @@ public class ChangeGearsView extends DesignContent
         _gearsCtrls[G.Z6] = new GearSetControl(G.Z6, _view, R.id.z6Set, R.id.z6Gears, R.id.z6Select, _gearSetListener);
 
         _pb = (ProgressBar)_view.findViewById(R.id.progressBar);
-        /*ImageButton calcButton = (ImageButton)_view.findViewById(R.id.calculate);
-        calcButton.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View p1)
-                {
-                    calculate();
-                }
-            });*/
             
         ImageButton showNextButton = (ImageButton)_view.findViewById(R.id.showNext);
         showNextButton.setOnClickListener(new View.OnClickListener()
@@ -611,7 +602,7 @@ public class ChangeGearsView extends DesignContent
         {
             //_pb.setProgress(1);
             LayoutInflater layoutInflater = (LayoutInflater)_activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = layoutInflater.inflate(R.layout.change_gears_result2, null);
+            View view = layoutInflater.inflate(R.layout.change_gears_result, null);
 
             TextView text = (TextView)view.findViewById(R.id.resultNumberText);
             text.setText(Integer.toString(result.Id));

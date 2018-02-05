@@ -5,7 +5,7 @@ import android.os.*;
 
 public final class ChangeGears extends DesignModel<ChangeGears>
 {
-    private com.apsolete.machinery.gearing.ChangeGears _cg;
+    //private com.apsolete.machinery.gearing.ChangeGears _cg;
 
     public ChangeGears(Parcel parcel)
     {

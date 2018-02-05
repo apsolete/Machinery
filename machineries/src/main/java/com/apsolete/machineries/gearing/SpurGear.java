@@ -1,4 +1,4 @@
-package com.apsolete.machinery.gearing;
+package com.apsolete.machineries.gearing;
 
 public class SpurGear extends Gear
 {

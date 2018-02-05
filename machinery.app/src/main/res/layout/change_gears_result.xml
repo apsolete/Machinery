@@ -64,7 +64,7 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
-        android:layout_marginStart="4dp"
+		android:layout_marginStart="4dp"
 		android:layout_marginEnd="4dp">
 
 		<TextView
@@ -108,7 +108,7 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
-        android:layout_marginStart="4dp"
+		android:layout_marginStart="4dp"
 		android:layout_marginEnd="4dp">
 
 		<TextView
@@ -152,15 +152,16 @@
 		android:gravity="center_vertical|center_horizontal"
 		android:text="0.99999"
 		android:textAlignment="gravity"
-        android:layout_marginStart="4dp"
+		android:layout_marginStart="4dp"
 		android:layout_marginEnd="4dp"/>
 
 	<LinearLayout
 		android:id="@+id/threadPitchLayout"
-		android:layout_height="wrap_content"
+		android:layout_height="match_parent"
 		android:layout_width="wrap_content"
 		android:layout_marginStart="10dp"
-		android:visibility="gone">
+		android:visibility="visible"
+		android:layout_gravity="center_vertical">
 
 		<TextView
 			android:layout_width="wrap_content"
@@ -185,8 +186,8 @@
 			android:gravity="center"
 			android:text="0.99999"
 			android:textAlignment="gravity"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"/>
+			android:layout_marginStart="4dp"
+			android:layout_marginEnd="4dp"/>
 
 	</LinearLayout>
 
