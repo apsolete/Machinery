@@ -1,1 +1,1 @@
-include ':machinery.app', ':machinery.gearing'
+include ':machinery.app', ':machineries'
