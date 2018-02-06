@@ -10,12 +10,20 @@
 
 	<TextView
 		android:id="@+id/resultNumberText"
-		android:layout_width="50dp"
+		android:layout_width="wrap_content"
 		android:layout_height="match_parent"
-		android:layout_marginEnd="4dp"
-		android:gravity="center_vertical"
+		android:ems="2"
+		android:gravity="right|center_vertical"
 		android:text="100"
-		android:textAlignment="center"/>
+		/>
+
+	<TextView
+		android:id="@+id/textView"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_weight="1"
+		android:gravity="center_vertical"
+		android:text="."/>
 
 	<LinearLayout
 		android:id="@+id/gears12Layout"
