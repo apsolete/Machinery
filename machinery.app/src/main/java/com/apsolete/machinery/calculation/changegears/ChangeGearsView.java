@@ -50,7 +50,6 @@ public class ChangeGearsView extends DesignContent
     private TextView _resToNumberText;
 
     private ViewGroup _resultView;
-    private ProgressBar _pb;
     private CgSettings _settings;
     private CgCalculator _calculator;
 
@@ -136,12 +135,12 @@ public class ChangeGearsView extends DesignContent
         @Override
         public void onProgress(final int percent)
         {
-            _activity.runOnUiThread(new Runnable()
+            Activity.runOnUiThread(new Runnable()
                 {
                     @Override
                     public void run()
                     {
-                        _pb.setProgress(percent);
+                        showProgress(percent);
                     }
                 });
         }
@@ -149,7 +148,7 @@ public class ChangeGearsView extends DesignContent
         @Override
         public void onCompleted(final int count)
         {
-            _activity.runOnUiThread(new Runnable()
+            Activity.runOnUiThread(new Runnable()
                 {
                     @Override
                     public void run()
@@ -165,6 +164,7 @@ public class ChangeGearsView extends DesignContent
                             _resToNumberText.setText(Integer.toString(_resToNumber));
                         }
                         Snackbar.make(_view, "Calculated " + count + " ratios. Shown " + shown + " results.", Snackbar.LENGTH_SHORT).show();
+                        resetProgress();
                     }
                 });
         }
@@ -371,8 +371,6 @@ public class ChangeGearsView extends DesignContent
 
         _gearsCtrls[G.Z6] = new GearSetControl(G.Z6, _view, R.id.z6Set, R.id.z6Gears, R.id.z6Select, _gearSetListener);
 
-        _pb = (ProgressBar)_view.findViewById(R.id.progressBar);
-            
         ImageButton showNextButton = (ImageButton)_view.findViewById(R.id.showNext);
         showNextButton.setOnClickListener(new View.OnClickListener()
             {
@@ -450,7 +448,7 @@ public class ChangeGearsView extends DesignContent
                 }
             });
 
-        _settings = new CgSettings(_activity);
+        _settings = new CgSettings(Activity);
         _settings.setListener(_settingsChangeListener);
         setRatioFormat(_settings.getRatioPrecision());
 
@@ -492,7 +490,6 @@ public class ChangeGearsView extends DesignContent
     @Override
     public void clear()
     {
-        _pb.setProgress(0);
         _results.clear();
         _resultView.removeAllViews();
         _resFromNumber = 1;
@@ -562,6 +559,7 @@ public class ChangeGearsView extends DesignContent
         }
         
         clear();
+        //_activity.setProgressBarIndeterminateVisibility(true);
         
         _calculator.setRatio(_ratio);
         _calculator.calculate();
@@ -571,7 +569,7 @@ public class ChangeGearsView extends DesignContent
     {
         final GearSetControl control = gearSetCtrl;
 
-        FragmentManager fragmentManager = _activity.getSupportFragmentManager();
+        FragmentManager fragmentManager = Activity.getSupportFragmentManager();
         final TeethNumbersDialog dialog = new TeethNumbersDialog();
         dialog.setSelection(control.getText());
         dialog.setResultListener(new DialogBase.ResultListener()
@@ -601,7 +599,7 @@ public class ChangeGearsView extends DesignContent
         try
         {
             //_pb.setProgress(1);
-            LayoutInflater layoutInflater = (LayoutInflater)_activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater layoutInflater = (LayoutInflater)Activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View view = layoutInflater.inflate(R.layout.change_gears_result, null);
 
             TextView text = (TextView)view.findViewById(R.id.resultNumberText);
@@ -713,7 +711,7 @@ public class ChangeGearsView extends DesignContent
     
     private void initSpinner(Spinner spinner, int strarrayid, AdapterView.OnItemSelectedListener listener)
     {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(_activity,
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(Activity,
                                                                              strarrayid,
                                                                              android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

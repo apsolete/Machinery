@@ -1,14 +1,18 @@
 package com.apsolete.machinery.common;
 
-import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.*;
+import android.content.*;
 import android.os.*;
+import android.support.v4.app.*;
+import android.support.v7.app.*;
 import android.view.*;
+import android.widget.*;
+import com.apsolete.machinery.*;
 
 public class ContentBase extends Fragment
 {
-    protected AppCompatActivity _activity;
+    protected AppCompatActivity Activity;
+    protected ProgressBar ProgressBar;
+    
     private int _layoutId;
     private int _titleId;
 
@@ -21,7 +25,7 @@ public class ContentBase extends Fragment
     @Override
     public void onAttach(Context context)
     {
-        _activity = (AppCompatActivity)getActivity();
+        Activity = (AppCompatActivity)getActivity();
         super.onAttach(context);
     }
 
@@ -48,7 +52,8 @@ public class ContentBase extends Fragment
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        _activity.getSupportActionBar().setTitle(_titleId);
+        Activity.getSupportActionBar().setTitle(_titleId);
+        ProgressBar = (ProgressBar)Activity.findViewById(R.id.progressBar);
     }
 
     @Override
@@ -57,5 +62,18 @@ public class ContentBase extends Fragment
         super.onSaveInstanceState(outState);
         outState.putInt("layout", _layoutId);
         outState.putInt("title", _titleId);
+    }
+    
+    protected void showProgress(int progress)
+    {
+        if (ProgressBar.getVisibility() == View.GONE)
+            ProgressBar.setVisibility(View.VISIBLE);
+        ProgressBar.setProgress(progress);
+    }
+
+    protected void resetProgress()
+    {
+        ProgressBar.setProgress(0);
+        ProgressBar.setVisibility(View.GONE);
     }
 }

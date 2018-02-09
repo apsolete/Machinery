@@ -437,14 +437,6 @@
 		android:layout_below="@id/ratioResultText"
 		android:orientation="horizontal">
 
-		<ProgressBar
-			android:id="@+id/progressBar"
-			style="?android:attr/progressBarStyleHorizontal"
-			android:layout_width="200dp"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_vertical"
-			android:layout_margin="10dp"/>
-
 		<ImageButton
 			android:id="@+id/showPrev"
 			android:src="@drawable/ic_arrow_back_white_24dp"
@@ -495,17 +487,11 @@
 		android:layout_height="wrap_content"
 		android:layout_below="@id/progressLayout">
 
-		<HorizontalScrollView
-			android:layout_height="match_parent"
-			android:layout_width="match_parent">
-
-			<LinearLayout
-				android:id="@+id/resultsLayout"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:orientation="vertical"/>
-
-		</HorizontalScrollView>
+		<LinearLayout
+			android:id="@+id/resultsLayout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"/>
 
 	</ScrollView>
 

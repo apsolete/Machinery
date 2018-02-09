@@ -1,17 +1,19 @@
 package com.apsolete.machinery.calculation;
 
-import com.apsolete.machinery.*;
-import com.apsolete.machinery.calculation.changegears.ChangeGearsView;
-import com.apsolete.machinery.calculation.gearwheels.GearWheels;
-import com.apsolete.machinery.calculation.gearwheelsext.GearWheelsExt;
-
 import android.os.*;
 import android.support.v4.app.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
 import android.view.*;
+import android.widget.*;
+import com.apsolete.machinery.*;
+import com.apsolete.machinery.calculation.changegears.*;
+import com.apsolete.machinery.calculation.gearwheels.*;
+import com.apsolete.machinery.calculation.gearwheelsext.*;
 
-public class DesignActivity  extends AppCompatActivity
+import android.support.v7.widget.Toolbar;
+
+public class DesignActivity extends AppCompatActivity
 {
     private boolean _isSettingsOpened;
     private DesignContent _currentDesign;
@@ -22,11 +24,14 @@ public class DesignActivity  extends AppCompatActivity
     private MenuItem _miClear;
     private MenuItem _miOptions;
     private MenuItem _miClose;
+    
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        //supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_calculation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_calculation);
         setSupportActionBar(toolbar);
@@ -171,5 +176,6 @@ public class DesignActivity  extends AppCompatActivity
         _miOptions.getIcon().setAlpha(enable ? 255 : 130);
         _miClose.setEnabled(enable);
         _miClose.getIcon().setAlpha(enable ? 255 : 130);
+        this.setProgress(5);
     }
 }
