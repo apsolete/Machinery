@@ -16,6 +16,7 @@ import android.text.*;
 import java.math.RoundingMode;
 import java.text.*;
 import java.util.*;
+import android.support.v7.widget.*;
 
 
 public class ChangeGearsView extends DesignContent
@@ -32,7 +33,7 @@ public class ChangeGearsView extends DesignContent
     private ThreadPitchUnit _scrPitchUnit;
 
     private View _view;
-    private Switch _oneSetSwitch;
+    private SwitchCompat _oneSetSwitch;
     private Spinner _calcTypeSpinner;
     private LinearLayout _threadPitchLayout;
     private EditText _threadPitchValue;
@@ -343,7 +344,7 @@ public class ChangeGearsView extends DesignContent
         _view = super.onCreateView(inflater, container, savedInstanceState);
         assert _view != null;
 
-        _oneSetSwitch = (Switch)_view.findViewById(R.id.oneSetForAllGears);
+        _oneSetSwitch = (SwitchCompat)_view.findViewById(R.id.oneSetForAllGears);
         _oneSetSwitch.setOnClickListener(new View.OnClickListener()
             {
                 @Override

@@ -12,7 +12,7 @@
 	android:paddingTop="@dimen/activity_vertical_margin"
 	app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-	<Switch
+	<android.support.v7.widget.SwitchCompat
 		android:id="@+id/oneSetForAllGears"
 		android:layout_height="wrap_content"
 		android:layout_width="match_parent"
@@ -20,7 +20,10 @@
 		android:layout_gravity="center_vertical"
 		android:layout_margin="8dp"
 		android:textColor="@android:color/holo_green_dark"
-		android:textStyle="bold|italic"/>
+		android:textStyle="bold|italic"
+		android:textOff="Multiple sets"
+		android:textOn="One set for all"
+        android:showText="true"/>
 
 	<LinearLayout
 		android:id="@+id/oneSetLayout"
@@ -340,8 +343,8 @@
 			android:orientation="horizontal">
 
 			<TextView
-				android:id="@+id/screwPitchText"
-				android:text="Screw Pitch"
+				android:id="@+id/leadscrewPitchText"
+				android:text="Leadscrew Pitch"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
@@ -372,7 +375,7 @@
 			android:orientation="vertical">
 
 			<Switch
-				android:id="@+id/ratioAsFractionSwitch"
+				
 				android:layout_height="wrap_content"
 				android:layout_width="match_parent"
 				android:text="Set Ratio as Fraction"
@@ -427,6 +430,17 @@
 						android:layout_gravity="center_vertical"/>
 
 				</LinearLayout>
+                
+                <Switch
+                    android:id="@+id/ratioAsFractionSwitch"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textOff="a/b"
+                    android:textOn="a/b"
+                    android:showText="true"
+                    android:thumb="@drawable/switch_custom_selector"
+                    android:track="@drawable/switch_custom_track"/>
 
 			</LinearLayout>
 
