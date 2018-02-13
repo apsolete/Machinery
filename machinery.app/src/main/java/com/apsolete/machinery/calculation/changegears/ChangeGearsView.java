@@ -16,8 +16,6 @@ import android.text.*;
 import java.math.RoundingMode;
 import java.text.*;
 import java.util.*;
-import android.support.v7.widget.*;
-
 
 public class ChangeGearsView extends DesignContent
 {
@@ -33,7 +31,7 @@ public class ChangeGearsView extends DesignContent
     private ThreadPitchUnit _scrPitchUnit;
 
     private View _view;
-    private SwitchCompat _oneSetSwitch;
+    private CompoundButton _oneSetSwitch;
     private Spinner _calcTypeSpinner;
     private LinearLayout _threadPitchLayout;
     private EditText _threadPitchValue;
@@ -42,7 +40,7 @@ public class ChangeGearsView extends DesignContent
     private EditText _screwPitchValue;
     private Spinner _screwUnitSpinner;
     private LinearLayout _gearRatioLayout;
-    private Switch _ratioAsFractionSwitch;
+    private CompoundButton _ratioAsFractionSwitch;
     private EditText _gearRatioValue;
     private EditText _gearRatioDenominator;
     private LinearLayout _gearRatioDenominatorLayout;
@@ -344,13 +342,13 @@ public class ChangeGearsView extends DesignContent
         _view = super.onCreateView(inflater, container, savedInstanceState);
         assert _view != null;
 
-        _oneSetSwitch = (SwitchCompat)_view.findViewById(R.id.oneSetForAllGears);
+        _oneSetSwitch = (CompoundButton)_view.findViewById(R.id.oneSetForAllGears);
         _oneSetSwitch.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View view)
                 {
-                    _isOneSet = ((Switch)view).isChecked();
+                    _isOneSet = ((CompoundButton)view).isChecked();
                     setOneSetForAllGears(_isOneSet);
                 }
             });
@@ -426,7 +424,6 @@ public class ChangeGearsView extends DesignContent
         initSpinner(_screwUnitSpinner, R.array.cg_pitchunit_array, _scrPitchUnitListener);
         
         _gearRatioLayout = (LinearLayout)_view.findViewById(R.id.gearRatioLayout);
-        _ratioAsFractionSwitch = (Switch)_view.findViewById(R.id.ratioAsFractionSwitch);
         _gearRatioValue = (EditText)_view.findViewById(R.id.gearRatioValue);
         _gearRatioValue.addTextChangedListener(_gearRatioChangedListener);
         _gearRatioDenominator = (EditText)_view.findViewById(R.id.gearRatioDenominator);
@@ -435,13 +432,14 @@ public class ChangeGearsView extends DesignContent
         _ratioResultText = (TextView)_view.findViewById(R.id.ratioResultText);
         _resFromNumberText = (TextView)_view.findViewById(R.id.fromNumberText);
         _resToNumberText = (TextView)_view.findViewById(R.id.toNumberText);
-        
+
+        _ratioAsFractionSwitch = (CompoundButton)_view.findViewById(R.id.ratioAsFractionSwitch);
         _ratioAsFractionSwitch.setOnClickListener(new View.OnClickListener()
             {
                 @Override
                 public void onClick(View view)
                 {
-                    _isRatioFraction = ((Switch)view).isChecked();
+                    _isRatioFraction = ((CompoundButton)view).isChecked();
                     _gearRatioDenominatorLayout.setVisibility(_isRatioFraction ? View.VISIBLE : View.GONE);
                     _ratioResultText.setVisibility(_isRatioFraction ? View.VISIBLE : View.GONE);
                     if (_isRatioFraction)
