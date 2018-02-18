@@ -8,8 +8,8 @@
             android:visible="true">
             <gradient
                 android:angle="270"
-                android:endColor="@android:color/holo_green_light"
-                android:startColor="@android:color/holo_green_dark"/>
+                android:endColor="@color/colorPink400Light"
+                android:startColor="@color/colorPink400"/>
             <corners
                 android:radius="8dp"/>
             <size
@@ -28,8 +28,8 @@
             android:useLevel="false">
             <gradient
                 android:angle="270"
-                android:endColor="@android:color/holo_red_light"
-                android:startColor="@android:color/holo_red_dark"/>
+                android:endColor="@color/colorGray500"
+                android:startColor="@color/colorGray500"/>
             <corners
                 android:radius="8dp"/>
             <size

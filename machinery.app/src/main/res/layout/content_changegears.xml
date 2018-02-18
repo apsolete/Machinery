@@ -28,8 +28,7 @@
 		android:id="@+id/oneSetLayout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/oneSetForAllGears"
-		>
+		android:layout_below="@id/oneSetForAllGears">
 
 		<Button
 			android:id="@+id/z0Set"
@@ -302,8 +301,7 @@
 			android:id="@+id/calcTypeSpinner"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_gravity="center_vertical"
-			android:layout_margin="6dp"/>
+			android:layout_gravity="center_vertical"/>
 
 		<LinearLayout
 			android:id="@+id/threadPitchLayout"
@@ -333,8 +331,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
-				android:layout_margin="6dp"
-				/>
+				android:layout_margin="6dp"/>
 
 		</LinearLayout>
 
@@ -366,8 +363,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
-				android:layout_margin="6dp"
-				/>
+				android:layout_margin="6dp"/>
 
 		</LinearLayout>
 
@@ -388,20 +384,7 @@
 					android:layout_height="wrap_content"
 					android:layout_gravity="center_vertical"
 					android:layout_margin="6dp"
-					android:text="Ratio:"
-					/>
-
-				<Switch
-					android:id="@+id/ratioAsFractionSwitch"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
-					android:layout_margin="6dp"
-					android:showText="true"
-					android:textOff="x/y"
-					android:textOn="x.y"
-					android:thumb="@drawable/switch_custom_selector"
-					android:track="@drawable/switch_custom_track"/>
+					android:text="Ratio"/>
 
 				<EditText
 					android:id="@+id/gearRatioValue"
@@ -437,6 +420,18 @@
 						android:inputType="numberDecimal"/>
 
 				</LinearLayout>
+
+				<Switch
+					android:id="@+id/ratioAsFractionSwitch"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:layout_margin="6dp"
+					android:showText="true"
+					android:textOff="x.y"
+					android:textOn="x/y"
+					android:thumb="@drawable/switch_custom_selector"
+					android:track="@drawable/switch_custom_track"/>
 
 			</LinearLayout>
 
