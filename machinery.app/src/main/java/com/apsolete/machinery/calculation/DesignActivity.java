@@ -31,7 +31,7 @@ public class DesignActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        //supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
         setContentView(R.layout.activity_calculation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_calculation);
         setSupportActionBar(toolbar);

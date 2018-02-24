@@ -41,12 +41,10 @@ implements NavigationView.OnNavigationItemSelectedListener
         setSupportActionBar(toolbar);
 
         _fabs = new FabsManager(this);
-        //_fabs = new FabsManager(this, new int[]{R.id.fabLayout1, R.id.fabLayout2, R.id.fabLayout3});
         _fabs.setClickListener(new FabsManager.OnFabClickListener()
         {
             public void OnClick(int fabId)
             {
-                //Snackbar.make(findViewById(R.id.contentLayout), "Fab " + fabId + " was tapped.", Snackbar.LENGTH_SHORT).show();
                 int type;
                 switch (fabId)
                 {

@@ -1,7 +1,7 @@
 package com.apsolete.machinery.calculation;
 import com.apsolete.machinery.common.*;
 
-public class CalculationView extends ContentBase implements Calculation.Contract.View
+public abstract class CalculationView extends ContentBase implements Calculation.Contract.View
 {
     public CalculationView(int type, int layout, int title)
     {

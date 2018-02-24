@@ -8,7 +8,7 @@ import android.view.*;
 import android.widget.*;
 import com.apsolete.machinery.*;
 
-public class ContentBase extends Fragment
+public abstract class ContentBase extends Fragment
 {
     protected AppCompatActivity Activity;
     protected ProgressBar ProgressBar;
