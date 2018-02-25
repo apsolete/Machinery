@@ -15,6 +15,7 @@ public final class Calculation
             void save();
             void clear();
             void calculate();
+            boolean close();
         }
 
         interface View<P extends Presenter> extends BaseView<P>

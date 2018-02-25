@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.apsolete.machinery.R;
+import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.calculation.Calculation;
 import com.apsolete.machinery.calculation.CalculationView;
 
@@ -211,6 +212,14 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
             }
         });
 
+        _gsViews[G.Z0] = new GearsSetView(G.Z0, _presenter, _view, R.id.z0Set, R.id.z0Gears, 0, null);
+        _gsViews[G.Z1] = new GearsSetView(G.Z1, _presenter, _view, R.id.z1Set, R.id.z1Gears, R.id.z1Select, null);
+        _gsViews[G.Z2] = new GearsSetView(G.Z2, _presenter, _view, R.id.z2Set, R.id.z2Gears, R.id.z2Select, null);
+        _gsViews[G.Z3] = new GearsSetView(G.Z3, _presenter, _view, R.id.z3Set, R.id.z3Gears, R.id.z3Select, null);
+        _gsViews[G.Z4] = new GearsSetView(G.Z4, _presenter, _view, R.id.z4Set, R.id.z4Gears, R.id.z4Select, null);
+        _gsViews[G.Z5] = new GearsSetView(G.Z5, _presenter, _view, R.id.z5Set, R.id.z5Gears, R.id.z5Select, null);
+        _gsViews[G.Z6] = new GearsSetView(G.Z6, _presenter, _view, R.id.z6Set, R.id.z6Gears, R.id.z6Select, null);
+
         _calcTypeSpinner = (Spinner)_view.findViewById(R.id.calcTypeSpinner);
 
         _threadPitchLayout = (LinearLayout)_view.findViewById(R.id.threadPitchLayout);
@@ -228,5 +237,13 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
         _ratioResultText = (TextView)_view.findViewById(R.id.ratioResultText);
 
         return _view;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        if (_presenter != null) _presenter.start();
     }
 }

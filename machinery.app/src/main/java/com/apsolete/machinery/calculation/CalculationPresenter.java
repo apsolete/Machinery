@@ -2,6 +2,17 @@ package com.apsolete.machinery.calculation;
 
 public class CalculationPresenter implements Calculation.Contract.Presenter
 {
+    @Override
+    public void start()
+    {
+        // TODO: Implement this method
+    }
+
+    @Override
+    public void stop()
+    {
+
+    }
 
     @Override
     public void save()
@@ -23,15 +34,9 @@ public class CalculationPresenter implements Calculation.Contract.Presenter
 
 
     @Override
-    public void init()
+    public boolean close()
     {
-        // TODO: Implement this method
-    }
-
-    @Override
-    public void close()
-    {
-        // TODO: Implement this method
+        return true;
     }
 
 }

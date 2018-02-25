@@ -16,10 +16,13 @@ import android.support.v7.widget.Toolbar;
 public class DesignActivity extends AppCompatActivity
 {
     private boolean _isSettingsOpened;
-    private DesignContent _currentDesign;
-    private DesignContent _latheChangeGears = new ChangeGearsView();
-    private DesignContent _gearWheels = new GearWheels();
-    private DesignContent _gearWheelsExt = new GearWheelsExt();
+    //private DesignContent _currentDesign;
+    //private DesignContent _latheChangeGears = new ChangeGearsView();
+    //private DesignContent _gearWheels = new GearWheels();
+    //private DesignContent _gearWheelsExt = new GearWheelsExt();
+    private CalculationView<Calculation.Contract.Presenter> _currentDesign;
+    private ChangeGearsViewExt _cgView;// = new ChangeGearsViewExt();
+    private CalculationPresenter _presenter;
     private MenuItem _miSave;
     private MenuItem _miClear;
     private MenuItem _miOptions;
@@ -70,13 +73,16 @@ public class DesignActivity extends AppCompatActivity
             switch (id)
             {
                 case R.id.mi_action_calculate:
-                    _currentDesign.calculate();
+                    //_currentDesign.calculate();
+                    _presenter.calculate();
                     break;
                 case R.id.mi_action_save:
-                    _currentDesign.save();
+                    //_currentDesign.save();
+                    _presenter.save();
                     break;
                 case R.id.mi_action_clear:
-                    _currentDesign.clear();
+                    //_currentDesign.clear();
+                    _presenter.clear();
                     break;
                 case R.id.mi_action_options:
                     openDesignContentSettings();
@@ -94,7 +100,7 @@ public class DesignActivity extends AppCompatActivity
                         setOptionsMenuEnabled(!_isSettingsOpened);
                         return true;
                     }
-                    if (_currentDesign.close())
+                    if (_presenter.close())
                     {
                         if (id == R.id.mi_action_close)
                             onNavigateUp();
@@ -117,7 +123,7 @@ public class DesignActivity extends AppCompatActivity
             setOptionsMenuEnabled(!_isSettingsOpened);
             super.onBackPressed();
         }
-        else if (_currentDesign.close())
+        else if (_presenter.close())
             onNavigateUp();
     }
 
@@ -126,13 +132,16 @@ public class DesignActivity extends AppCompatActivity
         switch (type)
         {
             case DesignContent.CHANGEGEARS:
-                _currentDesign = _latheChangeGears;
+                //_currentDesign = _latheChangeGears;
+                _cgView = new ChangeGearsViewExt();
+                _presenter = new ChangeGearsPresenter(_cgView);
+                _currentDesign = _cgView;
                 break;
             case DesignContent.GEARWHEELS:
-                _currentDesign = _gearWheels;
+                //_currentDesign = _gearWheels;
                 break;
             case DesignContent.GEARWHEELSEXT:
-                _currentDesign = _gearWheelsExt;
+                //_currentDesign = _gearWheelsExt;
                 break;
         }
 
@@ -148,22 +157,22 @@ public class DesignActivity extends AppCompatActivity
 
     private void openDesignContentSettings()
     {
-        if (_currentDesign == null)
-            return;
-
-        Fragment fragment = _currentDesign.getSettings();
-
-        if (fragment == null)
-            return;
-
-        _isSettingsOpened = true;
-        setOptionsMenuEnabled(!_isSettingsOpened);
-        
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-            .replace(R.id.content_design, fragment)
-            .addToBackStack(null)
-            .commit();
+//        if (_currentDesign == null)
+//            return;
+//
+//        Fragment fragment = _currentDesign.getSettings();
+//
+//        if (fragment == null)
+//            return;
+//
+//        _isSettingsOpened = true;
+//        setOptionsMenuEnabled(!_isSettingsOpened);
+//
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction()
+//            .replace(R.id.content_design, fragment)
+//            .addToBackStack(null)
+//            .commit();
     }
 
     private void setOptionsMenuEnabled(boolean enable)
