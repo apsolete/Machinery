@@ -1,18 +1,18 @@
 package com.apsolete.machinery.calculation;
 import com.apsolete.machinery.common.*;
 
-public abstract class CalculationView extends ContentBase implements Calculation.Contract.View
+public abstract class CalculationView<P extends Calculation.Contract.Presenter> extends ContentBase
 {
+    private int _type;
+
     public CalculationView(int type, int layout, int title)
     {
         super(layout, title);
-        //_type = type;
+        _type = type;
     }
 
-    @Override
-    public void setPresenter(Calculation.Contract.Presenter presenter)
+    public int type()
     {
-        // TODO: Implement this method
+        return _type;
     }
-
 }

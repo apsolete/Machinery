@@ -17,7 +17,7 @@ public final class Calculation
             void calculate();
         }
 
-        interface View extends BaseView<Presenter>
+        interface View<P extends Presenter> extends BaseView<P>
         {
         }
     }

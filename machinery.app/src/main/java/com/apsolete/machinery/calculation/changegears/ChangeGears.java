@@ -3,13 +3,14 @@ package com.apsolete.machinery.calculation.changegears;
 import com.apsolete.machinery.calculation.*;
 import android.os.*;
 
-public final class ChangeGears extends DesignModel<ChangeGears>
+public final class ChangeGears extends CalculationModel
 {
-    //private com.apsolete.machinery.gearing.ChangeGears _cg;
+    public ChangeGears()
+    {
+    }
 
     public ChangeGears(Parcel parcel)
     {
-
     }
 
     @Override
@@ -20,7 +21,7 @@ public final class ChangeGears extends DesignModel<ChangeGears>
     }
 
     @Override
-    public void writeToParcel(Parcel p1, int p2)
+    public void writeToParcel(Parcel out, int flags)
     {
         // TODO: Implement this method
     }
