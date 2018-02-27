@@ -1,42 +1,38 @@
 package com.apsolete.machinery.calculation;
 
-public class CalculationPresenter implements Calculation.Contract.Presenter
+public abstract class CalculationPresenter implements Calculation.Contract.Presenter
 {
-    @Override
-    public void start()
-    {
-        // TODO: Implement this method
-    }
-
-    @Override
-    public void stop()
-    {
-
-    }
-
-    @Override
-    public void save()
-    {
-        // TODO: Implement this method
-    }
-
-    @Override
-    public void clear()
-    {
-        // TODO: Implement this method
-    }
-
-    @Override
-    public void calculate()
-    {
-        // TODO: Implement this method
-    }
-
-
-    @Override
-    public boolean close()
-    {
-        return true;
-    }
+//    @Override
+//    public void start()
+//    {
+//    }
+//
+//    @Override
+//    public void stop()
+//    {
+//
+//    }
+//
+//    @Override
+//    public void save()
+//    {
+//    }
+//
+//    @Override
+//    public void clear()
+//    {
+//    }
+//
+//    @Override
+//    public void calculate()
+//    {
+//    }
+//
+//
+//    @Override
+//    public boolean close()
+//    {
+//        return true;
+//    }
 
 }

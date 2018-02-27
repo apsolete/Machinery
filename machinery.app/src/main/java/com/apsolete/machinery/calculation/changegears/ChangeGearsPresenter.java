@@ -2,6 +2,12 @@ package com.apsolete.machinery.calculation.changegears;
 
 import com.apsolete.machinery.calculation.CalculationPresenter;
 import com.apsolete.machinery.common.G;
+import com.apsolete.machinery.utils.Fraction;
+
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 public final class ChangeGearsPresenter extends CalculationPresenter implements ChangeGearsContract.Presenter
 {
@@ -9,6 +15,16 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     private boolean _oneSet;
     private String[] _gsValue = new String[7];
     private boolean[] _gsChecked = new boolean[7];
+    private int _calcType;
+    private double _ratio;
+    private boolean _ratioAsFraction;
+    private ThreadPitchUnit _threadPitchUnit;
+    private ThreadPitchUnit _leadscrewPitchUnit;
+    private double _leadscrewPitch;
+    private double _threadPitch;
+    private double _ratioNumerator;
+    private double _ratioDenominator;
+    private DecimalFormat _ratioFormat;
 
     public ChangeGearsPresenter(ChangeGearsContract.View view)
     {
@@ -24,7 +40,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     @Override
     public void start()
     {
-        super.start();
+        //super.start();
         _view.setOneGearsSet(_oneSet);
         if (_oneSet)
         {
@@ -71,6 +87,37 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
             _view.setGearsSetChecked(set, _gsChecked[set]);
             set++;
         }
+        _view.setCalculationMode(0);
+        _view.showRatio(false);
+    }
+
+    @Override
+    public void stop()
+    {
+    }
+
+    @Override
+    public void save()
+    {
+
+    }
+
+    @Override
+    public void clear()
+    {
+
+    }
+
+    @Override
+    public void calculate()
+    {
+
+    }
+
+    @Override
+    public boolean close()
+    {
+        return false;
     }
 
     @Override
@@ -148,4 +195,197 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     {
         _gsChecked[set] = checked;
     }
+
+    @Override
+    public void setCalculationMode(int calcType)
+    {
+        _calcType = calcType;
+        switch (_calcType)
+        {
+            case G.RATIOS_BY_GEARS:
+                _view.showRatio(false);
+                _view.showRatioNumerator(false);
+                _view.showRatioDenominator(false);
+                _view.showLeadscrewPitch(false);
+                _view.showThreadPitch(false);
+                _view.showFormattedRatio(false);
+                break;
+            case G.THREAD_BY_GEARS:
+                _view.showRatio(false);
+                _view.showRatioNumerator(false);
+                _view.showRatioDenominator(false);
+                _view.showLeadscrewPitch(true);
+                _view.showThreadPitch(false);
+                _view.showFormattedRatio(false);
+                break;
+            case G.GEARS_BY_RATIO:
+                _view.showRatio(true);
+                _view.showRatioNumerator(true);
+                _view.showRatioDenominator(_ratioAsFraction);
+                _view.showLeadscrewPitch(false);
+                _view.showThreadPitch(false);
+                _view.showFormattedRatio(true);
+                break;
+            case G.GEARS_BY_THREAD:
+                _view.showRatio(false);
+                _view.showRatioNumerator(false);
+                _view.showRatioDenominator(false);
+                _view.showLeadscrewPitch(true);
+                _view.showThreadPitch(true);
+                _view.showFormattedRatio(true);
+                break;
+        }
+    }
+
+    @Override
+    public void setLeadscrewPitch(String valueStr)
+    {
+        try
+        {
+            _leadscrewPitch = valueStr != null && !valueStr.isEmpty() ? Double.parseDouble(valueStr) : 0.0;
+            recalculateRatio();
+        }
+        catch (Exception ex)
+        {
+            _view.showError(ex.getMessage());
+        }
+    }
+
+    @Override
+    public void setLeadscrewPitchUnit(ThreadPitchUnit unit)
+    {
+        _threadPitchUnit = unit;
+    }
+
+    @Override
+    public void setThreadPitch(String valueStr)
+    {
+        try
+        {
+            _threadPitch = valueStr != null && !valueStr.isEmpty() ? Double.parseDouble(valueStr) : 0.0;
+            recalculateRatio();
+        }
+        catch (Exception ex)
+        {
+            _view.showError(ex.getMessage());
+        }
+    }
+
+    @Override
+    public void setThreadPitchUnit(ThreadPitchUnit unit)
+    {
+        _leadscrewPitchUnit = unit;
+    }
+
+    @Override
+    public void setRatio(String valueStr)
+    {
+        try
+        {
+            _ratio = valueStr != null && !valueStr.isEmpty() ? Double.parseDouble(valueStr) : 0.0;
+        }
+        catch (Exception ex)
+        {
+            _view.showError(ex.getMessage());
+        }
+    }
+
+    @Override
+    public void setRatioNumerator(String valueStr)
+    {
+        try
+        {
+            _ratioNumerator = valueStr != null && !valueStr.isEmpty() ? Double.parseDouble(valueStr) : 0.0;
+            recalculateRatio();
+        }
+        catch (Exception ex)
+        {
+            _view.showError(ex.getMessage());
+        }
+    }
+
+    @Override
+    public void setRatioDenominator(String valueStr)
+    {
+        try
+        {
+            _ratioDenominator = valueStr != null && !valueStr.isEmpty() ? Double.parseDouble(valueStr) : 0.0;
+            recalculateRatio();
+        }
+        catch (Exception ex)
+        {
+            _view.showError(ex.getMessage());
+        }
+    }
+
+    @Override
+    public void setRatioFormat(int precision)
+    {
+        StringBuilder pattern = new StringBuilder("#0.0");
+        for (int i = 0; i < precision-1; i++)
+            pattern.append("#");
+        DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols(Locale.getDefault());
+        formatSymbols.setDecimalSeparator('.');
+        _ratioFormat = new DecimalFormat(pattern.toString(), formatSymbols);
+        _ratioFormat.setRoundingMode(RoundingMode.CEILING);
+    }
+
+    @Override
+    public void setRatioAsFraction(boolean asFraction)
+    {
+        _ratioAsFraction = asFraction;
+        _view.showRatioDenominator(_ratioAsFraction);
+    }
+
+    private void recalculateRatio()
+    {
+        String ratioInfo = "R = <Undefined>";
+
+        _ratio = 0.0;
+
+        if (_calcType == G.GEARS_BY_THREAD)
+        {
+            if (_threadPitch == 0.0)
+            {
+                _ratio = 0.0;
+            }
+            else if (_leadscrewPitch == 0.0)
+            {
+                _ratio = _threadPitch;
+                ratioInfo = "R = " + _ratio + " " + _threadPitchUnit;
+            }
+            else
+            {
+                Fraction tpf = _threadPitchUnit.toMmFraction(_threadPitch);
+                Fraction spf = _leadscrewPitchUnit.toMmFraction(_leadscrewPitch);
+                Fraction fract = tpf.divide(spf);
+                _ratio = fract.toDouble();
+                ratioInfo = "R = " + _threadPitch + " " + _threadPitchUnit + " / " +
+                        _leadscrewPitch + " " + _leadscrewPitchUnit + " = " + fract.toString() +
+                        " = " + _ratioFormat.format(_ratio);
+            }
+        }
+        else if (_calcType == G.GEARS_BY_RATIO)
+        {
+            if (_ratioNumerator == 0.0)
+            {
+                _ratio = 0.0;
+            }
+            else if (_ratioDenominator == 0.0)
+            {
+                _ratio = _ratioNumerator;
+                ratioInfo = "R = " + _ratio;
+            }
+            else
+            {
+                Fraction fract = new Fraction(_ratioNumerator, _ratioDenominator);
+                _ratio = fract.toDouble();
+                ratioInfo = "R = " + _ratioNumerator + " / " + _ratioDenominator + " = " +
+                        fract.toString() + " = " + _ratioFormat.format(_ratio);
+            }
+        }
+
+        _view.setFormattedRatio(ratioInfo);
+    }
+
 }

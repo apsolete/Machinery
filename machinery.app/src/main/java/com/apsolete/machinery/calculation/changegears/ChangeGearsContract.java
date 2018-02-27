@@ -9,6 +9,19 @@ public interface ChangeGearsContract
         void setOneGearsSet(boolean oneSet);
         void setGearsSet(int set, String valueStr);
         void setGearsSetChecked(int set, boolean checked);
+        void setCalculationMode(int calcType);
+
+        void setLeadscrewPitch(String valueStr);
+        void setLeadscrewPitchUnit(ThreadPitchUnit unit);
+
+        void setThreadPitch(String valueStr);
+        void setThreadPitchUnit(ThreadPitchUnit unit);
+
+        void setRatio(String valueStr);
+        void setRatioNumerator(String valueStr);
+        void setRatioDenominator(String valueStr);
+        void setRatioFormat(int precision);
+        void setRatioAsFraction(boolean asFraction);
     }
 
     public interface View extends Calculation.Contract.View<Presenter>
@@ -35,6 +48,7 @@ public interface ChangeGearsContract
 
         void setRatioDenominator(String valueStr);
         void showRatioDenominator(boolean visible);
+        //void showRatioAsFration(boolean visible);
 
         void setFormattedRatio(String ratioStr);
         void showFormattedRatio(boolean visible);

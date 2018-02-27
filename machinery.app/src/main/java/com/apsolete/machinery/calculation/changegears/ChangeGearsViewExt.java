@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -117,80 +119,134 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     @Override
     public void setRatio(String valueStr)
     {
-
     }
 
     @Override
     public void showRatio(boolean visible)
     {
-
+        _gearRatioLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void setRatioNumerator(String valueStr)
     {
-
     }
 
     @Override
     public void showRatioNumerator(boolean visible)
     {
-
+        _gearRatioLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void setRatioDenominator(String valueStr)
     {
-
     }
 
     @Override
     public void showRatioDenominator(boolean visible)
     {
-
+        _gearRatioDenominatorLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void setFormattedRatio(String ratioStr)
     {
-
+        _ratioResultText.setText(ratioStr);
     }
 
     @Override
     public void showFormattedRatio(boolean visible)
     {
-
+        _ratioResultText.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void setFirstResultNumber(String valuestr)
     {
-
     }
 
     @Override
     public void setLastResultNumber(String valueStr)
     {
-
     }
 
     @Override
     public void setResultItem(CgResult result)
     {
-
     }
 
     @Override
     public void clearResults()
     {
-
     }
 
     @Override
     public void showError(String error)
     {
-
     }
+
+    private AdapterView.OnItemSelectedListener _calcModeListener = new AdapterView.OnItemSelectedListener()
+    {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+        {
+            switch (pos)
+            {
+                case 0:
+                    _presenter.setCalculationMode(G.RATIOS_BY_GEARS);
+                    break;
+                case 1:
+                    _presenter.setCalculationMode(G.THREAD_BY_GEARS);
+                    break;
+                case 2:
+                    _presenter.setCalculationMode(G.GEARS_BY_RATIO);
+                    break;
+                case 3:
+                    _presenter.setCalculationMode(G.GEARS_BY_THREAD);
+                    break;
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent)
+        {
+        }
+    };
+
+    private AdapterView.OnItemSelectedListener _thrPitchUnitListener = new AdapterView.OnItemSelectedListener()
+    {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+        {
+            if (pos == 0)
+                _presenter.setThreadPitchUnit(ThreadPitchUnit.mm);
+            else
+                _presenter.setThreadPitchUnit(ThreadPitchUnit.TPI);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent)
+        {
+        }
+    };
+
+    private AdapterView.OnItemSelectedListener _scrPitchUnitListener = new AdapterView.OnItemSelectedListener()
+    {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+        {
+            if (pos == 0)
+                _presenter.setLeadscrewPitchUnit(ThreadPitchUnit.mm);
+            else
+                _presenter.setLeadscrewPitchUnit(ThreadPitchUnit.TPI);
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent)
+        {
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -221,20 +277,34 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
         _gsViews[G.Z6] = new GearsSetView(G.Z6, _presenter, _view, R.id.z6Set, R.id.z6Gears, R.id.z6Select, null);
 
         _calcTypeSpinner = (Spinner)_view.findViewById(R.id.calcTypeSpinner);
+        initSpinner(_calcTypeSpinner, R.array.cg_calctype_array, _calcModeListener);
 
         _threadPitchLayout = (LinearLayout)_view.findViewById(R.id.threadPitchLayout);
         _threadPitchValue = (EditText)_view.findViewById(R.id.threadPitchValue);
         _threadUnitSpinner = (Spinner)_view.findViewById(R.id.threadUnitSpinner);
+        initSpinner(_threadUnitSpinner, R.array.cg_pitchunit_array, _thrPitchUnitListener);
 
         _screwPitchLayout = (LinearLayout)_view.findViewById(R.id.screwPitchLayout);
         _screwPitchValue = (EditText)_view.findViewById(R.id.screwPitchValue);
         _screwUnitSpinner = (Spinner)_view.findViewById(R.id.screwUnitSpinner);
+        initSpinner(_screwUnitSpinner, R.array.cg_pitchunit_array, _scrPitchUnitListener);
 
         _gearRatioLayout = (LinearLayout)_view.findViewById(R.id.gearRatioLayout);
         _gearRatioValue = (EditText)_view.findViewById(R.id.gearRatioValue);
         _gearRatioDenominator = (EditText)_view.findViewById(R.id.gearRatioDenominator);
         _gearRatioDenominatorLayout = (LinearLayout)_view.findViewById(R.id.gearRatioDenominatorLayout);
         _ratioResultText = (TextView)_view.findViewById(R.id.ratioResultText);
+
+        _ratioAsFractionSwitch = (CompoundButton)_view.findViewById(R.id.ratioAsFractionSwitch);
+        _ratioAsFractionSwitch.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                boolean isChecked = ((CompoundButton)view).isChecked();
+                _presenter.setRatioAsFraction(isChecked);
+            }
+        });
 
         return _view;
     }
@@ -246,4 +316,15 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
 
         if (_presenter != null) _presenter.start();
     }
+
+    private void initSpinner(Spinner spinner, int strarrayid, AdapterView.OnItemSelectedListener listener)
+    {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(Activity,
+                strarrayid,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(listener);
+    }
+
 }

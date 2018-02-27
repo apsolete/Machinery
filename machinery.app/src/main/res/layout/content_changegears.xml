@@ -386,6 +386,18 @@
 					android:layout_margin="6dp"
 					android:text="Ratio"/>
 
+				<Switch
+					android:id="@+id/ratioAsFractionSwitch"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:layout_margin="6dp"
+					android:showText="true"
+					android:textOff="x.y"
+					android:textOn="x/y"
+					android:thumb="@drawable/switch_custom_selector"
+					android:track="@drawable/switch_custom_track"/>
+
 				<EditText
 					android:id="@+id/gearRatioValue"
 					android:layout_width="wrap_content"
@@ -420,18 +432,6 @@
 						android:inputType="numberDecimal"/>
 
 				</LinearLayout>
-
-				<Switch
-					android:id="@+id/ratioAsFractionSwitch"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
-					android:layout_margin="6dp"
-					android:showText="true"
-					android:textOff="x.y"
-					android:textOn="x/y"
-					android:thumb="@drawable/switch_custom_selector"
-					android:track="@drawable/switch_custom_track"/>
 
 			</LinearLayout>
 

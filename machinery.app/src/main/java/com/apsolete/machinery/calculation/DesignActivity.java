@@ -20,7 +20,7 @@ public class DesignActivity extends AppCompatActivity
     //private DesignContent _latheChangeGears = new ChangeGearsView();
     //private DesignContent _gearWheels = new GearWheels();
     //private DesignContent _gearWheelsExt = new GearWheelsExt();
-    private CalculationView<Calculation.Contract.Presenter> _currentDesign;
+    private CalculationView _currentDesign;
     private ChangeGearsViewExt _cgView;// = new ChangeGearsViewExt();
     private CalculationPresenter _presenter;
     private MenuItem _miSave;
