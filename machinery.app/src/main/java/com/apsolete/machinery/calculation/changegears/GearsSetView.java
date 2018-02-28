@@ -12,8 +12,8 @@ public final class GearsSetView implements View.OnClickListener, InputFilter
     public interface OnGearsSetViewListener
     {
         void onRequest(GearsSetView gearsSet);
-        void onChanged(GearsSetView gearsSet);
-        void onChecked(GearsSetView gearsSet);
+        //void onChanged(GearsSetView gearsSet);
+        //void onChecked(GearsSetView gearsSet);
     }
 
     private int _gearId;
@@ -66,14 +66,14 @@ public final class GearsSetView implements View.OnClickListener, InputFilter
             {
                 boolean isChecked = _gearSelect.isChecked();
                 _gearSelect.setChecked(!isChecked);
-                _listener.onChecked(this);
+                //_listener.onChecked(this);
             }
             else
                 _listener.onRequest(this);
         }
 
-        if (view == _gearSelect)
-            _listener.onChecked(this);
+        //if (view == _gearSelect)
+        //    _listener.onChecked(this);
     }
 
     public void setEnabled(boolean enabled)

@@ -204,32 +204,25 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         {
             case G.RATIOS_BY_GEARS:
                 _view.showRatio(false);
-                _view.showRatioNumerator(false);
-                _view.showRatioDenominator(false);
                 _view.showLeadscrewPitch(false);
                 _view.showThreadPitch(false);
                 _view.showFormattedRatio(false);
                 break;
             case G.THREAD_BY_GEARS:
                 _view.showRatio(false);
-                _view.showRatioNumerator(false);
-                _view.showRatioDenominator(false);
                 _view.showLeadscrewPitch(true);
                 _view.showThreadPitch(false);
                 _view.showFormattedRatio(false);
                 break;
             case G.GEARS_BY_RATIO:
                 _view.showRatio(true);
-                _view.showRatioNumerator(true);
-                _view.showRatioDenominator(_ratioAsFraction);
+                _view.showRatioAsFration(_ratioAsFraction);
                 _view.showLeadscrewPitch(false);
                 _view.showThreadPitch(false);
                 _view.showFormattedRatio(true);
                 break;
             case G.GEARS_BY_THREAD:
                 _view.showRatio(false);
-                _view.showRatioNumerator(false);
-                _view.showRatioDenominator(false);
                 _view.showLeadscrewPitch(true);
                 _view.showThreadPitch(true);
                 _view.showFormattedRatio(true);
@@ -291,25 +284,12 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     }
 
     @Override
-    public void setRatioNumerator(String valueStr)
+    public void setRatio(String numStr, String denStr)
     {
         try
         {
-            _ratioNumerator = valueStr != null && !valueStr.isEmpty() ? Double.parseDouble(valueStr) : 0.0;
-            recalculateRatio();
-        }
-        catch (Exception ex)
-        {
-            _view.showError(ex.getMessage());
-        }
-    }
-
-    @Override
-    public void setRatioDenominator(String valueStr)
-    {
-        try
-        {
-            _ratioDenominator = valueStr != null && !valueStr.isEmpty() ? Double.parseDouble(valueStr) : 0.0;
+            _ratioNumerator = numStr != null && !numStr.isEmpty() ? Double.parseDouble(numStr) : 0.0;
+            _ratioDenominator = denStr != null && !denStr.isEmpty() ? Double.parseDouble(denStr) : 0.0;
             recalculateRatio();
         }
         catch (Exception ex)
@@ -334,7 +314,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     public void setRatioAsFraction(boolean asFraction)
     {
         _ratioAsFraction = asFraction;
-        _view.showRatioDenominator(_ratioAsFraction);
+        _view.showRatioAsFration(_ratioAsFraction);
     }
 
     private void recalculateRatio()

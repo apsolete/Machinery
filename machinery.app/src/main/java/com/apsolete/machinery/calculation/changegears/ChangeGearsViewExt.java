@@ -1,6 +1,7 @@
 package com.apsolete.machinery.calculation.changegears;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +14,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.apsolete.machinery.R;
+import com.apsolete.machinery.common.DialogBase;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.calculation.Calculation;
 import com.apsolete.machinery.calculation.CalculationView;
+import com.apsolete.machinery.utils.Numbers;
+
+import java.util.ArrayList;
 
 public final class ChangeGearsViewExt extends CalculationView implements ChangeGearsContract.View
 {
@@ -32,9 +37,10 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     private Spinner _screwUnitSpinner;
     private LinearLayout _gearRatioLayout;
     private CompoundButton _ratioAsFractionSwitch;
-    private EditText _gearRatioValue;
+    private EditText _gearRatio;
+    private EditText _gearRatioNumerator;
     private EditText _gearRatioDenominator;
-    private LinearLayout _gearRatioDenominatorLayout;
+    private LinearLayout _gearRatioFractionLayout;
     private TextView _ratioResultText;
     private TextView _resFromNumberText;
     private TextView _resToNumberText;
@@ -119,6 +125,7 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     @Override
     public void setRatio(String valueStr)
     {
+        _gearRatio.setText(valueStr);
     }
 
     @Override
@@ -130,23 +137,20 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     @Override
     public void setRatioNumerator(String valueStr)
     {
-    }
-
-    @Override
-    public void showRatioNumerator(boolean visible)
-    {
-        _gearRatioLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
+        _gearRatioNumerator.setText(valueStr);
     }
 
     @Override
     public void setRatioDenominator(String valueStr)
     {
+        _gearRatioDenominator.setText(valueStr);
     }
 
     @Override
-    public void showRatioDenominator(boolean visible)
+    public void showRatioAsFration(boolean visible)
     {
-        _gearRatioDenominatorLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
+        _gearRatio.setVisibility(visible ? View.GONE : View.VISIBLE);
+        _gearRatioFractionLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -290,9 +294,10 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
         initSpinner(_screwUnitSpinner, R.array.cg_pitchunit_array, _scrPitchUnitListener);
 
         _gearRatioLayout = (LinearLayout)_view.findViewById(R.id.gearRatioLayout);
-        _gearRatioValue = (EditText)_view.findViewById(R.id.gearRatioValue);
+        _gearRatio = (EditText)_view.findViewById(R.id.gearRatioValue);
+        _gearRatioNumerator = (EditText)_view.findViewById(R.id.gearRatioNumerator);
         _gearRatioDenominator = (EditText)_view.findViewById(R.id.gearRatioDenominator);
-        _gearRatioDenominatorLayout = (LinearLayout)_view.findViewById(R.id.gearRatioDenominatorLayout);
+        _gearRatioFractionLayout = (LinearLayout)_view.findViewById(R.id.gearRatioFractionLayout);
         _ratioResultText = (TextView)_view.findViewById(R.id.ratioResultText);
 
         _ratioAsFractionSwitch = (CompoundButton)_view.findViewById(R.id.ratioAsFractionSwitch);
@@ -327,4 +332,32 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
         spinner.setOnItemSelectedListener(listener);
     }
 
+    private void requestGearsSet(GearsSetView gsView)
+    {
+        final GearsSetView gsv = gsView;
+
+        FragmentManager fragmentManager = Activity.getSupportFragmentManager();
+        final TeethNumbersDialog dialog = new TeethNumbersDialog();
+        dialog.setSelection(gsv.getText());
+        dialog.setResultListener(new DialogBase.ResultListener()
+        {
+            @Override
+            public void onPositive()
+            {
+                ArrayList<Integer> teethNumbers = dialog.getTeethNumbers();
+                if (teethNumbers != null && teethNumbers.size() > 0)
+                {
+                    String text = Numbers.getString(teethNumbers);
+                    gsv.setText(text);
+                }
+                else
+                    gsv.setText("");
+            }
+
+            @Override
+            public void onNegative()
+            {}
+        });
+        dialog.show(fragmentManager, "dialog");
+    }
 }

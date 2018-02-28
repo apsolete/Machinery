@@ -428,7 +428,7 @@ public class ChangeGearsView extends DesignContent
         _gearRatioValue.addTextChangedListener(_gearRatioChangedListener);
         _gearRatioDenominator = (EditText)_view.findViewById(R.id.gearRatioDenominator);
         _gearRatioDenominator.addTextChangedListener(_gearRatioDenomChangedListener);
-        _gearRatioDenominatorLayout = (LinearLayout)_view.findViewById(R.id.gearRatioDenominatorLayout);
+        _gearRatioDenominatorLayout = (LinearLayout)_view.findViewById(R.id.gearRatioFractionLayout);
         _ratioResultText = (TextView)_view.findViewById(R.id.ratioResultText);
         _resFromNumberText = (TextView)_view.findViewById(R.id.fromNumberText);
         _resToNumberText = (TextView)_view.findViewById(R.id.toNumberText);
