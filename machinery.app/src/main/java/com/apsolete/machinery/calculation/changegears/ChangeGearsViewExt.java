@@ -87,9 +87,9 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     }
 
     @Override
-    public void setGearsSetEnableSet(int set, boolean enable)
+    public void setGearsSetEditable(int set, boolean enable)
     {
-        _gsViews[set].enableSet(enable);
+        _gsViews[set].setEditable(enable);
     }
 
     @Override
@@ -190,6 +190,21 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     {
     }
 
+    private GearsSetView.OnGearsSetViewListener _gearsSetViewListener = new GearsSetView.OnGearsSetViewListener()
+    {
+        @Override
+        public void onRequest(GearsSetView gearsSet)
+        {
+            requestGearsSet(gearsSet);
+        }
+
+        @Override
+        public void onChecked(GearsSetView gearsSet)
+        {
+            _presenter.setGearsSetChecked(gearsSet.getId(), gearsSet.isChecked());
+        }
+    };
+
     private AdapterView.OnItemSelectedListener _calcModeListener = new AdapterView.OnItemSelectedListener()
     {
         @Override
@@ -272,13 +287,13 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
             }
         });
 
-        _gsViews[G.Z0] = new GearsSetView(G.Z0, _presenter, _view, R.id.z0Set, R.id.z0Gears, 0, null);
-        _gsViews[G.Z1] = new GearsSetView(G.Z1, _presenter, _view, R.id.z1Set, R.id.z1Gears, R.id.z1Select, null);
-        _gsViews[G.Z2] = new GearsSetView(G.Z2, _presenter, _view, R.id.z2Set, R.id.z2Gears, R.id.z2Select, null);
-        _gsViews[G.Z3] = new GearsSetView(G.Z3, _presenter, _view, R.id.z3Set, R.id.z3Gears, R.id.z3Select, null);
-        _gsViews[G.Z4] = new GearsSetView(G.Z4, _presenter, _view, R.id.z4Set, R.id.z4Gears, R.id.z4Select, null);
-        _gsViews[G.Z5] = new GearsSetView(G.Z5, _presenter, _view, R.id.z5Set, R.id.z5Gears, R.id.z5Select, null);
-        _gsViews[G.Z6] = new GearsSetView(G.Z6, _presenter, _view, R.id.z6Set, R.id.z6Gears, R.id.z6Select, null);
+        _gsViews[G.Z0] = new GearsSetView(G.Z0, _view, R.id.z0Set, R.id.z0Gears, 0, _gearsSetViewListener);
+        _gsViews[G.Z1] = new GearsSetView(G.Z1, _view, R.id.z1Set, R.id.z1Gears, R.id.z1Select, _gearsSetViewListener);
+        _gsViews[G.Z2] = new GearsSetView(G.Z2, _view, R.id.z2Set, R.id.z2Gears, R.id.z2Select, _gearsSetViewListener);
+        _gsViews[G.Z3] = new GearsSetView(G.Z3, _view, R.id.z3Set, R.id.z3Gears, R.id.z3Select, _gearsSetViewListener);
+        _gsViews[G.Z4] = new GearsSetView(G.Z4, _view, R.id.z4Set, R.id.z4Gears, R.id.z4Select, _gearsSetViewListener);
+        _gsViews[G.Z5] = new GearsSetView(G.Z5, _view, R.id.z5Set, R.id.z5Gears, R.id.z5Select, _gearsSetViewListener);
+        _gsViews[G.Z6] = new GearsSetView(G.Z6, _view, R.id.z6Set, R.id.z6Gears, R.id.z6Select, _gearsSetViewListener);
 
         _calcTypeSpinner = (Spinner)_view.findViewById(R.id.calcTypeSpinner);
         initSpinner(_calcTypeSpinner, R.array.cg_calctype_array, _calcModeListener);

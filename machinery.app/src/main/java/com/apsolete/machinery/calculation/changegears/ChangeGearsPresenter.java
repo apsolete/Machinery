@@ -44,12 +44,12 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         _view.setOneGearsSet(_oneSet);
         if (_oneSet)
         {
-            _view.setGearsSetEnableSet(G.Z1, false);
-            _view.setGearsSetEnableSet(G.Z2, false);
-            _view.setGearsSetEnableSet(G.Z3, false);
-            _view.setGearsSetEnableSet(G.Z4, false);
-            _view.setGearsSetEnableSet(G.Z5, false);
-            _view.setGearsSetEnableSet(G.Z6, false);
+            _view.setGearsSetEditable(G.Z1, false);
+            _view.setGearsSetEditable(G.Z2, false);
+            _view.setGearsSetEditable(G.Z3, false);
+            _view.setGearsSetEditable(G.Z4, false);
+            _view.setGearsSetEditable(G.Z5, false);
+            _view.setGearsSetEditable(G.Z6, false);
 
             _view.setGearsSetEnabled(G.Z1, true);
             _view.setGearsSetEnabled(G.Z2, true);
@@ -60,12 +60,12 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         }
         else
         {
-            _view.setGearsSetEnableSet(G.Z1, true);
-            _view.setGearsSetEnableSet(G.Z2, true);
-            _view.setGearsSetEnableSet(G.Z3, true);
-            _view.setGearsSetEnableSet(G.Z4, true);
-            _view.setGearsSetEnableSet(G.Z5, true);
-            _view.setGearsSetEnableSet(G.Z6, true);
+            _view.setGearsSetEditable(G.Z1, true);
+            _view.setGearsSetEditable(G.Z2, true);
+            _view.setGearsSetEditable(G.Z3, true);
+            _view.setGearsSetEditable(G.Z4, true);
+            _view.setGearsSetEditable(G.Z5, true);
+            _view.setGearsSetEditable(G.Z6, true);
 
             _view.setGearsSetEnabled(G.Z1, true);
             _view.setGearsSetEnabled(G.Z2, true);
@@ -82,13 +82,19 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
             set++;
         }
         set = 0;
+        int lastChecked = -1;
         for (boolean bool : _gsChecked)
         {
+            if (_gsChecked[set])
+                lastChecked = set;
             _view.setGearsSetChecked(set, _gsChecked[set]);
             set++;
         }
+        if (lastChecked < G.Z6)
+            _view.setGearsSetEnabled(lastChecked+1, true);
+
         _view.setCalculationMode(0);
-        _view.showRatio(false);
+        setCalculationMode(G.RATIOS_BY_GEARS);
     }
 
     @Override
@@ -127,59 +133,59 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         if (oneSet)
         {
             _view.setGearsSetEnabled(G.Z0, true);
-            _view.setGearsSetEnableSet(G.Z0, true);
+            _view.setGearsSetEditable(G.Z0, true);
 
             _view.setGearsSetEnabled(G.Z1, true);
-            _view.setGearsSetEnableSet(G.Z1, false);
+            _view.setGearsSetEditable(G.Z1, false);
             _view.setGearsSetChecked(G.Z1, true);
 
             _view.setGearsSetEnabled(G.Z2, true);
-            _view.setGearsSetEnableSet(G.Z2, false);
+            _view.setGearsSetEditable(G.Z2, false);
             _view.setGearsSetChecked(G.Z2, true);
 
             _view.setGearsSetEnabled(G.Z3, true);
-            _view.setGearsSetEnableSet(G.Z3, false);
+            _view.setGearsSetEditable(G.Z3, false);
             _view.setGearsSetChecked(G.Z3, false);
 
             _view.setGearsSetEnabled(G.Z4, true);
-            _view.setGearsSetEnableSet(G.Z4, false);
+            _view.setGearsSetEditable(G.Z4, false);
             _view.setGearsSetChecked(G.Z4, false);
 
             _view.setGearsSetEnabled(G.Z5, true);
-            _view.setGearsSetEnableSet(G.Z5, false);
+            _view.setGearsSetEditable(G.Z5, false);
             _view.setGearsSetChecked(G.Z5, false);
 
             _view.setGearsSetEnabled(G.Z6, true);
-            _view.setGearsSetEnableSet(G.Z6, false);
+            _view.setGearsSetEditable(G.Z6, false);
             _view.setGearsSetChecked(G.Z6, false);
         }
         else
         {
             _view.setGearsSetEnabled(G.Z0, false);
-            _view.setGearsSetEnableSet(G.Z0, false);
+            _view.setGearsSetEditable(G.Z0, false);
 
             _view.setGearsSetEnabled(G.Z1, true);
-            _view.setGearsSetEnableSet(G.Z1, true);
+            _view.setGearsSetEditable(G.Z1, true);
             //_view.setGearsSetChecked(G.Z1, true);
 
             _view.setGearsSetEnabled(G.Z2, true);
-            _view.setGearsSetEnableSet(G.Z2, true);
+            _view.setGearsSetEditable(G.Z2, true);
             //_view.setGearsSetChecked(G.Z2, true);
 
             _view.setGearsSetEnabled(G.Z3, false);
-            _view.setGearsSetEnableSet(G.Z3, true);
+            _view.setGearsSetEditable(G.Z3, true);
             //_view.setGearsSetChecked(G.Z3, false);
 
             _view.setGearsSetEnabled(G.Z4, false);
-            _view.setGearsSetEnableSet(G.Z4, true);
+            _view.setGearsSetEditable(G.Z4, true);
             //_view.setGearsSetChecked(G.Z4, false);
 
             _view.setGearsSetEnabled(G.Z5, false);
-            _view.setGearsSetEnableSet(G.Z5, true);
+            _view.setGearsSetEditable(G.Z5, true);
             //_view.setGearsSetChecked(G.Z5, false);
 
             _view.setGearsSetEnabled(G.Z6, false);
-            _view.setGearsSetEnableSet(G.Z6, true);
+            _view.setGearsSetEditable(G.Z6, true);
             //_view.setGearsSetChecked(G.Z6, false);
         }
     }
@@ -194,6 +200,17 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     public void setGearsSetChecked(int set, boolean checked)
     {
         _gsChecked[set] = checked;
+        set++;
+        if (set > G.Z6)
+            return;
+        if (checked)
+            _view.setGearsSetEnabled(set, true);
+        else
+            for (; set <= G.Z6; set++)
+            {
+                _view.setGearsSetChecked(set, false);
+                _view.setGearsSetEnabled(set, false);
+            }
     }
 
     @Override

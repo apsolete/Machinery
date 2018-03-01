@@ -29,7 +29,7 @@ public interface ChangeGearsContract
         void setGearsSet(int set, String gearsStr);
         void setGearsSetChecked(int set, boolean checked);
         void setGearsSetEnabled(int set, boolean enabled);
-        void setGearsSetEnableSet(int set, boolean enable);
+        void setGearsSetEditable(int set, boolean enable);
 
         void setCalculationMode(int mode);
 

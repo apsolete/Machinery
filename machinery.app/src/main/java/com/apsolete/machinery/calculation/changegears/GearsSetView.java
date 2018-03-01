@@ -13,21 +13,21 @@ public final class GearsSetView implements View.OnClickListener, InputFilter
     {
         void onRequest(GearsSetView gearsSet);
         //void onChanged(GearsSetView gearsSet);
-        //void onChecked(GearsSetView gearsSet);
+        void onChecked(GearsSetView gearsSet);
     }
 
     private int _gearId;
-    private ChangeGearsContract.Presenter _presenter;
+    //private ChangeGearsContract.Presenter _presenter;
     private Button _gearsButton;
     private CheckBox _gearSelect;
     private EditText _gearsText;
-    private boolean _isOwnSet = true;
+    private boolean _isEditable = true;
     private OnGearsSetViewListener _listener;
 
-    public GearsSetView(int id, ChangeGearsContract.Presenter presenter, View parent, int buttonSetId, int textGearsId, int checkboxSelectId, OnGearsSetViewListener listener)
+    public GearsSetView(int id, View parent, int buttonSetId, int textGearsId, int checkboxSelectId, OnGearsSetViewListener listener)
     {
         _gearId = id;
-        _presenter = presenter;
+        //_presenter = presenter;
 
         _gearsButton = (Button)parent.findViewById(buttonSetId);
         _gearsButton.setOnClickListener(this);
@@ -62,24 +62,24 @@ public final class GearsSetView implements View.OnClickListener, InputFilter
     {
         if (view == _gearsButton)
         {
-            if (!_isOwnSet && _gearSelect != null)
+            if (!_isEditable && _gearSelect != null)
             {
                 boolean isChecked = _gearSelect.isChecked();
                 _gearSelect.setChecked(!isChecked);
-                //_listener.onChecked(this);
+                _listener.onChecked(this);
             }
             else
                 _listener.onRequest(this);
         }
 
-        //if (view == _gearSelect)
-        //    _listener.onChecked(this);
+        if (view == _gearSelect)
+            _listener.onChecked(this);
     }
 
     public void setEnabled(boolean enabled)
     {
         _gearsButton.setEnabled(enabled);
-        _gearsText.setEnabled(enabled && _isOwnSet);
+        _gearsText.setEnabled(enabled && _isEditable);
         if (_gearSelect != null)
             _gearSelect.setEnabled(enabled);
     }
@@ -115,9 +115,9 @@ public final class GearsSetView implements View.OnClickListener, InputFilter
         return _gearSelect != null && _gearSelect.isChecked();
     }
 
-    public void enableSet(boolean enable)
+    public void setEditable(boolean enable)
     {
-        _isOwnSet = enable;
+        _isEditable = enable;
 
         _gearsText.setVisibility(enable ? View.VISIBLE : View.GONE);
         if (_gearSelect != null)
