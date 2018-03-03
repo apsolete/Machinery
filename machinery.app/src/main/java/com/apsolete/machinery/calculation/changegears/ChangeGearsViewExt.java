@@ -199,6 +199,12 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
         }
 
         @Override
+        public void onChanged(GearsSetView gearsSet)
+        {
+            _presenter.setGearsSet(gearsSet.getId(), gearsSet.getText());
+        }
+
+        @Override
         public void onChecked(GearsSetView gearsSet)
         {
             _presenter.setGearsSetChecked(gearsSet.getId(), gearsSet.isChecked());
@@ -360,13 +366,14 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
             public void onPositive()
             {
                 ArrayList<Integer> teethNumbers = dialog.getTeethNumbers();
-                if (teethNumbers != null && teethNumbers.size() > 0)
-                {
-                    String text = Numbers.getString(teethNumbers);
-                    gsv.setText(text);
-                }
-                else
-                    gsv.setText("");
+                _presenter.setGearsSet(gsv.getId(), teethNumbers);
+//                if (teethNumbers != null && teethNumbers.size() > 0)
+//                {
+//                    String text = Numbers.getString(teethNumbers);
+//                    gsv.setText(text);
+//                }
+//                else
+//                    gsv.setText("");
             }
 
             @Override

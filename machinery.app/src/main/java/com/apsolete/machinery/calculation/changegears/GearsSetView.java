@@ -1,5 +1,6 @@
 package com.apsolete.machinery.calculation.changegears;
 
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.view.View;
@@ -7,12 +8,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-public final class GearsSetView implements View.OnClickListener, InputFilter
+import com.apsolete.machinery.common.TextChangedListener;
+
+public final class GearsSetView extends TextChangedListener implements View.OnClickListener, InputFilter
 {
     public interface OnGearsSetViewListener
     {
         void onRequest(GearsSetView gearsSet);
-        //void onChanged(GearsSetView gearsSet);
+        void onChanged(GearsSetView gearsSet);
         void onChecked(GearsSetView gearsSet);
     }
 
@@ -33,6 +36,7 @@ public final class GearsSetView implements View.OnClickListener, InputFilter
         _gearsButton.setOnClickListener(this);
 
         _gearsText = (EditText)parent.findViewById(textGearsId);
+        _gearsText.addTextChangedListener(this);
         _gearsText.setFilters(new InputFilter[]{this});
 
         if (checkboxSelectId != 0)
@@ -74,6 +78,12 @@ public final class GearsSetView implements View.OnClickListener, InputFilter
 
         if (view == _gearSelect)
             _listener.onChecked(this);
+    }
+
+    @Override
+    public void onTextChanged(Editable editable)
+    {
+        _listener.onChanged(this);
     }
 
     public void setEnabled(boolean enabled)

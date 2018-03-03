@@ -1,20 +1,25 @@
 package com.apsolete.machinery.calculation.changegears;
 
+import android.util.SparseArray;
+
 import com.apsolete.machinery.calculation.CalculationPresenter;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.utils.Fraction;
+import com.apsolete.machinery.utils.Numbers;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public final class ChangeGearsPresenter extends CalculationPresenter implements ChangeGearsContract.Presenter
 {
     private final ChangeGearsContract.View _view;
     private boolean _oneSet;
-    private String[] _gsValue = new String[7];
-    private boolean[] _gsChecked = new boolean[7];
+    private SparseArray<ArrayList<Integer>> _gearsSets = new SparseArray<>(G.Z6 + 1);
+    private String[] _gsValue = new String[G.Z6 + 1];
+    private boolean[] _gsChecked = new boolean[G.Z6 + 1];
     private int _calcType;
     private double _ratio;
     private boolean _ratioAsFraction;
@@ -28,11 +33,24 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
 
     public ChangeGearsPresenter(ChangeGearsContract.View view)
     {
+        for (int set = G.Z0; set < G.Z6; set++)
+        {
+            _gearsSets.put(set, new ArrayList<Integer>());
+        }
+
         _view = view;
-        _oneSet = true;
-        _gsValue[0] = "20-30";
-        _gsChecked[1] = true;
-        _gsChecked[2] = true;
+        _oneSet = false;
+
+        _gsValue[G.Z0] = "20-30";
+        _gsValue[G.Z1] = "30-40";
+        _gsValue[G.Z2] = "50-60";
+        _gsValue[G.Z3] = "70-80";
+        //_gsValue[G.Z4] = "";
+        //_gsValue[G.Z5] = "";
+        //_gsValue[G.Z6] = "";
+
+        _gsChecked[G.Z1] = true;
+        _gsChecked[G.Z2] = true;
 
         _view.setPresenter(this);
     }
@@ -40,58 +58,22 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     @Override
     public void start()
     {
-        //super.start();
         _view.setOneGearsSet(_oneSet);
-        if (_oneSet)
-        {
-            _view.setGearsSetEditable(G.Z1, false);
-            _view.setGearsSetEditable(G.Z2, false);
-            _view.setGearsSetEditable(G.Z3, false);
-            _view.setGearsSetEditable(G.Z4, false);
-            _view.setGearsSetEditable(G.Z5, false);
-            _view.setGearsSetEditable(G.Z6, false);
 
-            _view.setGearsSetEnabled(G.Z1, true);
-            _view.setGearsSetEnabled(G.Z2, true);
-            _view.setGearsSetEnabled(G.Z3, false);
-            _view.setGearsSetEnabled(G.Z4, false);
-            _view.setGearsSetEnabled(G.Z5, false);
-            _view.setGearsSetEnabled(G.Z6, false);
-        }
-        else
-        {
-            _view.setGearsSetEditable(G.Z1, true);
-            _view.setGearsSetEditable(G.Z2, true);
-            _view.setGearsSetEditable(G.Z3, true);
-            _view.setGearsSetEditable(G.Z4, true);
-            _view.setGearsSetEditable(G.Z5, true);
-            _view.setGearsSetEditable(G.Z6, true);
-
-            _view.setGearsSetEnabled(G.Z1, true);
-            _view.setGearsSetEnabled(G.Z2, true);
-            _view.setGearsSetEnabled(G.Z3, false);
-            _view.setGearsSetEnabled(G.Z4, false);
-            _view.setGearsSetEnabled(G.Z5, false);
-            _view.setGearsSetEnabled(G.Z6, false);
-        }
-
-        int set = 0;
+        int set = G.Z0;
         for (String val : _gsValue)
         {
-            _view.setGearsSet(set, _gsValue[set]);
+            _view.setGearsSet(set, val);
             set++;
         }
-        set = 0;
-        int lastChecked = -1;
-        for (boolean bool : _gsChecked)
+        set = G.Z0;
+        for (boolean checked : _gsChecked)
         {
-            if (_gsChecked[set])
-                lastChecked = set;
-            _view.setGearsSetChecked(set, _gsChecked[set]);
+            _view.setGearsSetChecked(set, checked);
             set++;
         }
-        if (lastChecked < G.Z6)
-            _view.setGearsSetEnabled(lastChecked+1, true);
+
+        updateViewByOneGearsSet(_oneSet);
 
         _view.setCalculationMode(0);
         setCalculationMode(G.RATIOS_BY_GEARS);
@@ -130,70 +112,28 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     public void setOneGearsSet(boolean oneSet)
     {
         _oneSet = oneSet;
-        if (oneSet)
-        {
-            _view.setGearsSetEnabled(G.Z0, true);
-            _view.setGearsSetEditable(G.Z0, true);
-
-            _view.setGearsSetEnabled(G.Z1, true);
-            _view.setGearsSetEditable(G.Z1, false);
-            _view.setGearsSetChecked(G.Z1, true);
-
-            _view.setGearsSetEnabled(G.Z2, true);
-            _view.setGearsSetEditable(G.Z2, false);
-            _view.setGearsSetChecked(G.Z2, true);
-
-            _view.setGearsSetEnabled(G.Z3, true);
-            _view.setGearsSetEditable(G.Z3, false);
-            _view.setGearsSetChecked(G.Z3, false);
-
-            _view.setGearsSetEnabled(G.Z4, true);
-            _view.setGearsSetEditable(G.Z4, false);
-            _view.setGearsSetChecked(G.Z4, false);
-
-            _view.setGearsSetEnabled(G.Z5, true);
-            _view.setGearsSetEditable(G.Z5, false);
-            _view.setGearsSetChecked(G.Z5, false);
-
-            _view.setGearsSetEnabled(G.Z6, true);
-            _view.setGearsSetEditable(G.Z6, false);
-            _view.setGearsSetChecked(G.Z6, false);
-        }
-        else
-        {
-            _view.setGearsSetEnabled(G.Z0, false);
-            _view.setGearsSetEditable(G.Z0, false);
-
-            _view.setGearsSetEnabled(G.Z1, true);
-            _view.setGearsSetEditable(G.Z1, true);
-            //_view.setGearsSetChecked(G.Z1, true);
-
-            _view.setGearsSetEnabled(G.Z2, true);
-            _view.setGearsSetEditable(G.Z2, true);
-            //_view.setGearsSetChecked(G.Z2, true);
-
-            _view.setGearsSetEnabled(G.Z3, false);
-            _view.setGearsSetEditable(G.Z3, true);
-            //_view.setGearsSetChecked(G.Z3, false);
-
-            _view.setGearsSetEnabled(G.Z4, false);
-            _view.setGearsSetEditable(G.Z4, true);
-            //_view.setGearsSetChecked(G.Z4, false);
-
-            _view.setGearsSetEnabled(G.Z5, false);
-            _view.setGearsSetEditable(G.Z5, true);
-            //_view.setGearsSetChecked(G.Z5, false);
-
-            _view.setGearsSetEnabled(G.Z6, false);
-            _view.setGearsSetEditable(G.Z6, true);
-            //_view.setGearsSetChecked(G.Z6, false);
-        }
+        updateViewByOneGearsSet(_oneSet);
     }
 
     @Override
-    public void setGearsSet(int set, String valueStr)
+    public void setGearsSet(int set, String valuesStr)
     {
-        _gsValue[set] = valueStr;
+        _gsValue[set] = valuesStr;
+        ArrayList<Integer> values = Numbers.getNumbersList(valuesStr);
+        _gearsSets.put(set, values);
+        if (set < G.Z6)
+            _view.setGearsSetEnabled(set + 1, valuesStr != null && !valuesStr.isEmpty());
+    }
+
+    @Override
+    public void setGearsSet(int set, ArrayList<Integer> values)
+    {
+        _gearsSets.put(set, values);
+        String valuesStr = Numbers.getString(values);
+        _gsValue[set] = valuesStr;
+        _view.setGearsSet(set, valuesStr);
+        if (set < G.Z6)
+            _view.setGearsSetEnabled(set + 1, valuesStr != null && !valuesStr.isEmpty());
     }
 
     @Override
@@ -385,4 +325,53 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         _view.setFormattedRatio(ratioInfo);
     }
 
+    private void updateViewByOneGearsSet(boolean oneSet)
+    {
+        if (oneSet)
+        {
+            _view.setGearsSetEditable(G.Z0, true);
+            _view.setGearsSetEditable(G.Z1, false);
+            _view.setGearsSetEditable(G.Z2, false);
+            _view.setGearsSetEditable(G.Z3, false);
+            _view.setGearsSetEditable(G.Z4, false);
+            _view.setGearsSetEditable(G.Z5, false);
+            _view.setGearsSetEditable(G.Z6, false);
+
+            _view.setGearsSetEnabled(G.Z1, false);
+            _view.setGearsSetEnabled(G.Z2, false);
+
+            int prev = G.Z1, set = G.Z1;
+            for (; set <= G.Z6; set++)
+            {
+                if (prev <= G.Z2)
+                    _view.setGearsSetEnabled(set, true);
+                else
+                    _view.setGearsSetEnabled(set, _gsChecked[prev]);
+
+                prev = set;
+            }
+
+        }
+        else
+        {
+            _view.setGearsSetEditable(G.Z0, false);
+            _view.setGearsSetEditable(G.Z1, true);
+            _view.setGearsSetEditable(G.Z2, true);
+            _view.setGearsSetEditable(G.Z3, true);
+            _view.setGearsSetEditable(G.Z4, true);
+            _view.setGearsSetEditable(G.Z5, true);
+            _view.setGearsSetEditable(G.Z6, true);
+
+            int prev = G.Z1, set = G.Z1;
+            for (; set <= G.Z6; set++)
+            {
+                if (prev <= G.Z2)
+                    _view.setGearsSetEnabled(set, true);
+                else
+                    _view.setGearsSetEnabled(set, (_gsValue[prev] != null && !_gsValue[prev].isEmpty()));
+
+                prev = set;
+            }
+        }
+    }
 }

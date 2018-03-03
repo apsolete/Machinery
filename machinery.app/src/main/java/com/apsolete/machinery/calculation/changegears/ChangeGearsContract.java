@@ -2,12 +2,15 @@ package com.apsolete.machinery.calculation.changegears;
 
 import com.apsolete.machinery.calculation.Calculation;
 
+import java.util.ArrayList;
+
 public interface ChangeGearsContract
 {
     public interface Presenter extends Calculation.Contract.Presenter
     {
         void setOneGearsSet(boolean oneSet);
-        void setGearsSet(int set, String valueStr);
+        void setGearsSet(int set, String valuesStr);
+        void setGearsSet(int set, ArrayList<Integer> values);
         void setGearsSetChecked(int set, boolean checked);
         void setCalculationMode(int calcType);
 
