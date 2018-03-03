@@ -20,7 +20,6 @@ public final class GearsSetView extends TextChangedListener implements View.OnCl
     }
 
     private int _gearId;
-    //private ChangeGearsContract.Presenter _presenter;
     private Button _gearsButton;
     private CheckBox _gearSelect;
     private EditText _gearsText;
@@ -30,7 +29,6 @@ public final class GearsSetView extends TextChangedListener implements View.OnCl
     public GearsSetView(int id, View parent, int buttonSetId, int textGearsId, int checkboxSelectId, OnGearsSetViewListener listener)
     {
         _gearId = id;
-        //_presenter = presenter;
 
         _gearsButton = (Button)parent.findViewById(buttonSetId);
         _gearsButton.setOnClickListener(this);
@@ -105,13 +103,22 @@ public final class GearsSetView extends TextChangedListener implements View.OnCl
         return _gearId;
     }
 
-    public String getText()
+    public String getGearsSet()
     {
         return _gearsText.getText().toString();
     }
 
-    public void setText(String text)
+    public void setGearsSet(String text)
     {
+        try
+        {
+            this.ignoreTextChange(true);
+            _gearsText.setText(text);
+        }
+        finally
+        {
+            this.ignoreTextChange(false);
+        }
         _gearsText.setText(text);
     }
 

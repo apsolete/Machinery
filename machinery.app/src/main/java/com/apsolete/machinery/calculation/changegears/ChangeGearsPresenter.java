@@ -11,6 +11,8 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 public final class ChangeGearsPresenter extends CalculationPresenter implements ChangeGearsContract.Presenter
@@ -18,18 +20,19 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     private final ChangeGearsContract.View _view;
     private boolean _oneSet;
     private SparseArray<ArrayList<Integer>> _gearsSets = new SparseArray<>(G.Z6 + 1);
-    private String[] _gsValue = new String[G.Z6 + 1];
     private boolean[] _gsChecked = new boolean[G.Z6 + 1];
     private int _calcType;
-    private double _ratio;
-    private boolean _ratioAsFraction;
-    private ThreadPitchUnit _threadPitchUnit;
-    private ThreadPitchUnit _leadscrewPitchUnit;
-    private double _leadscrewPitch;
-    private double _threadPitch;
-    private double _ratioNumerator;
-    private double _ratioDenominator;
+
+    private double _ratio = 1.25;
+    private double _ratioNumerator = 34;
+    private double _ratioDenominator = 56;
+    private boolean _ratioAsFraction = true;
+    private ThreadPitchUnit _threadPitchUnit = ThreadPitchUnit.mm;
+    private ThreadPitchUnit _leadscrewPitchUnit = ThreadPitchUnit.mm;
+    private double _leadscrewPitch = 4;
+    private double _threadPitch = 0.75;
     private DecimalFormat _ratioFormat;
+    private double _calculatedRatio;
 
     public ChangeGearsPresenter(ChangeGearsContract.View view)
     {
@@ -41,13 +44,10 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         _view = view;
         _oneSet = false;
 
-        _gsValue[G.Z0] = "20-30";
-        _gsValue[G.Z1] = "30-40";
-        _gsValue[G.Z2] = "50-60";
-        _gsValue[G.Z3] = "70-80";
-        //_gsValue[G.Z4] = "";
-        //_gsValue[G.Z5] = "";
-        //_gsValue[G.Z6] = "";
+        _gearsSets.put(G.Z0, new ArrayList<>(Arrays.asList(20, 21, 22, 23, 24)));
+        _gearsSets.put(G.Z1, new ArrayList<>(Arrays.asList(30, 31, 32, 33, 34)));
+        _gearsSets.put(G.Z2, new ArrayList<>(Arrays.asList(40, 41, 42, 43, 44)));
+        _gearsSets.put(G.Z3, new ArrayList<>(Arrays.asList(50, 51, 52, 53, 54)));
 
         _gsChecked[G.Z1] = true;
         _gsChecked[G.Z2] = true;
@@ -61,10 +61,10 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         _view.setOneGearsSet(_oneSet);
 
         int set = G.Z0;
-        for (String val : _gsValue)
+        for (; set < G.Z6; set++)
         {
-            _view.setGearsSet(set, val);
-            set++;
+            String valuesStr = Numbers.getString(_gearsSets.get(set));
+            _view.setGearsSet(set, valuesStr);
         }
         set = G.Z0;
         for (boolean checked : _gsChecked)
@@ -77,6 +77,20 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
 
         _view.setCalculationMode(0);
         setCalculationMode(G.RATIOS_BY_GEARS);
+
+        _view.setRatio(Double.toString(_ratio));
+        _view.setRatioNumerator(Double.toString(_ratioNumerator));
+        _view.setRatioDenominator(Double.toString(_ratioDenominator));
+        _view.setRatioAsFration(_ratioAsFraction);
+        _view.showRatioAsFration(_ratioAsFraction);
+
+        _view.setLeadscrewPitch(Double.toString(_leadscrewPitch));
+        _view.setLeadscrewPitchUnit(_leadscrewPitchUnit.ordinal());
+        _view.setThreadPitch(Double.toString(_threadPitch));
+        _view.setThreadPitchUnit(_threadPitchUnit.ordinal());
+
+        setRatioFormat(3);
+        recalculateRatio();
     }
 
     @Override
@@ -118,7 +132,6 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     @Override
     public void setGearsSet(int set, String valuesStr)
     {
-        _gsValue[set] = valuesStr;
         ArrayList<Integer> values = Numbers.getNumbersList(valuesStr);
         _gearsSets.put(set, values);
         if (set < G.Z6)
@@ -130,7 +143,6 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     {
         _gearsSets.put(set, values);
         String valuesStr = Numbers.getString(values);
-        _gsValue[set] = valuesStr;
         _view.setGearsSet(set, valuesStr);
         if (set < G.Z6)
             _view.setGearsSetEnabled(set + 1, valuesStr != null && !valuesStr.isEmpty());
@@ -148,6 +160,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         else
             for (; set <= G.Z6; set++)
             {
+                _gsChecked[set] = false;
                 _view.setGearsSetChecked(set, false);
                 _view.setGearsSetEnabled(set, false);
             }
@@ -177,12 +190,14 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
                 _view.showLeadscrewPitch(false);
                 _view.showThreadPitch(false);
                 _view.showFormattedRatio(true);
+                recalculateRatio();
                 break;
             case G.GEARS_BY_THREAD:
                 _view.showRatio(false);
                 _view.showLeadscrewPitch(true);
                 _view.showThreadPitch(true);
                 _view.showFormattedRatio(true);
+                recalculateRatio();
                 break;
         }
     }
@@ -205,6 +220,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     public void setLeadscrewPitchUnit(ThreadPitchUnit unit)
     {
         _threadPitchUnit = unit;
+        recalculateRatio();
     }
 
     @Override
@@ -225,6 +241,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     public void setThreadPitchUnit(ThreadPitchUnit unit)
     {
         _leadscrewPitchUnit = unit;
+        recalculateRatio();
     }
 
     @Override
@@ -233,6 +250,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         try
         {
             _ratio = valueStr != null && !valueStr.isEmpty() ? Double.parseDouble(valueStr) : 0.0;
+            recalculateRatio();
         }
         catch (Exception ex)
         {
@@ -256,6 +274,34 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     }
 
     @Override
+    public void setRatioNumerator(String valueStr)
+    {
+        try
+        {
+            _ratioNumerator = valueStr != null && !valueStr.isEmpty() ? Double.parseDouble(valueStr) : 0.0;
+            recalculateRatio();
+        }
+        catch (Exception ex)
+        {
+            _view.showError(ex.getMessage());
+        }
+    }
+
+    @Override
+    public void setRatioDenominator(String valueStr)
+    {
+        try
+        {
+            _ratioDenominator = valueStr != null && !valueStr.isEmpty() ? Double.parseDouble(valueStr) : 0.0;
+            recalculateRatio();
+        }
+        catch (Exception ex)
+        {
+            _view.showError(ex.getMessage());
+        }
+    }
+
+    @Override
     public void setRatioFormat(int precision)
     {
         StringBuilder pattern = new StringBuilder("#0.0");
@@ -265,6 +311,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         formatSymbols.setDecimalSeparator('.');
         _ratioFormat = new DecimalFormat(pattern.toString(), formatSymbols);
         _ratioFormat.setRoundingMode(RoundingMode.CEILING);
+        recalculateRatio();
     }
 
     @Override
@@ -272,54 +319,64 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     {
         _ratioAsFraction = asFraction;
         _view.showRatioAsFration(_ratioAsFraction);
+        recalculateRatio();
     }
 
     private void recalculateRatio()
     {
         String ratioInfo = "R = <Undefined>";
 
-        _ratio = 0.0;
+        _calculatedRatio = 0.0;
 
         if (_calcType == G.GEARS_BY_THREAD)
         {
             if (_threadPitch == 0.0)
             {
-                _ratio = 0.0;
+                _calculatedRatio = 0.0;
             }
             else if (_leadscrewPitch == 0.0)
             {
-                _ratio = _threadPitch;
-                ratioInfo = "R = " + _ratio + " " + _threadPitchUnit;
+                _calculatedRatio = _threadPitchUnit.toMm(_threadPitch);
+                ratioInfo = "R = " + _ratioFormat.format(_calculatedRatio) + " (" + _threadPitchUnit + ")";
             }
             else
             {
                 Fraction tpf = _threadPitchUnit.toMmFraction(_threadPitch);
                 Fraction spf = _leadscrewPitchUnit.toMmFraction(_leadscrewPitch);
                 Fraction fract = tpf.divide(spf);
-                _ratio = fract.toDouble();
-                ratioInfo = "R = " + _threadPitch + " " + _threadPitchUnit + " / " +
-                        _leadscrewPitch + " " + _leadscrewPitchUnit + " = " + fract.toString() +
-                        " = " + _ratioFormat.format(_ratio);
+                _calculatedRatio = fract.toDouble();
+                ratioInfo = "R = " + _threadPitch + " (" + _threadPitchUnit + ") / " +
+                        _leadscrewPitch + " (" + _leadscrewPitchUnit + ") = " + fract.toString() +
+                        " = " + _ratioFormat.format(_calculatedRatio);
             }
         }
         else if (_calcType == G.GEARS_BY_RATIO)
         {
-            if (_ratioNumerator == 0.0)
+            if (_ratioAsFraction)
             {
-                _ratio = 0.0;
-            }
-            else if (_ratioDenominator == 0.0)
-            {
-                _ratio = _ratioNumerator;
-                ratioInfo = "R = " + _ratio;
+                if (_ratioNumerator == 0.0)
+                {
+                    _calculatedRatio = 0.0;
+                }
+                else if (_ratioDenominator == 0.0)
+                {
+                    _calculatedRatio = _ratioNumerator;
+                    ratioInfo = "R = " + _ratioFormat.format(_calculatedRatio);
+                }
+                else
+                {
+                    Fraction fract = new Fraction(_ratioNumerator, _ratioDenominator);
+                    _calculatedRatio = fract.toDouble();
+                    ratioInfo = "R = " + _ratioNumerator + " / " + _ratioDenominator + " = " +
+                            fract.toString() + " = " + _ratioFormat.format(_calculatedRatio);
+                }
             }
             else
             {
-                Fraction fract = new Fraction(_ratioNumerator, _ratioDenominator);
-                _ratio = fract.toDouble();
-                ratioInfo = "R = " + _ratioNumerator + " / " + _ratioDenominator + " = " +
-                        fract.toString() + " = " + _ratioFormat.format(_ratio);
+                _calculatedRatio = _ratio;
+                ratioInfo = "R = " + _ratioFormat.format(_calculatedRatio);
             }
+
         }
 
         _view.setFormattedRatio(ratioInfo);
@@ -337,20 +394,16 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
             _view.setGearsSetEditable(G.Z5, false);
             _view.setGearsSetEditable(G.Z6, false);
 
+            _view.setGearsSetEnabled(G.Z0, true);
             _view.setGearsSetEnabled(G.Z1, false);
             _view.setGearsSetEnabled(G.Z2, false);
+            _view.setGearsSetEnabled(G.Z3, true);
 
-            int prev = G.Z1, set = G.Z1;
+            int set = G.Z4;
             for (; set <= G.Z6; set++)
             {
-                if (prev <= G.Z2)
-                    _view.setGearsSetEnabled(set, true);
-                else
-                    _view.setGearsSetEnabled(set, _gsChecked[prev]);
-
-                prev = set;
+                _view.setGearsSetEnabled(set, _gsChecked[set - 1]);
             }
-
         }
         else
         {
@@ -362,15 +415,14 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
             _view.setGearsSetEditable(G.Z5, true);
             _view.setGearsSetEditable(G.Z6, true);
 
-            int prev = G.Z1, set = G.Z1;
+            _view.setGearsSetEnabled(G.Z0, false);
+            _view.setGearsSetEnabled(G.Z1, true);
+
+            int set = G.Z2;
             for (; set <= G.Z6; set++)
             {
-                if (prev <= G.Z2)
-                    _view.setGearsSetEnabled(set, true);
-                else
-                    _view.setGearsSetEnabled(set, (_gsValue[prev] != null && !_gsValue[prev].isEmpty()));
-
-                prev = set;
+                List<?> values = _gearsSets.get(set - 1);
+                _view.setGearsSetEnabled(set, (values != null && !values.isEmpty()));
             }
         }
     }

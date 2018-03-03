@@ -9,9 +9,11 @@ public final class G
     public static final int Z4 = 4;
     public static final int Z5 = 5;
     public static final int Z6 = 6;
-    public static final int Z7 = 7;
-    public static final int Z8 = 8;
-    public static final int Z9 = 9;
+    //public static final int Z7 = 7;
+    //public static final int Z8 = 8;
+    //public static final int Z9 = 9;
+    public static final int ZMIN = Z0;
+    public static final int ZMAX = Z6;
     
     public static final int RATIOS_BY_GEARS = 0;
     public static final int THREAD_BY_GEARS = 1;

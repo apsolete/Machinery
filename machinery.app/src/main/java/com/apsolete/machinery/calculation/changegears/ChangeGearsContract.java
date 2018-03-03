@@ -22,6 +22,8 @@ public interface ChangeGearsContract
 
         void setRatio(String valueStr);
         void setRatio(String numStr, String denStr);
+        void setRatioNumerator(String valueStr);
+        void setRatioDenominator(String valueStr);
         void setRatioFormat(int precision);
         void setRatioAsFraction(boolean asFraction);
     }
@@ -37,9 +39,11 @@ public interface ChangeGearsContract
         void setCalculationMode(int mode);
 
         void setThreadPitch(String valueStr);
+        void setThreadPitchUnit(int unit);
         void showThreadPitch(boolean visible);
 
         void setLeadscrewPitch(String valueStr);
+        void setLeadscrewPitchUnit(int unit);
         void showLeadscrewPitch(boolean visible);
 
         void setRatio(String valueStr);
@@ -47,6 +51,7 @@ public interface ChangeGearsContract
 
         void setRatioNumerator(String valueStr);
         void setRatioDenominator(String valueStr);
+        void setRatioAsFration(boolean visible);
         void showRatioAsFration(boolean visible);
 
         void setFormattedRatio(String ratioStr);

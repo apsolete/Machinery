@@ -5,6 +5,13 @@ import android.text.*;
 public abstract class TextChangedListener implements TextWatcher
 {
 
+    private boolean _ignoreTextChange = false;
+
+    public void ignoreTextChange(boolean ignore)
+    {
+        _ignoreTextChange = ignore;
+    }
+
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
     {
@@ -18,7 +25,8 @@ public abstract class TextChangedListener implements TextWatcher
     @Override
     public void afterTextChanged(Editable editable)
     {
-        onTextChanged(editable);
+        if (!_ignoreTextChange)
+            onTextChanged(editable);
     }
 
     public abstract void onTextChanged(Editable editable);
