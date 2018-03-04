@@ -112,12 +112,12 @@ public final class GearsSetView extends TextChangedListener implements View.OnCl
     {
         try
         {
-            this.ignoreTextChange(true);
+            this.stopTracking();
             _gearsText.setText(text);
         }
         finally
         {
-            this.ignoreTextChange(false);
+            this.startTracking();
         }
         _gearsText.setText(text);
     }

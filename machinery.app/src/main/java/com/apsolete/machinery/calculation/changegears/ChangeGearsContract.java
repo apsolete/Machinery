@@ -2,15 +2,15 @@ package com.apsolete.machinery.calculation.changegears;
 
 import com.apsolete.machinery.calculation.Calculation;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface ChangeGearsContract
 {
-    public interface Presenter extends Calculation.Contract.Presenter
+    interface Presenter extends Calculation.Contract.Presenter
     {
         void setOneGearsSet(boolean oneSet);
         void setGearsSet(int set, String valuesStr);
-        void setGearsSet(int set, ArrayList<Integer> values);
+        void setGearsSet(int set, List<Integer> values);
         void setGearsSetChecked(int set, boolean checked);
         void setCalculationMode(int calcType);
 
@@ -26,9 +26,24 @@ public interface ChangeGearsContract
         void setRatioDenominator(String valueStr);
         void setRatioFormat(int precision);
         void setRatioAsFraction(boolean asFraction);
+
+        void getNextResults();
+        void getPrevResults();
     }
 
-    public interface View extends Calculation.Contract.View<Presenter>
+    interface Result
+    {
+        int Number = 0;
+        String Ratio = null;
+        String Z1 = null;
+        String Z2 = null;
+        String Z3 = null;
+        String Z4 = null;
+        String Z5 = null;
+        String Z6 = null;
+    }
+
+    interface View extends Calculation.Contract.View<Presenter>
     {
         void setOneGearsSet(boolean oneSet);
         void setGearsSet(int set, String gearsStr);
@@ -46,12 +61,9 @@ public interface ChangeGearsContract
         void setLeadscrewPitchUnit(int unit);
         void showLeadscrewPitch(boolean visible);
 
-        void setRatio(String valueStr);
-        void showRatio(boolean visible);
-
-        void setRatioNumerator(String valueStr);
-        void setRatioDenominator(String valueStr);
+        void setRatios(String ratioStr, String ratioNumStr, String ratioDenStr);
         void setRatioAsFration(boolean visible);
+        void showRatio(boolean visible);
         void showRatioAsFration(boolean visible);
 
         void setFormattedRatio(String ratioStr);
@@ -60,8 +72,9 @@ public interface ChangeGearsContract
         void setFirstResultNumber(String valueStr);
         void setLastResultNumber(String valueStr);
         void setResultItem(CgResult result);
+        void showResults(List<Result> results);
         void clearResults();
 
-        void showError(String error);
+        void showMessage(String message);
     }
 }

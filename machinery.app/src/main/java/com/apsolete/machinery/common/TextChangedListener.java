@@ -7,9 +7,14 @@ public abstract class TextChangedListener implements TextWatcher
 
     private boolean _ignoreTextChange = false;
 
-    public void ignoreTextChange(boolean ignore)
+    public void stopTracking()
     {
-        _ignoreTextChange = ignore;
+        _ignoreTextChange = true;
+    }
+
+    public void startTracking()
+    {
+        _ignoreTextChange = false;
     }
 
     @Override

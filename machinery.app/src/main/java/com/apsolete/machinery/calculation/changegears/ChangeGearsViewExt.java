@@ -1,6 +1,7 @@
 package com.apsolete.machinery.calculation.changegears;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ import com.apsolete.machinery.common.SettingsBase;
 import com.apsolete.machinery.common.TextChangedListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public final class ChangeGearsViewExt extends CalculationView implements ChangeGearsContract.View
 {
@@ -32,10 +35,10 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     private CompoundButton _oneSetSwitch;
     private Spinner _calculationModeSpinner;
     private LinearLayout _threadPitchLayout;
-    private EditText _threadPitchValue;
+    private EditText _threadPitchEdit;
     private Spinner _threadPitchUnitSpinner;
-    private LinearLayout _screwPitchLayout;
-    private EditText _screwPitchValue;
+    private LinearLayout _leadscrewPitchLayout;
+    private EditText _leadscrewPitchEdit;
     private Spinner _leadscrewPitchUnitSpinner;
     private LinearLayout _gearRatioLayout;
     private CompoundButton _ratioAsFractionSwitch;
@@ -44,12 +47,10 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     private EditText _gearRatioDenominator;
     private LinearLayout _gearRatioFractionLayout;
     private TextView _ratioFormattedText;
-    //private TextView _resFromNumberText;
-    //private TextView _resToNumberText;
+    private TextView _resultFirstNumberText;
+    private TextView _resultLastNumberText;
+    private ViewGroup _resultView;
 
-    //private ViewGroup _resultView;
-    //private ChangeGearsSettings _settings;
-    //private CgCalculator _calculator;
     private ChangeGearsSettings _settings = new ChangeGearsSettings();
 
     private final GearsSetView[] _gsViews = new GearsSetView[7];
@@ -110,7 +111,16 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     @Override
     public void setThreadPitch(String valueStr)
     {
-        _threadPitchValue.setText(valueStr);
+        try
+        {
+            _threadPitchTextChangedListener.stopTracking();
+            _threadPitchEdit.setText(valueStr);
+        }
+        finally
+        {
+            _threadPitchTextChangedListener.startTracking();
+        }
+
     }
 
     @Override
@@ -128,7 +138,15 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     @Override
     public void setLeadscrewPitch(String valueStr)
     {
-        _screwPitchValue.setText(valueStr);
+        try
+        {
+            _leadscrewPitchTextChangedListener.stopTracking();
+            _leadscrewPitchEdit.setText(valueStr);
+        }
+        finally
+        {
+            _leadscrewPitchTextChangedListener.startTracking();
+        }
     }
 
     @Override
@@ -140,54 +158,26 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     @Override
     public void showLeadscrewPitch(boolean visible)
     {
-        _screwPitchLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
+        _leadscrewPitchLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     @Override
-    public void setRatio(String valueStr)
+    public void setRatios(String ratioStr, String ratioNumStr, String ratioDenStr)
     {
         try
         {
-            _ratioTextChangedListener.ignoreTextChange(true);
-            _gearRatio.setText(valueStr);
+            _ratioTextChangedListener.stopTracking();
+            _gearRatio.setText(ratioStr);
+            _ratioNumeratorTextChangedListener.stopTracking();
+            _gearRatioNumerator.setText(ratioNumStr);
+            _ratioDenominatorTextChangedListener.stopTracking();
+            _gearRatioDenominator.setText(ratioDenStr);
         }
         finally
         {
-            _ratioTextChangedListener.ignoreTextChange(false);
-        }
-    }
-
-    @Override
-    public void showRatio(boolean visible)
-    {
-        _gearRatioLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void setRatioNumerator(String valueStr)
-    {
-        try
-        {
-            _ratioNumeratorTextChangedListener.ignoreTextChange(true);
-            _gearRatioNumerator.setText(valueStr);
-        }
-        finally
-        {
-            _ratioNumeratorTextChangedListener.ignoreTextChange(false);
-        }
-    }
-
-    @Override
-    public void setRatioDenominator(String valueStr)
-    {
-        try
-        {
-            _ratioDenominatorTextChangedListener.ignoreTextChange(true);
-            _gearRatioDenominator.setText(valueStr);
-        }
-        finally
-        {
-            _ratioDenominatorTextChangedListener.ignoreTextChange(false);
+            _ratioTextChangedListener.startTracking();
+            _ratioNumeratorTextChangedListener.startTracking();
+            _ratioDenominatorTextChangedListener.startTracking();
         }
     }
 
@@ -195,6 +185,12 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     public void setRatioAsFration(boolean visible)
     {
         _ratioAsFractionSwitch.setChecked(visible);
+    }
+
+    @Override
+    public void showRatio(boolean visible)
+    {
+        _gearRatioLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -219,11 +215,13 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     @Override
     public void setFirstResultNumber(String valuestr)
     {
+        _resultFirstNumberText.setText(valuestr);
     }
 
     @Override
     public void setLastResultNumber(String valueStr)
     {
+        _resultLastNumberText.setText(valueStr);
     }
 
     @Override
@@ -232,13 +230,23 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     }
 
     @Override
+    public void showResults(List<ChangeGearsContract.Result> results)
+    {
+        ChangeGearsContract.Result first = results.get(0);
+        ChangeGearsContract.Result last = results.get(results.size()-1);
+        _resultFirstNumberText.setText(Integer.toString(first.Number));
+        _resultLastNumberText.setText(Integer.toString(last.Number));
+    }
+
+    @Override
     public void clearResults()
     {
     }
 
     @Override
-    public void showError(String error)
+    public void showMessage(String message)
     {
+        Snackbar.make(_view, message, Snackbar.LENGTH_SHORT).show();
     }
 
     private ChangeGearsSettings.OnChangeListener _settingsChangeListener = new ChangeGearsSettings.OnChangeListener()
@@ -346,6 +354,24 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
         }
     };
 
+    private TextChangedListener _leadscrewPitchTextChangedListener = new TextChangedListener()
+    {
+        @Override
+        public void onTextChanged(Editable editable)
+        {
+            _presenter.setLeadscrewPitch(editable.toString());
+        }
+    };
+
+    private TextChangedListener _threadPitchTextChangedListener = new TextChangedListener()
+    {
+        @Override
+        public void onTextChanged(Editable editable)
+        {
+            _presenter.setThreadPitch(editable.toString());
+        }
+    };
+
     private TextChangedListener _ratioTextChangedListener = new TextChangedListener()
     {
         @Override
@@ -405,12 +431,12 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
         initSpinner(_calculationModeSpinner, R.array.cg_calctype_array, _calcModeListener);
 
         _threadPitchLayout = (LinearLayout)_view.findViewById(R.id.threadPitchLayout);
-        _threadPitchValue = (EditText)_view.findViewById(R.id.threadPitchValue);
+        _threadPitchEdit = (EditText)_view.findViewById(R.id.threadPitchValue);
         _threadPitchUnitSpinner = (Spinner)_view.findViewById(R.id.threadUnitSpinner);
         initSpinner(_threadPitchUnitSpinner, R.array.cg_pitchunit_array, _thrPitchUnitListener);
 
-        _screwPitchLayout = (LinearLayout)_view.findViewById(R.id.screwPitchLayout);
-        _screwPitchValue = (EditText)_view.findViewById(R.id.screwPitchValue);
+        _leadscrewPitchLayout = (LinearLayout)_view.findViewById(R.id.screwPitchLayout);
+        _leadscrewPitchEdit = (EditText)_view.findViewById(R.id.screwPitchValue);
         _leadscrewPitchUnitSpinner = (Spinner)_view.findViewById(R.id.screwUnitSpinner);
         initSpinner(_leadscrewPitchUnitSpinner, R.array.cg_pitchunit_array, _scrPitchUnitListener);
 
@@ -438,7 +464,30 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
             }
         });
 
-        //_settings = new ChangeGearsSettings();
+        _resultFirstNumberText = (TextView)_view.findViewById(R.id.resultFirstNumberText);
+        _resultLastNumberText = (TextView)_view.findViewById(R.id.resultLastNumberText);
+        _resultView = (ViewGroup)_view.findViewById(R.id.resultsLayout);
+
+        ImageButton showNextButton = (ImageButton)_view.findViewById(R.id.showNext);
+        showNextButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View p1)
+            {
+                _presenter.getNextResults();
+            }
+        });
+
+        ImageButton showPrevButton = (ImageButton)_view.findViewById(R.id.showPrev);
+        showPrevButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View p1)
+            {
+                _presenter.getPrevResults();
+            }
+        });
+
         _settings.setListener(_settingsChangeListener);
 
         return _view;
@@ -485,6 +534,6 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
             public void onNegative()
             {}
         });
-        dialog.show(fragmentManager, "dialog");
+        dialog.show(fragmentManager, "teethnumbersdialog");
     }
 }

@@ -17,9 +17,14 @@ import java.util.Locale;
 
 public final class ChangeGearsPresenter extends CalculationPresenter implements ChangeGearsContract.Presenter
 {
+    private class ChangeGearsResult implements ChangeGearsContract.Result
+    {
+
+    }
+
     private final ChangeGearsContract.View _view;
     private boolean _oneSet;
-    private SparseArray<ArrayList<Integer>> _gearsSets = new SparseArray<>(G.Z6 + 1);
+    private SparseArray<List<Integer>> _gearsSets = new SparseArray<>(G.Z6 + 1);
     private boolean[] _gsChecked = new boolean[G.Z6 + 1];
     private int _calculationMode;
 
@@ -33,6 +38,9 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     private double _threadPitch = 0.75;
     private DecimalFormat _ratioFormat;
     private double _calculatedRatio;
+    private int _firstResultNumber = 1;
+    private int _lastResultNumber = 1;
+    private ArrayList<ChangeGearsContract.Result> _results = new ArrayList<>();
 
     public ChangeGearsPresenter(ChangeGearsContract.View view)
     {
@@ -78,9 +86,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         _view.setCalculationMode(0);
         setCalculationMode(G.RATIOS_BY_GEARS);
 
-        _view.setRatio(Double.toString(_ratio));
-        _view.setRatioNumerator(Double.toString(_ratioNumerator));
-        _view.setRatioDenominator(Double.toString(_ratioDenominator));
+        _view.setRatios(Double.toString(_ratio), Double.toString(_ratioNumerator), Double.toString(_ratioDenominator));
         _view.setRatioAsFration(_ratioAsFraction);
         _view.showRatioAsFration(_ratioAsFraction);
 
@@ -107,7 +113,12 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     @Override
     public void clear()
     {
+        _firstResultNumber = 1;
+        _lastResultNumber = 1;
 
+        _view.clearResults();
+        _view.setFirstResultNumber(Integer.toString(_firstResultNumber));
+        _view.setLastResultNumber(Integer.toString(_lastResultNumber));
     }
 
     @Override
@@ -139,7 +150,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     }
 
     @Override
-    public void setGearsSet(int set, ArrayList<Integer> values)
+    public void setGearsSet(int set, List<Integer> values)
     {
         _gearsSets.put(set, values);
         String valuesStr = Numbers.getString(values);
@@ -212,7 +223,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         }
         catch (Exception ex)
         {
-            _view.showError(ex.getMessage());
+            _view.showMessage(ex.getMessage());
         }
     }
 
@@ -233,7 +244,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         }
         catch (Exception ex)
         {
-            _view.showError(ex.getMessage());
+            _view.showMessage(ex.getMessage());
         }
     }
 
@@ -254,7 +265,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         }
         catch (Exception ex)
         {
-            _view.showError(ex.getMessage());
+            _view.showMessage(ex.getMessage());
         }
     }
 
@@ -269,7 +280,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         }
         catch (Exception ex)
         {
-            _view.showError(ex.getMessage());
+            _view.showMessage(ex.getMessage());
         }
     }
 
@@ -283,7 +294,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         }
         catch (Exception ex)
         {
-            _view.showError(ex.getMessage());
+            _view.showMessage(ex.getMessage());
         }
     }
 
@@ -297,7 +308,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         }
         catch (Exception ex)
         {
-            _view.showError(ex.getMessage());
+            _view.showMessage(ex.getMessage());
         }
     }
 
@@ -320,6 +331,36 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         _ratioAsFraction = asFraction;
         _view.showRatioAsFration(_ratioAsFraction);
         recalculateRatio();
+    }
+
+    @Override
+    public void getNextResults()
+    {
+        int fi = _lastResultNumber + 1;
+        if (fi >= _results.size())
+            return;
+        int li = fi + 99;
+        if (li > _results.size())
+            li = _results.size();
+        _firstResultNumber = fi;
+        _lastResultNumber = li;
+        List<ChangeGearsContract.Result> next = _results.subList(_firstResultNumber-1, _lastResultNumber);
+        _view.showResults(next);
+    }
+
+    @Override
+    public void getPrevResults()
+    {
+        int fi = _firstResultNumber - 100;
+        if (fi < 0)
+            return;
+        int ti = fi + 99;
+        if (ti > _results.size())
+            ti = _results.size();
+        _firstResultNumber = fi;
+        _lastResultNumber = ti;
+        List<ChangeGearsContract.Result> prev = _results.subList(_firstResultNumber-1, _lastResultNumber);
+        _view.showResults(prev);
     }
 
     private void recalculateRatio()

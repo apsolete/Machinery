@@ -473,7 +473,7 @@
 			android:src="@drawable/ic_arrow_back_white_24dp"/>
 
 		<TextView
-			android:id="@+id/fromNumberText"
+			android:id="@+id/resultFirstNumberText"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_vertical"
@@ -490,7 +490,7 @@
 			android:text="-"/>
 
 		<TextView
-			android:id="@+id/toNumberText"
+			android:id="@+id/resultLastNumberText"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="center_vertical"

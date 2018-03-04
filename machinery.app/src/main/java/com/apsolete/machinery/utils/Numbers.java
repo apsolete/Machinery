@@ -53,7 +53,7 @@ public class Numbers
         return numbers;
     }
 
-    public static String getString(ArrayList<Integer> numbers)
+    public static String getString(List<Integer> numbers)
     {
         if (numbers == null || numbers.size() == 0)
             return null;
