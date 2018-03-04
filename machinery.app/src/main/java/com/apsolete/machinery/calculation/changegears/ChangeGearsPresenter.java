@@ -21,7 +21,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     private boolean _oneSet;
     private SparseArray<ArrayList<Integer>> _gearsSets = new SparseArray<>(G.Z6 + 1);
     private boolean[] _gsChecked = new boolean[G.Z6 + 1];
-    private int _calcType;
+    private int _calculationMode;
 
     private double _ratio = 1.25;
     private double _ratioNumerator = 34;
@@ -169,8 +169,8 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     @Override
     public void setCalculationMode(int calcType)
     {
-        _calcType = calcType;
-        switch (_calcType)
+        _calculationMode = calcType;
+        switch (_calculationMode)
         {
             case G.RATIOS_BY_GEARS:
                 _view.showRatio(false);
@@ -328,7 +328,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
 
         _calculatedRatio = 0.0;
 
-        if (_calcType == G.GEARS_BY_THREAD)
+        if (_calculationMode == G.GEARS_BY_THREAD)
         {
             if (_threadPitch == 0.0)
             {
@@ -350,7 +350,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
                         " = " + _ratioFormat.format(_calculatedRatio);
             }
         }
-        else if (_calcType == G.GEARS_BY_RATIO)
+        else if (_calculationMode == G.GEARS_BY_RATIO)
         {
             if (_ratioAsFraction)
             {

@@ -17,9 +17,9 @@ public class CgSettings extends SettingsBase
     
     private OnChangeListener _listener;
     
-    public CgSettings(Context context)
+    public CgSettings()
     {
-        super(context, R.xml.settings_changegears, R.string.title_change_gears_design);
+        super(R.xml.settings_changegears, R.string.title_change_gears_design);
     }
     
     public void setListener(OnChangeListener listener)
@@ -51,7 +51,7 @@ public class CgSettings extends SettingsBase
         PreferenceManager pm = getPreferenceManager();
         SharedPreferences sharedPref = (pm != null)
             ? pm.getSharedPreferences()
-            : PreferenceManager.getDefaultSharedPreferences(_context);
+            : PreferenceManager.getDefaultSharedPreferences(_activity);
         return sharedPref.getBoolean("diffteethgearing", false);
     }
     
@@ -60,7 +60,7 @@ public class CgSettings extends SettingsBase
         PreferenceManager pm = getPreferenceManager();
         SharedPreferences sharedPref = (pm != null)
             ? pm.getSharedPreferences()
-            : PreferenceManager.getDefaultSharedPreferences(_context);
+            : PreferenceManager.getDefaultSharedPreferences(_activity);
         return sharedPref.getBoolean("diffteethdoublegear", false);
     }
     
@@ -69,7 +69,7 @@ public class CgSettings extends SettingsBase
         PreferenceManager pm = getPreferenceManager();
         SharedPreferences sharedPref = (pm != null)
             ? pm.getSharedPreferences()
-            : PreferenceManager.getDefaultSharedPreferences(_context);
+            : PreferenceManager.getDefaultSharedPreferences(_activity);
         return sharedPref.getInt("accuracyofratio", 1);
     }
 }

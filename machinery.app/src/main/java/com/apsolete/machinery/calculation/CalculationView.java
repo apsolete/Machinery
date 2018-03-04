@@ -15,4 +15,5 @@ public abstract class CalculationView extends ContentBase
     {
         return _type;
     }
+    public abstract SettingsBase getSettings();
 }

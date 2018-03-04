@@ -8,14 +8,12 @@ import android.content.SharedPreferences;
 
 public abstract class SettingsBase extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener
 {
-    protected Context _context;
     protected AppCompatActivity _activity;
     private int _layoutId;
     private int _titleId;
     
-    public SettingsBase(Context context, int layoutId, int titleId)
+    public SettingsBase(int layoutId, int titleId)
     {
-        _context = context;
         _layoutId = layoutId;
         _titleId = titleId;
     }

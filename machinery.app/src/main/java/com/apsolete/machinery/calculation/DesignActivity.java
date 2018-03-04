@@ -157,22 +157,22 @@ public class DesignActivity extends AppCompatActivity
 
     private void openDesignContentSettings()
     {
-//        if (_currentDesign == null)
-//            return;
-//
-//        Fragment fragment = _currentDesign.getSettings();
-//
-//        if (fragment == null)
-//            return;
-//
-//        _isSettingsOpened = true;
-//        setOptionsMenuEnabled(!_isSettingsOpened);
-//
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        fragmentManager.beginTransaction()
-//            .replace(R.id.content_design, fragment)
-//            .addToBackStack(null)
-//            .commit();
+        if (_currentDesign == null)
+            return;
+
+        Fragment fragment = _currentDesign.getSettings();
+
+        if (fragment == null)
+            return;
+
+        _isSettingsOpened = true;
+        setOptionsMenuEnabled(!_isSettingsOpened);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+            .replace(R.id.content_design, fragment)
+            .addToBackStack(null)
+            .commit();
     }
 
     private void setOptionsMenuEnabled(boolean enable)

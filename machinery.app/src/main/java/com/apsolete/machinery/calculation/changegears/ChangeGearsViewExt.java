@@ -19,6 +19,7 @@ import com.apsolete.machinery.common.DialogBase;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.calculation.Calculation;
 import com.apsolete.machinery.calculation.CalculationView;
+import com.apsolete.machinery.common.SettingsBase;
 import com.apsolete.machinery.common.TextChangedListener;
 
 import java.util.ArrayList;
@@ -49,6 +50,7 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     //private ViewGroup _resultView;
     //private CgSettings _settings;
     //private CgCalculator _calculator;
+    private CgSettings _settings;
 
     private final GearsSetView[] _gsViews = new GearsSetView[7];
 
@@ -61,6 +63,12 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     public void setPresenter(ChangeGearsContract.Presenter presenter)
     {
         _presenter = presenter;
+    }
+
+    @Override
+    public SettingsBase getSettings()
+    {
+        return _settings;
     }
 
     @Override
@@ -232,6 +240,28 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     public void showError(String error)
     {
     }
+
+    private CgSettings.OnChangeListener _settingsChangeListener = new CgSettings.OnChangeListener()
+    {
+        @Override
+        public void onDiffTeethGearingChanged(boolean newValue)
+        {
+            /*_diffTeethGearing = newValue;*/
+        }
+
+        @Override
+        public void onDiffTeethDoubleGearChanged(boolean newValue)
+        {
+            /*_diffTeethDoubleGear = newValue;*/
+        }
+
+        @Override
+        public void onRatioPrecisionChanged(int newValue)
+        {
+            /*_ratioPrecision = newValue;
+            setRatioFormat(_ratioPrecision);*/
+        }
+    };
 
     private GearsSetView.OnGearsSetViewListener _gearsSetViewListener = new GearsSetView.OnGearsSetViewListener()
     {
@@ -407,6 +437,9 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
                 _presenter.setRatioAsFraction(isChecked);
             }
         });
+
+        _settings = new CgSettings(Activity);
+        _settings.setListener(_settingsChangeListener);
 
         return _view;
     }

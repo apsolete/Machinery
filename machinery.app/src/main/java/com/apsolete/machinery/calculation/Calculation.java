@@ -1,4 +1,5 @@
 package com.apsolete.machinery.calculation;
+import com.apsolete.machinery.common.SettingsBase;
 import com.apsolete.machinery.common.mvp.*;
 
 public final class Calculation
@@ -20,6 +21,7 @@ public final class Calculation
 
         interface View<P extends Presenter> extends BaseView<P>
         {
+            SettingsBase getSettings();
         }
     }
 }
