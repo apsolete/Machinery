@@ -6,7 +6,7 @@ import com.apsolete.machinery.common.*;
 import android.content.*;
 import android.support.v7.preference.*;
 
-public class CgSettings extends SettingsBase
+public class ChangeGearsSettings extends SettingsBase
 {
     public interface OnChangeListener
     {
@@ -17,7 +17,7 @@ public class CgSettings extends SettingsBase
     
     private OnChangeListener _listener;
     
-    public CgSettings()
+    public ChangeGearsSettings()
     {
         super(R.xml.settings_changegears, R.string.title_change_gears_design);
     }
@@ -46,6 +46,7 @@ public class CgSettings extends SettingsBase
                 break;
         }
     }
+
     public boolean getDiffTeethGearing()
     {
         PreferenceManager pm = getPreferenceManager();
@@ -71,5 +72,23 @@ public class CgSettings extends SettingsBase
             ? pm.getSharedPreferences()
             : PreferenceManager.getDefaultSharedPreferences(_activity);
         return sharedPref.getInt("accuracyofratio", 1);
+    }
+
+    public int getMinTeethNumber()
+    {
+        PreferenceManager pm = getPreferenceManager();
+        SharedPreferences sharedPref = (pm != null)
+                ? pm.getSharedPreferences()
+                : PreferenceManager.getDefaultSharedPreferences(_activity);
+        return sharedPref.getInt("minteethnumber", 1);
+    }
+
+    public int getMaxTeethNumber()
+    {
+        PreferenceManager pm = getPreferenceManager();
+        SharedPreferences sharedPref = (pm != null)
+                ? pm.getSharedPreferences()
+                : PreferenceManager.getDefaultSharedPreferences(_activity);
+        return sharedPref.getInt("maxteethnumber", 1);
     }
 }

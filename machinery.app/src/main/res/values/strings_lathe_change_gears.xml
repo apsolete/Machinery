@@ -10,18 +10,24 @@
         <item>mm</item>
         <item>TPI</item>
     </string-array>
-    
+
+    <string name="title_gears_selection_dialog">Gears Selection Dialog</string>
+    <string name="title_minteethnamber">Min Teeth Number</string>
+    <string name="key_minteethnamber">minteethnumber</string>
+    <string name="title_maxteethnamber">Max Teeth Number</string>
+    <string name="key_maxteethnamber">maxteethnamber</string>
+
     <string name="title_changegears_options">Change Gears Options</string>
 
-    <string name="checkbox_diffteethgearing">diffteethgearing</string>
-    <string name="title_diffteethgearing">Different teeth number of gearing</string>
+    <string name="key_diffteethgearing">diffteethgearing</string>
+    <string name="title_diffteethgearing">Different teeth number in gearing</string>
     <string name="summary_diffteethgearing">Two wheels in gearing must have different teeth number.</string>
 
-    <string name="checkbox_diffteethdoublegear">diffteethdoublegear</string>
+    <string name="key_diffteethdoublegear">diffteethdoublegear</string>
     <string name="title_diffteethdoublegear">Different teeth number in double gear</string>
     <string name="summary_diffteethdoublegear">Two wheels in double gear must have different teeth number.</string>
 
-    <string name="edittext_accuracyofratio">accuracyofratio</string>
+    <string name="key_accuracyofratio">accuracyofratio</string>
     <string name="title_accuracyofratio">Accuracy of ratio</string>
     <string name="summary_accuracyofratio">Accuracy of gear ratio.</string>
 </resources>

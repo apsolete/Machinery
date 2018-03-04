@@ -7,9 +7,9 @@ import android.content.*;
 
 public class SettingsContent extends SettingsBase
 {
-    public SettingsContent(Context context)
+    public SettingsContent()
     {
-        super(context, R.xml.settings_main, R.string.nav_settings);
+        super(R.xml.settings_main, R.string.nav_settings);
     }
 
     @Override

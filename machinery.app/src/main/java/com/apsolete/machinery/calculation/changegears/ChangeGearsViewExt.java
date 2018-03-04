@@ -48,9 +48,9 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     //private TextView _resToNumberText;
 
     //private ViewGroup _resultView;
-    //private CgSettings _settings;
+    //private ChangeGearsSettings _settings;
     //private CgCalculator _calculator;
-    private CgSettings _settings;
+    private ChangeGearsSettings _settings = new ChangeGearsSettings();
 
     private final GearsSetView[] _gsViews = new GearsSetView[7];
 
@@ -241,7 +241,7 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     {
     }
 
-    private CgSettings.OnChangeListener _settingsChangeListener = new CgSettings.OnChangeListener()
+    private ChangeGearsSettings.OnChangeListener _settingsChangeListener = new ChangeGearsSettings.OnChangeListener()
     {
         @Override
         public void onDiffTeethGearingChanged(boolean newValue)
@@ -438,7 +438,7 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
             }
         });
 
-        _settings = new CgSettings(Activity);
+        //_settings = new ChangeGearsSettings();
         _settings.setListener(_settingsChangeListener);
 
         return _view;
