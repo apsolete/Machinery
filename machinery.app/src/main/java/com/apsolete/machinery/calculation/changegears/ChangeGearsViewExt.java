@@ -1,5 +1,6 @@
 package com.apsolete.machinery.calculation.changegears;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
@@ -70,6 +71,27 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     public SettingsBase getSettings()
     {
         return _settings;
+    }
+
+    @Override
+    public void showProgress(final int percent)
+    {
+        Activity.runOnUiThread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if (percent > 0)
+                {
+                    if (ProgressBar.getVisibility() == View.GONE)
+                        ProgressBar.setVisibility(View.VISIBLE);
+                    ProgressBar.setProgress(percent);
+                    return;
+                }
+                ProgressBar.setProgress(0);
+                ProgressBar.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -225,22 +247,26 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     }
 
     @Override
-    public void setResultItem(CgResult result)
-    {
-    }
-
-    @Override
     public void showResults(List<ChangeGearsContract.Result> results)
     {
         ChangeGearsContract.Result first = results.get(0);
         ChangeGearsContract.Result last = results.get(results.size()-1);
         _resultFirstNumberText.setText(Integer.toString(first.Number));
         _resultLastNumberText.setText(Integer.toString(last.Number));
+
+        _resultView.removeAllViews();
+        for (ChangeGearsContract.Result r: results)
+        {
+            setResultItem(r);
+        }
     }
 
     @Override
     public void clearResults()
     {
+        _resultView.removeAllViews();
+        _resultFirstNumberText.setText("0");
+        _resultLastNumberText.setText("0");
     }
 
     @Override
@@ -535,5 +561,60 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
             {}
         });
         dialog.show(fragmentManager, "teethnumbersdialog");
+    }
+
+    private void setResultItem(ChangeGearsContract.Result result)
+    {
+        try
+        {
+            LayoutInflater layoutInflater = (LayoutInflater)Activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = layoutInflater.inflate(R.layout.change_gears_result, null);
+
+            TextView text = (TextView)view.findViewById(R.id.resultNumberText);
+            text.setText(Integer.toString(result.Number));
+
+            int visibility;
+            text = (TextView)view.findViewById(R.id.z1Text);
+            text.setText(result.Z1);
+            text = (TextView)view.findViewById(R.id.z2Text);
+            text.setText(result.Z2);
+
+            visibility = result.Z3 != null ? View.VISIBLE : View.GONE;
+            view.findViewById(R.id.gears34Layout).setVisibility(visibility);
+            if (visibility == View.VISIBLE)
+            {
+                text = (TextView)view.findViewById(R.id.z3Text);
+                text.setText(result.Z3);
+                text = (TextView)view.findViewById(R.id.z4Text);
+                text.setText(result.Z4);
+            }
+
+            visibility = result.Z5 != null ? View.VISIBLE : View.GONE;
+            view.findViewById(R.id.gears56Layout).setVisibility(visibility);
+            if (visibility == View.VISIBLE)
+            {
+                text = (TextView)view.findViewById(R.id.z5Text);
+                text.setText(result.Z5);
+                text = (TextView)view.findViewById(R.id.z6Text);
+                text.setText(result.Z6);
+            }
+
+            text = (TextView)view.findViewById(R.id.ratioText);
+            text.setText(result.Ratio);
+
+            visibility = result.ThreadPitch != null ? View.VISIBLE : View.GONE;
+            view.findViewById(R.id.threadPitchLayout).setVisibility(visibility);
+            if (visibility == View.VISIBLE)
+            {
+                text = (TextView)view.findViewById(R.id.threadPitchText);
+                text.setText(result.ThreadPitch);
+            }
+
+            _resultView.addView(view);
+        }
+        catch (Exception e)
+        {
+            //
+        }
     }
 }

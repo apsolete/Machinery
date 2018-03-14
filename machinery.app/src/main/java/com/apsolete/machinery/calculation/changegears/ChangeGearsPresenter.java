@@ -1,9 +1,11 @@
 package com.apsolete.machinery.calculation.changegears;
 
+//import android.support.design.widget.Snackbar;
 import android.util.SparseArray;
 
 import com.apsolete.machinery.calculation.CalculationPresenter;
 import com.apsolete.machinery.common.G;
+import com.apsolete.machinery.common.OnResultListener;
 import com.apsolete.machinery.utils.Fraction;
 import com.apsolete.machinery.utils.Numbers;
 
@@ -17,9 +19,34 @@ import java.util.Locale;
 
 public final class ChangeGearsPresenter extends CalculationPresenter implements ChangeGearsContract.Presenter
 {
-    private class ChangeGearsResult implements ChangeGearsContract.Result
+    private class Result implements ChangeGearsContract.Result
     {
+        public int Number = 0;
+        public String Z1 = null;
+        public String Z2 = null;
+        public String Z3 = null;
+        public String Z4 = null;
+        public String Z5 = null;
+        public String Z6 = null;
+        public String Ratio = null;
+        public String ThreadPitch = null;
 
+        public Result(ChangeGears.Result result)
+        {
+            Number = result.Id;
+            Z1 = Integer.toString(result.Gears[0]);
+            Z2 = Integer.toString(result.Gears[1]);
+            if (result.Gears.length > 2)
+                Z3 = Integer.toString(result.Gears[2]);
+            if (result.Gears.length > 3)
+                Z4 = Integer.toString(result.Gears[3]);
+            if (result.Gears.length > 4)
+                Z5 = Integer.toString(result.Gears[4]);
+            if (result.Gears.length > 5)
+                Z6 = Integer.toString(result.Gears[5]);
+            Ratio = _ratioFormat.format(result.Ratio);
+            ThreadPitch = _ratioFormat.format(result.Ratio * _leadscrewPitch);
+        }
     }
 
     private final ChangeGearsContract.View _view;
@@ -41,6 +68,32 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     private int _firstResultNumber = 1;
     private int _lastResultNumber = 1;
     private ArrayList<ChangeGearsContract.Result> _results = new ArrayList<>();
+    private ChangeGears _calculator;
+
+
+    private OnResultListener<ChangeGears.Result> _resultListener = new OnResultListener<ChangeGears.Result>()
+    {
+        @Override
+        public void onResult(ChangeGears.Result result)
+        {
+            Result r = new Result(result);
+            _results.add(r);
+        }
+
+        @Override
+        public void onProgress(int percent)
+        {
+            _view.showProgress(percent);
+        }
+
+        @Override
+        public void onCompleted(int count)
+        {
+            _view.showProgress(0);
+            int shown = getNextResults();
+            _view.showMessage("Calculated " + count + " ratios. Shown " + shown + " results.");
+        }
+    };
 
     public ChangeGearsPresenter(ChangeGearsContract.View view)
     {
@@ -61,6 +114,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         _gsChecked[G.Z2] = true;
 
         _view.setPresenter(this);
+        _calculator = new ChangeGears();
     }
 
     @Override
@@ -124,7 +178,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     @Override
     public void calculate()
     {
-
+        //_calculator.setAccuracy();
     }
 
     @Override
@@ -334,11 +388,11 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     }
 
     @Override
-    public void getNextResults()
+    public int getNextResults()
     {
         int fi = _lastResultNumber + 1;
         if (fi >= _results.size())
-            return;
+            return 0;
         int li = fi + 99;
         if (li > _results.size())
             li = _results.size();
@@ -346,14 +400,15 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         _lastResultNumber = li;
         List<ChangeGearsContract.Result> next = _results.subList(_firstResultNumber-1, _lastResultNumber);
         _view.showResults(next);
+        return next.size();
     }
 
     @Override
-    public void getPrevResults()
+    public int getPrevResults()
     {
         int fi = _firstResultNumber - 100;
         if (fi < 0)
-            return;
+            return 0;
         int ti = fi + 99;
         if (ti > _results.size())
             ti = _results.size();
@@ -361,6 +416,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         _lastResultNumber = ti;
         List<ChangeGearsContract.Result> prev = _results.subList(_firstResultNumber-1, _lastResultNumber);
         _view.showResults(prev);
+        return prev.size();
     }
 
     private void recalculateRatio()

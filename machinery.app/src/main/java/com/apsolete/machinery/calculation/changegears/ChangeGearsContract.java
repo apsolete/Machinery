@@ -1,6 +1,6 @@
 package com.apsolete.machinery.calculation.changegears;
 
-import com.apsolete.machinery.calculation.Calculation;
+import com.apsolete.machinery.calculation.*;
 
 import java.util.List;
 
@@ -27,20 +27,21 @@ public interface ChangeGearsContract
         void setRatioFormat(int precision);
         void setRatioAsFraction(boolean asFraction);
 
-        void getNextResults();
-        void getPrevResults();
+        int getNextResults();
+        int getPrevResults();
     }
 
     interface Result
     {
         int Number = 0;
-        String Ratio = null;
         String Z1 = null;
         String Z2 = null;
         String Z3 = null;
         String Z4 = null;
         String Z5 = null;
         String Z6 = null;
+        String Ratio = null;
+        String ThreadPitch = null;
     }
 
     interface View extends Calculation.Contract.View<Presenter>
@@ -71,7 +72,6 @@ public interface ChangeGearsContract
 
         void setFirstResultNumber(String valueStr);
         void setLastResultNumber(String valueStr);
-        void setResultItem(CgResult result);
         void showResults(List<Result> results);
         void clearResults();
 
