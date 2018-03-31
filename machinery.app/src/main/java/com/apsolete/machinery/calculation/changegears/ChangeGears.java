@@ -179,7 +179,7 @@ public final class ChangeGears extends CalculationModel
         _gearsSets.put(z, gears);
     }
 
-    private void setResultListener(OnResultListener<Result> resultListener)
+    public void setResultListener(OnResultListener<Result> resultListener)
     {
         _resultListener = resultListener;
         _progress = new ProgressPublisher(_resultListener);

@@ -292,8 +292,7 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
         @Override
         public void onRatioPrecisionChanged(int newValue)
         {
-            /*_ratioPrecision = newValue;
-            setRatioFormat(_ratioPrecision);*/
+            _presenter.setRatioFormat(newValue);
         }
     };
 

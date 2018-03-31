@@ -1,11 +1,11 @@
 package com.apsolete.machinery.calculation.changegears;
 
-//import android.support.design.widget.Snackbar;
 import android.util.SparseArray;
 
 import com.apsolete.machinery.calculation.CalculationPresenter;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.OnResultListener;
+import com.apsolete.machinery.utils.ArrayUtils;
 import com.apsolete.machinery.utils.Fraction;
 import com.apsolete.machinery.utils.Numbers;
 
@@ -14,8 +14,10 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public final class ChangeGearsPresenter extends CalculationPresenter implements ChangeGearsContract.Presenter
 {
@@ -53,6 +55,8 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     private boolean _oneSet;
     private SparseArray<List<Integer>> _gearsSets = new SparseArray<>(G.Z6 + 1);
     private boolean[] _gsChecked = new boolean[G.Z6 + 1];
+    private int _oneSetGearsCount = 2;
+    //private Map<Integer, int[]> _gearsSets = new HashMap<>(G.Z6 + 1);
     private int _calculationMode;
 
     private double _ratio = 1.25;
@@ -69,6 +73,11 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     private int _lastResultNumber = 1;
     private ArrayList<ChangeGearsContract.Result> _results = new ArrayList<>();
     private ChangeGears _calculator;
+
+    /*settings*/
+    private int _ratioPrecision = 2;
+    private boolean _diffTeethGearing = true;
+    private boolean _diffTeethDoubleGear = true;
 
 
     private OnResultListener<ChangeGears.Result> _resultListener = new OnResultListener<ChangeGears.Result>()
@@ -115,6 +124,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
 
         _view.setPresenter(this);
         _calculator = new ChangeGears();
+        _calculator.setResultListener(_resultListener);
     }
 
     @Override
@@ -178,7 +188,22 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     @Override
     public void calculate()
     {
-        //_calculator.setAccuracy();
+        _view.clearResults();
+
+        _calculator.setAccuracy(Math.pow(10, -_ratioPrecision));
+        _calculator.setDiffTeethGearing(_diffTeethGearing);
+        _calculator.setDiffTeethDoubleGear(_diffTeethDoubleGear);
+        //_calculator.setRatio(_ratio);
+        if (_oneSet)
+        {
+            List<Integer> gears = _gearsSets.get(G.Z0);
+            _calculator.setGearsSet(_oneSetGearsCount, ArrayUtils.toArrayInt(gears));
+            _calculator.calculate();
+        }
+        else
+        {
+
+        }
     }
 
     @Override
@@ -216,19 +241,25 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     @Override
     public void setGearsSetChecked(int set, boolean checked)
     {
-        _gsChecked[set] = checked;
-        set++;
-        if (set > G.Z6)
+        if (set < G.Z1 || set > G.Z6)
             return;
+        _gsChecked[set] = checked;
         if (checked)
-            _view.setGearsSetEnabled(set, true);
+        {
+            _oneSetGearsCount = (set % 2) == 0 ? set : set - 1;
+            _view.setGearsSetEnabled(set + 1, true);
+        }
         else
-            for (; set <= G.Z6; set++)
+        {
+            int s = set - 1;
+            _oneSetGearsCount = (s % 2) == 0 ? s : s - 1;
+            for (set++; set <= G.Z6; set++)
             {
                 _gsChecked[set] = false;
                 _view.setGearsSetChecked(set, false);
                 _view.setGearsSetEnabled(set, false);
             }
+        }
     }
 
     @Override
@@ -369,6 +400,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     @Override
     public void setRatioFormat(int precision)
     {
+        _ratioPrecision = precision;
         StringBuilder pattern = new StringBuilder("#0.0");
         for (int i = 0; i < precision-1; i++)
             pattern.append("#");
