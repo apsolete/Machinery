@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.2"
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.apsolete.machinery"
         minSdkVersion 21
@@ -26,9 +26,9 @@ android {
 
 dependencies {
     //compile project(path: ':machineries')
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.1.0'
-    compile 'com.android.support:preference-v7:25.1.0'
-    compile 'com.android.support:design:25.1.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:25.1.0'
+    implementation 'com.android.support:preference-v7:25.1.0'
+    implementation 'com.android.support:design:25.1.0'
     //testCompile 'junit:junit:4.12'
 }
