@@ -12,10 +12,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--<meta-data
+        <meta-data
             android:name="android.support.VERSION"
             android:value="25.4.0"
-            tools:replace="android:value"/>-->
+            tools:replace="android:value"/>
         <activity
             android:name="com.apsolete.machinery.MainActivity"
             android:label="@string/app_name"
