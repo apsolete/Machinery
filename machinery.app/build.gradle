@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 25
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.apsolete.machinery"
         minSdkVersion 19
-        targetSdkVersion 27
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -24,22 +24,22 @@ android {
     }
 }
 
-//configurations.all {
-//    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-//        def requested = details.requested
-//        if (requested.group == 'com.android.support') {
-//            if (!requested.name.startsWith("multidex")) {
-//                details.useVersion '25.4.0'
-//            }
-//        }
-//    }
-//}
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '25.4.0'
+            }
+        }
+    }
+}
 
 dependencies {
     //compile project(path: ':machineries')
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    //qqqnoinspection GradleCompatible
-    implementation 'com.android.support:appcompat-v7:27.1.0'
-    implementation 'com.android.support:preference-v7:27.1.0'
-    implementation 'com.android.support:design:27.1.0'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //noinspection GradleCompatible
+    compile 'com.android.support:appcompat-v7:25.4.0'
+    compile 'com.android.support:preference-v7:25.4.0'
+    compile 'com.android.support:design:25.4.0'
 }
