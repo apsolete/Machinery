@@ -23,32 +23,74 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
 {
     private class Result implements ChangeGearsContract.Result
     {
-        public int Number = 0;
-        public String Z1 = null;
-        public String Z2 = null;
-        public String Z3 = null;
-        public String Z4 = null;
-        public String Z5 = null;
-        public String Z6 = null;
-        public String Ratio = null;
-        public String ThreadPitch = null;
+        private ChangeGears.Result _result;
+        private boolean _thrPitch = false;
 
         public Result(ChangeGears.Result result)
         {
-            Number = result.Id;
-            Z1 = Integer.toString(result.Gears[0]);
-            Z2 = Integer.toString(result.Gears[1]);
-            if (result.Gears.length > 2)
-                Z3 = Integer.toString(result.Gears[2]);
-            if (result.Gears.length > 3)
-                Z4 = Integer.toString(result.Gears[3]);
-            if (result.Gears.length > 4)
-                Z5 = Integer.toString(result.Gears[4]);
-            if (result.Gears.length > 5)
-                Z6 = Integer.toString(result.Gears[5]);
-            Ratio = _ratioFormat.format(result.Ratio);
-            ThreadPitch = _ratioFormat.format(result.Ratio * _leadscrewPitch);
+            _result = result;
         }
+        
+        public Result(ChangeGears.Result result, boolean thrPitch)
+        {
+            _result = result;
+            _thrPitch = thrPitch;
+        }
+        
+        @Override
+        public String id()
+        {
+            return Integer.toString(_result.Id);
+        }
+
+        @Override
+        public String z1()
+        {
+            return Integer.toString(_result.Gears[0]);
+        }
+
+        @Override
+        public String z2()
+        {
+            return Integer.toString(_result.Gears[1]);
+        }
+
+        @Override
+        public String z3()
+        {
+            return (_result.Gears[2] > 0) ? Integer.toString(_result.Gears[2]) : null;
+        }
+
+        @Override
+        public String z4()
+        {
+            return (_result.Gears[3] > 0) ? Integer.toString(_result.Gears[3]) : null;
+        }
+
+        @Override
+        public String z5()
+        {
+            return (_result.Gears[4] > 0) ? Integer.toString(_result.Gears[4]) : null;
+        }
+
+        @Override
+        public String z6()
+        {
+            return (_result.Gears[5] > 0) ? Integer.toString(_result.Gears[5]) : null;
+        }
+
+        @Override
+        public String ratio()
+        {
+            return _ratioFormat.format(_result.Ratio);
+        }
+
+        @Override
+        public String threadPitch()
+        {
+            return _thrPitch ? _ratioFormat.format(_result.Ratio * _leadscrewPitch) : null;
+        }
+
     }
 
     private final ChangeGearsContract.View _view;
@@ -85,7 +127,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         @Override
         public void onResult(ChangeGears.Result result)
         {
-            Result r = new Result(result);
+            Result r = new Result(result, _calculationMode == G.THREAD_BY_GEARS);
             _results.add(r);
         }
 
@@ -179,16 +221,17 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     {
         _firstResultNumber = 1;
         _lastResultNumber = 1;
+        _results.clear();
 
         _view.clearResults();
-        _view.setFirstResultNumber(Integer.toString(_firstResultNumber));
-        _view.setLastResultNumber(Integer.toString(_lastResultNumber));
+        _view.setFirstResultNumber("1");
+        _view.setLastResultNumber("1");
     }
 
     @Override
     public void calculate()
     {
-        _view.clearResults();
+        clear();
 
         _calculator.setAccuracy(Math.pow(10, -_ratioPrecision));
         _calculator.setDiffTeethGearing(_diffTeethGearing);

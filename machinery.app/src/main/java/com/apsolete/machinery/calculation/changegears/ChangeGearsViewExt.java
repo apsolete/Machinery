@@ -256,8 +256,8 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
                 {
                     ChangeGearsContract.Result first = results.get(0);
                     ChangeGearsContract.Result last = results.get(results.size()-1);
-                    _resultFirstNumberText.setText(Integer.toString(first.Number));
-                    _resultLastNumberText.setText(Integer.toString(last.Number));
+                    _resultFirstNumberText.setText(first.id());
+                    _resultLastNumberText.setText(last.id());
 
                     _resultView.removeAllViews();
                     for (ChangeGearsContract.Result r: results)
@@ -571,51 +571,51 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
         dialog.show(fragmentManager, "teethnumbersdialog");
     }
 
-    private void setResultItem(ChangeGearsContract.Result result)
+    private void setResultItem(final ChangeGearsContract.Result result)
     {
         try
         {
             LayoutInflater layoutInflater = (LayoutInflater)Activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = layoutInflater.inflate(R.layout.change_gears_result, null);
+            View view = layoutInflater.inflate(R.layout.change_gears_result2, null);
 
             TextView text = (TextView)view.findViewById(R.id.resultNumberText);
-            text.setText(Integer.toString(result.Number));
+            text.setText(result.id());
 
             int visibility;
             text = (TextView)view.findViewById(R.id.z1Text);
-            text.setText(result.Z1);
+            text.setText(result.z1());
             text = (TextView)view.findViewById(R.id.z2Text);
-            text.setText(result.Z2);
+            text.setText(result.z2());
 
-            visibility = result.Z3 != null ? View.VISIBLE : View.GONE;
+            visibility = result.z3() != null ? View.VISIBLE : View.GONE;
             view.findViewById(R.id.gears34Layout).setVisibility(visibility);
             if (visibility == View.VISIBLE)
             {
                 text = (TextView)view.findViewById(R.id.z3Text);
-                text.setText(result.Z3);
+                text.setText(result.z3());
                 text = (TextView)view.findViewById(R.id.z4Text);
-                text.setText(result.Z4);
+                text.setText(result.z4());
             }
 
-            visibility = result.Z5 != null ? View.VISIBLE : View.GONE;
+            visibility = result.z5() != null ? View.VISIBLE : View.GONE;
             view.findViewById(R.id.gears56Layout).setVisibility(visibility);
             if (visibility == View.VISIBLE)
             {
                 text = (TextView)view.findViewById(R.id.z5Text);
-                text.setText(result.Z5);
+                text.setText(result.z5());
                 text = (TextView)view.findViewById(R.id.z6Text);
-                text.setText(result.Z6);
+                text.setText(result.z6());
             }
 
             text = (TextView)view.findViewById(R.id.ratioText);
-            text.setText(result.Ratio);
+            text.setText(result.ratio());
 
-            visibility = result.ThreadPitch != null ? View.VISIBLE : View.GONE;
+            visibility = result.threadPitch() != null ? View.VISIBLE : View.GONE;
             view.findViewById(R.id.threadPitchLayout).setVisibility(visibility);
             if (visibility == View.VISIBLE)
             {
                 text = (TextView)view.findViewById(R.id.threadPitchText);
-                text.setText(result.ThreadPitch);
+                text.setText(result.threadPitch());
             }
 
             _resultView.addView(view);

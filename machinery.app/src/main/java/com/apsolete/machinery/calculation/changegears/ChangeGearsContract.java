@@ -33,15 +33,15 @@ public interface ChangeGearsContract
 
     interface Result
     {
-        int Number = 0;
-        String Z1 = null;
-        String Z2 = null;
-        String Z3 = null;
-        String Z4 = null;
-        String Z5 = null;
-        String Z6 = null;
-        String Ratio = null;
-        String ThreadPitch = null;
+        String id();
+        String z1();
+        String z2();
+        String z3();
+        String z4();
+        String z5();
+        String z6();
+        String ratio();
+        String threadPitch();
     }
 
     interface View extends Calculation.Contract.View<Presenter>
