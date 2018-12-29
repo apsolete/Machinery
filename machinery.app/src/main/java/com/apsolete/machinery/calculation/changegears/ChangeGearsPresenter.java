@@ -224,7 +224,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     {
         ArrayList<Integer> values = Numbers.getNumbersList(valuesStr);
         _gearsSets.put(set, values);
-        if (set < G.Z6)
+        if (set > G.Z1 && set < G.Z6)
             _view.setGearsSetEnabled(set + 1, valuesStr != null && !valuesStr.isEmpty());
     }
 
@@ -234,7 +234,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         _gearsSets.put(set, values);
         String valuesStr = Numbers.getString(values);
         _view.setGearsSet(set, valuesStr);
-        if (set < G.Z6)
+        if (set > G.Z1 && set < G.Z6)
             _view.setGearsSetEnabled(set + 1, valuesStr != null && !valuesStr.isEmpty());
     }
 
@@ -423,7 +423,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     @Override
     public int getNextResults()
     {
-        int fi = _lastResultNumber + 1;
+        int fi = _lastResultNumber > 1 ? _lastResultNumber + 1 : 1;
         if (fi >= _results.size())
             return 0;
         int li = fi + 99;
@@ -529,8 +529,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
             _view.setGearsSetEnabled(G.Z2, false);
             _view.setGearsSetEnabled(G.Z3, true);
 
-            int set = G.Z4;
-            for (; set <= G.Z6; set++)
+            for (int set = G.Z4; set <= G.Z6; set++)
             {
                 _view.setGearsSetEnabled(set, _gsChecked[set - 1]);
             }
@@ -548,8 +547,8 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
             _view.setGearsSetEnabled(G.Z0, false);
             _view.setGearsSetEnabled(G.Z1, true);
 
-            int set = G.Z2;
-            for (; set <= G.Z6; set++)
+            
+            for (int set = G.Z2; set <= G.Z6; set++)
             {
                 List<?> values = _gearsSets.get(set - 1);
                 _view.setGearsSetEnabled(set, (values != null && !values.isEmpty()));

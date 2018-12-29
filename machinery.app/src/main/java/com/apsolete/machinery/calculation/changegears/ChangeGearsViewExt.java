@@ -247,18 +247,25 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
     }
 
     @Override
-    public void showResults(List<ChangeGearsContract.Result> results)
+    public void showResults(final List<ChangeGearsContract.Result> results)
     {
-        ChangeGearsContract.Result first = results.get(0);
-        ChangeGearsContract.Result last = results.get(results.size()-1);
-        _resultFirstNumberText.setText(Integer.toString(first.Number));
-        _resultLastNumberText.setText(Integer.toString(last.Number));
+        Activity.runOnUiThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    ChangeGearsContract.Result first = results.get(0);
+                    ChangeGearsContract.Result last = results.get(results.size()-1);
+                    _resultFirstNumberText.setText(Integer.toString(first.Number));
+                    _resultLastNumberText.setText(Integer.toString(last.Number));
 
-        _resultView.removeAllViews();
-        for (ChangeGearsContract.Result r: results)
-        {
-            setResultItem(r);
-        }
+                    _resultView.removeAllViews();
+                    for (ChangeGearsContract.Result r: results)
+                    {
+                        setResultItem(r);
+                    }
+                }
+            });
     }
 
     @Override
