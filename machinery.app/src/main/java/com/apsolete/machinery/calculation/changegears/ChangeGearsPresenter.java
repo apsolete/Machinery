@@ -247,7 +247,8 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         if (checked)
         {
             _oneSetGearsCount = (set % 2) == 0 ? set : set - 1;
-            _view.setGearsSetEnabled(set + 1, true);
+            if (set < G.Z6)
+                _view.setGearsSetEnabled(set + 1, true);
         }
         else
         {
@@ -315,7 +316,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     @Override
     public void setLeadscrewPitchUnit(ThreadPitchUnit unit)
     {
-        _threadPitchUnit = unit;
+        _leadscrewPitchUnit = unit;
         recalculateRatio();
     }
 
@@ -336,7 +337,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     @Override
     public void setThreadPitchUnit(ThreadPitchUnit unit)
     {
-        _leadscrewPitchUnit = unit;
+        _threadPitchUnit = unit;
         recalculateRatio();
     }
 
