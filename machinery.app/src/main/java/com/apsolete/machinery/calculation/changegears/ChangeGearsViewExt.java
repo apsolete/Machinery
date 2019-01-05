@@ -142,7 +142,6 @@ public final class ChangeGearsViewExt extends CalculationView implements ChangeG
         {
             _threadPitchTextChangedListener.startTracking();
         }
-
     }
 
     @Override

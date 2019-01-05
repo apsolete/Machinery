@@ -11,8 +11,8 @@ import android.widget.*;
 import java.util.Vector;
 import com.apsolete.machinery.utils.*;
 
-public class GearSetControl extends TextChangedListener implements View.OnClickListener, InputFilter
-{
+public class GearSetControl //extends TextChangedListener implements View.OnClickListener, InputFilter
+{/*
     public interface OnGearSetListener
     {
         void onSet(GearSetControl gearSetCtrl);
@@ -124,44 +124,7 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
             return null;
             
         return Numbers.getNumbers(text);
-        /*
-        String[] strs = text.split(" ");
-        Vector<Integer> numbers = new Vector<>();
 
-        for (String s : strs)
-        {
-            if (!s.isEmpty())
-            {
-                //if (s.startsWith("-")) s.re
-                if (s.contains("-"))
-                {
-                    String[] range = s.split("-");
-                    int r1 = Integer.parseInt(range[0]);
-                    int r2 = Integer.parseInt(range[1]);
-                    int start = Math.min(r1, r2);
-                    int end = Math.max(r1, r2);
-                    while (start <= end)
-                    {
-                        numbers.add(start);
-                        start++;
-                    }
-                }
-                else
-                {
-                    int n = Integer.parseInt(s);
-                    numbers.add(Math.abs(n));
-                }
-            }
-        }
-
-        int[] gears = ArrayUtils.toArrayInt(numbers);
-        //int i = 0;
-        //for (int n : numbers)
-        //{
-        //    gears[i] = n;
-        //    i++;
-        //}
-        return gears;*/
     }
 
     public boolean isEmpty()
@@ -188,4 +151,4 @@ public class GearSetControl extends TextChangedListener implements View.OnClickL
         //if (_gearsText.isEnabled() && _gearsText.length() == 0)
         //    _gearsText.setError("Set gears");
     }
-}
+*/}

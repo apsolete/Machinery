@@ -29,7 +29,7 @@ public final class ChangeGears extends CalculationModel
             return null;
         }
     }
-    
+    /*
     public class Result
     {
         public int Id;
@@ -43,8 +43,8 @@ public final class ChangeGears extends CalculationModel
             Gears = Arrays.copyOf(gears, 6);
         }
     }
-
-    private OnResultListener<Result> _resultListener;
+*/
+    private OnResultListener<CgResult> _resultListener;
     private ProgressPublisher _progress;
 
     private double _ratio = 0;
@@ -178,7 +178,7 @@ public final class ChangeGears extends CalculationModel
         _gearsSets.put(z, gears);
     }
 
-    public void setResultListener(OnResultListener<Result> resultListener)
+    public void setResultListener(OnResultListener<CgResult> resultListener)
     {
         _resultListener = resultListener;
         _progress = new ProgressPublisher(_resultListener);
@@ -384,7 +384,7 @@ public final class ChangeGears extends CalculationModel
             _calculatedRatios++;
             if (_resultListener != null)
             {
-                _resultListener.onResult(new Result(_calculatedRatios, ratio, new int[]{z1, z2, 0, 0, 0, 0}));
+                _resultListener.onResult(new CgResult(_calculatedRatios, ratio, new int[]{z1, z2, 0, 0, 0, 0}));
             }
             return true;
         }
@@ -399,7 +399,7 @@ public final class ChangeGears extends CalculationModel
             _calculatedRatios++;
             if (_resultListener != null)
             {
-                _resultListener.onResult(new Result(_calculatedRatios, ratio, new int[]{z1, z2, z3, z4, 0, 0}));
+                _resultListener.onResult(new CgResult(_calculatedRatios, ratio, new int[]{z1, z2, z3, z4, 0, 0}));
             }
             return true;
         }
@@ -414,7 +414,7 @@ public final class ChangeGears extends CalculationModel
             _calculatedRatios++;
             if (_resultListener != null)
             {
-                _resultListener.onResult(new Result(_calculatedRatios, ratio, new int[]{z1, z2, z3, z4, z5, z6}));
+                _resultListener.onResult(new CgResult(_calculatedRatios, ratio, new int[]{z1, z2, z3, z4, z5, z6}));
             }
             return true;
         }

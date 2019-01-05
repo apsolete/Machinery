@@ -17,8 +17,8 @@ import java.math.RoundingMode;
 import java.text.*;
 import java.util.*;
 
-public class ChangeGearsView extends DesignContent
-{
+public class ChangeGearsView //extends DesignContent
+{/*
     private int _ratioPrecision = 1;
     private double _ratio = 0;
     private boolean _diffTeethGearing = true;
@@ -777,4 +777,4 @@ public class ChangeGearsView extends DesignContent
         }
         _ratioResultText.setText(ratioInfo);
     }
-}
+*/}

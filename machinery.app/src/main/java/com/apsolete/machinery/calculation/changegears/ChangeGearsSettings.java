@@ -5,6 +5,10 @@ import com.apsolete.machinery.common.*;
 
 import android.content.*;
 import android.support.v7.preference.*;
+import java.text.*;
+import java.util.*;
+import java.math.*;
+import android.os.*;
 
 public class ChangeGearsSettings extends SettingsBase
 {

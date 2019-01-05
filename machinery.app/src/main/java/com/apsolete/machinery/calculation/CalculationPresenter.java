@@ -1,4 +1,7 @@
 package com.apsolete.machinery.calculation;
+import java.text.*;
+import java.util.*;
+import java.math.*;
 
 public abstract class CalculationPresenter implements Calculation.Contract.Presenter
 {
@@ -34,5 +37,13 @@ public abstract class CalculationPresenter implements Calculation.Contract.Prese
 //    {
 //        return true;
 //    }
-
+    
+    public static NumberFormat getNumberFormat(String pattern)
+    {
+        DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols(Locale.getDefault());
+        formatSymbols.setDecimalSeparator('.');
+        DecimalFormat _numFormat = new DecimalFormat(pattern, formatSymbols);
+        _numFormat.setRoundingMode(RoundingMode.CEILING);
+        return _numFormat;
+    }
 }

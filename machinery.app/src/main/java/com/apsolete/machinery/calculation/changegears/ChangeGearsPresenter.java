@@ -10,8 +10,7 @@ import com.apsolete.machinery.utils.Fraction;
 import com.apsolete.machinery.utils.Numbers;
 
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
+import java.text.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -21,78 +20,6 @@ import java.util.Map;
 
 public final class ChangeGearsPresenter extends CalculationPresenter implements ChangeGearsContract.Presenter
 {
-    private class Result implements ChangeGearsContract.Result
-    {
-        private ChangeGears.Result _result;
-        private boolean _thrPitch = false;
-
-        public Result(ChangeGears.Result result)
-        {
-            _result = result;
-        }
-        
-        public Result(ChangeGears.Result result, boolean thrPitch)
-        {
-            _result = result;
-            _thrPitch = thrPitch;
-        }
-        
-        @Override
-        public String id()
-        {
-            return Integer.toString(_result.Id);
-        }
-
-        @Override
-        public String z1()
-        {
-            return Integer.toString(_result.Gears[0]);
-        }
-
-        @Override
-        public String z2()
-        {
-            return Integer.toString(_result.Gears[1]);
-        }
-
-        @Override
-        public String z3()
-        {
-            return (_result.Gears[2] > 0) ? Integer.toString(_result.Gears[2]) : null;
-        }
-
-        @Override
-        public String z4()
-        {
-            return (_result.Gears[3] > 0) ? Integer.toString(_result.Gears[3]) : null;
-        }
-
-        @Override
-        public String z5()
-        {
-            return (_result.Gears[4] > 0) ? Integer.toString(_result.Gears[4]) : null;
-        }
-
-        @Override
-        public String z6()
-        {
-            return (_result.Gears[5] > 0) ? Integer.toString(_result.Gears[5]) : null;
-        }
-
-        @Override
-        public String ratio()
-        {
-            return _ratioFormat.format(_result.Ratio);
-        }
-
-        @Override
-        public String threadPitch()
-        {
-            return _thrPitch ? _ratioFormat.format(_result.Ratio * _leadscrewPitch) : null;
-        }
-
-    }
-
     private final ChangeGearsContract.View _view;
     private boolean _oneSet;
     private SparseArray<List<Integer>> _gearsSets = new SparseArray<>(G.Z6 + 1);
@@ -109,7 +36,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     private ThreadPitchUnit _leadscrewPitchUnit = ThreadPitchUnit.mm;
     private double _leadscrewPitch = 4;
     private double _threadPitch = 0.75;
-    private DecimalFormat _ratioFormat;
+    private NumberFormat _ratioFormat;
     private double _calculatedRatio;
     private int _firstResultNumber = 1;
     private int _lastResultNumber = 1;
@@ -122,13 +49,14 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     private boolean _diffTeethDoubleGear = true;
 
 
-    private OnResultListener<ChangeGears.Result> _resultListener = new OnResultListener<ChangeGears.Result>()
+    private OnResultListener<CgResult> _resultListener = new OnResultListener<CgResult>()
     {
         @Override
-        public void onResult(ChangeGears.Result result)
+        public void onResult(CgResult result)
         {
-            Result r = new Result(result, _calculationMode == G.THREAD_BY_GEARS);
-            _results.add(r);
+            result.setLeadscrewPitch(_leadscrewPitch);
+            result.setFormat(_ratioFormat);
+            _results.add(result);
         }
 
         @Override
@@ -452,10 +380,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         StringBuilder pattern = new StringBuilder("#0.0");
         for (int i = 0; i < precision-1; i++)
             pattern.append("#");
-        DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols(Locale.getDefault());
-        formatSymbols.setDecimalSeparator('.');
-        _ratioFormat = new DecimalFormat(pattern.toString(), formatSymbols);
-        _ratioFormat.setRoundingMode(RoundingMode.CEILING);
+        _ratioFormat = CalculationPresenter.getNumberFormat(pattern.toString());
         recalculateRatio();
     }
 
@@ -524,7 +449,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
                 _calculatedRatio = fract.toDouble();
                 ratioInfo = "R = " + _threadPitch + " (" + _threadPitchUnit + ") / " +
                         _leadscrewPitch + " (" + _leadscrewPitchUnit + ") = " + fract.toString() +
-                        " = " + _ratioFormat.format(_calculatedRatio);
+                    " = " + _ratioFormat.format(_calculatedRatio);
             }
         }
         else if (_calculationMode == G.GEARS_BY_RATIO)
@@ -545,7 +470,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
                     Fraction fract = new Fraction(_ratioNumerator, _ratioDenominator);
                     _calculatedRatio = fract.toDouble();
                     ratioInfo = "R = " + _ratioNumerator + " / " + _ratioDenominator + " = " +
-                            fract.toString() + " = " + _ratioFormat.format(_calculatedRatio);
+                        fract.toString() + " = " + _ratioFormat.format(_calculatedRatio);
                 }
             }
             else
