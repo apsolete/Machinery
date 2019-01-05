@@ -21,7 +21,7 @@ public class DesignActivity extends AppCompatActivity
     //private DesignContent _gearWheels = new GearWheels();
     //private DesignContent _gearWheelsExt = new GearWheelsExt();
     private CalculationView _currentDesign;
-    private ChangeGearsViewExt _cgView;// = new ChangeGearsViewExt();
+    private ChangeGearsView _cgView;// = new ChangeGearsView();
     private CalculationPresenter _presenter;
     private MenuItem _miSave;
     private MenuItem _miClear;
@@ -133,7 +133,7 @@ public class DesignActivity extends AppCompatActivity
         {
             case DesignContent.CHANGEGEARS:
                 //_currentDesign = _latheChangeGears;
-                _cgView = new ChangeGearsViewExt();
+                _cgView = new ChangeGearsView();
                 _presenter = new ChangeGearsPresenter(_cgView);
                 _currentDesign = _cgView;
                 break;
