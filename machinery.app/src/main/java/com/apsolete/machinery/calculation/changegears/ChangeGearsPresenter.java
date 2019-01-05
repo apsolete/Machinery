@@ -154,7 +154,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         }
 
         _view = view;
-        _oneSet = false;
+        _oneSet = true;
 
         _gearsSets.put(G.Z0, new ArrayList<>(Arrays.asList(20, 21, 22, 23, 24)));
         _gearsSets.put(G.Z1, new ArrayList<>(Arrays.asList(30, 31, 32, 33, 34)));
@@ -236,7 +236,11 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         _calculator.setAccuracy(Math.pow(10, -_ratioPrecision));
         _calculator.setDiffTeethGearing(_diffTeethGearing);
         _calculator.setDiffTeethDoubleGear(_diffTeethDoubleGear);
-        //_calculator.setRatio(_ratio);
+        
+        double r = _calculationMode == G.GEARS_BY_RATIO || _calculationMode == G.GEARS_BY_THREAD
+                    ? _calculatedRatio : 0.0;
+        _calculator.setRatio(r);
+        
         if (_oneSet)
         {
             List<Integer> gears = _gearsSets.get(G.Z0);
@@ -467,7 +471,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     public int getNextResults()
     {
         int fi = _lastResultNumber > 1 ? _lastResultNumber + 1 : 1;
-        if (fi >= _results.size())
+        if (fi > _results.size())
             return 0;
         int li = fi + 99;
         if (li > _results.size())
