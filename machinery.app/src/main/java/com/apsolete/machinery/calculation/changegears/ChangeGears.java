@@ -29,21 +29,7 @@ public final class ChangeGears extends CalculationModel
             return null;
         }
     }
-    /*
-    public class Result
-    {
-        public int Id;
-        public double Ratio;
-        public int[] Gears = new int[6];
-
-        public Result(int id, double ratio, int[] gears)
-        {
-            Id = id;
-            Ratio = ratio;
-            Gears = Arrays.copyOf(gears, 6);
-        }
-    }
-*/
+    
     private OnResultListener<CgResult> _resultListener;
     private ProgressPublisher _progress;
 
@@ -207,13 +193,13 @@ public final class ChangeGears extends CalculationModel
                 return;
             else if (gs1.length > 0 && gs2.length > 0)
             {
-                if (gs3 == null || gs4 == null)
+                if (gs3 == null || gs3.length == 0 || gs4 == null || gs4.length == 0)
                 {
                     calculateBy(gs1, gs2);
                 }
                 else if (gs3.length > 0 && gs4.length > 0)
                 {
-                    if (gs5 == null || gs6 == null)
+                    if (gs5 == null || gs5.length == 0 || gs6 == null || gs6.length == 0)
                     {
                         calculateBy(gs1, gs2, gs3, gs4);
                     }
@@ -313,7 +299,7 @@ public final class ChangeGears extends CalculationModel
                     for (int z4: gs4)
                     {
                         _progress.publish();
-                        if (_diffTeethGearing && z1 == z2)
+                        if (_diffTeethGearing && z3 == z4)
                             continue;
 
                         for (int z5: gs5)
@@ -325,7 +311,7 @@ public final class ChangeGears extends CalculationModel
                             for (int z6: gs6)
                             {
                                 _progress.publish();
-                                if (_diffTeethGearing && z1 == z2)
+                                if (_diffTeethGearing && z5 == z6)
                                     continue;
 
                                 calculateRatio(z1, z2, z3, z4, z5, z6);

@@ -54,7 +54,8 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         @Override
         public void onResult(CgResult result)
         {
-            result.setLeadscrewPitch(_leadscrewPitch);
+            if (_calculationMode == G.THREAD_BY_GEARS)
+                result.setLeadscrewPitch(_leadscrewPitch);
             result.setFormat(_ratioFormat);
             _results.add(result);
         }
@@ -76,18 +77,16 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
 
     public ChangeGearsPresenter(ChangeGearsContract.View view)
     {
-        for (int set = G.Z0; set < G.Z6; set++)
-        {
-            _gearsSets.put(set, new ArrayList<Integer>());
-        }
-
         _view = view;
         _oneSet = true;
 
-        _gearsSets.put(G.Z0, new ArrayList<>(Arrays.asList(20, 21, 22, 23, 24)));
-        _gearsSets.put(G.Z1, new ArrayList<>(Arrays.asList(30, 31, 32, 33, 34)));
-        _gearsSets.put(G.Z2, new ArrayList<>(Arrays.asList(40, 41, 42, 43, 44)));
-        _gearsSets.put(G.Z3, new ArrayList<>(Arrays.asList(50, 51, 52, 53, 54)));
+        _gearsSets.put(G.Z0, new ArrayList<Integer>(Arrays.asList(20, 21, 22, 23, 24)));
+        _gearsSets.put(G.Z1, new ArrayList<Integer>(Arrays.asList(30, 31, 32, 33, 34)));
+        _gearsSets.put(G.Z2, new ArrayList<Integer>(Arrays.asList(40, 41, 42, 43, 44)));
+        _gearsSets.put(G.Z3, new ArrayList<Integer>(Arrays.asList(50, 51, 52, 53, 54)));
+        _gearsSets.put(G.Z4, new ArrayList<Integer>());
+        _gearsSets.put(G.Z5, new ArrayList<Integer>());
+        _gearsSets.put(G.Z6, new ArrayList<Integer>());
 
         _gsChecked[G.Z1] = true;
         _gsChecked[G.Z2] = true;
@@ -173,12 +172,18 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         {
             List<Integer> gears = _gearsSets.get(G.Z0);
             _calculator.setGearsSet(_oneSetGearsCount, ArrayUtils.toArrayInt(gears));
-            _calculator.calculate();
         }
         else
         {
-
+            int[] zs1 = ArrayUtils.toArrayInt(_gearsSets.get(G.Z1));
+            int[] zs2 = ArrayUtils.toArrayInt(_gearsSets.get(G.Z2));
+            int[] zs3 = ArrayUtils.toArrayInt(_gearsSets.get(G.Z3));
+            int[] zs4 = ArrayUtils.toArrayInt(_gearsSets.get(G.Z4));
+            int[] zs5 = ArrayUtils.toArrayInt(_gearsSets.get(G.Z5));
+            int[] zs6 = ArrayUtils.toArrayInt(_gearsSets.get(G.Z6));
+            _calculator.setGearsSet(zs1, zs2, zs3, zs4, zs5, zs6);
         }
+        _calculator.calculate();
     }
 
     @Override
