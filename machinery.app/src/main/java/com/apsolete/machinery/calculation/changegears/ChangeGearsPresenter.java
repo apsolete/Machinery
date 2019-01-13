@@ -181,6 +181,17 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
             int[] zs4 = ArrayUtils.toArrayInt(_gearsSets.get(G.Z4));
             int[] zs5 = ArrayUtils.toArrayInt(_gearsSets.get(G.Z5));
             int[] zs6 = ArrayUtils.toArrayInt(_gearsSets.get(G.Z6));
+            int total = zs1.length > 0 ? zs1.length : 1;
+            total *= zs2.length > 0 ? zs2.length : 1;
+            total *= zs3.length > 0 ? zs3.length : 1;
+            total *= zs4.length > 0 ? zs4.length : 1;
+            total *= zs5.length > 0 ? zs5.length : 1;
+            total *= zs6.length > 0 ? zs6.length : 1;
+            if (total > 20000)
+            {
+                _view.showMessage("Too much gears!");
+                return;
+            }
             _calculator.setGearsSet(zs1, zs2, zs3, zs4, zs5, zs6);
         }
         _calculator.calculate();
