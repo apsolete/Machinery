@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.apsolete.machinery"
         minSdkVersion 19
@@ -39,7 +39,7 @@ dependencies {
     //compile project(path: ':machineries')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //qqqnoinspection GradleCompatible
-    implementation 'com.android.support:appcompat-v7:27.1.0'
-    implementation 'com.android.support:preference-v7:27.1.0'
-    implementation 'com.android.support:design:27.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:preference-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
 }
