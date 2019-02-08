@@ -1,0 +1,32 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    
+    <group android:id="@+id/mg_content_train">
+        <item
+            android:id="@+id/mi_action_calculate"
+            android:title="@string/mi_title_calculate"
+            android:icon="@drawable/ic_play_arrow_white_24dp"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/mi_action_save"
+            android:title="@string/mi_title_save"
+            android:icon="@drawable/ic_save_white_24dp"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/mi_action_clear"
+            android:title="@string/mi_title_clear"
+            android:icon="@drawable/ic_delete_sweep_white_24dp"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/mi_action_options"
+            android:title="@string/mi_title_options"
+            android:icon="@drawable/ic_settings_white_24dp"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/mi_action_close"
+            android:title="@string/mi_title_close"
+            android:icon="@drawable/ic_close_white_24dp"
+            app:showAsAction="ifRoom"/>
+    </group>
+    
+</menu>

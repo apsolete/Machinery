@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/mi_home"
+        android:icon="@drawable/ic_home_white_24dp"
+        app:showAsAction="ifRoom"/>
+    <item android:title="@string/mi_title_new"
+        android:icon="@drawable/ic_create_white_24dp">
+        <menu>
+            <item
+                android:id="@+id/mi_change_gears"
+                android:title="@string/mi_title_change_gears"/>
+            <item android:title="@string/mi_title_gearing">
+                <menu>
+                    <item
+                        android:id="@+id/mi_gearwheels"
+                        android:title="@string/mi_title_gearwheels"/>
+                    <item
+                        android:id="@+id/mi_gearwheels_extended"
+                        android:title="@string/mi_title_gearwheels_extended"/>
+                </menu>
+            </item>
+            <item android:title="@string/mi_title_belting">
+                <menu>
+                    <item
+                        android:id="@+id/mi_vbelt"
+                        android:title="@string/mi_title_vbelt"/>
+                    <item
+                        android:id="@+id/mi_fbelt"
+                        android:title="@string/mi_title_fbelt"/>
+                    <item
+                        android:id="@+id/mi_tbelt"
+                        android:title="@string/mi_title_tbelt"/>
+                </menu>
+            </item>
+        </menu>
+    </item>
+    
+    
+    
+</menu>

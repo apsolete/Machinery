@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mi_title_new">New...</string>
+    
+    <string name="mi_title_change_gears">Change Gears</string>
+
+    <string name="mi_title_gearing">Gearing...</string>
+        <string name="mi_title_gearwheels">Gear Wheels</string>
+        <string name="mi_title_gearwheels_extended">Gear Wheels Extended</string>
+
+    <string name="mi_title_belting">Belting...</string>
+        <string name="mi_title_vbelt">V-Belt</string>
+        <string name="mi_title_fbelt">Flat belt</string>
+        <string name="mi_title_tbelt">Timing belt</string>
+
+    <string name="mi_title_calculate">Calculate</string>
+    <string name="mi_title_save">Save</string>
+    <string name="mi_title_clear">Clear</string>
+    <string name="mi_title_close">Close</string>
+    <string name="mi_title_options">Options</string>
+</resources>

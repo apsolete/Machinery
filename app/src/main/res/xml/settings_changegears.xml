@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/title_gears_selection_dialog">
+
+        <EditTextPreference
+            android:defaultValue="18"
+            android:editable="true"
+            android:ems="3"
+            android:inputType="number"
+            android:key="@string/key_minteethnamber"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/title_minteethnamber"/>
+        <EditTextPreference
+            android:defaultValue="127"
+            android:ems="3"
+            android:inputType="number"
+            android:key="@string/key_maxteethnamber"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/title_maxteethnamber"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/title_changegears_options">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/key_diffteethgearing"
+            android:title="@string/title_diffteethgearing"
+            android:summary="@string/summary_diffteethgearing"/>
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/key_diffteethdoublegear"
+            android:title="@string/title_diffteethdoublegear"
+            android:summary="@string/summary_diffteethdoublegear"/>
+        <com.apsolete.machinery.common.PrecisionPreference
+            android:key="@string/key_accuracyofratio"
+            android:title="@string/title_accuracyofratio"
+            android:summary="@string/summary_accuracyofratio"
+            android:defaultValue="2"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
