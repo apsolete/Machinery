@@ -4,6 +4,7 @@ import com.apsolete.machinery.R;
 import com.apsolete.machinery.common.DialogBase;
 import com.apsolete.machinery.utils.*;
 
+import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -17,12 +18,12 @@ import java.util.ArrayList;
 public class TeethNumbersDialog extends DialogBase
 {
     private static final int COLUMNS = 5;
+    private static final int TEETH_MIN = 13;
+    private static final int TEETH_MAX = 132;
 
     private ArrayList<Integer> _teethNumbers = null;
-    private ArrayMap<Integer, CheckBox> _checkBoxes = new ArrayMap<Integer, CheckBox>();
+    private ArrayMap<Integer, CompoundButton> _tglButtons = new ArrayMap<Integer, CompoundButton>();
 
-    private final int _teethMin = 13;
-    private final int _teethMax = 132;
     private GridLayout _grid;
 
     private View.OnClickListener _clickListener = new View.OnClickListener()
@@ -62,18 +63,21 @@ public class TeethNumbersDialog extends DialogBase
 
         _grid = (GridLayout)view.findViewById(R.id.teethNumbersGrid);
         _grid.setColumnCount(COLUMNS);
-        _grid.setRowCount((_teethMax - _teethMin) / COLUMNS + 1);
+        _grid.setRowCount((TEETH_MAX - TEETH_MIN) / COLUMNS + 1);
 
         if (_grid != null)
         {
-            for (int t = _teethMin; t <= _teethMax; t++)
+            for (int t = TEETH_MIN; t <= TEETH_MAX; t++)
             {
-                CheckBox checkBox = new CheckBox(_grid.getContext());
-                checkBox.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                checkBox.setText(String.valueOf(t));
-                checkBox.setPadding(2, 2, 2, 2);
-                _checkBoxes.put(t, checkBox);
-                _grid.addView(checkBox);
+                ToggleButton button = new ToggleButton(_grid.getContext());
+                button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                button.setText(String.valueOf(t));
+                button.setTextOn(String.valueOf(t));
+                button.setTextOff(String.valueOf(t));
+                button.setPadding(2, 2, 2, 2);
+                button.setTextColor(ContextCompat.getColorStateList(getContext(), R.color.toglebuttonstatecolors));
+                _tglButtons.put(t, button);
+                _grid.addView(button);
             }
         }
         
@@ -81,23 +85,16 @@ public class TeethNumbersDialog extends DialogBase
         {
             for (Integer n: _teethNumbers)
             {
-                CheckBox checkBox = _checkBoxes.get(n);
-                if (checkBox != null)
-                    checkBox.setChecked(true);
+                CompoundButton cb = _tglButtons.get(n);
+                if (cb != null)
+                    cb.setChecked(true);
             }
         }
 
-        Button button = (Button)view.findViewById(R.id.buttonSelectAll);
-        button.setOnClickListener(_clickListener);
-
-        button = (Button)view.findViewById(R.id.buttonReset);
-        button.setOnClickListener(_clickListener);
-
-        button = (Button)view.findViewById(R.id.buttonOk);
-        button.setOnClickListener(_clickListener);
-
-        button = (Button)view.findViewById(R.id.buttonCancel);
-        button.setOnClickListener(_clickListener);
+        ((Button)view.findViewById(R.id.buttonSelectAll)).setOnClickListener(_clickListener);
+        ((Button)view.findViewById(R.id.buttonReset)).setOnClickListener(_clickListener);
+        ((Button)view.findViewById(R.id.buttonOk)).setOnClickListener(_clickListener);
+        ((Button)view.findViewById(R.id.buttonCancel)).setOnClickListener(_clickListener);
 
         return view;
     }
@@ -112,7 +109,7 @@ public class TeethNumbersDialog extends DialogBase
         int count = _grid.getChildCount();
         for (int i = 0; i < count; i++)
         {
-            CheckBox cb = (CheckBox)_grid.getChildAt(i);
+            CompoundButton cb = (CompoundButton)_grid.getChildAt(i);
             if (cb != null)
                 cb.setChecked(true);
         }
@@ -123,7 +120,7 @@ public class TeethNumbersDialog extends DialogBase
         int count = _grid.getChildCount();
         for (int i = 0; i < count; i++)
         {
-            CheckBox cb = (CheckBox)_grid.getChildAt(i);
+            CompoundButton cb = (CompoundButton)_grid.getChildAt(i);
             if (cb != null)
                 cb.setChecked(false);
         }
@@ -135,7 +132,7 @@ public class TeethNumbersDialog extends DialogBase
         int count = _grid.getChildCount();
         for (int i = 0; i < count; i++)
         {
-            CheckBox cb = (CheckBox)_grid.getChildAt(i);
+            CompoundButton cb = (CompoundButton)_grid.getChildAt(i);
             if (cb != null && cb.isChecked())
             {
                 int teeth = Integer.parseInt(cb.getText().toString());
