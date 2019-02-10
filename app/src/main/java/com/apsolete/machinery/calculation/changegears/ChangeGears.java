@@ -6,7 +6,6 @@ import com.apsolete.machinery.utils.Numbers;
 
 import android.os.*;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,19 +38,19 @@ public final class ChangeGears extends CalculationModel
     private boolean _diffTeethDoubleGear = true;
     private boolean _isOneSet = false;
     private int _gearsCount = 2;
-    private Map<Integer, int[]> _gearsSets = new HashMap<>();
+    private Map<Integer, int[]> _gearKit = new HashMap<>();
 
     private int _calculatedRatios = 0;
 
     public ChangeGears()
     {
-        _gearsSets.put(G.Z0, null);
-        _gearsSets.put(G.Z1, null);
-        _gearsSets.put(G.Z2, null);
-        _gearsSets.put(G.Z3, null);
-        _gearsSets.put(G.Z4, null);
-        _gearsSets.put(G.Z5, null);
-        _gearsSets.put(G.Z6, null);
+        _gearKit.put(G.Z0, null);
+        _gearKit.put(G.Z1, null);
+        _gearKit.put(G.Z2, null);
+        _gearKit.put(G.Z3, null);
+        _gearKit.put(G.Z4, null);
+        _gearKit.put(G.Z5, null);
+        _gearKit.put(G.Z6, null);
     }
 
     public ChangeGears(Parcel parcel)
@@ -86,83 +85,83 @@ public final class ChangeGears extends CalculationModel
         }
     };
 
-    public double getRatio()
-    {
-        return _ratio;
-    }
+//    public double getRatio()
+//    {
+//        return _ratio;
+//    }
 
     public void setRatio(double ratio)
     {
         _ratio = ratio;
     }
 
-    public double getAccuracy()
-    {
-        return _accuracy;
-    }
+//    public double getAccuracy()
+//    {
+//        return _accuracy;
+//    }
 
     public void setAccuracy(double accuracy)
     {
         _accuracy = accuracy;
     }
 
-    public boolean isDiffTeethGearing()
-    {
-        return _diffTeethGearing;
-    }
+//    public boolean isDiffTeethGearing()
+//    {
+//        return _diffTeethGearing;
+//    }
 
     public void setDiffTeethGearing(boolean diffTeethGearing)
     {
         _diffTeethGearing = diffTeethGearing;
     }
 
-    public boolean isDiffTeethDoubleGear()
-    {
-        return _diffTeethDoubleGear;
-    }
+//    public boolean isDiffTeethDoubleGear()
+//    {
+//        return _diffTeethDoubleGear;
+//    }
 
     public void setDiffTeethDoubleGear(boolean diffTeethDoubleGear)
     {
         _diffTeethDoubleGear = diffTeethDoubleGear;
     }
 
-    public void setGearsSet(int gears, int[] set)
+    public void setGearKit(int gears, int[] set)
     {
         _isOneSet = true;
         _gearsCount = gears;
-        _gearsSets.put(G.Z0, set);
+        _gearKit.put(G.Z0, set);
     }
 
-    public void setGearsSet(int[] gs1, int[] gs2, int[] gs3, int[] gs4, int[] gs5, int[] gs6)
+    public void setGearKit(int[] gs1, int[] gs2, int[] gs3, int[] gs4, int[] gs5, int[] gs6)
     {
         _isOneSet = false;
-        _gearsSets.put(G.Z1, gs1);
-        _gearsSets.put(G.Z2, gs2);
-        _gearsSets.put(G.Z3, gs3);
-        _gearsSets.put(G.Z4, gs4);
-        _gearsSets.put(G.Z5, gs5);
-        _gearsSets.put(G.Z6, gs6);
+        _gearKit.put(G.Z1, gs1);
+        _gearKit.put(G.Z2, gs2);
+        _gearKit.put(G.Z3, gs3);
+        _gearKit.put(G.Z4, gs4);
+        _gearKit.put(G.Z5, gs5);
+        _gearKit.put(G.Z6, gs6);
     }
 
-    public void setGearsCount(int count)
-    {
-        _gearsCount = count;
-    }
+//    public void setGearsCount(int count)
+//    {
+//        _gearsCount = count;
+//    }
 
-    public int getGearsCount()
-    {
-        return _gearsCount;
-    }
+//    public int getGearsCount()
+//    {
+//        return _gearsCount;
+//    }
 
-    public int[] getGears(int z)
-    {
-        return _gearsSets.get(z);
-    }
+//    public int[] getGears(int z)
+//    {
+//        return _gearKit.get(z);
+//    }
 
-    public void setGears(int z, int[] gears)
-    {
-        _gearsSets.put(z, gears);
-    }
+//    public void setGears(int z, int[] gears)
+//    {
+//        _gearKit.put(z, gears);
+//    }
 
     public void setResultListener(OnResultListener<CgResult> resultListener)
     {
@@ -182,12 +181,12 @@ public final class ChangeGears extends CalculationModel
                 return;
             }
 
-            int[] gs1 = _gearsSets.get(G.Z1);
-            int[] gs2 = _gearsSets.get(G.Z2);
-            int[] gs3 = _gearsSets.get(G.Z3);
-            int[] gs4 = _gearsSets.get(G.Z4);
-            int[] gs5 = _gearsSets.get(G.Z5);
-            int[] gs6 = _gearsSets.get(G.Z6);
+            int[] gs1 = _gearKit.get(G.Z1);
+            int[] gs2 = _gearKit.get(G.Z2);
+            int[] gs3 = _gearKit.get(G.Z3);
+            int[] gs4 = _gearKit.get(G.Z4);
+            int[] gs5 = _gearKit.get(G.Z5);
+            int[] gs6 = _gearKit.get(G.Z6);
 
             if (gs1 == null || gs2 == null)
                 return;
@@ -329,7 +328,7 @@ public final class ChangeGears extends CalculationModel
         if (count == 3) count = 2;
         if (count == 5) count = 4;
 
-        int[] set = _gearsSets.get(0);
+        int[] set = _gearKit.get(0);
         List<List<Integer>> combinations = Numbers.combinations(set.length, count);
         List<List<Integer>> permutations = Numbers.permutations(count);
         int totalResults = combinations.size() * permutations.size();

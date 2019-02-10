@@ -9,14 +9,10 @@ import com.apsolete.machinery.utils.ArrayUtils;
 import com.apsolete.machinery.utils.Fraction;
 import com.apsolete.machinery.utils.Numbers;
 
-import java.math.RoundingMode;
 import java.text.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 public final class ChangeGearsPresenter extends CalculationPresenter implements ChangeGearsContract.Presenter
 {
@@ -171,7 +167,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         if (_oneSet)
         {
             List<Integer> gears = _gearsSets.get(G.Z0);
-            _calculator.setGearsSet(_oneSetGearsCount, ArrayUtils.toArrayInt(gears));
+            _calculator.setGearKit(_oneSetGearsCount, ArrayUtils.toArrayInt(gears));
         }
         else
         {
@@ -192,7 +188,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
                 _view.showMessage("Too much gears!");
                 return;
             }
-            _calculator.setGearsSet(zs1, zs2, zs3, zs4, zs5, zs6);
+            _calculator.setGearKit(zs1, zs2, zs3, zs4, zs5, zs6);
         }
         _calculator.calculate();
     }
