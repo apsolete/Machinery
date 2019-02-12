@@ -54,7 +54,7 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
 
     private ChangeGearsSettings _settings = new ChangeGearsSettings();
 
-    private final GearsSetView[] _gsViews = new GearsSetView[7];
+    private final GearKitView[] _gkViews = new GearKitView[7];
 
     public ChangeGearsView()
     {
@@ -95,33 +95,33 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
     }
 
     @Override
-    public void setOneGearsSet(boolean oneSet)
+    public void setOneGearKit(boolean oneKit)
     {
-        _oneSetSwitch.setChecked(oneSet);
+        _oneSetSwitch.setChecked(oneKit);
     }
 
     @Override
-    public void setGearsSet(int set, String gearsStr)
+    public void setGearKit(int kit, String gearsStr)
     {
-        _gsViews[set].setGearsSet(gearsStr);
+        _gkViews[kit].setGearsSet(gearsStr);
     }
 
     @Override
-    public void setGearsSetChecked(int set, boolean checked)
+    public void setGearKitChecked(int kit, boolean checked)
     {
-        _gsViews[set].setChecked(checked);
+        _gkViews[kit].setChecked(checked);
     }
 
     @Override
-    public void setGearsSetEnabled(int set, boolean enabled)
+    public void setGearKitEnabled(int kit, boolean enabled)
     {
-        _gsViews[set].setEnabled(enabled);
+        _gkViews[kit].setEnabled(enabled);
     }
 
     @Override
-    public void setGearsSetEditable(int set, boolean enable)
+    public void setGearKitEditable(int kit, boolean enable)
     {
-        _gsViews[set].setEditable(enable);
+        _gkViews[kit].setEditable(enable);
     }
 
     @Override
@@ -153,7 +153,7 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
     @Override
     public void showThreadPitch(boolean visible)
     {
-        _threadPitchLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
+        _threadPitchLayout.setVisibility(G.boolToVisibility(visible));
     }
 
     @Override
@@ -179,7 +179,7 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
     @Override
     public void showLeadscrewPitch(boolean visible)
     {
-        _leadscrewPitchLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
+        _leadscrewPitchLayout.setVisibility(G.boolToVisibility(visible));
     }
 
     @Override
@@ -211,14 +211,14 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
     @Override
     public void showRatio(boolean visible)
     {
-        _gearRatioLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
+        _gearRatioLayout.setVisibility(G.boolToVisibility(visible));
     }
 
     @Override
     public void showRatioAsFration(boolean visible)
     {
-        _gearRatio.setVisibility(visible ? View.GONE : View.VISIBLE);
-        _gearRatioFractionLayout.setVisibility(visible ? View.VISIBLE : View.GONE);
+        _gearRatio.setVisibility(G.boolToVisibility(visible));
+        _gearRatioFractionLayout.setVisibility(G.boolToVisibility(visible));
     }
 
     @Override
@@ -230,7 +230,7 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
     @Override
     public void showFormattedRatio(boolean visible)
     {
-        _ratioFormattedText.setVisibility(visible ? View.VISIBLE : View.GONE);
+        _ratioFormattedText.setVisibility(G.boolToVisibility(visible));
     }
 
     @Override
@@ -302,24 +302,24 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
         }
     };
 
-    private GearsSetView.OnGearsSetViewListener _gearsSetViewListener = new GearsSetView.OnGearsSetViewListener()
+    private GearKitView.OnGearKitViewListener _gearsSetViewListener = new GearKitView.OnGearKitViewListener()
     {
         @Override
-        public void onRequest(GearsSetView gearsSet)
+        public void onRequest(GearKitView gearsSet)
         {
             requestGearsSet(gearsSet);
         }
 
         @Override
-        public void onChanged(GearsSetView gearsSet)
+        public void onChanged(GearKitView gearsSet)
         {
-            _presenter.setGearsSet(gearsSet.getId(), gearsSet.getGearsSet());
+            _presenter.setGearKit(gearsSet.getId(), gearsSet.getGearsSet());
         }
 
         @Override
-        public void onChecked(GearsSetView gearsSet)
+        public void onChecked(GearKitView gearsSet)
         {
-            _presenter.setGearsSetChecked(gearsSet.getId(), gearsSet.isChecked());
+            _presenter.setGearKitChecked(gearsSet.getId(), gearsSet.isChecked());
         }
     };
 
@@ -446,17 +446,17 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
                 public void onClick(View view)
                 {
                     boolean _isOneSet = ((CompoundButton)view).isChecked();
-                    _presenter.setOneGearsSet(_isOneSet);
+                    _presenter.setOneGearKit(_isOneSet);
                 }
             });
 
-        _gsViews[G.Z0] = new GearsSetView(G.Z0, _view, R.id.z0Set, R.id.z0Gears, 0, _gearsSetViewListener);
-        _gsViews[G.Z1] = new GearsSetView(G.Z1, _view, R.id.z1Set, R.id.z1Gears, R.id.z1Select, _gearsSetViewListener);
-        _gsViews[G.Z2] = new GearsSetView(G.Z2, _view, R.id.z2Set, R.id.z2Gears, R.id.z2Select, _gearsSetViewListener);
-        _gsViews[G.Z3] = new GearsSetView(G.Z3, _view, R.id.z3Set, R.id.z3Gears, R.id.z3Select, _gearsSetViewListener);
-        _gsViews[G.Z4] = new GearsSetView(G.Z4, _view, R.id.z4Set, R.id.z4Gears, R.id.z4Select, _gearsSetViewListener);
-        _gsViews[G.Z5] = new GearsSetView(G.Z5, _view, R.id.z5Set, R.id.z5Gears, R.id.z5Select, _gearsSetViewListener);
-        _gsViews[G.Z6] = new GearsSetView(G.Z6, _view, R.id.z6Set, R.id.z6Gears, R.id.z6Select, _gearsSetViewListener);
+        _gkViews[G.Z0] = new GearKitView(G.Z0, _view, R.id.z0Set, R.id.z0Gears, 0, _gearsSetViewListener);
+        _gkViews[G.Z1] = new GearKitView(G.Z1, _view, R.id.z1Set, R.id.z1Gears, R.id.z1Select, _gearsSetViewListener);
+        _gkViews[G.Z2] = new GearKitView(G.Z2, _view, R.id.z2Set, R.id.z2Gears, R.id.z2Select, _gearsSetViewListener);
+        _gkViews[G.Z3] = new GearKitView(G.Z3, _view, R.id.z3Set, R.id.z3Gears, R.id.z3Select, _gearsSetViewListener);
+        _gkViews[G.Z4] = new GearKitView(G.Z4, _view, R.id.z4Set, R.id.z4Gears, R.id.z4Select, _gearsSetViewListener);
+        _gkViews[G.Z5] = new GearKitView(G.Z5, _view, R.id.z5Set, R.id.z5Gears, R.id.z5Select, _gearsSetViewListener);
+        _gkViews[G.Z6] = new GearKitView(G.Z6, _view, R.id.z6Set, R.id.z6Gears, R.id.z6Select, _gearsSetViewListener);
 
         _calculationModeSpinner = (Spinner)_view.findViewById(R.id.calcTypeSpinner);
         initSpinner(_calculationModeSpinner, R.array.cg_calctype_array, _calcModeListener);
@@ -547,9 +547,9 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
         spinner.setOnItemSelectedListener(listener);
     }
 
-    private void requestGearsSet(GearsSetView gsView)
+    private void requestGearsSet(GearKitView gsView)
     {
-        final GearsSetView gsv = gsView;
+        final GearKitView gsv = gsView;
 
         FragmentManager fragmentManager = Activity.getSupportFragmentManager();
         final TeethNumbersDialog dialog = new TeethNumbersDialog();
@@ -560,7 +560,7 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
                 public void onPositive()
                 {
                     ArrayList<Integer> teethNumbers = dialog.getTeethNumbers();
-                    _presenter.setGearsSet(gsv.getId(), teethNumbers);
+                    _presenter.setGearKit(gsv.getId(), teethNumbers);
                 }
 
                 @Override

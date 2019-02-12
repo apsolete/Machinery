@@ -1,7 +1,5 @@
 package com.apsolete.machinery.calculation.changegears;
 
-import android.util.SparseArray;
-
 import com.apsolete.machinery.calculation.CalculationPresenter;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.OnResultListener;
@@ -11,17 +9,14 @@ import com.apsolete.machinery.utils.Numbers;
 
 import java.text.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public final class ChangeGearsPresenter extends CalculationPresenter implements ChangeGearsContract.Presenter
 {
     private final ChangeGearsContract.View _view;
     private boolean _oneSet;
-    private SparseArray<List<Integer>> _gearsSets = new SparseArray<>(G.Z6 + 1);
-    private boolean[] _gsChecked = new boolean[G.Z6 + 1];
+    private GearKits _gearKits = new GearKits();
     private int _oneSetGearsCount = 2;
-    //private Map<Integer, int[]> _gearsSets = new HashMap<>(G.Z6 + 1);
     private int _calculationMode;
 
     private double _ratio = 1.25;
@@ -76,16 +71,16 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         _view = view;
         _oneSet = true;
 
-        _gearsSets.put(G.Z0, new ArrayList<Integer>(Arrays.asList(20, 21, 22, 23, 24)));
-        _gearsSets.put(G.Z1, new ArrayList<Integer>(Arrays.asList(30, 31, 32, 33, 34)));
-        _gearsSets.put(G.Z2, new ArrayList<Integer>(Arrays.asList(40, 41, 42, 43, 44)));
-        _gearsSets.put(G.Z3, new ArrayList<Integer>(Arrays.asList(50, 51, 52, 53, 54)));
-        _gearsSets.put(G.Z4, new ArrayList<Integer>());
-        _gearsSets.put(G.Z5, new ArrayList<Integer>());
-        _gearsSets.put(G.Z6, new ArrayList<Integer>());
+        _gearKits.putZ0(new int[]{20, 21, 22, 23, 24});
+        _gearKits.putZ1(new int[]{30, 31, 32, 33, 34});
+        _gearKits.putZ2(new int[]{40, 41, 42, 43, 44});
+        _gearKits.putZ3(new int[]{50, 51, 52, 53, 54});
+        _gearKits.putZ4(new int[]{});
+        _gearKits.putZ5(new int[]{});
+        _gearKits.putZ6(new int[]{});
 
-        _gsChecked[G.Z1] = true;
-        _gsChecked[G.Z2] = true;
+        _gearKits.setIsChecked(G.Z1, true);
+        _gearKits.setIsChecked(G.Z2, true);
 
         _view.setPresenter(this);
         _calculator = new ChangeGears();
@@ -95,19 +90,17 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     @Override
     public void start()
     {
-        _view.setOneGearsSet(_oneSet);
+        _view.setOneGearKit(_oneSet);
 
-        int set = G.Z0;
-        for (; set < G.Z6; set++)
+        for (int kit = G.Z0; kit < G.Z6; kit++)
         {
-            String valuesStr = Numbers.getString(_gearsSets.get(set));
-            _view.setGearsSet(set, valuesStr);
+            String valuesStr = Numbers.getString(_gearKits.get(kit));
+            _view.setGearKit(kit, valuesStr);
         }
-        set = G.Z0;
-        for (boolean checked : _gsChecked)
+
+        for (int kit = G.Z0; kit < G.Z6; kit++)
         {
-            _view.setGearsSetChecked(set, checked);
-            set++;
+            _view.setGearKitChecked(kit, _gearKits.isChecked(kit));
         }
 
         updateViewByOneGearsSet(_oneSet);
@@ -166,17 +159,16 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         
         if (_oneSet)
         {
-            List<Integer> gears = _gearsSets.get(G.Z0);
-            _calculator.setGearKit(_oneSetGearsCount, ArrayUtils.toArrayInt(gears));
+            _calculator.setGearKit(_oneSetGearsCount, _gearKits.getZ0());
         }
         else
         {
-            int[] zs1 = ArrayUtils.toArrayInt(_gearsSets.get(G.Z1));
-            int[] zs2 = ArrayUtils.toArrayInt(_gearsSets.get(G.Z2));
-            int[] zs3 = ArrayUtils.toArrayInt(_gearsSets.get(G.Z3));
-            int[] zs4 = ArrayUtils.toArrayInt(_gearsSets.get(G.Z4));
-            int[] zs5 = ArrayUtils.toArrayInt(_gearsSets.get(G.Z5));
-            int[] zs6 = ArrayUtils.toArrayInt(_gearsSets.get(G.Z6));
+            int[] zs1 = _gearKits.getZ1();//ArrayUtils.toArrayInt(_gearsSets.get(G.Z1));
+            int[] zs2 = _gearKits.getZ2();//ArrayUtils.toArrayInt(_gearsSets.get(G.Z2));
+            int[] zs3 = _gearKits.getZ3();//ArrayUtils.toArrayInt(_gearsSets.get(G.Z3));
+            int[] zs4 = _gearKits.getZ4();//ArrayUtils.toArrayInt(_gearsSets.get(G.Z4));
+            int[] zs5 = _gearKits.getZ5();//ArrayUtils.toArrayInt(_gearsSets.get(G.Z5));
+            int[] zs6 = _gearKits.getZ6();//ArrayUtils.toArrayInt(_gearsSets.get(G.Z6));
             int total = zs1.length > 0 ? zs1.length : 1;
             total *= zs2.length > 0 ? zs2.length : 1;
             total *= zs3.length > 0 ? zs3.length : 1;
@@ -200,52 +192,52 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     }
 
     @Override
-    public void setOneGearsSet(boolean oneSet)
+    public void setOneGearKit(boolean oneKit)
     {
-        _oneSet = oneSet;
+        _oneSet = oneKit;
         updateViewByOneGearsSet(_oneSet);
     }
 
     @Override
-    public void setGearsSet(int set, String valuesStr)
+    public void setGearKit(int set, String valuesStr)
     {
-        ArrayList<Integer> values = Numbers.getNumbersList(valuesStr);
-        _gearsSets.put(set, values);
+        int[] values = Numbers.getNumbers(valuesStr);
+        _gearKits.put(set, values);
         if (set > G.Z1 && set < G.Z6)
-            _view.setGearsSetEnabled(set + 1, valuesStr != null && !valuesStr.isEmpty());
+            _view.setGearKitEnabled(set + 1, valuesStr != null && !valuesStr.isEmpty());
     }
 
     @Override
-    public void setGearsSet(int set, List<Integer> values)
+    public void setGearKit(int set, List<Integer> values)
     {
-        _gearsSets.put(set, values);
+        _gearKits.put(set, ArrayUtils.toArrayInt(values));
         String valuesStr = Numbers.getString(values);
-        _view.setGearsSet(set, valuesStr);
+        _view.setGearKit(set, valuesStr);
         if (set > G.Z1 && set < G.Z6)
-            _view.setGearsSetEnabled(set + 1, valuesStr != null && !valuesStr.isEmpty());
+            _view.setGearKitEnabled(set + 1, valuesStr != null && !valuesStr.isEmpty());
     }
 
     @Override
-    public void setGearsSetChecked(int set, boolean checked)
+    public void setGearKitChecked(int kit, boolean checked)
     {
-        if (set < G.Z1 || set > G.Z6)
+        if (kit < G.Z1 || kit > G.Z6)
             return;
-        _gsChecked[set] = checked;
+        _gearKits.setIsChecked(kit, checked);
         if (checked)
         {
-            _oneSetGearsCount = (set % 2) == 0 ? set : set - 1;
-            if (set < G.Z6)
-                _view.setGearsSetEnabled(set + 1, true);
+            _oneSetGearsCount = (kit % 2) == 0 ? kit : kit - 1;
+            if (kit < G.Z6)
+                _view.setGearKitEnabled(kit + 1, true);
         }
         else
         {
-            int s = set - 1;
+            int s = kit - 1;
             _oneSetGearsCount = (s % 2) == 0 ? s : s - 1;
-            for (set++; set <= G.Z6; set++)
+            for (kit++; kit <= G.Z6; kit++)
             {
-                _gsChecked[set] = false;
-                _view.setGearsSetChecked(set, false);
-                _view.setGearsSetEnabled(set, false);
+                _gearKits.setIsChecked(kit, false);
+                _view.setGearKitChecked(kit, false);
+                _view.setGearKitEnabled(kit, false);
             }
         }
     }
@@ -500,42 +492,42 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     {
         if (oneSet)
         {
-            _view.setGearsSetEditable(G.Z0, true);
-            _view.setGearsSetEditable(G.Z1, false);
-            _view.setGearsSetEditable(G.Z2, false);
-            _view.setGearsSetEditable(G.Z3, false);
-            _view.setGearsSetEditable(G.Z4, false);
-            _view.setGearsSetEditable(G.Z5, false);
-            _view.setGearsSetEditable(G.Z6, false);
+            _view.setGearKitEditable(G.Z0, true);
+            _view.setGearKitEditable(G.Z1, false);
+            _view.setGearKitEditable(G.Z2, false);
+            _view.setGearKitEditable(G.Z3, false);
+            _view.setGearKitEditable(G.Z4, false);
+            _view.setGearKitEditable(G.Z5, false);
+            _view.setGearKitEditable(G.Z6, false);
 
-            _view.setGearsSetEnabled(G.Z0, true);
-            _view.setGearsSetEnabled(G.Z1, false);
-            _view.setGearsSetEnabled(G.Z2, false);
-            _view.setGearsSetEnabled(G.Z3, true);
+            _view.setGearKitEnabled(G.Z0, true);
+            _view.setGearKitEnabled(G.Z1, false);
+            _view.setGearKitEnabled(G.Z2, false);
+            _view.setGearKitEnabled(G.Z3, true);
 
-            for (int set = G.Z4; set <= G.Z6; set++)
+            for (int kit = G.Z4; kit <= G.Z6; kit++)
             {
-                _view.setGearsSetEnabled(set, _gsChecked[set - 1]);
+                _view.setGearKitEnabled(kit, _gearKits.isChecked(kit - 1));
             }
         }
         else
         {
-            _view.setGearsSetEditable(G.Z0, false);
-            _view.setGearsSetEditable(G.Z1, true);
-            _view.setGearsSetEditable(G.Z2, true);
-            _view.setGearsSetEditable(G.Z3, true);
-            _view.setGearsSetEditable(G.Z4, true);
-            _view.setGearsSetEditable(G.Z5, true);
-            _view.setGearsSetEditable(G.Z6, true);
+            _view.setGearKitEditable(G.Z0, false);
+            _view.setGearKitEditable(G.Z1, true);
+            _view.setGearKitEditable(G.Z2, true);
+            _view.setGearKitEditable(G.Z3, true);
+            _view.setGearKitEditable(G.Z4, true);
+            _view.setGearKitEditable(G.Z5, true);
+            _view.setGearKitEditable(G.Z6, true);
 
-            _view.setGearsSetEnabled(G.Z0, false);
-            _view.setGearsSetEnabled(G.Z1, true);
+            _view.setGearKitEnabled(G.Z0, false);
+            _view.setGearKitEnabled(G.Z1, true);
 
             
             for (int set = G.Z2; set <= G.Z6; set++)
             {
-                List<?> values = _gearsSets.get(set - 1);
-                _view.setGearsSetEnabled(set, (values != null && !values.isEmpty()));
+                int[] values = _gearKits.get(set - 1);
+                _view.setGearKitEnabled(set, (values != null && values.length > 0));
             }
         }
     }

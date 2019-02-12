@@ -6,9 +6,7 @@ import com.apsolete.machinery.utils.Numbers;
 
 import android.os.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public final class ChangeGears extends CalculationModel
 {
@@ -38,23 +36,23 @@ public final class ChangeGears extends CalculationModel
     private boolean _diffTeethDoubleGear = true;
     private boolean _isOneSet = false;
     private int _gearsCount = 2;
-    private Map<Integer, int[]> _gearKit = new HashMap<>();
+    private GearKits _gearKits = new GearKits();
 
     private int _calculatedRatios = 0;
 
     public ChangeGears()
     {
-        _gearKit.put(G.Z0, null);
-        _gearKit.put(G.Z1, null);
-        _gearKit.put(G.Z2, null);
-        _gearKit.put(G.Z3, null);
-        _gearKit.put(G.Z4, null);
-        _gearKit.put(G.Z5, null);
-        _gearKit.put(G.Z6, null);
     }
 
-    public ChangeGears(Parcel parcel)
+    public ChangeGears(Parcel in)
     {
+        _ratio = in.readDouble();
+        _accuracy = in.readDouble();
+        _gearsCount = in.readInt();
+        _diffTeethGearing = in.readByte() == 1;
+        _diffTeethDoubleGear = in.readByte() == 1;
+        _isOneSet = in.readByte() == 1;
+        _gearKits = in.readParcelable(GearKits.class.getClassLoader());
     }
 
     @Override
@@ -67,7 +65,13 @@ public final class ChangeGears extends CalculationModel
     @Override
     public void writeToParcel(Parcel out, int flags)
     {
-        // TODO: Implement this method
+        out.writeDouble(_ratio);
+        out.writeDouble(_accuracy);
+        out.writeInt(_gearsCount);
+        out.writeByte(_diffTeethGearing? (byte)1 : (byte)0);
+        out.writeByte(_diffTeethDoubleGear? (byte)1 : (byte)0);
+        out.writeByte(_isOneSet? (byte)1 : (byte)0);
+        out.writeParcelable(_gearKits, flags);
     }
 
     public static final Parcelable.Creator<ChangeGears> CREATOR = new Parcelable.Creator<ChangeGears>()
@@ -125,22 +129,22 @@ public final class ChangeGears extends CalculationModel
         _diffTeethDoubleGear = diffTeethDoubleGear;
     }
 
-    public void setGearKit(int gears, int[] set)
+    public void setGearKit(int gears, int[] kit)
     {
         _isOneSet = true;
         _gearsCount = gears;
-        _gearKit.put(G.Z0, set);
+        _gearKits.putZ0(kit);
     }
 
     public void setGearKit(int[] gs1, int[] gs2, int[] gs3, int[] gs4, int[] gs5, int[] gs6)
     {
         _isOneSet = false;
-        _gearKit.put(G.Z1, gs1);
-        _gearKit.put(G.Z2, gs2);
-        _gearKit.put(G.Z3, gs3);
-        _gearKit.put(G.Z4, gs4);
-        _gearKit.put(G.Z5, gs5);
-        _gearKit.put(G.Z6, gs6);
+        _gearKits.putZ1(gs1);
+        _gearKits.putZ2(gs2);
+        _gearKits.putZ3(gs3);
+        _gearKits.putZ4(gs4);
+        _gearKits.putZ5(gs5);
+        _gearKits.putZ6(gs6);
     }
 
 //    public void setGearsCount(int count)
@@ -155,12 +159,12 @@ public final class ChangeGears extends CalculationModel
 
 //    public int[] getGears(int z)
 //    {
-//        return _gearKit.get(z);
+//        return _gearKits.get(z);
 //    }
 
 //    public void setGears(int z, int[] gears)
 //    {
-//        _gearKit.put(z, gears);
+//        _gearKits.put(z, gears);
 //    }
 
     public void setResultListener(OnResultListener<CgResult> resultListener)
@@ -181,28 +185,29 @@ public final class ChangeGears extends CalculationModel
                 return;
             }
 
-            int[] gs1 = _gearKit.get(G.Z1);
-            int[] gs2 = _gearKit.get(G.Z2);
-            int[] gs3 = _gearKit.get(G.Z3);
-            int[] gs4 = _gearKit.get(G.Z4);
-            int[] gs5 = _gearKit.get(G.Z5);
-            int[] gs6 = _gearKit.get(G.Z6);
+            int[] gs1 = _gearKits.getZ1();
+            int[] gs2 = _gearKits.getZ2();
+            int[] gs3 = _gearKits.getZ3();
+            int[] gs4 = _gearKits.getZ4();
+            int[] gs5 = _gearKits.getZ5();
+            int[] gs6 = _gearKits.getZ6();
 
             if (gs1 == null || gs2 == null)
                 return;
-            else if (gs1.length > 0 && gs2.length > 0)
+
+            if (gs1.length > 0 && gs2.length > 0)
             {
                 if (gs3 == null || gs3.length == 0 || gs4 == null || gs4.length == 0)
                 {
                     calculateBy(gs1, gs2);
                 }
-                else if (gs3.length > 0 && gs4.length > 0)
+                else //if (gs3.length > 0 && gs4.length > 0)
                 {
                     if (gs5 == null || gs5.length == 0 || gs6 == null || gs6.length == 0)
                     {
                         calculateBy(gs1, gs2, gs3, gs4);
                     }
-                    else if (gs5.length > 0 && gs6.length > 0)
+                    else //if (gs5.length > 0 && gs6.length > 0)
                     {
                         calculateBy(gs1, gs2, gs3, gs4, gs5, gs6);
                     }
@@ -213,7 +218,6 @@ public final class ChangeGears extends CalculationModel
         {
             _resultListener.onCompleted(_calculatedRatios);
         }
-        return;
     }
 
     public void calculate()
@@ -328,7 +332,7 @@ public final class ChangeGears extends CalculationModel
         if (count == 3) count = 2;
         if (count == 5) count = 4;
 
-        int[] set = _gearKit.get(0);
+        int[] set = _gearKits.getZ0();
         List<List<Integer>> combinations = Numbers.combinations(set.length, count);
         List<List<Integer>> permutations = Numbers.permutations(count);
         int totalResults = combinations.size() * permutations.size();
@@ -410,6 +414,6 @@ public final class ChangeGears extends CalculationModel
     {
         if (_ratio == 0)
             return true;
-        return (Math.abs(ratio - _ratio) <= _accuracy) ? true : false;
+        return Math.abs(ratio - _ratio) <= _accuracy;
     }
 }

@@ -1,5 +1,7 @@
 package com.apsolete.machinery.common;
 
+import android.view.View;
+
 public final class G
 {
     public static final int Z0 = 0;
@@ -19,4 +21,9 @@ public final class G
     public static final int THREAD_BY_GEARS = 1;
     public static final int GEARS_BY_RATIO = 2;
     public static final int GEARS_BY_THREAD = 3;
+
+    public static final int boolToVisibility(boolean visible)
+    {
+        return visible ? View.VISIBLE : View.GONE;
+    }
 }
