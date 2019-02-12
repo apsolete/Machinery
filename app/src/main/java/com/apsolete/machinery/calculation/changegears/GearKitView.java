@@ -10,13 +10,13 @@ import android.widget.EditText;
 
 import com.apsolete.machinery.common.TextChangedListener;
 
-public final class GearsSetView extends TextChangedListener implements View.OnClickListener, InputFilter
+public final class GearKitView extends TextChangedListener implements View.OnClickListener, InputFilter
 {
-    public interface OnGearsSetViewListener
+    public interface OnGearKitViewListener
     {
-        void onRequest(GearsSetView gearsSet);
-        void onChanged(GearsSetView gearsSet);
-        void onChecked(GearsSetView gearsSet);
+        void onRequest(GearKitView gearsSet);
+        void onChanged(GearKitView gearsSet);
+        void onChecked(GearKitView gearsSet);
     }
 
     private int _gearId;
@@ -24,9 +24,9 @@ public final class GearsSetView extends TextChangedListener implements View.OnCl
     private CheckBox _gearSelect;
     private EditText _gearsText;
     private boolean _isEditable = true;
-    private OnGearsSetViewListener _listener;
+    private OnGearKitViewListener _listener;
 
-    public GearsSetView(int id, View parent, int buttonSetId, int textGearsId, int checkboxSelectId, OnGearsSetViewListener listener)
+    public GearKitView(int id, View parent, int buttonSetId, int textGearsId, int checkboxSelectId, OnGearKitViewListener listener)
     {
         _gearId = id;
 

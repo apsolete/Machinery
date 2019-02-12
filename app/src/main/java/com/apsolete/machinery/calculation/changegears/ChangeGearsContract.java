@@ -8,10 +8,10 @@ public interface ChangeGearsContract
 {
     interface Presenter extends Calculation.Contract.Presenter
     {
-        void setOneGearsSet(boolean oneSet);
-        void setGearsSet(int set, String valuesStr);
-        void setGearsSet(int set, List<Integer> values);
-        void setGearsSetChecked(int set, boolean checked);
+        void setOneGearKit(boolean oneKit);
+        void setGearKit(int set, String valuesStr);
+        void setGearKit(int set, List<Integer> values);
+        void setGearKitChecked(int kit, boolean checked);
         void setCalculationMode(int calcType);
 
         void setLeadscrewPitch(String valueStr);
@@ -46,11 +46,11 @@ public interface ChangeGearsContract
 
     interface View extends Calculation.Contract.View<Presenter>
     {
-        void setOneGearsSet(boolean oneSet);
-        void setGearsSet(int set, String gearsStr);
-        void setGearsSetChecked(int set, boolean checked);
-        void setGearsSetEnabled(int set, boolean enabled);
-        void setGearsSetEditable(int set, boolean enable);
+        void setOneGearKit(boolean oneKit);
+        void setGearKit(int kit, String gearsStr);
+        void setGearKitChecked(int kit, boolean checked);
+        void setGearKitEnabled(int kit, boolean enabled);
+        void setGearKitEditable(int kit, boolean enable);
 
         void setCalculationMode(int mode);
 
