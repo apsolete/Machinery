@@ -9,77 +9,16 @@ import android.view.*;
 import android.widget.*;
 import java.util.*;
 
-public class FabsManager
+public class FabsManager implements FabManager
 {
     public interface OnFabClickListener
     {
         void OnClick(int fabId);
     }
 
-    public class FabView implements Animator.AnimatorListener
-    {
-        ViewGroup _layout;
-        TextView _title;
-        FloatingActionButton _fab;
-        private float _offset;
-        private boolean _expanded;
-
-        public FabView(ViewGroup layout, float offset, View.OnClickListener listener)
-        {
-            _layout = layout;
-            _offset = offset;
-            _title = (TextView)_layout.getChildAt(0);
-            _fab = (FloatingActionButton)_layout.getChildAt(1);
-            _fab.setOnClickListener(listener);
-        }
-
-        public void show()
-        {
-            _layout.setVisibility(View.VISIBLE);
-        }
-
-        public void hide()
-        {
-            _layout.setVisibility(View.GONE);
-        }
-
-        public void expand()
-        {
-            _expanded = true;
-            _layout.animate().translationY(-_offset);
-        }
-
-        public void collapse()
-        {
-            _expanded = false;
-            _layout.animate().translationY(0).setListener(this);
-        }
-
-        @Override
-        public void onAnimationStart(Animator animator)
-        {
-        }
-
-        @Override
-        public void onAnimationEnd(Animator animator)
-        {
-            if(!_expanded)
-                _layout.setVisibility(View.GONE);
-        }
-
-        @Override
-        public void onAnimationCancel(Animator animator)
-        {
-        }
-
-        @Override
-        public void onAnimationRepeat(Animator animator)
-        {
-        }
-    }
-
     private AppCompatActivity _activity;
-    private FloatingActionButton _fabMain;
+    //private FloatingActionButton _fabMain;
+    private FabView _fabMain;
     private View _background;
     private boolean _isExpanded = false;
     private boolean _isVisible = true;
@@ -101,20 +40,21 @@ public class FabsManager
     {
         _activity = activity;
 
-        LinearLayout fabLayout1 = (LinearLayout) _activity.findViewById(R.id.fabLayout1);
-        float offset = _activity.getResources().getDimension(R.dimen.standard_55);
-        _fabs.add(new FabView(fabLayout1, offset, _fabClickListener));
+        FabView fabView1 = (FabView) _activity.findViewById(R.id.fab1);
+        fabView1.setOnClickListener(_fabClickListener);
+        _fabs.add(fabView1);
         
-        LinearLayout fabLayout2 = (LinearLayout) _activity.findViewById(R.id.fabLayout2);
-        offset = _activity.getResources().getDimension(R.dimen.standard_100);
-        _fabs.add(new FabView(fabLayout2, offset, _fabClickListener));
+        FabView fabView2 = (FabView) _activity.findViewById(R.id.fab2);
+        fabView2.setOnClickListener(_fabClickListener);
+        _fabs.add(fabView2);
         
-        LinearLayout fabLayout3 = (LinearLayout) _activity.findViewById(R.id.fabLayout3);
-        offset = _activity.getResources().getDimension(R.dimen.standard_145);
-        _fabs.add(new FabView(fabLayout3, offset, _fabClickListener));
+        FabView fabView3 = (FabView) _activity.findViewById(R.id.fab3);
+        fabView3.setOnClickListener(_fabClickListener);
+        _fabs.add(fabView3);
         
-        _fabMain = (FloatingActionButton) _activity.findViewById(R.id.fab_main);
-        _background = _activity.findViewById(R.id.fabsBackground);
+        //_fabMain = (FloatingActionButton) _activity.findViewById(R.id.fab_main);
+        _fabMain = (FabView) _activity.findViewById(R.id.fab4);
+        //_background = _activity.findViewById(R.id.fabsBackground);
 
         _fabMain.setOnClickListener(new View.OnClickListener()
             {
