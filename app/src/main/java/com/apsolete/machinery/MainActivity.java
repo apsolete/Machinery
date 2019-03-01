@@ -49,13 +49,13 @@ implements NavigationView.OnNavigationItemSelectedListener
                 int type;
                 switch (fabId)
                 {
-                    case R.id.fab1:
+                    case R.id.fabGwe:
                         type = DesignContent.GEARWHEELSEXT;
                         break;
-                    case R.id.fab2:
+                    case R.id.fabGw:
                         type = DesignContent.GEARWHEELS;
                         break;
-                    case R.id.fab3:
+                    case R.id.fabCg:
                     default:
                         type = DesignContent.CHANGEGEARS;
                         break;

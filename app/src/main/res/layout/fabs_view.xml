@@ -6,62 +6,57 @@
     android:layout_height="match_parent">
 
     <com.apsolete.machinery.common.fabs.FabView
-        android:id="@+id/fab4"
+        android:id="@+id/fabMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="@dimen/standard_23"
-        android:layout_marginBottom="@dimen/standard_23"
-        android:padding="@dimen/standard_12"
+        android:layout_margin="@dimen/standard_23"
+        android:padding="@dimen/fab_padding"
         android:visibility="visible"
         app:expandable="true"
         app:src="@drawable/ic_menu_slideshow" />
 
-
     <com.apsolete.machinery.common.fabs.FabView
-        android:id="@+id/fab1"
+        android:id="@+id/fabGwe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="@dimen/standard_23"
-        android:layout_marginBottom="@dimen/standard_23"
-        android:padding="@dimen/standard_12"
+        android:layout_margin="@dimen/standard_23"
+        android:padding="@dimen/fab_padding"
         android:visibility="gone"
         app:expandable="false"
         app:offset="@dimen/standard_55"
-        app:src="@android:drawable/ic_dialog_email"
+        app:src="@drawable/ic_menu_send"
         app:title="@string/mi_title_gearwheels_extended" />
 
     <com.apsolete.machinery.common.fabs.FabView
-        android:id="@+id/fab2"
+        android:id="@+id/fabGw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="@dimen/standard_23"
-        android:layout_marginBottom="@dimen/standard_23"
-        android:padding="@dimen/standard_12"
+        android:layout_margin="@dimen/standard_23"
+        android:padding="@dimen/fab_padding"
         android:visibility="gone"
         app:expandable="false"
         app:offset="@dimen/standard_100"
-        app:src="@drawable/ic_menu_camera"
+        app:src="@drawable/ic_menu_send"
         app:title="@string/mi_title_gearwheels" />
 
     <com.apsolete.machinery.common.fabs.FabView
-        android:id="@+id/fab3"
+        android:id="@+id/fabCg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="@dimen/standard_23"
-        android:layout_marginBottom="@dimen/standard_23"
-        android:padding="@dimen/standard_12"
+        android:layout_margin="@dimen/standard_23"
+        android:padding="@dimen/fab_padding"
         android:visibility="gone"
         app:expandable="false"
         app:offset="@dimen/standard_145"
-        app:src="@drawable/ic_menu_gallery"
+        app:src="@drawable/ic_menu_send"
         app:title="@string/mi_title_change_gears" />
 
 </com.apsolete.machinery.common.fabs.FabsView>
