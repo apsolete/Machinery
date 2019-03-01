@@ -40,20 +40,20 @@ public class FabsManager implements FabManager
     {
         _activity = activity;
 
-        FabView fabView1 = (FabView) _activity.findViewById(R.id.fab1);
+        FabView fabView1 = (FabView) _activity.findViewById(R.id.fabGwe);
         fabView1.setOnClickListener(_fabClickListener);
         _fabs.add(fabView1);
         
-        FabView fabView2 = (FabView) _activity.findViewById(R.id.fab2);
+        FabView fabView2 = (FabView) _activity.findViewById(R.id.fabGw);
         fabView2.setOnClickListener(_fabClickListener);
         _fabs.add(fabView2);
         
-        FabView fabView3 = (FabView) _activity.findViewById(R.id.fab3);
+        FabView fabView3 = (FabView) _activity.findViewById(R.id.fabCg);
         fabView3.setOnClickListener(_fabClickListener);
         _fabs.add(fabView3);
         
         //_fabMain = (FloatingActionButton) _activity.findViewById(R.id.fab_main);
-        _fabMain = (FabView) _activity.findViewById(R.id.fab4);
+        _fabMain = (FabView) _activity.findViewById(R.id.fabMain);
         //_background = _activity.findViewById(R.id.fabsBackground);
 
         _fabMain.setOnClickListener(new View.OnClickListener()

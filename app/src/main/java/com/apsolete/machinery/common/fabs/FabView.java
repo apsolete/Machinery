@@ -25,24 +25,26 @@ public class FabView extends LinearLayout implements FabManager, Animator.Animat
     private int _srcId;
     private boolean _expanded;
 
-    public FabView(Context context, @Nullable AttributeSet attributes)
+    public FabView(Context context, @Nullable AttributeSet attrs)
     {
-        super(context, attributes);
+        super(context, attrs);
 
-        TypedArray attrs = context.obtainStyledAttributes(attributes,
+        TypedArray ta = context.obtainStyledAttributes(attrs,
                 R.styleable.FabView, 0, 0);
 
         try
         {
-            _title = attrs.getString(R.styleable.FabView_title);
-            _offset = attrs.getDimension(R.styleable.FabView_offset, 0.0f);
-            _expandable = attrs.getBoolean(R.styleable.FabView_expandable, false);
-            _srcId = attrs.getResourceId(R.styleable.FabView_src, R.id.mi_home);
+            _title = ta.getString(R.styleable.FabView_title);
+            _offset = ta.getDimension(R.styleable.FabView_offset, 0.0f);
+            _expandable = ta.getBoolean(R.styleable.FabView_expandable, false);
+            _srcId = ta.getResourceId(R.styleable.FabView_src, R.id.mi_home);
         }
         finally
         {
-            attrs.recycle();
+            ta.recycle();
         }
+
+        setOrientation(LinearLayout.HORIZONTAL);
 
         LayoutInflater.from(getContext()).inflate(R.layout.fab_view, this, true);
 
@@ -50,12 +52,6 @@ public class FabView extends LinearLayout implements FabManager, Animator.Animat
         _textView.setText(_title);
         _fab = (FloatingActionButton)getChildAt(1);
         _fab.setImageResource(_srcId);
-    }
-
-    @Override
-    protected void onAttachedToWindow()
-    {
-        super.onAttachedToWindow();
     }
 
     @Override
