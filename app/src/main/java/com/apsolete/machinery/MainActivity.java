@@ -41,12 +41,10 @@ implements NavigationView.OnNavigationItemSelectedListener
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //_fabs = new FabsManager(this);
-        ///*
         _fabs = (FabsView)findViewById(R.id.fabsView);
         _fabs.setClickListener(new FabsView.OnFabClickListener()
         {
-            public void OnClick(int fabId)
+            public void onClick(int fabId)
             {
                 int type;
                 switch (fabId)
@@ -64,7 +62,7 @@ implements NavigationView.OnNavigationItemSelectedListener
                 }
                 showDesignActivity(type);
             }
-        });//*/
+        });
 
         _drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         _drawerToggle = new ActionBarDrawerToggle(this, _drawer, toolbar,
@@ -212,7 +210,7 @@ implements NavigationView.OnNavigationItemSelectedListener
 
     private void showStartPage()
     {
-        //_fabs.show();
+        _fabs.show();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
