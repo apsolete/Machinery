@@ -92,12 +92,14 @@ public class FabView extends LinearLayout implements FabManager, Animator.Animat
     }
 
     @Override
-    public void toggle() {
+    public void toggle()
+    {
 
     }
 
     @Override
-    public void onAnimationStart(Animator animation) {
+    public void onAnimationStart(Animator animation)
+    {
 
     }
 
@@ -109,12 +111,14 @@ public class FabView extends LinearLayout implements FabManager, Animator.Animat
     }
 
     @Override
-    public void onAnimationCancel(Animator animation) {
+    public void onAnimationCancel(Animator animation)
+    {
 
     }
 
     @Override
-    public void onAnimationRepeat(Animator animation) {
+    public void onAnimationRepeat(Animator animation)
+    {
 
     }
 }
