@@ -1,4 +1,4 @@
-package com.apsolete.machinery.calculation.gearwheelsext;
+package com.apsolete.machinery.calculation.gearing.geardrive;
 
 import com.apsolete.machinery.*;
 import com.apsolete.machinery.common.*;

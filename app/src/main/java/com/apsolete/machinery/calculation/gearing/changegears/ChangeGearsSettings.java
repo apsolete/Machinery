@@ -1,14 +1,10 @@
-package com.apsolete.machinery.calculation.changegears;
+package com.apsolete.machinery.calculation.gearing.changegears;
 
 import com.apsolete.machinery.R;
 import com.apsolete.machinery.common.*;
 
 import android.content.*;
 import android.support.v7.preference.*;
-import java.text.*;
-import java.util.*;
-import java.math.*;
-import android.os.*;
 
 public class ChangeGearsSettings extends SettingsBase
 {

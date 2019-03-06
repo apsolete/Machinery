@@ -1,9 +1,8 @@
-package com.apsolete.machinery.calculation.changegears;
+package com.apsolete.machinery.calculation.gearing.changegears;
 
 import java.util.Arrays;
 import java.text.*;
-import java.util.*;
-import java.math.*;
+
 import com.apsolete.machinery.calculation.*;
 
 public class CgResult implements ChangeGearsContract.Result

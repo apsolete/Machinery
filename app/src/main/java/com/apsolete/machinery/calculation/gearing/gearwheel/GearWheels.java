@@ -1,4 +1,4 @@
-package com.apsolete.machinery.calculation.gearwheels;
+package com.apsolete.machinery.calculation.gearing.gearwheel;
 
 import com.apsolete.machinery.*;
 import com.apsolete.machinery.common.*;
