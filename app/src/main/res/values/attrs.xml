@@ -3,7 +3,7 @@
     <declare-styleable name="FabView">
         <attr name="title" format="string" localization="suggested" />
         <attr name="offset" format="float" />
-        <attr name="expandable" format="boolean" />
+        <!--<attr name="expandable" format="boolean" />-->
         <attr name="src" format="reference" />
     </declare-styleable>
 

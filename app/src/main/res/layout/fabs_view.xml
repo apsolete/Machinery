@@ -14,7 +14,6 @@
         android:layout_margin="@dimen/standard_23"
         android:padding="@dimen/fab_padding"
         android:visibility="visible"
-        app:expandable="true"
         app:src="@drawable/ic_menu_slideshow" />
 
     <com.apsolete.machinery.common.fabs.FabView
@@ -26,7 +25,6 @@
         android:layout_margin="@dimen/standard_23"
         android:padding="@dimen/fab_padding"
         android:visibility="gone"
-        app:expandable="false"
         app:offset="@dimen/standard_55"
         app:src="@drawable/ic_menu_send"
         app:title="@string/mi_title_gearwheels_extended" />
@@ -40,7 +38,6 @@
         android:layout_margin="@dimen/standard_23"
         android:padding="@dimen/fab_padding"
         android:visibility="gone"
-        app:expandable="false"
         app:offset="@dimen/standard_100"
         app:src="@drawable/ic_menu_send"
         app:title="@string/mi_title_gearwheels" />
@@ -54,7 +51,6 @@
         android:layout_margin="@dimen/standard_23"
         android:padding="@dimen/fab_padding"
         android:visibility="gone"
-        app:expandable="false"
         app:offset="@dimen/standard_145"
         app:src="@drawable/ic_menu_send"
         app:title="@string/mi_title_change_gears" />
