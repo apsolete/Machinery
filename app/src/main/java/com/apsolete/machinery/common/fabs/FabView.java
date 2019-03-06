@@ -21,7 +21,7 @@ public class FabView extends LinearLayout implements FabManager, Animator.Animat
 
     private String _title;
     private float _offset;
-    private boolean _expandable;
+    //private boolean _expandable;
     private int _srcId;
     private boolean _expanded;
 
@@ -36,7 +36,7 @@ public class FabView extends LinearLayout implements FabManager, Animator.Animat
         {
             _title = ta.getString(R.styleable.FabView_title);
             _offset = ta.getDimension(R.styleable.FabView_offset, 0.0f);
-            _expandable = ta.getBoolean(R.styleable.FabView_expandable, false);
+            //_expandable = ta.getBoolean(R.styleable.FabView_expandable, false);
             _srcId = ta.getResourceId(R.styleable.FabView_src, R.id.mi_home);
         }
         finally
