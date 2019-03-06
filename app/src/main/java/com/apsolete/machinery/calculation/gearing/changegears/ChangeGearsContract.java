@@ -1,4 +1,4 @@
-package com.apsolete.machinery.calculation.changegears;
+package com.apsolete.machinery.calculation.gearing.changegears;
 
 import com.apsolete.machinery.calculation.*;
 

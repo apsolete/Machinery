@@ -3,13 +3,10 @@ package com.apsolete.machinery.calculation;
 import android.os.*;
 import android.support.v4.app.*;
 import android.support.v7.app.*;
-import android.support.v7.widget.*;
 import android.view.*;
-import android.widget.*;
+
 import com.apsolete.machinery.*;
-import com.apsolete.machinery.calculation.changegears.*;
-import com.apsolete.machinery.calculation.gearwheels.*;
-import com.apsolete.machinery.calculation.gearwheelsext.*;
+import com.apsolete.machinery.calculation.gearing.changegears.*;
 
 import android.support.v7.widget.Toolbar;
 
@@ -27,8 +24,6 @@ public class DesignActivity extends AppCompatActivity
     private MenuItem _miClear;
     private MenuItem _miOptions;
     private MenuItem _miClose;
-    
-    
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -117,7 +112,7 @@ public class DesignActivity extends AppCompatActivity
     @Override
     public void onBackPressed()
     {
-        if (_isSettingsOpened == true)
+        if (_isSettingsOpened)
         {
             _isSettingsOpened = false;
             setOptionsMenuEnabled(!_isSettingsOpened);

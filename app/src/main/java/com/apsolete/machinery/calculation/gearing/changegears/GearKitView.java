@@ -1,4 +1,4 @@
-package com.apsolete.machinery.calculation.changegears;
+package com.apsolete.machinery.calculation.gearing.changegears;
 
 import android.text.Editable;
 import android.text.InputFilter;
