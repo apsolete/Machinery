@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="FabView">
-        <attr name="title" format="string" localization="suggested" />
+        <attr name="header" format="string" localization="suggested" />
         <attr name="offset" format="float" />
         <!--<attr name="expandable" format="boolean" />-->
         <attr name="src" format="reference" />

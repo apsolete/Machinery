@@ -19,7 +19,7 @@ public class FabView extends LinearLayout implements FabManager, Animator.Animat
     private final TextView _textView;
     private final FloatingActionButton _fab;
 
-    private String _title;
+    private String _header;
     private float _offset;
     //private boolean _expandable;
     private int _srcId;
@@ -34,7 +34,7 @@ public class FabView extends LinearLayout implements FabManager, Animator.Animat
 
         try
         {
-            _title = ta.getString(R.styleable.FabView_title);
+            _header = ta.getString(R.styleable.FabView_header);
             _offset = ta.getDimension(R.styleable.FabView_offset, 0.0f);
             //_expandable = ta.getBoolean(R.styleable.FabView_expandable, false);
             _srcId = ta.getResourceId(R.styleable.FabView_src, R.id.mi_home);
@@ -49,7 +49,7 @@ public class FabView extends LinearLayout implements FabManager, Animator.Animat
         LayoutInflater.from(getContext()).inflate(R.layout.fab_view, this, true);
 
         _textView = (TextView)getChildAt(0);
-        _textView.setText(_title);
+        _textView.setText(_header);
         _fab = (FloatingActionButton)getChildAt(1);
         _fab.setImageResource(_srcId);
     }
