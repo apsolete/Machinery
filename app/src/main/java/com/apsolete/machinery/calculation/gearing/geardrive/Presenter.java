@@ -4,6 +4,8 @@ import com.apsolete.machinery.calculation.CalculationPresenter;
 
 public class Presenter extends CalculationPresenter implements Contract.Presenter
 {
+	private Model _model;
+	
     public Presenter(Contract.View view)
     {
         super(view);
@@ -24,7 +26,7 @@ public class Presenter extends CalculationPresenter implements Contract.Presente
     @Override
     public void calculate()
     {
-
+		_model.calculate();
     }
 
     @Override
