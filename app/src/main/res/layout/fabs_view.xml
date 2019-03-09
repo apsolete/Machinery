@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fabsView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:defoffset="@dimen/fab_defoffset">
 
     <com.apsolete.machinery.common.fabs.FabView
         android:id="@+id/fabMain"
@@ -17,7 +18,7 @@
         app:src="@drawable/ic_menu_slideshow" />
 
     <com.apsolete.machinery.common.fabs.FabView
-        android:id="@+id/fabGwe"
+        android:id="@+id/fab_geardrive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -25,12 +26,11 @@
         android:layout_margin="@dimen/standard_23"
         android:padding="@dimen/fab_padding"
         android:visibility="gone"
-        app:offset="@dimen/standard_55"
         app:src="@drawable/ic_menu_send"
         app:header="@string/mi_title_geardrive" />
 
     <com.apsolete.machinery.common.fabs.FabView
-        android:id="@+id/fabGw"
+        android:id="@+id/fab_gearwheel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -38,12 +38,11 @@
         android:layout_margin="@dimen/standard_23"
         android:padding="@dimen/fab_padding"
         android:visibility="gone"
-        app:offset="@dimen/standard_100"
         app:src="@drawable/ic_menu_send"
         app:header="@string/mi_title_gearwheel" />
 
     <com.apsolete.machinery.common.fabs.FabView
-        android:id="@+id/fabCg"
+        android:id="@+id/fab_changegears"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -51,8 +50,67 @@
         android:layout_margin="@dimen/standard_23"
         android:padding="@dimen/fab_padding"
         android:visibility="gone"
-        app:offset="@dimen/standard_145"
         app:src="@drawable/ic_menu_send"
         app:header="@string/mi_title_changegears" />
+
+    <com.apsolete.machinery.common.fabs.FabView
+        android:id="@+id/fab_fbelt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/standard_23"
+        android:padding="@dimen/fab_padding"
+        android:visibility="gone"
+        app:src="@drawable/ic_menu_send"
+        app:header="@string/mi_title_fbelt" />
+
+    <com.apsolete.machinery.common.fabs.FabView
+        android:id="@+id/fab_vbelt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/standard_23"
+        android:padding="@dimen/fab_padding"
+        android:visibility="gone"
+        app:src="@drawable/ic_menu_send"
+        app:header="@string/mi_title_vbelt" />
+
+    <com.apsolete.machinery.common.fabs.FabView
+        android:id="@+id/fab_pbelt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/standard_23"
+        android:padding="@dimen/fab_padding"
+        android:visibility="gone"
+        app:src="@drawable/ic_menu_send"
+        app:header="@string/mi_title_pbelt" />
+
+    <com.apsolete.machinery.common.fabs.FabView
+        android:id="@+id/fab_tbelt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/standard_23"
+        android:padding="@dimen/fab_padding"
+        android:visibility="gone"
+        app:src="@drawable/ic_menu_send"
+        app:header="@string/mi_title_tbelt" />
+
+    <com.apsolete.machinery.common.fabs.FabView
+        android:id="@+id/fab_chaindrive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/standard_23"
+        android:padding="@dimen/fab_padding"
+        android:visibility="gone"
+        app:src="@drawable/ic_menu_send"
+        app:header="@string/mi_title_chaindrive" />
 
 </com.apsolete.machinery.common.fabs.FabsView>

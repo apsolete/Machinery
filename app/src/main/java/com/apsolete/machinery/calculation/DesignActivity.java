@@ -131,19 +131,19 @@ public class DesignActivity extends AppCompatActivity
                 break;
             }
             case Calculation.GEARWHEEL: {
-//                com.apsolete.machinery.calculation.gearing.gearwheel.View view =
-//                        new com.apsolete.machinery.calculation.gearing.gearwheel.View();
-//                _presenter =
-//                        new com.apsolete.machinery.calculation.gearing.gearwheel.Presenter(view);
-//                fragment = view;
+                com.apsolete.machinery.calculation.gearing.gearwheel.View view =
+                        new com.apsolete.machinery.calculation.gearing.gearwheel.View();
+                _presenter =
+                        new com.apsolete.machinery.calculation.gearing.gearwheel.Presenter(view);
+                fragment = view;
                 break;
             }
             case Calculation.GEARDRIVE: {
-//                com.apsolete.machinery.calculation.gearing.geardrive.View view =
-//                        new com.apsolete.machinery.calculation.gearing.geardrive.View();
-//                _presenter =
-//                        new com.apsolete.machinery.calculation.gearing.geardrive.Presenter(view);
-//                fragment = view;
+                com.apsolete.machinery.calculation.gearing.geardrive.View view =
+                        new com.apsolete.machinery.calculation.gearing.geardrive.View();
+                _presenter =
+                        new com.apsolete.machinery.calculation.gearing.geardrive.Presenter(view);
+                fragment = view;
                 break;
             }
             case Calculation.FBELT: {

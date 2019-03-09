@@ -45,21 +45,36 @@ implements NavigationView.OnNavigationItemSelectedListener
         {
             public void onClick(int fabId)
             {
-                int type;
+                int type = 0;
                 switch (fabId)
                 {
-                    case R.id.fabGwe:
-                        type = Calculation.GEARDRIVE;
-                        break;
-                    case R.id.fabGw:
-                        type = Calculation.GEARWHEEL;
-                        break;
-                    case R.id.fabCg:
-                    default:
+                    case R.id.fab_changegears:
                         type = Calculation.CHANGEGEARS;
                         break;
+                    case R.id.fab_gearwheel:
+                        type = Calculation.GEARWHEEL;
+                        break;
+                    case R.id.fab_geardrive:
+                        type = Calculation.GEARDRIVE;
+                        break;
+                    case R.id.fab_fbelt:
+                        type = Calculation.FBELT;
+                        break;
+                    case R.id.fab_vbelt:
+                        type = Calculation.VBELT;
+                        break;
+                    case R.id.fab_pbelt:
+                        type = Calculation.PBELT;
+                        break;
+                    case R.id.fab_tbelt:
+                        type = Calculation.TBELT;
+                        break;
+                    case R.id.fab_chaindrive:
+                        type = Calculation.CHAINDRIVE;
+                        break;
                 }
-                showCalculationActivity(type);
+                if (type > 0)
+                    showCalculationActivity(type);
             }
         });
 
@@ -135,7 +150,7 @@ implements NavigationView.OnNavigationItemSelectedListener
         //noinspection SimplifiableIfStatement
         switch (id)
         {
-            case R.id.mi_change_gears:
+            case R.id.mi_changegears:
                 showCalculationActivity(Calculation.CHANGEGEARS);
                 break;
             case R.id.mi_gearwheel:
@@ -145,12 +160,19 @@ implements NavigationView.OnNavigationItemSelectedListener
                 showCalculationActivity(Calculation.GEARDRIVE);
                 break;
             case R.id.mi_fbelt:
+                showCalculationActivity(Calculation.FBELT);
                 break;
             case R.id.mi_vbelt:
+                showCalculationActivity(Calculation.VBELT);
                 break;
             case R.id.mi_pbelt:
+                showCalculationActivity(Calculation.PBELT);
                 break;
             case R.id.mi_tbelt:
+                showCalculationActivity(Calculation.TBELT);
+                break;
+            case R.id.mi_chaindrive:
+                showCalculationActivity(Calculation.CHAINDRIVE);
                 break;
             case R.id.mi_action_save:
                 break;

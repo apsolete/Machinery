@@ -3,9 +3,9 @@
     <string name="mi_title_new">New…</string>
 
     <string name="mi_title_gearing">Gearing…</string>
-        <string name="mi_title_changegears">Change Gears</string>
-        <string name="mi_title_gearwheel">Gear Wheels</string>
-        <string name="mi_title_geardrive">Gear Wheels Extended</string>
+        <string name="mi_title_changegears">Change gears</string>
+        <string name="mi_title_gearwheel">Gear wheel</string>
+        <string name="mi_title_geardrive">Gear drive</string>
 
     <string name="mi_title_belting">Belting…</string>
         <string name="mi_title_fbelt">Flat belt</string>

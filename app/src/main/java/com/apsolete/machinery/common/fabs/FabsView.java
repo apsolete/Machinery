@@ -19,6 +19,7 @@ public class FabsView extends RelativeLayout implements FabManager
     }
 
     private int _backColor;
+    private float _offset;
     private Drawable _background;
     private FabView _fabMain;
     private boolean _isExpanded = false;
@@ -64,6 +65,7 @@ public class FabsView extends RelativeLayout implements FabManager
         try
         {
             _backColor = ta.getColor(R.styleable.FabsView_backColor, 0x26000000);
+            _offset = ta.getDimension(R.styleable.FabsView_defoffset, 55.0f);
         }
         finally
         {
@@ -91,6 +93,7 @@ public class FabsView extends RelativeLayout implements FabManager
         {
             FabView fv = (FabView) getChildAt(i);
             fv.setOnClickListener(_fabClickListener);
+            fv.setOffset(i * _offset, false);
             _fabs.add(fv);
         }
 

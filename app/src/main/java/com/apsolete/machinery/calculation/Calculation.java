@@ -5,14 +5,14 @@ import com.apsolete.machinery.common.mvp.BaseContract;
 
 public interface Calculation
 {
-    int CHANGEGEARS = 0;
-    int GEARWHEEL = 1;
-    int GEARDRIVE = 2;
-    int FBELT = 3;
-	int VBELT = 4;
-	int PBELT = 5;
-	int TBELT = 6;
-	int CHAINDRIVE = 7;
+    int CHANGEGEARS = 1;
+    int GEARWHEEL   = 2;
+    int GEARDRIVE   = 3;
+    int FBELT       = 4;
+	int VBELT       = 5;
+	int PBELT       = 6;
+	int TBELT       = 7;
+	int CHAINDRIVE  = 8;
 
     interface Contract
     {
