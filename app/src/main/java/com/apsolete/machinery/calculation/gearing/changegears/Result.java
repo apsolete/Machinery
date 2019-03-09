@@ -5,7 +5,7 @@ import java.text.*;
 
 import com.apsolete.machinery.calculation.*;
 
-public class CgResult implements Contract.Result
+public class Result implements Contract.Result
 {
     private int _id;
     private double _ratio;
@@ -14,7 +14,7 @@ public class CgResult implements Contract.Result
     private double _leadscrewPitch = 0.0;
     private NumberFormat _numFormat;
 
-    public CgResult(int id, double ratio, int[] gears)
+    public Result(int id, double ratio, int[] gears)
     {
         _id = id;
         _ratio = ratio;
@@ -22,7 +22,7 @@ public class CgResult implements Contract.Result
         _numFormat = CalculationPresenter.getNumberFormat("#0.0#####");
     }
 
-    public CgResult(int id, double ratio, int[] gears, double lsPitch, NumberFormat numformat)
+    public Result(int id, double ratio, int[] gears, double lsPitch, NumberFormat numformat)
     {
         _id = id;
         _ratio = ratio;
