@@ -11,7 +11,7 @@
             <item android:title="@string/mi_title_gearing">
                 <menu>
                     <item
-                        android:id="@+id/mi_change_gears"
+                        android:id="@+id/mi_changegears"
                         android:title="@string/mi_title_changegears"/>
                     <item
                         android:id="@+id/mi_gearwheel"

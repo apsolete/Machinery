@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.content.res.TypedArray;
 import android.widget.TextView;
-import android.annotation.*;
 
 import com.apsolete.machinery.R;
 
@@ -116,5 +115,11 @@ public class FabView extends LinearLayout implements FabManager, Animator.Animat
     public void onAnimationRepeat(Animator animation)
     {
 
+    }
+
+    public void setOffset(float offset, boolean force)
+    {
+        if (_offset == 0.0 || force)
+            _offset = offset;
     }
 }
