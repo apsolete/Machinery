@@ -8,6 +8,7 @@ interface Contract
     {
 
     }
+
     interface View extends Calculation.Contract.View<Presenter>
     {
 

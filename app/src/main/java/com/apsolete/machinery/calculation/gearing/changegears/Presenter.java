@@ -1,5 +1,6 @@
 package com.apsolete.machinery.calculation.gearing.changegears;
 
+import com.apsolete.machinery.calculation.Calculation;
 import com.apsolete.machinery.calculation.CalculationPresenter;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.OnResultListener;
@@ -11,9 +12,9 @@ import java.text.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ChangeGearsPresenter extends CalculationPresenter implements ChangeGearsContract.Presenter
+public final class Presenter extends CalculationPresenter implements Contract.Presenter
 {
-    private final ChangeGearsContract.View _view;
+    private final Contract.View _view;
     private boolean _oneSet;
     private GearKits _gearKits = new GearKits();
     private int _oneSetGearsCount = 2;
@@ -31,7 +32,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
     private double _calculatedRatio;
     private int _firstResultNumber = 1;
     private int _lastResultNumber = 1;
-    private ArrayList<ChangeGearsContract.Result> _results = new ArrayList<>();
+    private ArrayList<Contract.Result> _results = new ArrayList<>();
     private ChangeGears _calculator;
 
     /*settings*/
@@ -66,8 +67,9 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
         }
     };
 
-    public ChangeGearsPresenter(ChangeGearsContract.View view)
+    public Presenter(Contract.View view)
     {
+        super(view);
         _view = view;
         _oneSet = true;
 
@@ -407,7 +409,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
             li = _results.size();
         _firstResultNumber = fi;
         _lastResultNumber = li;
-        List<ChangeGearsContract.Result> next = _results.subList(_firstResultNumber-1, _lastResultNumber);
+        List<Contract.Result> next = _results.subList(_firstResultNumber-1, _lastResultNumber);
         _view.showResults(next);
         return next.size();
     }
@@ -423,7 +425,7 @@ public final class ChangeGearsPresenter extends CalculationPresenter implements 
             ti = _results.size();
         _firstResultNumber = fi;
         _lastResultNumber = ti;
-        List<ChangeGearsContract.Result> prev = _results.subList(_firstResultNumber-1, _lastResultNumber);
+        List<Contract.Result> prev = _results.subList(_firstResultNumber-1, _lastResultNumber);
         _view.showResults(prev);
         return prev.size();
     }

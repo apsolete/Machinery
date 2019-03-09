@@ -3,10 +3,10 @@ package com.apsolete.machinery.calculation.gearing.changegears;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,11 +28,11 @@ import com.apsolete.machinery.common.TextChangedListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ChangeGearsView extends CalculationView implements ChangeGearsContract.View
+public final class View extends CalculationView implements Contract.View
 {
-    private ChangeGearsContract.Presenter _presenter;
+    private Contract.Presenter _presenter;
 
-    private View _view;
+    private android.view.View _view;
     private CompoundButton _oneSetSwitch;
     private Spinner _calculationModeSpinner;
     private LinearLayout _threadPitchLayout;
@@ -56,15 +56,18 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
 
     private final GearKitView[] _gkViews = new GearKitView[7];
 
-    public ChangeGearsView()
+    public View()
     {
         super(Calculation.CHANGEGEARS, R.layout.view_changegears, R.string.title_changegears);
     }
 
     @Override
-    public void setPresenter(ChangeGearsContract.Presenter presenter)
+    public void setPresenter(Contract.Presenter presenter)
     {
-        _presenter = presenter;
+        //if (!(presenter instanceof Contract.Presenter))
+        //    throw new RuntimeException("presenter is not instance of Contract.Presenter!");
+
+        _presenter = /*(Contract.Presenter)*/presenter;
     }
 
     @Override
@@ -83,13 +86,13 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
                 {
                     if (percent > 0)
                     {
-                        if (ProgressBar.getVisibility() == View.GONE)
-                            ProgressBar.setVisibility(View.VISIBLE);
+                        if (ProgressBar.getVisibility() == android.view.View.GONE)
+                            ProgressBar.setVisibility(android.view.View.VISIBLE);
                         ProgressBar.setProgress(percent);
                         return;
                     }
                     ProgressBar.setProgress(0);
-                    ProgressBar.setVisibility(View.GONE);
+                    ProgressBar.setVisibility(android.view.View.GONE);
                 }
             });
     }
@@ -246,20 +249,20 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
     }
 
     @Override
-    public void showResults(final List<ChangeGearsContract.Result> results)
+    public void showResults(final List<Contract.Result> results)
     {
         Activity.runOnUiThread(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    ChangeGearsContract.Result first = results.get(0);
-                    ChangeGearsContract.Result last = results.get(results.size()-1);
+                    Contract.Result first = results.get(0);
+                    Contract.Result last = results.get(results.size()-1);
                     _resultFirstNumberText.setText(first.id());
                     _resultLastNumberText.setText(last.id());
 
                     _resultView.removeAllViews();
-                    for (ChangeGearsContract.Result r: results)
+                    for (Contract.Result r: results)
                     {
                         setResultItem(r);
                     }
@@ -326,7 +329,7 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
     private AdapterView.OnItemSelectedListener _calcModeListener = new AdapterView.OnItemSelectedListener()
     {
         @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+        public void onItemSelected(AdapterView<?> parent, android.view.View view, int pos, long id)
         {
             switch (pos)
             {
@@ -354,7 +357,7 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
     private AdapterView.OnItemSelectedListener _thrPitchUnitListener = new AdapterView.OnItemSelectedListener()
     {
         @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+        public void onItemSelected(AdapterView<?> parent, android.view.View view, int pos, long id)
         {
             if (pos == 0)
                 _presenter.setThreadPitchUnit(ThreadPitchUnit.mm);
@@ -371,7 +374,7 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
     private AdapterView.OnItemSelectedListener _scrPitchUnitListener = new AdapterView.OnItemSelectedListener()
     {
         @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+        public void onItemSelected(AdapterView<?> parent, android.view.View view, int pos, long id)
         {
             if (pos == 0)
                 _presenter.setLeadscrewPitchUnit(ThreadPitchUnit.mm);
@@ -431,7 +434,7 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
     };
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         if (_view != null)
             return _view;
@@ -440,10 +443,10 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
         assert _view != null;
 
         _oneSetSwitch = (CompoundButton)_view.findViewById(R.id.oneSetForAllGears);
-        _oneSetSwitch.setOnClickListener(new View.OnClickListener()
+        _oneSetSwitch.setOnClickListener(new android.view.View.OnClickListener()
             {
                 @Override
-                public void onClick(View view)
+                public void onClick(android.view.View view)
                 {
                     boolean _isOneSet = ((CompoundButton)view).isChecked();
                     _presenter.setOneGearKit(_isOneSet);
@@ -487,10 +490,10 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
         _ratioFormattedText = (TextView)_view.findViewById(R.id.ratioResultText);
 
         _ratioAsFractionSwitch = (CompoundButton)_view.findViewById(R.id.ratioAsFractionSwitch);
-        _ratioAsFractionSwitch.setOnClickListener(new View.OnClickListener()
+        _ratioAsFractionSwitch.setOnClickListener(new android.view.View.OnClickListener()
             {
                 @Override
-                public void onClick(View view)
+                public void onClick(android.view.View view)
                 {
                     boolean isChecked = ((CompoundButton)view).isChecked();
                     _presenter.setRatioAsFraction(isChecked);
@@ -502,20 +505,20 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
         _resultView = (ViewGroup)_view.findViewById(R.id.resultsLayout);
 
         ImageButton showNextButton = (ImageButton)_view.findViewById(R.id.showNext);
-        showNextButton.setOnClickListener(new View.OnClickListener()
+        showNextButton.setOnClickListener(new android.view.View.OnClickListener()
             {
                 @Override
-                public void onClick(View p1)
+                public void onClick(android.view.View p1)
                 {
                     _presenter.getNextResults();
                 }
             });
 
         ImageButton showPrevButton = (ImageButton)_view.findViewById(R.id.showPrev);
-        showPrevButton.setOnClickListener(new View.OnClickListener()
+        showPrevButton.setOnClickListener(new android.view.View.OnClickListener()
             {
                 @Override
-                public void onClick(View p1)
+                public void onClick(android.view.View p1)
                 {
                     _presenter.getPrevResults();
                 }
@@ -570,12 +573,12 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
         dialog.show(fragmentManager, "teethnumbersdialog");
     }
 
-    private void setResultItem(final ChangeGearsContract.Result result)
+    private void setResultItem(final Contract.Result result)
     {
         try
         {
             LayoutInflater layoutInflater = (LayoutInflater)Activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = layoutInflater.inflate(R.layout.view_changegears_result2, null);
+            android.view.View view = layoutInflater.inflate(R.layout.view_changegears_result2, null);
 
             TextView text = (TextView)view.findViewById(R.id.resultNumberText);
             text.setText(result.id());
@@ -586,9 +589,9 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
             text = (TextView)view.findViewById(R.id.z2Text);
             text.setText(result.z2());
 
-            visibility = result.z3() != null ? View.VISIBLE : View.GONE;
+            visibility = result.z3() != null ? android.view.View.VISIBLE : android.view.View.GONE;
             view.findViewById(R.id.gears34Layout).setVisibility(visibility);
-            if (visibility == View.VISIBLE)
+            if (visibility == android.view.View.VISIBLE)
             {
                 text = (TextView)view.findViewById(R.id.z3Text);
                 text.setText(result.z3());
@@ -596,9 +599,9 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
                 text.setText(result.z4());
             }
 
-            visibility = result.z5() != null ? View.VISIBLE : View.GONE;
+            visibility = result.z5() != null ? android.view.View.VISIBLE : android.view.View.GONE;
             view.findViewById(R.id.gears56Layout).setVisibility(visibility);
-            if (visibility == View.VISIBLE)
+            if (visibility == android.view.View.VISIBLE)
             {
                 text = (TextView)view.findViewById(R.id.z5Text);
                 text.setText(result.z5());
@@ -609,9 +612,9 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
             text = (TextView)view.findViewById(R.id.ratioText);
             text.setText(result.ratio());
 
-            visibility = result.threadPitch() != null ? View.VISIBLE : View.GONE;
+            visibility = result.threadPitch() != null ? android.view.View.VISIBLE : android.view.View.GONE;
             view.findViewById(R.id.threadPitchLayout).setVisibility(visibility);
-            if (visibility == View.VISIBLE)
+            if (visibility == android.view.View.VISIBLE)
             {
                 text = (TextView)view.findViewById(R.id.threadPitchText);
                 text.setText(result.threadPitch());

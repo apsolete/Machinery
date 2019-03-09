@@ -1,12 +1,14 @@
 package com.apsolete.machinery.common;
 
-import android.content.*;
-import android.os.*;
-import android.support.v4.app.*;
-import android.support.v7.app.*;
-import android.view.*;
-import android.widget.*;
-import com.apsolete.machinery.*;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import com.apsolete.machinery.R;
 
 public abstract class ContentBase extends Fragment
 {
@@ -75,5 +77,10 @@ public abstract class ContentBase extends Fragment
     {
         ProgressBar.setProgress(0);
         ProgressBar.setVisibility(View.GONE);
+    }
+
+    public Fragment asFragment()
+    {
+        return  this;
     }
 }

@@ -6,19 +6,16 @@ import android.support.v7.app.*;
 import android.view.*;
 
 import com.apsolete.machinery.*;
-import com.apsolete.machinery.calculation.gearing.changegears.*;
 
 import android.support.v7.widget.Toolbar;
 
 public class DesignActivity extends AppCompatActivity
 {
     private boolean _isSettingsOpened;
-    //private DesignContent _currentDesign;
-    //private DesignContent _latheChangeGears = new ChangeGearsView();
+    //private DesignContent _view;
+    //private DesignContent _latheChangeGears = new View();
     //private DesignContent _gearWheels = new GearWheels();
     //private DesignContent _gearWheelsExt = new GearWheelsExt();
-    private CalculationView _currentDesign;
-    private ChangeGearsView _cgView;// = new ChangeGearsView();
     private CalculationPresenter _presenter;
     private MenuItem _miSave;
     private MenuItem _miClear;
@@ -42,7 +39,7 @@ public class DesignActivity extends AppCompatActivity
 
         // Show content
         int designType = getIntent().getExtras().getInt("designType");
-        showDesignContent(designType);
+        showCalculationContent(designType);
     }
 
     @Override
@@ -62,25 +59,22 @@ public class DesignActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        if (_currentDesign != null)
+        if (_presenter != null)
         {
             int id = item.getItemId();
             switch (id)
             {
                 case R.id.mi_action_calculate:
-                    //_currentDesign.calculate();
                     _presenter.calculate();
                     break;
                 case R.id.mi_action_save:
-                    //_currentDesign.save();
                     _presenter.save();
                     break;
                 case R.id.mi_action_clear:
-                    //_currentDesign.clear();
                     _presenter.clear();
                     break;
                 case R.id.mi_action_options:
-                    openDesignContentSettings();
+                    openCalculationContentSettings();
                     break;
                 case R.id.mi_action_close:
                 // button Up pressed
@@ -122,50 +116,95 @@ public class DesignActivity extends AppCompatActivity
             onNavigateUp();
     }
 
-    public void showDesignContent(int type)
+    public void showCalculationContent(int type)
     {
+        Fragment fragment = null;
+
         switch (type)
         {
-            case Calculation.CHANGEGEARS:
-                //_currentDesign = _latheChangeGears;
-                _cgView = new ChangeGearsView();
-                _presenter = new ChangeGearsPresenter(_cgView);
-                _currentDesign = _cgView;
+            case Calculation.CHANGEGEARS: {
+                com.apsolete.machinery.calculation.gearing.changegears.View view =
+                        new com.apsolete.machinery.calculation.gearing.changegears.View();
+                _presenter =
+                        new com.apsolete.machinery.calculation.gearing.changegears.Presenter(view);
+                fragment = view;
                 break;
-            case Calculation.GEARWHEEL:
-                //_currentDesign = _gearWheels;
+            }
+            case Calculation.GEARWHEEL: {
+//                com.apsolete.machinery.calculation.gearing.gearwheel.View view =
+//                        new com.apsolete.machinery.calculation.gearing.gearwheel.View();
+//                _presenter =
+//                        new com.apsolete.machinery.calculation.gearing.gearwheel.Presenter(view);
+//                fragment = view;
                 break;
-            case Calculation.GEARDRIVE:
-                //_currentDesign = _gearWheelsExt;
+            }
+            case Calculation.GEARDRIVE: {
+//                com.apsolete.machinery.calculation.gearing.geardrive.View view =
+//                        new com.apsolete.machinery.calculation.gearing.geardrive.View();
+//                _presenter =
+//                        new com.apsolete.machinery.calculation.gearing.geardrive.Presenter(view);
+//                fragment = view;
                 break;
-            case Calculation.FBELT:
+            }
+            case Calculation.FBELT: {
+                com.apsolete.machinery.calculation.belting.fbelt.View view =
+                        new com.apsolete.machinery.calculation.belting.fbelt.View();
+                _presenter =
+                        new com.apsolete.machinery.calculation.belting.fbelt.Presenter(view);
+                fragment = view;
                 break;
-            case Calculation.VBELT:
+            }
+            case Calculation.VBELT: {
+                com.apsolete.machinery.calculation.belting.vbelt.View view =
+                        new com.apsolete.machinery.calculation.belting.vbelt.View();
+                _presenter =
+                        new com.apsolete.machinery.calculation.belting.vbelt.Presenter(view);
+                fragment = view;
                 break;
-            case Calculation.PBELT:
+            }
+            case Calculation.PBELT: {
+                com.apsolete.machinery.calculation.belting.pbelt.View view =
+                        new com.apsolete.machinery.calculation.belting.pbelt.View();
+                _presenter =
+                        new com.apsolete.machinery.calculation.belting.pbelt.Presenter(view);
+                fragment = view;
                 break;
-            case Calculation.TBELT:
+            }
+            case Calculation.TBELT: {
+                com.apsolete.machinery.calculation.belting.tbelt.View view =
+                        new com.apsolete.machinery.calculation.belting.tbelt.View();
+                _presenter =
+                        new com.apsolete.machinery.calculation.belting.tbelt.Presenter(view);
+                fragment = view;
                 break;
-            case Calculation.CHAINDRIVE:
+            }
+            case Calculation.CHAINDRIVE: {
+                com.apsolete.machinery.calculation.chaindrive.View view =
+                        new com.apsolete.machinery.calculation.chaindrive.View();
+                _presenter =
+                        new com.apsolete.machinery.calculation.chaindrive.Presenter(view);
+                fragment = view;
                 break;
+            }
         }
 
-        if (_currentDesign == null)
+        if (fragment == null)
             return;
 
-        Fragment fragment = _currentDesign;
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
             .replace(R.id.content_design, fragment)
             .commit();
     }
 
-    private void openDesignContentSettings()
+    private void openCalculationContentSettings()
     {
-        if (_currentDesign == null)
+        if (_presenter == null)
             return;
 
-        Fragment fragment = _currentDesign.getSettings();
+
+        Fragment fragment = _presenter.getView().getSettings();
 
         if (fragment == null)
             return;
