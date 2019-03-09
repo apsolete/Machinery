@@ -1,6 +1,5 @@
 package com.apsolete.machinery.calculation.gearing.changegears;
 
-import com.apsolete.machinery.calculation.Calculation;
 import com.apsolete.machinery.calculation.CalculationPresenter;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.OnResultListener;
@@ -41,10 +40,10 @@ public final class Presenter extends CalculationPresenter implements Contract.Pr
     private boolean _diffTeethDoubleGear = true;
 
 
-    private OnResultListener<CgResult> _resultListener = new OnResultListener<CgResult>()
+    private OnResultListener<Result> _resultListener = new OnResultListener<Result>()
     {
         @Override
-        public void onResult(CgResult result)
+        public void onResult(Result result)
         {
             if (_calculationMode == G.THREAD_BY_GEARS)
                 result.setLeadscrewPitch(_leadscrewPitch);
