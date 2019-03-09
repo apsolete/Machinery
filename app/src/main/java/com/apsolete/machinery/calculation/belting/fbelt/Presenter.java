@@ -1,4 +1,4 @@
-package com.apsolete.machinery.calculation.gearing.gearwheel;
+package com.apsolete.machinery.calculation.belting.fbelt;
 
 import com.apsolete.machinery.calculation.CalculationPresenter;
 

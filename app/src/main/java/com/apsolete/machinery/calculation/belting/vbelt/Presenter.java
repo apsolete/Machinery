@@ -4,6 +4,11 @@ import com.apsolete.machinery.calculation.CalculationPresenter;
 
 public class Presenter extends CalculationPresenter implements Contract.Presenter
 {
+    public Presenter(Contract.View view)
+    {
+        super(view);
+    }
+
     @Override
     public void save()
     {

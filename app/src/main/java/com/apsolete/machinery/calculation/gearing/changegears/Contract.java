@@ -4,7 +4,7 @@ import com.apsolete.machinery.calculation.*;
 
 import java.util.List;
 
-public interface ChangeGearsContract
+public interface Contract
 {
     interface Presenter extends Calculation.Contract.Presenter
     {

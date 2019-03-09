@@ -5,7 +5,7 @@ import java.text.*;
 
 import com.apsolete.machinery.calculation.*;
 
-public class CgResult implements ChangeGearsContract.Result
+public class CgResult implements Contract.Result
 {
     private int _id;
     private double _ratio;
