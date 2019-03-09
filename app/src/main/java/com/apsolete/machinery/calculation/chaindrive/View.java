@@ -3,13 +3,14 @@ package com.apsolete.machinery.calculation.chaindrive;
 import com.apsolete.machinery.R;
 import com.apsolete.machinery.calculation.Calculation;
 import com.apsolete.machinery.calculation.CalculationView;
+import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.SettingsBase;
 
 public final class View extends CalculationView implements Contract.View
 {
     public View()
     {
-        super(Calculation.CHAINDRIVE, R.layout.view_chaindrive, R.string.title_chaindrive);
+        super(G.CHAINDRIVE, R.layout.view_chaindrive, R.string.title_chaindrive);
     }
 
     @Override

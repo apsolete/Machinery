@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.apsolete.machinery.R;
+import com.apsolete.machinery.common.G;
 
 public class CalculationActivity extends AppCompatActivity
 {
@@ -121,7 +122,7 @@ public class CalculationActivity extends AppCompatActivity
 
         switch (type)
         {
-            case Calculation.CHANGEGEARS: {
+            case G.CHANGEGEARS: {
                 com.apsolete.machinery.calculation.gearing.changegears.View view =
                         new com.apsolete.machinery.calculation.gearing.changegears.View();
                 _presenter =
@@ -129,7 +130,7 @@ public class CalculationActivity extends AppCompatActivity
                 fragment = view;
                 break;
             }
-            case Calculation.GEARWHEEL: {
+            case G.GEARWHEEL: {
                 com.apsolete.machinery.calculation.gearing.gearwheel.View view =
                         new com.apsolete.machinery.calculation.gearing.gearwheel.View();
                 _presenter =
@@ -137,7 +138,7 @@ public class CalculationActivity extends AppCompatActivity
                 fragment = view;
                 break;
             }
-            case Calculation.GEARDRIVE: {
+            case G.GEARDRIVE: {
                 com.apsolete.machinery.calculation.gearing.geardrive.View view =
                         new com.apsolete.machinery.calculation.gearing.geardrive.View();
                 _presenter =
@@ -145,7 +146,7 @@ public class CalculationActivity extends AppCompatActivity
                 fragment = view;
                 break;
             }
-            case Calculation.FBELT: {
+            case G.FBELT: {
                 com.apsolete.machinery.calculation.belting.fbelt.View view =
                         new com.apsolete.machinery.calculation.belting.fbelt.View();
                 _presenter =
@@ -153,7 +154,7 @@ public class CalculationActivity extends AppCompatActivity
                 fragment = view;
                 break;
             }
-            case Calculation.VBELT: {
+            case G.VBELT: {
                 com.apsolete.machinery.calculation.belting.vbelt.View view =
                         new com.apsolete.machinery.calculation.belting.vbelt.View();
                 _presenter =
@@ -161,7 +162,7 @@ public class CalculationActivity extends AppCompatActivity
                 fragment = view;
                 break;
             }
-            case Calculation.PBELT: {
+            case G.PBELT: {
                 com.apsolete.machinery.calculation.belting.pbelt.View view =
                         new com.apsolete.machinery.calculation.belting.pbelt.View();
                 _presenter =
@@ -169,7 +170,7 @@ public class CalculationActivity extends AppCompatActivity
                 fragment = view;
                 break;
             }
-            case Calculation.TBELT: {
+            case G.TBELT: {
                 com.apsolete.machinery.calculation.belting.tbelt.View view =
                         new com.apsolete.machinery.calculation.belting.tbelt.View();
                 _presenter =
@@ -177,7 +178,7 @@ public class CalculationActivity extends AppCompatActivity
                 fragment = view;
                 break;
             }
-            case Calculation.CHAINDRIVE: {
+            case G.CHAINDRIVE: {
                 com.apsolete.machinery.calculation.chaindrive.View view =
                         new com.apsolete.machinery.calculation.chaindrive.View();
                 _presenter =

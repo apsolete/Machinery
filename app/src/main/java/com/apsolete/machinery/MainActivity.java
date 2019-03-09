@@ -1,5 +1,6 @@
 package com.apsolete.machinery;
 
+import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.contents.*;
 import com.apsolete.machinery.calculation.*;
 import com.apsolete.machinery.common.fabs.*;
@@ -49,28 +50,28 @@ implements NavigationView.OnNavigationItemSelectedListener
                 switch (fabId)
                 {
                     case R.id.fab_changegears:
-                        type = Calculation.CHANGEGEARS;
+                        type = G.CHANGEGEARS;
                         break;
                     case R.id.fab_gearwheel:
-                        type = Calculation.GEARWHEEL;
+                        type = G.GEARWHEEL;
                         break;
                     case R.id.fab_geardrive:
-                        type = Calculation.GEARDRIVE;
+                        type = G.GEARDRIVE;
                         break;
                     case R.id.fab_fbelt:
-                        type = Calculation.FBELT;
+                        type = G.FBELT;
                         break;
                     case R.id.fab_vbelt:
-                        type = Calculation.VBELT;
+                        type = G.VBELT;
                         break;
                     case R.id.fab_pbelt:
-                        type = Calculation.PBELT;
+                        type = G.PBELT;
                         break;
                     case R.id.fab_tbelt:
-                        type = Calculation.TBELT;
+                        type = G.TBELT;
                         break;
                     case R.id.fab_chaindrive:
-                        type = Calculation.CHAINDRIVE;
+                        type = G.CHAINDRIVE;
                         break;
                 }
                 if (type > 0)
@@ -151,28 +152,28 @@ implements NavigationView.OnNavigationItemSelectedListener
         switch (id)
         {
             case R.id.mi_changegears:
-                showCalculationActivity(Calculation.CHANGEGEARS);
+                showCalculationActivity(G.CHANGEGEARS);
                 break;
             case R.id.mi_gearwheel:
-                showCalculationActivity(Calculation.GEARWHEEL);
+                showCalculationActivity(G.GEARWHEEL);
                 break;
             case R.id.mi_geardrive:
-                showCalculationActivity(Calculation.GEARDRIVE);
+                showCalculationActivity(G.GEARDRIVE);
                 break;
             case R.id.mi_fbelt:
-                showCalculationActivity(Calculation.FBELT);
+                showCalculationActivity(G.FBELT);
                 break;
             case R.id.mi_vbelt:
-                showCalculationActivity(Calculation.VBELT);
+                showCalculationActivity(G.VBELT);
                 break;
             case R.id.mi_pbelt:
-                showCalculationActivity(Calculation.PBELT);
+                showCalculationActivity(G.PBELT);
                 break;
             case R.id.mi_tbelt:
-                showCalculationActivity(Calculation.TBELT);
+                showCalculationActivity(G.TBELT);
                 break;
             case R.id.mi_chaindrive:
-                showCalculationActivity(Calculation.CHAINDRIVE);
+                showCalculationActivity(G.CHAINDRIVE);
                 break;
             case R.id.mi_action_save:
                 break;

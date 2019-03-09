@@ -9,7 +9,7 @@ public class View extends CalculationView implements Contract.View
 {
     public View()
     {
-        super(Calculation.GEARWHEEL, R.layout.view_gearwheel, R.string.title_gearwheel);
+        super(G.GEARWHEEL, R.layout.view_gearwheel, R.string.title_gearwheel);
     }
 
     @Override

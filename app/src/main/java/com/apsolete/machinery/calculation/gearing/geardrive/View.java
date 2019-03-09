@@ -8,7 +8,7 @@ public class View extends CalculationView implements Contract.View
 {
     public View()
     {
-        super(Calculation.GEARDRIVE, R.layout.view_geardrive, R.string.title_geardrive);
+        super(G.GEARDRIVE, R.layout.view_geardrive, R.string.title_geardrive);
     }
 
     @Override
