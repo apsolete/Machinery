@@ -4,6 +4,15 @@ import android.view.View;
 
 public final class G
 {
+    public static final int CHANGEGEARS = 1;
+    public static final int GEARWHEEL   = 2;
+    public static final int GEARDRIVE   = 3;
+    public static final int FBELT       = 4;
+    public static final int VBELT       = 5;
+    public static final int PBELT       = 6;
+    public static final int TBELT       = 7;
+    public static final int CHAINDRIVE  = 8;
+
     public static final int Z0 = 0;
     public static final int Z1 = 1;
     public static final int Z2 = 2;

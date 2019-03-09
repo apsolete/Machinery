@@ -58,7 +58,7 @@ public final class View extends CalculationView implements Contract.View
 
     public View()
     {
-        super(Calculation.CHANGEGEARS, R.layout.view_changegears, R.string.title_changegears);
+        super(G.CHANGEGEARS, R.layout.view_changegears, R.string.title_changegears);
     }
 
     @Override
