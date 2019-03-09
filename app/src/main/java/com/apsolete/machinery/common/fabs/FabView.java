@@ -54,13 +54,6 @@ public class FabView extends LinearLayout implements FabManager, Animator.Animat
     }
 
     @Override
-    public void setOnClickListener(@Nullable View.OnClickListener listener)
-    {
-        super.setOnClickListener(listener);
-        _fab.setOnClickListener(listener);
-    }
-
-    @Override
     public void show()
     {
         setVisibility(View.VISIBLE);
