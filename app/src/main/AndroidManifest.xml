@@ -32,7 +32,7 @@
             android:parentActivityName="com.apsolete.machinery.MainActivity">
         </activity>
         <activity
-            android:name="com.apsolete.machinery.calculation.DesignActivity"
+            android:name="com.apsolete.machinery.calculation.CalculationActivity"
             android:label="@string/title_calculation"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName="com.apsolete.machinery.MainActivity">

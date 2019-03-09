@@ -245,9 +245,9 @@ implements NavigationView.OnNavigationItemSelectedListener
     private void showCalculationActivity(int type)
     {
         Intent intent = new Intent();
-        intent.setClass(this, DesignActivity.class);
+        intent.setClass(this, CalculationActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("designType", type);
+        bundle.putInt("calcType", type);
         intent.putExtras(bundle);
         startActivity(intent);
     }
