@@ -1,21 +1,21 @@
 package com.apsolete.machinery.calculation;
 
-import android.os.*;
-import android.support.v4.app.*;
-import android.support.v7.app.*;
-import android.view.*;
-
-import com.apsolete.machinery.*;
-
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
-public class DesignActivity extends AppCompatActivity
+import com.apsolete.machinery.R;
+
+public class CalculationActivity extends AppCompatActivity
 {
     private boolean _isSettingsOpened;
-    //private DesignContent _view;
-    //private DesignContent _latheChangeGears = new View();
-    //private DesignContent _gearWheels = new GearWheels();
-    //private DesignContent _gearWheelsExt = new GearWheelsExt();
+
     private CalculationPresenter _presenter;
     private MenuItem _miSave;
     private MenuItem _miClear;
@@ -38,21 +38,20 @@ public class DesignActivity extends AppCompatActivity
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         // Show content
-        int designType = getIntent().getExtras().getInt("designType");
-        showCalculationContent(designType);
+        int calcType = getIntent().getExtras().getInt("calcType");
+        showCalculationContent(calcType);
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.content_design_menu, menu);
-        
+
         _miSave = menu.findItem(R.id.mi_action_save);
         _miClear = menu.findItem(R.id.mi_action_clear);
         _miOptions = menu.findItem(R.id.mi_action_options);
         _miClose = menu.findItem(R.id.mi_action_close);
-        
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -77,7 +76,7 @@ public class DesignActivity extends AppCompatActivity
                     openCalculationContentSettings();
                     break;
                 case R.id.mi_action_close:
-                // button Up pressed
+                    // button Up pressed
                 case android.R.id.home:
                 {
                     if (_isSettingsOpened)
@@ -194,8 +193,8 @@ public class DesignActivity extends AppCompatActivity
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-            .replace(R.id.content_design, fragment)
-            .commit();
+                .replace(R.id.content_design, fragment)
+                .commit();
     }
 
     private void openCalculationContentSettings()
@@ -214,9 +213,9 @@ public class DesignActivity extends AppCompatActivity
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-            .replace(R.id.content_design, fragment)
-            .addToBackStack(null)
-            .commit();
+                .replace(R.id.content_design, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void setOptionsMenuEnabled(boolean enable)
