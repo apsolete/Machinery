@@ -7,6 +7,6 @@ public class ContentReference extends ContentBase
 {
     public ContentReference()
     {
-        super(R.layout.content_reference, R.string.title_references);
+        super(R.layout.view_reference, R.string.title_references);
     }
 }

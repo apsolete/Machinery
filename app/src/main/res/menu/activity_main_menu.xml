@@ -8,32 +8,38 @@
     <item android:title="@string/mi_title_new"
         android:icon="@drawable/ic_create_white_24dp">
         <menu>
-            <item
-                android:id="@+id/mi_change_gears"
-                android:title="@string/mi_title_change_gears"/>
             <item android:title="@string/mi_title_gearing">
                 <menu>
                     <item
-                        android:id="@+id/mi_gearwheels"
-                        android:title="@string/mi_title_gearwheels"/>
+                        android:id="@+id/mi_change_gears"
+                        android:title="@string/mi_title_changegears"/>
                     <item
-                        android:id="@+id/mi_gearwheels_extended"
-                        android:title="@string/mi_title_gearwheels_extended"/>
+                        android:id="@+id/mi_gearwheel"
+                        android:title="@string/mi_title_gearwheel"/>
+                    <item
+                        android:id="@+id/mi_geardrive"
+                        android:title="@string/mi_title_geardrive"/>
                 </menu>
             </item>
             <item android:title="@string/mi_title_belting">
                 <menu>
                     <item
+                        android:id="@+id/mi_fbelt"
+                        android:title="@string/mi_title_fbelt"/>
+                    <item
                         android:id="@+id/mi_vbelt"
                         android:title="@string/mi_title_vbelt"/>
                     <item
-                        android:id="@+id/mi_fbelt"
-                        android:title="@string/mi_title_fbelt"/>
+                        android:id="@+id/mi_pbelt"
+                        android:title="@string/mi_title_pbelt"/>
                     <item
                         android:id="@+id/mi_tbelt"
                         android:title="@string/mi_title_tbelt"/>
                 </menu>
             </item>
+            <item
+                android:id="@+id/mi_chaindrive"
+                android:title="@string/mi_title_chaindrive"/>
         </menu>
     </item>
     

@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="mi_title_new">New...</string>
-    
-    <string name="mi_title_change_gears">Change Gears</string>
+    <string name="mi_title_new">New…</string>
 
-    <string name="mi_title_gearing">Gearing...</string>
-        <string name="mi_title_gearwheels">Gear Wheels</string>
-        <string name="mi_title_gearwheels_extended">Gear Wheels Extended</string>
+    <string name="mi_title_gearing">Gearing…</string>
+        <string name="mi_title_changegears">Change Gears</string>
+        <string name="mi_title_gearwheel">Gear Wheels</string>
+        <string name="mi_title_geardrive">Gear Wheels Extended</string>
 
-    <string name="mi_title_belting">Belting...</string>
-        <string name="mi_title_vbelt">V-Belt</string>
+    <string name="mi_title_belting">Belting…</string>
         <string name="mi_title_fbelt">Flat belt</string>
+        <string name="mi_title_vbelt">V-Belt</string>
+        <string name="mi_title_pbelt">Poly-groove belt</string>
         <string name="mi_title_tbelt">Timing belt</string>
+
+    <string name="mi_title_chaindrive">Chain drive</string>
 
     <string name="mi_title_calculate">Calculate</string>
     <string name="mi_title_save">Save</string>

@@ -126,17 +126,27 @@ public class DesignActivity extends AppCompatActivity
     {
         switch (type)
         {
-            case DesignContent.CHANGEGEARS:
+            case Calculation.CHANGEGEARS:
                 //_currentDesign = _latheChangeGears;
                 _cgView = new ChangeGearsView();
                 _presenter = new ChangeGearsPresenter(_cgView);
                 _currentDesign = _cgView;
                 break;
-            case DesignContent.GEARWHEELS:
+            case Calculation.GEARWHEEL:
                 //_currentDesign = _gearWheels;
                 break;
-            case DesignContent.GEARWHEELSEXT:
+            case Calculation.GEARDRIVE:
                 //_currentDesign = _gearWheelsExt;
+                break;
+            case Calculation.FBELT:
+                break;
+            case Calculation.VBELT:
+                break;
+            case Calculation.PBELT:
+                break;
+            case Calculation.TBELT:
+                break;
+            case Calculation.CHAINDRIVE:
                 break;
         }
 

@@ -15,11 +15,18 @@
     
     <string name="title_start_page">Machinery</string>
     <string name="title_references">References</string>
-    <string name="title_gears_design">Gears Design</string>
+    <string name="title_calculation">Calculation</string>
     <string name="title_settings">Settings</string>
-    <string name="title_change_gears_design">Change Gears</string>
-    <string name="title_gearwheels_design">Gear Wheels</string>
-    <string name="title_gearwheelsext_design">Gear Wheels Extended</string>
+
+    <string name="title_changegears">Change gears</string>
+    <string name="title_gearwheel">Gear wheel</string>
+    <string name="title_geardrive">Gear drive</string>
+    <string name="title_fbelt">Flat belt</string>
+    <string name="title_vbelt">V-belt</string>
+    <string name="title_pbelt">Poly-groove belt</string>
+    <string name="title_tbelt">Timing belt</string>
+    <string name="title_chaindrive">Chain drive</string>
+
     <string name="machinery">Machinery</string>
     <string name="machinery_apsolete_email">machinery.apsolete@gmail.com</string>
 

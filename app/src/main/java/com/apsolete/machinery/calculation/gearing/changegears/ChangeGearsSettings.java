@@ -19,7 +19,7 @@ public class ChangeGearsSettings extends SettingsBase
     
     public ChangeGearsSettings()
     {
-        super(R.xml.settings_changegears, R.string.title_change_gears_design);
+        super(R.xml.settings_changegears, R.string.title_changegears);
     }
     
     public void setListener(OnChangeListener listener)

@@ -7,6 +7,6 @@ public class HelpContent extends ContentBase
 {
     public HelpContent()
     {
-        super(R.layout.content_help, R.string.nav_help);
+        super(R.layout.view_help, R.string.nav_help);
     }
 }
