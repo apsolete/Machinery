@@ -1,6 +1,5 @@
 package com.apsolete.machinery;
 
-import com.apsolete.machinery.R;
 import com.apsolete.machinery.contents.*;
 import com.apsolete.machinery.calculation.*;
 import com.apsolete.machinery.common.fabs.*;
@@ -50,17 +49,17 @@ implements NavigationView.OnNavigationItemSelectedListener
                 switch (fabId)
                 {
                     case R.id.fabGwe:
-                        type = DesignContent.GEARWHEELSEXT;
+                        type = Calculation.GEARDRIVE;
                         break;
                     case R.id.fabGw:
-                        type = DesignContent.GEARWHEELS;
+                        type = Calculation.GEARWHEEL;
                         break;
                     case R.id.fabCg:
                     default:
-                        type = DesignContent.CHANGEGEARS;
+                        type = Calculation.CHANGEGEARS;
                         break;
                 }
-                showDesignActivity(type);
+                showCalculationActivity(type);
             }
         });
 
@@ -137,17 +136,19 @@ implements NavigationView.OnNavigationItemSelectedListener
         switch (id)
         {
             case R.id.mi_change_gears:
-                showDesignActivity(DesignContent.CHANGEGEARS);
+                showCalculationActivity(Calculation.CHANGEGEARS);
                 break;
-            case R.id.mi_gearwheels:
-                showDesignActivity(DesignContent.GEARWHEELS);
+            case R.id.mi_gearwheel:
+                showCalculationActivity(Calculation.GEARWHEEL);
                 break;
-            case R.id.mi_gearwheels_extended:
-                showDesignActivity(DesignContent.GEARWHEELSEXT);
+            case R.id.mi_geardrive:
+                showCalculationActivity(Calculation.GEARDRIVE);
+                break;
+            case R.id.mi_fbelt:
                 break;
             case R.id.mi_vbelt:
                 break;
-            case R.id.mi_fbelt:
+            case R.id.mi_pbelt:
                 break;
             case R.id.mi_tbelt:
                 break;
@@ -219,7 +220,7 @@ implements NavigationView.OnNavigationItemSelectedListener
             .commit();
     }
     
-    private void showDesignActivity(int type)
+    private void showCalculationActivity(int type)
     {
         Intent intent = new Intent();
         intent.setClass(this, DesignActivity.class);

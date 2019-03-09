@@ -3,18 +3,18 @@ package com.apsolete.machinery.calculation;
 import com.apsolete.machinery.common.SettingsBase;
 import com.apsolete.machinery.common.mvp.*;
 
-public final interface Calculation
+public interface Calculation
 {
-    public static final int CHANGEGEARS = 0;
-    public static final int GEARWHEELS = 1;
-    public static final int GEARDRIVE = 2;
-    public static final int FBELT = 3;
-	public static final int VBELT = 4;
-	public static final int PBELT = 5;
-	public static final int TBELT = 6;
-	public static final int CHAINDRIVE = 7;
+    int CHANGEGEARS = 0;
+    int GEARWHEEL = 1;
+    int GEARDRIVE = 2;
+    int FBELT = 3;
+	int VBELT = 4;
+	int PBELT = 5;
+	int TBELT = 6;
+	int CHAINDRIVE = 7;
 
-    public interface Contract
+    interface Contract
     {
         interface Presenter extends BasePresenter
         {

@@ -58,7 +58,7 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
 
     public ChangeGearsView()
     {
-        super(Calculation.CHANGEGEARS, R.layout.content_changegears, R.string.title_change_gears_design);
+        super(Calculation.CHANGEGEARS, R.layout.view_changegears, R.string.title_changegears);
     }
 
     @Override
@@ -575,7 +575,7 @@ public final class ChangeGearsView extends CalculationView implements ChangeGear
         try
         {
             LayoutInflater layoutInflater = (LayoutInflater)Activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = layoutInflater.inflate(R.layout.change_gears_result2, null);
+            View view = layoutInflater.inflate(R.layout.view_changegears_result2, null);
 
             TextView text = (TextView)view.findViewById(R.id.resultNumberText);
             text.setText(result.id());

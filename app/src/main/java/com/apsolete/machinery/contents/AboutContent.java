@@ -7,6 +7,6 @@ public class AboutContent extends ContentBase
 {
     public AboutContent()
     {
-        super(R.layout.content_about, R.string.nav_about);
+        super(R.layout.view_about, R.string.nav_about);
     }
 }

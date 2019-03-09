@@ -1,4 +1,4 @@
-package com.apsolete.machinery.calculation.belting.fbelt;
+package com.apsolete.machinery.calculation.belting.vbelt;
 
 import com.apsolete.machinery.R;
 import com.apsolete.machinery.calculation.Calculation;
@@ -9,7 +9,7 @@ public final class View extends CalculationView implements Contract.View
 {
     public View()
     {
-        super(Calculation.FBELT, R.layout.view_fbelt, R.string.title_fbelt);
+        super(Calculation.VBELT, R.layout.view_vbelt, R.string.title_vbelt);
     }
 
     @Override

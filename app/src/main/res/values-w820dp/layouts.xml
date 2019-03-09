@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="content_changegears" type="layout">@layout/content_changegears_w</item>
+    <item name="content_changegears" type="layout">@layout/view_changegears_w</item>
 </resources>

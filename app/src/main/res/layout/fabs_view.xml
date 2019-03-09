@@ -27,7 +27,7 @@
         android:visibility="gone"
         app:offset="@dimen/standard_55"
         app:src="@drawable/ic_menu_send"
-        app:header="@string/mi_title_gearwheels_extended" />
+        app:header="@string/mi_title_geardrive" />
 
     <com.apsolete.machinery.common.fabs.FabView
         android:id="@+id/fabGw"
@@ -40,7 +40,7 @@
         android:visibility="gone"
         app:offset="@dimen/standard_100"
         app:src="@drawable/ic_menu_send"
-        app:header="@string/mi_title_gearwheels" />
+        app:header="@string/mi_title_gearwheel" />
 
     <com.apsolete.machinery.common.fabs.FabView
         android:id="@+id/fabCg"
@@ -53,6 +53,6 @@
         android:visibility="gone"
         app:offset="@dimen/standard_145"
         app:src="@drawable/ic_menu_send"
-        app:header="@string/mi_title_change_gears" />
+        app:header="@string/mi_title_changegears" />
 
 </com.apsolete.machinery.common.fabs.FabsView>
