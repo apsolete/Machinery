@@ -1,6 +1,6 @@
 package com.apsolete.machinery.calculation;
 
-import com.apsolete.machinery.common.*;
+import com.apsolete.machinery.common.ContentBase;
 
 public abstract class CalculationView extends ContentBase
 {
@@ -16,5 +16,4 @@ public abstract class CalculationView extends ContentBase
     {
         return _type;
     }
-    public abstract SettingsBase getSettings();
 }
