@@ -1,6 +1,6 @@
 package com.apsolete.machinery.common.mvp;
 
-import android.support.v4.app.Fragment;
+import com.apsolete.machinery.common.ContentBase;
 
 public interface BaseContract
 {
@@ -13,15 +13,15 @@ public interface BaseContract
     {
         void start();
         void stop();
-        Fragment getFragmentView();
+        ContentBase getContent();
     }
 
-    interface FragmentView
+    interface ContentView
     {
-        Fragment asFragment();
+        ContentBase getContent();
     }
 
-    interface View<P extends Presenter> extends FragmentView
+    interface View<P extends Presenter> extends ContentView
     {
         void setPresenter(P presenter);
     }

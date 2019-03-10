@@ -1,7 +1,6 @@
 package com.apsolete.machinery.calculation;
-import android.support.v4.app.Fragment;
 
-import com.apsolete.machinery.common.mvp.BaseContract;
+import com.apsolete.machinery.common.ContentBase;
 
 import java.text.*;
 import java.util.*;
@@ -51,9 +50,9 @@ public abstract class CalculationPresenter implements CalculationContract.Presen
 
 
     @Override
-    public Fragment getFragmentView()
+    public ContentBase getContent()
     {
-        return _view.asFragment();
+        return _view.getContent();
     }
 
     @Override
