@@ -4,24 +4,24 @@ import android.support.v4.app.Fragment;
 
 public interface BaseContract
 {
-    interface BaseModel
+    interface Model
     {
         void load();
     }
 
-    interface BasePresenter
+    interface Presenter
     {
         void start();
         void stop();
         Fragment getFragmentView();
     }
 
-    interface BaseFragmentView
+    interface FragmentView
     {
         Fragment asFragment();
     }
 
-    interface BaseView<P extends BasePresenter> extends BaseFragmentView
+    interface View<P extends Presenter> extends FragmentView
     {
         void setPresenter(P presenter);
     }

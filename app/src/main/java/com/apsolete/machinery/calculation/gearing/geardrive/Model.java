@@ -17,9 +17,15 @@ public class Model extends CalculationModel
 	}
 
 	@Override
-	protected void calculateInternal()
+	protected void onCalculate()
 	{
 		// TODO: Implement this method
+	}
+
+	@Override
+	protected void onLoad()
+	{
+
 	}
 
 	@Override
