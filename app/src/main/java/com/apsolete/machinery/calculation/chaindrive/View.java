@@ -1,7 +1,6 @@
 package com.apsolete.machinery.calculation.chaindrive;
 
 import com.apsolete.machinery.R;
-import com.apsolete.machinery.calculation.Calculation;
 import com.apsolete.machinery.calculation.CalculationView;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.SettingsBase;
