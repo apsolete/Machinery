@@ -62,10 +62,7 @@ public final class View extends CalculationView implements Contract.View
     @Override
     public void setPresenter(Contract.Presenter presenter)
     {
-        //if (!(presenter instanceof Contract.Presenter))
-        //    throw new RuntimeException("presenter is not instance of Contract.Presenter!");
-
-        _presenter = /*(Contract.Presenter)*/presenter;
+        _presenter = presenter;
     }
 
     @Override
@@ -104,7 +101,7 @@ public final class View extends CalculationView implements Contract.View
     @Override
     public void setGearKit(int kit, String gearsStr)
     {
-        _gkViews[kit].setGearsSet(gearsStr);
+        _gkViews[kit].setGears(gearsStr);
     }
 
     @Override
@@ -303,24 +300,24 @@ public final class View extends CalculationView implements Contract.View
         }
     };
 
-    private GearKitView.OnGearKitViewListener _gearsSetViewListener = new GearKitView.OnGearKitViewListener()
+    private GearKitView.OnGearKitViewListener _gearKitViewListener = new GearKitView.OnGearKitViewListener()
     {
         @Override
-        public void onRequest(GearKitView gearsSet)
+        public void onRequest(GearKitView gearKit)
         {
-            requestGearsSet(gearsSet);
+            requestGearKit(gearKit);
         }
 
         @Override
-        public void onChanged(GearKitView gearsSet)
+        public void onChanged(GearKitView gearKit)
         {
-            _presenter.setGearKit(gearsSet.getId(), gearsSet.getGearsSet());
+            _presenter.setGearKit(gearKit.getId(), gearKit.getGears());
         }
 
         @Override
-        public void onChecked(GearKitView gearsSet)
+        public void onChecked(GearKitView gearKit)
         {
-            _presenter.setGearKitChecked(gearsSet.getId(), gearsSet.isChecked());
+            _presenter.setGearKitChecked(gearKit.getId(), gearKit.isChecked());
         }
     };
 
@@ -451,13 +448,13 @@ public final class View extends CalculationView implements Contract.View
                 }
             });
 
-        _gkViews[G.Z0] = new GearKitView(G.Z0, _view, R.id.z0Set, R.id.z0Gears, 0, _gearsSetViewListener);
-        _gkViews[G.Z1] = new GearKitView(G.Z1, _view, R.id.z1Set, R.id.z1Gears, R.id.z1Select, _gearsSetViewListener);
-        _gkViews[G.Z2] = new GearKitView(G.Z2, _view, R.id.z2Set, R.id.z2Gears, R.id.z2Select, _gearsSetViewListener);
-        _gkViews[G.Z3] = new GearKitView(G.Z3, _view, R.id.z3Set, R.id.z3Gears, R.id.z3Select, _gearsSetViewListener);
-        _gkViews[G.Z4] = new GearKitView(G.Z4, _view, R.id.z4Set, R.id.z4Gears, R.id.z4Select, _gearsSetViewListener);
-        _gkViews[G.Z5] = new GearKitView(G.Z5, _view, R.id.z5Set, R.id.z5Gears, R.id.z5Select, _gearsSetViewListener);
-        _gkViews[G.Z6] = new GearKitView(G.Z6, _view, R.id.z6Set, R.id.z6Gears, R.id.z6Select, _gearsSetViewListener);
+        _gkViews[G.Z0] = new GearKitView(G.Z0, _view, R.id.z0Set, R.id.z0Gears, 0, _gearKitViewListener);
+        _gkViews[G.Z1] = new GearKitView(G.Z1, _view, R.id.z1Set, R.id.z1Gears, R.id.z1Select, _gearKitViewListener);
+        _gkViews[G.Z2] = new GearKitView(G.Z2, _view, R.id.z2Set, R.id.z2Gears, R.id.z2Select, _gearKitViewListener);
+        _gkViews[G.Z3] = new GearKitView(G.Z3, _view, R.id.z3Set, R.id.z3Gears, R.id.z3Select, _gearKitViewListener);
+        _gkViews[G.Z4] = new GearKitView(G.Z4, _view, R.id.z4Set, R.id.z4Gears, R.id.z4Select, _gearKitViewListener);
+        _gkViews[G.Z5] = new GearKitView(G.Z5, _view, R.id.z5Set, R.id.z5Gears, R.id.z5Select, _gearKitViewListener);
+        _gkViews[G.Z6] = new GearKitView(G.Z6, _view, R.id.z6Set, R.id.z6Gears, R.id.z6Select, _gearKitViewListener);
 
         _calculationModeSpinner = (Spinner)_view.findViewById(R.id.calcTypeSpinner);
         initSpinner(_calculationModeSpinner, R.array.cg_calctype_array, _calcModeListener);
@@ -548,13 +545,13 @@ public final class View extends CalculationView implements Contract.View
         spinner.setOnItemSelectedListener(listener);
     }
 
-    private void requestGearsSet(GearKitView gsView)
+    private void requestGearKit(GearKitView gsView)
     {
         final GearKitView gsv = gsView;
 
         FragmentManager fragmentManager = Activity.getSupportFragmentManager();
         final TeethNumbersDialog dialog = new TeethNumbersDialog();
-        dialog.setSelection(gsv.getGearsSet());
+        dialog.setSelection(gsv.getGears());
         dialog.setResultListener(new DialogBase.ResultListener()
             {
                 @Override

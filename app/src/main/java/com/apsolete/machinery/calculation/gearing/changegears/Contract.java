@@ -9,8 +9,8 @@ public interface Contract
     interface Presenter extends CalculationContract.Presenter
     {
         void setOneGearKit(boolean oneKit);
-        void setGearKit(int set, String valuesStr);
-        void setGearKit(int set, List<Integer> values);
+        void setGearKit(int kit, String valuesStr);
+        void setGearKit(int kit, List<Integer> values);
         void setGearKitChecked(int kit, boolean checked);
         void setCalculationMode(int calcType);
 
