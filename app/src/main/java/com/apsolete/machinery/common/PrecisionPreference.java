@@ -2,17 +2,22 @@ package com.apsolete.machinery.common;
 
 import com.apsolete.machinery.R;
 
-import android.content.*;
-import android.support.v7.preference.*;
-import android.util.*;
-import android.widget.*;
-import android.widget.SeekBar.*;
-import android.content.res.*;
-import android.os.*;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.os.Parcelable;
+import android.os.Parcel;
+import android.support.annotation.Nullable;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceViewHolder;
+import android.util.AttributeSet;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class PrecisionPreference extends Preference
 {
-    private int _precision = 1;
+    private static final int DefPrecision = 1;
+    private int _precision;
     
     private static class SavedState extends BaseSavedState
     {
@@ -100,32 +105,35 @@ public class PrecisionPreference extends Preference
         setPrecision(_precision);
     }
 
-    private void setPrecision(int prec)
+    private void setPrecision(int precision)
     {
-        if (_precision != prec)
+        if (_precision != precision)
         {
-            _precision = prec;
+            _precision = precision;
             persistInt(_precision);
         }
         
-        String text = "#.";
-        for (int i = 0; i < prec; i++)
-            text += "0";
-        _textView.setText(text);
+        StringBuilder text = new StringBuilder("#.");
+        for (int i = 0; i < precision; i++)
+            text.append("0");
+        _textView.setText(text.toString());
     }
 
     @Override
-    protected void onSetInitialValue(boolean restoreValue, Object defaultValue)
+    protected void onSetInitialValue(@Nullable Object defaultValue)
     {
-        _precision = restoreValue ? getPersistedInt(_precision) : (int) defaultValue;
+        super.onSetInitialValue(defaultValue);
+        int defPrecision = defaultValue != null ? (int) defaultValue : DefPrecision;
+        int precision = getPersistedInt(defPrecision);
+        if (_precision != precision)
+            _precision = precision;
     }
-    
+
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index)
     {
-        // TODO: Implement this method
         //return super.onGetDefaultValue(a, index);
-        return a.getInteger(index, 1);
+        return a.getInteger(index, DefPrecision);
     }
 
     @Override
