@@ -5,14 +5,14 @@ import android.os.Parcelable;
 
 import com.apsolete.machinery.common.OnProgressListener;
 
-public abstract class CalculationModel implements Parcelable
+public abstract class CalculationModel implements Parcelable, CalculationContract.Model
 {
     class AsyncCalc extends AsyncTask<CalculationModel, Integer, Void>
     {
         @Override
         protected Void doInBackground(CalculationModel... params)
         {
-            params[0].calculateInternal();
+            params[0].onCalculate();
             return null;
         }
     }
@@ -21,8 +21,16 @@ public abstract class CalculationModel implements Parcelable
     private int _progress = 0;
     private OnProgressListener _progressListener;
 
-    protected abstract void calculateInternal();
+    protected abstract void onCalculate();
+    protected abstract void onLoad();
 
+    @Override
+    public void load()
+    {
+
+    }
+
+    @Override
     public void calculate()
     {
         AsyncCalc asyncCalc = new AsyncCalc();

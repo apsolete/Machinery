@@ -5,7 +5,12 @@ import com.apsolete.machinery.common.mvp.BaseContract;
 
 public interface CalculationContract
 {
-	interface Presenter extends BaseContract.BasePresenter
+	interface Model extends BaseContract.Model
+    {
+        void calculate();
+    }
+
+	interface Presenter extends BaseContract.Presenter
 	{
 		void save();
 		void clear();
@@ -14,7 +19,7 @@ public interface CalculationContract
 		View getView();
 	}
 
-	interface View<P extends Presenter> extends BaseContract.BaseView<P>
+	interface View<P extends Presenter> extends BaseContract.View<P>
 	{
 		SettingsBase getSettings();
 		void showProgress(int percent);

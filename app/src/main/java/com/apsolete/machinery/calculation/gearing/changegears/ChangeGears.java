@@ -157,7 +157,7 @@ public final class ChangeGears extends CalculationModel
     }
 
     @Override
-    protected void calculateInternal()
+    protected void onCalculate()
     {
         _calculatedRatios = 0;
 
@@ -204,6 +204,11 @@ public final class ChangeGears extends CalculationModel
         }
     }
 
+    @Override
+    protected void onLoad()
+    {
+
+    }
 
 
     private void calculateBy(int[] gs1, int[] gs2)
