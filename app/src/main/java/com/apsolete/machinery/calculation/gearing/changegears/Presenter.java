@@ -80,8 +80,8 @@ public final class Presenter extends CalculationPresenter implements Contract.Pr
         _gearKits.putZ5(new int[]{});
         _gearKits.putZ6(new int[]{});
 
-        _gearKits.setIsChecked(G.Z1, true);
-        _gearKits.setIsChecked(G.Z2, true);
+        _gearKits.setChecked(G.Z1, true);
+        _gearKits.setChecked(G.Z2, true);
 
         _view.setPresenter(this);
         _calculator = new ChangeGears();
@@ -200,22 +200,22 @@ public final class Presenter extends CalculationPresenter implements Contract.Pr
     }
 
     @Override
-    public void setGearKit(int set, String valuesStr)
+    public void setGearKit(int kit, String valuesStr)
     {
         int[] values = Numbers.getNumbers(valuesStr);
-        _gearKits.put(set, values);
-        if (set > G.Z1 && set < G.Z6)
-            _view.setGearKitEnabled(set + 1, valuesStr != null && !valuesStr.isEmpty());
+        _gearKits.put(kit, values);
+        if (kit > G.Z1 && kit < G.Z6)
+            _view.setGearKitEnabled(kit + 1, valuesStr != null && !valuesStr.isEmpty());
     }
 
     @Override
-    public void setGearKit(int set, List<Integer> values)
+    public void setGearKit(int kit, List<Integer> values)
     {
-        _gearKits.put(set, ArrayUtils.toArrayInt(values));
+        _gearKits.put(kit, ArrayUtils.toArrayInt(values));
         String valuesStr = Numbers.getString(values);
-        _view.setGearKit(set, valuesStr);
-        if (set > G.Z1 && set < G.Z6)
-            _view.setGearKitEnabled(set + 1, valuesStr != null && !valuesStr.isEmpty());
+        _view.setGearKit(kit, valuesStr);
+        if (kit > G.Z1 && kit < G.Z6)
+            _view.setGearKitEnabled(kit + 1, valuesStr != null && !valuesStr.isEmpty());
     }
 
     @Override
@@ -223,7 +223,7 @@ public final class Presenter extends CalculationPresenter implements Contract.Pr
     {
         if (kit < G.Z1 || kit > G.Z6)
             return;
-        _gearKits.setIsChecked(kit, checked);
+        _gearKits.setChecked(kit, checked);
         if (checked)
         {
             _oneSetGearsCount = (kit % 2) == 0 ? kit : kit - 1;
@@ -236,7 +236,7 @@ public final class Presenter extends CalculationPresenter implements Contract.Pr
             _oneSetGearsCount = (s % 2) == 0 ? s : s - 1;
             for (kit++; kit <= G.Z6; kit++)
             {
-                _gearKits.setIsChecked(kit, false);
+                _gearKits.setChecked(kit, false);
                 _view.setGearKitChecked(kit, false);
                 _view.setGearKitEnabled(kit, false);
             }

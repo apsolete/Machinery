@@ -14,9 +14,9 @@ public final class GearKitView extends TextChangedListener implements View.OnCli
 {
     public interface OnGearKitViewListener
     {
-        void onRequest(GearKitView gearsSet);
-        void onChanged(GearKitView gearsSet);
-        void onChecked(GearKitView gearsSet);
+        void onRequest(GearKitView gearKit);
+        void onChanged(GearKitView gearKit);
+        void onChecked(GearKitView gearKit);
     }
 
     private int _gearId;
@@ -103,12 +103,12 @@ public final class GearKitView extends TextChangedListener implements View.OnCli
         return _gearId;
     }
 
-    public String getGearsSet()
+    public String getGears()
     {
         return _gearsText.getText().toString();
     }
 
-    public void setGearsSet(String text)
+    public void setGears(String text)
     {
         try
         {

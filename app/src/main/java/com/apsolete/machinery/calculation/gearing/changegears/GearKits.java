@@ -177,7 +177,7 @@ public class GearKits implements Parcelable
         return _gearKits.get(kit).isChecked;
     }
 
-    public void setIsChecked(int kit, boolean isChecked)
+    public void setChecked(int kit, boolean isChecked)
     {
         _gearKits.get(kit).isChecked = isChecked;
     }
