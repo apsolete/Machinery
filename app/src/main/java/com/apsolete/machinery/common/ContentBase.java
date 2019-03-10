@@ -79,7 +79,7 @@ public abstract class ContentBase extends Fragment
         ProgressBar.setVisibility(View.GONE);
     }
 
-    public Fragment asFragment()
+    public ContentBase getContent()
     {
         return  this;
     }
