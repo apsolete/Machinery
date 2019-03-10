@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface Contract
 {
-    interface Presenter extends Calculation.Contract.Presenter
+    interface Presenter extends CalculationContract.Presenter
     {
         void setOneGearKit(boolean oneKit);
         void setGearKit(int set, String valuesStr);
@@ -44,7 +44,7 @@ public interface Contract
         String threadPitch();
     }
 
-    interface View extends Calculation.Contract.View<Presenter>
+    interface View extends CalculationContract.View<Presenter>
     {
         void setOneGearKit(boolean oneKit);
         void setGearKit(int kit, String gearsStr);

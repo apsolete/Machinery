@@ -7,11 +7,11 @@ import java.text.*;
 import java.util.*;
 import java.math.*;
 
-public abstract class CalculationPresenter implements Calculation.Contract.Presenter
+public abstract class CalculationPresenter implements CalculationContract.Presenter
 {
-    private Calculation.Contract.View _view;
+    private CalculationContract.View _view;
 
-    protected CalculationPresenter(Calculation.Contract.View view)
+    protected CalculationPresenter(CalculationContract.View view)
     {
         _view = view;
     }
@@ -57,7 +57,7 @@ public abstract class CalculationPresenter implements Calculation.Contract.Prese
     }
 
     @Override
-    public Calculation.Contract.View getView()
+    public CalculationContract.View getView()
     {
         return _view;
     }
