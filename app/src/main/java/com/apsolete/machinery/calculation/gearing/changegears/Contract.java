@@ -12,6 +12,13 @@ public interface Contract
         void setGearKit(int kit, String valuesStr);
         void setGearKit(int kit, List<Integer> values);
         void setGearKitChecked(int kit, boolean checked);
+
+        void setDiffLockedZ2Z3(boolean diff);
+        void setDiffLockedZ4Z5(boolean diff);
+        void setDiffGearingZ1Z2(boolean diff);
+        void setDiffGearingZ3Z4(boolean diff);
+        void setDiffGearingZ5Z6(boolean diff);
+
         void setCalculationMode(int calcType);
 
         void setLeadscrewPitch(String valueStr);
@@ -24,7 +31,7 @@ public interface Contract
         void setRatio(String numStr, String denStr);
         void setRatioNumerator(String valueStr);
         void setRatioDenominator(String valueStr);
-        void setRatioFormat(int precision);
+        void setRatioPrecision(int precision);
         void setRatioAsFraction(boolean asFraction);
 
         int getNextResults();

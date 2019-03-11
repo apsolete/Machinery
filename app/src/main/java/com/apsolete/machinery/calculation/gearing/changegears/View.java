@@ -296,7 +296,7 @@ public final class View extends CalculationView implements Contract.View
         @Override
         public void onRatioPrecisionChanged(int newValue)
         {
-            _presenter.setRatioFormat(newValue);
+            _presenter.setRatioPrecision(newValue);
         }
     };
 

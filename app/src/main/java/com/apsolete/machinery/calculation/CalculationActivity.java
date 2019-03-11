@@ -229,6 +229,5 @@ public class CalculationActivity extends AppCompatActivity
         _miOptions.getIcon().setAlpha(enable ? 255 : 130);
         _miClose.setEnabled(enable);
         _miClose.getIcon().setAlpha(enable ? 255 : 130);
-        this.setProgress(5);
     }
 }
