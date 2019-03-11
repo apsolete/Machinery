@@ -17,6 +17,12 @@ public final class Presenter extends CalculationPresenter implements Contract.Pr
     private boolean _oneSet;
     private GearKits _gearKits = new GearKits();
     private int _oneSetGearsCount = 2;
+    private boolean _diffLockedZ2Z3 = true;
+    private boolean _diffLockedZ4Z5 = true;
+    private boolean _diffGearingZ1Z2 = true;
+    private boolean _diffGearingZ3Z4 = true;
+    private boolean _diffGearingZ5Z6 = true;
+
     private int _calculationMode;
 
     private double _ratio = 1.25;
@@ -36,9 +42,6 @@ public final class Presenter extends CalculationPresenter implements Contract.Pr
 
     /*settings*/
     private int _ratioPrecision = 2;
-    private boolean _diffTeethGearing = true;
-    private boolean _diffTeethDoubleGear = true;
-
 
     private OnResultListener<Result> _resultListener = new OnResultListener<Result>()
     {
@@ -118,7 +121,7 @@ public final class Presenter extends CalculationPresenter implements Contract.Pr
         _view.setThreadPitch(Double.toString(_threadPitch));
         _view.setThreadPitchUnit(_threadPitchUnit.ordinal());
 
-        setRatioFormat(3);
+        setRatioPrecision(3);
         recalculateRatio();
     }
 
@@ -151,9 +154,12 @@ public final class Presenter extends CalculationPresenter implements Contract.Pr
         clear();
 
         _calculator.setAccuracy(Math.pow(10, -_ratioPrecision));
-        _calculator.setDiffTeethGearing(_diffTeethGearing);
-        _calculator.setDiffTeethDoubleGear(_diffTeethDoubleGear);
-        
+        _calculator.setDiffLockedZ2Z3(_diffLockedZ2Z3);
+        _calculator.setDiffLockedZ4Z5(_diffLockedZ4Z5);
+        _calculator.setDiffGearingZ1Z2(_diffGearingZ1Z2);
+        _calculator.setDiffGearingZ3Z4(_diffGearingZ3Z4);
+        _calculator.setDiffGearingZ5Z6(_diffGearingZ5Z6);
+
         double r = _calculationMode == G.GEARS_BY_RATIO || _calculationMode == G.GEARS_BY_THREAD
                     ? _calculatedRatio : 0.0;
         _calculator.setRatio(r);
@@ -164,12 +170,12 @@ public final class Presenter extends CalculationPresenter implements Contract.Pr
         }
         else
         {
-            int[] zs1 = _gearKits.getZ1();//ArrayUtils.toArrayInt(_gearsSets.get(G.Z1));
-            int[] zs2 = _gearKits.getZ2();//ArrayUtils.toArrayInt(_gearsSets.get(G.Z2));
-            int[] zs3 = _gearKits.getZ3();//ArrayUtils.toArrayInt(_gearsSets.get(G.Z3));
-            int[] zs4 = _gearKits.getZ4();//ArrayUtils.toArrayInt(_gearsSets.get(G.Z4));
-            int[] zs5 = _gearKits.getZ5();//ArrayUtils.toArrayInt(_gearsSets.get(G.Z5));
-            int[] zs6 = _gearKits.getZ6();//ArrayUtils.toArrayInt(_gearsSets.get(G.Z6));
+            int[] zs1 = _gearKits.getZ1();
+            int[] zs2 = _gearKits.getZ2();
+            int[] zs3 = _gearKits.getZ3();
+            int[] zs4 = _gearKits.getZ4();
+            int[] zs5 = _gearKits.getZ5();
+            int[] zs6 = _gearKits.getZ6();
             int total = zs1.length > 0 ? zs1.length : 1;
             total *= zs2.length > 0 ? zs2.length : 1;
             total *= zs3.length > 0 ? zs3.length : 1;
@@ -241,6 +247,36 @@ public final class Presenter extends CalculationPresenter implements Contract.Pr
                 _view.setGearKitEnabled(kit, false);
             }
         }
+    }
+
+    @Override
+    public void setDiffLockedZ2Z3(boolean diff)
+    {
+        _diffLockedZ2Z3 = diff;
+    }
+
+    @Override
+    public void setDiffLockedZ4Z5(boolean diff)
+    {
+        _diffLockedZ4Z5 = diff;
+    }
+
+    @Override
+    public void setDiffGearingZ1Z2(boolean diff)
+    {
+        _diffGearingZ1Z2 = diff;
+    }
+
+    @Override
+    public void setDiffGearingZ3Z4(boolean diff)
+    {
+        _diffGearingZ3Z4 = diff;
+    }
+
+    @Override
+    public void setDiffGearingZ5Z6(boolean diff)
+    {
+        _diffGearingZ5Z6 = diff;
     }
 
     @Override
@@ -379,7 +415,7 @@ public final class Presenter extends CalculationPresenter implements Contract.Pr
     }
 
     @Override
-    public void setRatioFormat(int precision)
+    public void setRatioPrecision(int precision)
     {
         _ratioPrecision = precision;
         StringBuilder pattern = new StringBuilder("#0.0");

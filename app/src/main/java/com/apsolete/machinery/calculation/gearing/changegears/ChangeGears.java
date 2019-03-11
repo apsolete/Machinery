@@ -15,8 +15,11 @@ public final class ChangeGears extends CalculationModel
 
     private double _ratio = 0;
     private double _accuracy;
-    private boolean _diffTeethGearing = true;
-    private boolean _diffTeethDoubleGear = true;
+    private boolean _diffLockedZ2Z3 = false;
+    private boolean _diffLockedZ4Z5 = false;
+    private boolean _diffGearingZ1Z2 = false;
+    private boolean _diffGearingZ3Z4 = false;
+    private boolean _diffGearingZ5Z6 = false;
     private boolean _isOneSet = false;
     private int _gearsCount = 2;
     private GearKits _gearKits = new GearKits();
@@ -32,8 +35,11 @@ public final class ChangeGears extends CalculationModel
         _ratio = in.readDouble();
         _accuracy = in.readDouble();
         _gearsCount = in.readInt();
-        _diffTeethGearing = in.readByte() == 1;
-        _diffTeethDoubleGear = in.readByte() == 1;
+        _diffLockedZ2Z3 = in.readByte() == 1;
+        _diffLockedZ4Z5 = in.readByte() == 1;
+        _diffGearingZ1Z2 = in.readByte() == 1;
+        _diffGearingZ3Z4 = in.readByte() == 1;
+        _diffGearingZ5Z6 = in.readByte() == 1;
         _isOneSet = in.readByte() == 1;
         _gearKits = in.readParcelable(GearKits.class.getClassLoader());
     }
@@ -51,8 +57,11 @@ public final class ChangeGears extends CalculationModel
         out.writeDouble(_ratio);
         out.writeDouble(_accuracy);
         out.writeInt(_gearsCount);
-        out.writeByte(_diffTeethGearing? (byte)1 : (byte)0);
-        out.writeByte(_diffTeethDoubleGear? (byte)1 : (byte)0);
+        out.writeByte(_diffLockedZ2Z3 ? (byte)1 : (byte)0);
+        out.writeByte(_diffLockedZ4Z5 ? (byte)1 : (byte)0);
+        out.writeByte(_diffGearingZ1Z2 ? (byte)1 : (byte)0);
+        out.writeByte(_diffGearingZ3Z4 ? (byte)1 : (byte)0);
+        out.writeByte(_diffGearingZ5Z6 ? (byte)1 : (byte)0);
         out.writeByte(_isOneSet? (byte)1 : (byte)0);
         out.writeParcelable(_gearKits, flags);
     }
@@ -92,24 +101,29 @@ public final class ChangeGears extends CalculationModel
         _accuracy = accuracy;
     }
 
-//    public boolean isDiffTeethGearing()
-//    {
-//        return _diffTeethGearing;
-//    }
-
-    public void setDiffTeethGearing(boolean diffTeethGearing)
+    public void setDiffLockedZ2Z3(boolean equal)
     {
-        _diffTeethGearing = diffTeethGearing;
+        _diffLockedZ2Z3 = equal;
     }
 
-//    public boolean isDiffTeethDoubleGear()
-//    {
-//        return _diffTeethDoubleGear;
-//    }
-
-    public void setDiffTeethDoubleGear(boolean diffTeethDoubleGear)
+    public void setDiffLockedZ4Z5(boolean equal)
     {
-        _diffTeethDoubleGear = diffTeethDoubleGear;
+        _diffLockedZ4Z5 = equal;
+    }
+
+    public void setDiffGearingZ1Z2(boolean equal)
+    {
+        _diffGearingZ1Z2 = equal;
+    }
+
+    public void setDiffGearingZ3Z4(boolean equal)
+    {
+        _diffGearingZ3Z4 = equal;
+    }
+
+    public void setDiffGearingZ5Z6(boolean equal)
+    {
+        _diffGearingZ5Z6 = equal;
     }
 
     public void setGearKit(int gears, int[] kit)
@@ -222,7 +236,7 @@ public final class ChangeGears extends CalculationModel
             for (int z2: gs2)
             {
                 publishProgress();
-                if (_diffTeethGearing && z1 == z2)
+                if (_diffGearingZ1Z2 && z1 == z2)
                     continue;
 
                 calculateRatio(z1, z2);
@@ -241,19 +255,19 @@ public final class ChangeGears extends CalculationModel
             for (int z2: gs2)
             {
                 publishProgress();
-                if (_diffTeethGearing && z1 == z2)
+                if (_diffGearingZ1Z2 && z1 == z2)
                     continue;
 
                 for (int z3: gs3)
                 {
                     publishProgress();
-                    if (_diffTeethDoubleGear && z2 == z3)
+                    if (_diffLockedZ2Z3 && z2 == z3)
                         continue;
 
                     for (int z4: gs4)
                     {
                         publishProgress();
-                        if (_diffTeethGearing && z3 == z4)
+                        if (_diffGearingZ3Z4 && z3 == z4)
                             continue;
 
                         calculateRatio(z1, z2, z3, z4);
@@ -275,31 +289,31 @@ public final class ChangeGears extends CalculationModel
             for (int z2: gs2)
             {
                 publishProgress();
-                if (_diffTeethGearing && z1 == z2)
+                if (_diffGearingZ1Z2 && z1 == z2)
                     continue;
 
                 for (int z3: gs3)
                 {
                     publishProgress();
-                    if (_diffTeethDoubleGear && z2 == z3)
+                    if (_diffLockedZ2Z3 && z2 == z3)
                         continue;
 
                     for (int z4: gs4)
                     {
                         publishProgress();
-                        if (_diffTeethGearing && z3 == z4)
+                        if (_diffGearingZ3Z4 && z3 == z4)
                             continue;
 
                         for (int z5: gs5)
                         {
                             publishProgress();
-                            if (_diffTeethDoubleGear && z4 == z5)
+                            if (_diffLockedZ4Z5 && z4 == z5)
                                 continue;
 
                             for (int z6: gs6)
                             {
                                 publishProgress();
-                                if (_diffTeethGearing && z5 == z6)
+                                if (_diffGearingZ5Z6 && z5 == z6)
                                     continue;
 
                                 calculateRatio(z1, z2, z3, z4, z5, z6);
