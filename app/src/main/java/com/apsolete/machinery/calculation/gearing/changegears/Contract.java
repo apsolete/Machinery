@@ -59,6 +59,12 @@ public interface Contract
         void setGearKitEnabled(int kit, boolean enabled);
         void setGearKitEditable(int kit, boolean enable);
 
+        void setDiffLockedZ2Z3(boolean diff);
+        void setDiffLockedZ4Z5(boolean diff);
+        void setDiffGearingZ1Z2(boolean diff);
+        void setDiffGearingZ3Z4(boolean diff);
+        void setDiffGearingZ5Z6(boolean diff);
+
         void setCalculationMode(int mode);
 
         void setThreadPitch(String valueStr);
@@ -76,6 +82,7 @@ public interface Contract
 
         void setFormattedRatio(String ratioStr);
         void showFormattedRatio(boolean visible);
+        void setRatioPrecision(int precision);
 
         void setFirstResultNumber(String valueStr);
         void setLastResultNumber(String valueStr);

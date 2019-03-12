@@ -123,6 +123,36 @@ public final class View extends CalculationView implements Contract.View
     }
 
     @Override
+    public void setDiffLockedZ2Z3(boolean diff)
+    {
+
+    }
+
+    @Override
+    public void setDiffLockedZ4Z5(boolean diff)
+    {
+
+    }
+
+    @Override
+    public void setDiffGearingZ1Z2(boolean diff)
+    {
+
+    }
+
+    @Override
+    public void setDiffGearingZ3Z4(boolean diff)
+    {
+
+    }
+
+    @Override
+    public void setDiffGearingZ5Z6(boolean diff)
+    {
+
+    }
+
+    @Override
     public void setCalculationMode(int mode)
     {
         _calculationModeSpinner.setSelection(mode);
@@ -229,6 +259,12 @@ public final class View extends CalculationView implements Contract.View
     public void showFormattedRatio(boolean visible)
     {
         _ratioFormattedText.setVisibility(G.boolToVisibility(visible));
+    }
+
+    @Override
+    public void setRatioPrecision(int precision)
+    {
+
     }
 
     @Override
