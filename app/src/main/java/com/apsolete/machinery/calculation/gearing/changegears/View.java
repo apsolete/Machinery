@@ -39,7 +39,7 @@ public final class View extends CalculationView implements Contract.View
     private LinearLayout _leadscrewPitchLayout;
     private EditText _leadscrewPitchEdit;
     private Spinner _leadscrewPitchUnitSpinner;
-    private LinearLayout _gearRatioLayout;
+    //private LinearLayout _gearRatioLayout;
     private CompoundButton _ratioAsFractionSwitch;
     private EditText _gearRatio;
     private EditText _gearRatioNumerator;
@@ -56,7 +56,7 @@ public final class View extends CalculationView implements Contract.View
 
     public View()
     {
-        super(G.CHANGEGEARS, R.layout.view_changegears, R.string.title_changegears);
+        super(G.CHANGEGEARS, R.layout.view_changegears_v2, R.string.title_changegears);
     }
 
     @Override
@@ -181,7 +181,7 @@ public final class View extends CalculationView implements Contract.View
     @Override
     public void showThreadPitch(boolean visible)
     {
-        _threadPitchLayout.setVisibility(G.boolToVisibility(visible));
+        //_threadPitchLayout.setVisibility(G.boolToVisibility(visible));
     }
 
     @Override
@@ -207,7 +207,7 @@ public final class View extends CalculationView implements Contract.View
     @Override
     public void showLeadscrewPitch(boolean visible)
     {
-        _leadscrewPitchLayout.setVisibility(G.boolToVisibility(visible));
+        //_leadscrewPitchLayout.setVisibility(G.boolToVisibility(visible));
     }
 
     @Override
@@ -239,7 +239,7 @@ public final class View extends CalculationView implements Contract.View
     @Override
     public void showRatio(boolean visible)
     {
-        _gearRatioLayout.setVisibility(G.boolToVisibility(visible));
+        //_gearRatioLayout.setVisibility(G.boolToVisibility(visible));
     }
 
     @Override
@@ -484,13 +484,13 @@ public final class View extends CalculationView implements Contract.View
                 }
             });
 
-        _gkViews[G.Z0] = new GearKitView(G.Z0, _view, R.id.z0Set, R.id.z0Gears, 0, _gearKitViewListener);
-        _gkViews[G.Z1] = new GearKitView(G.Z1, _view, R.id.z1Set, R.id.z1Gears, R.id.z1Select, _gearKitViewListener);
-        _gkViews[G.Z2] = new GearKitView(G.Z2, _view, R.id.z2Set, R.id.z2Gears, R.id.z2Select, _gearKitViewListener);
-        _gkViews[G.Z3] = new GearKitView(G.Z3, _view, R.id.z3Set, R.id.z3Gears, R.id.z3Select, _gearKitViewListener);
-        _gkViews[G.Z4] = new GearKitView(G.Z4, _view, R.id.z4Set, R.id.z4Gears, R.id.z4Select, _gearKitViewListener);
-        _gkViews[G.Z5] = new GearKitView(G.Z5, _view, R.id.z5Set, R.id.z5Gears, R.id.z5Select, _gearKitViewListener);
-        _gkViews[G.Z6] = new GearKitView(G.Z6, _view, R.id.z6Set, R.id.z6Gears, R.id.z6Select, _gearKitViewListener);
+        _gkViews[G.Z0] = new GearKitView(G.Z0, _view, R.id.z0Kit, R.id.z0Gears, 0, _gearKitViewListener);
+        _gkViews[G.Z1] = new GearKitView(G.Z1, _view, R.id.z1Kit, R.id.z1Gears, R.id.z1Select, _gearKitViewListener);
+        _gkViews[G.Z2] = new GearKitView(G.Z2, _view, R.id.z2Kit, R.id.z2Gears, R.id.z2Select, _gearKitViewListener);
+        _gkViews[G.Z3] = new GearKitView(G.Z3, _view, R.id.z3Kit, R.id.z3Gears, R.id.z3Select, _gearKitViewListener);
+        _gkViews[G.Z4] = new GearKitView(G.Z4, _view, R.id.z4Kit, R.id.z4Gears, R.id.z4Select, _gearKitViewListener);
+        _gkViews[G.Z5] = new GearKitView(G.Z5, _view, R.id.z5Kit, R.id.z5Gears, R.id.z5Select, _gearKitViewListener);
+        _gkViews[G.Z6] = new GearKitView(G.Z6, _view, R.id.z6Kit, R.id.z6Gears, R.id.z6Select, _gearKitViewListener);
 
         _calculationModeSpinner = (Spinner)_view.findViewById(R.id.calcTypeSpinner);
         initSpinner(_calculationModeSpinner, R.array.cg_calctype_array, _calcModeListener);
@@ -507,7 +507,7 @@ public final class View extends CalculationView implements Contract.View
         _leadscrewPitchUnitSpinner = (Spinner)_view.findViewById(R.id.screwUnitSpinner);
         initSpinner(_leadscrewPitchUnitSpinner, R.array.cg_pitchunit_array, _scrPitchUnitListener);
 
-        _gearRatioLayout = (LinearLayout)_view.findViewById(R.id.gearRatioLayout);
+        //_gearRatioLayout = (LinearLayout)_view.findViewById(R.id.gearRatioLayout);
         _gearRatio = (EditText)_view.findViewById(R.id.gearRatioValue);
         _gearRatio.addTextChangedListener(_ratioTextChangedListener);
 

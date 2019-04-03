@@ -11,6 +11,14 @@
         <item>TPI</item>
     </string-array>
 
+    <string name="title_z0">Z0:</string>
+    <string name="title_z1">Z1:</string>
+    <string name="title_z2">Z2:</string>
+    <string name="title_z3">Z3:</string>
+    <string name="title_z4">Z4:</string>
+    <string name="title_z5">Z5:</string>
+    <string name="title_z6">Z6:</string>
+
     <string name="title_gears_selection_dialog">Gears Selection Dialog</string>
     <string name="title_minteethnamber">Min Teeth Number</string>
     <string name="key_minteethnamber">minteethnumber</string>

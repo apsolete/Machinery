@@ -20,7 +20,7 @@ public final class GearKitView extends TextChangedListener implements View.OnCli
     }
 
     private int _gearId;
-    private Button _gearsButton;
+    private View _gearsButton;
     private CheckBox _gearSelect;
     private EditText _gearsText;
     private boolean _isEditable = true;
@@ -30,7 +30,7 @@ public final class GearKitView extends TextChangedListener implements View.OnCli
     {
         _gearId = id;
 
-        _gearsButton = (Button)parent.findViewById(buttonSetId);
+        _gearsButton = parent.findViewById(buttonSetId);
         _gearsButton.setOnClickListener(this);
 
         _gearsText = (EditText)parent.findViewById(textGearsId);

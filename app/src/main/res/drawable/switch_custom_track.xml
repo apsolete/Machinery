@@ -9,8 +9,8 @@
         android:endColor="@color/colorGray500Light"
         android:angle="270"/>
     <corners
-        android:radius="8dp"/>
+        android:radius="16dp"/>
     <size
-        android:width="80dp"
-        android:height="40dp"/>
+        android:width="32dp"
+        android:height="2dp"/>
 </shape>

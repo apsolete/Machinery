@@ -29,5 +29,6 @@
 
     <string name="machinery">Machinery</string>
     <string name="machinery_apsolete_email">machinery.apsolete@gmail.com</string>
+    <string name="use_one_kit">Use one kit for all gears</string>
 
 </resources>
