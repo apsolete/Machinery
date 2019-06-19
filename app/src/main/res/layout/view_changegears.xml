@@ -19,7 +19,7 @@
 		android:orientation="vertical">
 
 		<RelativeLayout
-			android:id="@+id/leftLayout"
+			android:id="@+id/gearsLayout"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
@@ -44,7 +44,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_margin="6dp"
-					android:text="Gears:"
+					android:text="@string/gears"
 					android:textColor="@color/design_default_color_primary_dark" />
 
 				<EditText
@@ -56,7 +56,8 @@
 					android:inputType="number|text"
 					android:maxEms="16"
 					android:minEms="6"
-					android:textAppearance="?android:attr/textAppearanceSmall" />
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:importantForAutofill="no" />
 
 			</LinearLayout>
 
@@ -298,10 +299,10 @@
 			</HorizontalScrollView>
 		</RelativeLayout>
 
-		<RelativeLayout
-			android:id="@+id/rightLayout"
+		<!--<RelativeLayout
+			android:id="@+id/bottomLayout"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content">-->
 
 			<GridLayout
 				android:id="@+id/modeLayout"
@@ -316,7 +317,7 @@
 					android:layout_column="0"
 					android:layout_margin="6dp"
 					android:padding="2dp"
-					android:text="Mode"
+					android:text="@string/mode"
 					android:textColor="@android:color/holo_green_dark"
 					android:textStyle="bold|italic" />
 
@@ -344,7 +345,7 @@
 					android:layout_column="0"
 					android:layout_gravity="center_vertical"
 					android:layout_margin="@dimen/layout_margin"
-					android:text="Thread Pitch" />
+					android:text="@string/thread_pitch" />
 
 				<EditText
 					android:id="@+id/threadPitchValue"
@@ -382,7 +383,7 @@
 					android:layout_column="0"
 					android:layout_gravity="center_vertical"
 					android:layout_margin="@dimen/layout_margin"
-					android:text="Leadscrew Pitch" />
+					android:text="@string/leadscrew_pitch" />
 
 				<EditText
 					android:id="@+id/screwPitchValue"
@@ -426,21 +427,19 @@
 						android:layout_height="wrap_content"
 						android:layout_gravity="center_vertical"
 						android:layout_margin="@dimen/layout_margin"
-						android:text="Ratio"
+						android:text="@string/ratio"
 						android:visibility="gone" />
 
 					<Switch
 						android:id="@+id/ratioAsFractionSwitch"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_row="4"
-						android:layout_column="2"
 						android:layout_gravity="center_vertical"
 						android:layout_margin="@dimen/layout_margin"
 						android:showText="true"
-						android:text="Ratio"
-						android:textOff="x.y"
-						android:textOn="x/y"
+						android:text="@string/ratio"
+						android:textOff="@string/xy"
+						android:textOn="@string/x_y"
 						android:thumb="@drawable/switch_custom_selector"
 						android:track="@drawable/switch_custom_track" />
 
@@ -480,7 +479,7 @@
 						android:layout_height="wrap_content"
 						android:layout_gravity="center_vertical"
 						android:layout_margin="@dimen/layout_margin"
-						android:text="/"
+						android:text="@string/slash"
 						android:textAppearance="?android:attr/textAppearanceLarge" />
 
 					<EditText
@@ -506,11 +505,11 @@
 					android:layout_columnSpan="3"
 					android:layout_gravity="center_vertical"
 					android:layout_margin="@dimen/layout_margin"
-					android:text="R = 0.0"
+					android:text="@string/ratio_00"
 					android:textAppearance="?android:attr/textAppearanceLarge" />
 
 			</GridLayout>
-		</RelativeLayout>
+		<!--</RelativeLayout>-->
 	</LinearLayout>
 
 	<LinearLayout
@@ -522,43 +521,54 @@
 		<ImageButton
 			android:id="@+id/showPrev"
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_height="match_parent"
 			android:layout_gravity="center_vertical"
 			android:layout_margin="6dp"
+			android:layout_weight="1"
+			android:contentDescription="@string/previous_results"
 			android:src="@drawable/ic_arrow_back_white_24dp" />
 
-		<TextView
-			android:id="@+id/resultFirstNumberText"
+		<LinearLayout
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_vertical"
-			android:layout_margin="6dp"
-			android:gravity="center"
-			android:text="1" />
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:orientation="horizontal">
 
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_vertical"
-			android:layout_margin="6dp"
-			android:gravity="center"
-			android:text="-" />
+			<TextView
+				android:id="@+id/resultFirstNumberText"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_gravity="start|center_vertical"
+				android:layout_margin="6dp"
+				android:gravity="center"
+				android:text="1" />
 
-		<TextView
-			android:id="@+id/resultLastNumberText"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_vertical"
-			android:layout_margin="6dp"
-			android:gravity="center"
-			android:text="100" />
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_gravity="center_vertical"
+				android:layout_margin="6dp"
+				android:gravity="center"
+				android:text="-" />
+
+			<TextView
+				android:id="@+id/resultLastNumberText"
+				android:layout_width="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_gravity="center_vertical|end"
+				android:layout_margin="6dp"
+				android:gravity="center"
+				android:text="100" />
+		</LinearLayout>
 
 		<ImageButton
 			android:id="@+id/showNext"
 			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_height="match_parent"
 			android:layout_gravity="center_vertical"
 			android:layout_margin="6dp"
+			android:layout_weight="1"
+			android:contentDescription="@string/next_results"
 			android:src="@drawable/ic_arrow_forward_white_24dp" />
 
 	</LinearLayout>

@@ -19,6 +19,9 @@
     <string name="title_z5">Z5:</string>
     <string name="title_z6">Z6:</string>
 
+    <string name="use_one_kit">Use one kit for all gears</string>
+    <string name="gears">Gears:</string>
+
     <string name="title_gears_selection_dialog">Gears Selection Dialog</string>
     <string name="title_minteethnamber">Min Teeth Number</string>
     <string name="key_minteethnamber">minteethnumber</string>
@@ -38,4 +41,13 @@
     <string name="key_accuracyofratio">accuracyofratio</string>
     <string name="title_accuracyofratio">Accuracy of ratio</string>
     <string name="summary_accuracyofratio">Accuracy of gear ratio.</string>
+    <string name="mode">Mode</string>
+    <string name="thread_pitch">Thread Pitch</string>
+    <string name="leadscrew_pitch">Leadscrew Pitch</string>
+    <string name="ratio">Ratio</string>
+    <string name="xy">x.y</string>
+    <string name="x_y">x/y</string>
+    <string name="ratio_00">R = 0.0</string>
+    <string name="previous_results">Previous results</string>
+    <string name="next_results">Next results</string>
 </resources>
