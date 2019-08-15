@@ -181,7 +181,7 @@ public final class View extends CalculationView implements Contract.View
     @Override
     public void showThreadPitch(boolean visible)
     {
-        //_threadPitchLayout.setVisibility(G.boolToVisibility(visible));
+        //_threadPitchLayout.setVisibility(G.toVisibility(visible));
     }
 
     @Override
@@ -207,7 +207,7 @@ public final class View extends CalculationView implements Contract.View
     @Override
     public void showLeadscrewPitch(boolean visible)
     {
-        //_leadscrewPitchLayout.setVisibility(G.boolToVisibility(visible));
+        //_leadscrewPitchLayout.setVisibility(G.toVisibility(visible));
     }
 
     @Override
@@ -239,14 +239,14 @@ public final class View extends CalculationView implements Contract.View
     @Override
     public void showRatio(boolean visible)
     {
-        //_gearRatioLayout.setVisibility(G.boolToVisibility(visible));
+        //_gearRatioLayout.setVisibility(G.toVisibility(visible));
     }
 
     @Override
     public void showRatioAsFration(boolean visible)
     {
-        _gearRatio.setVisibility(G.boolToVisibility(visible));
-        _gearRatioFractionLayout.setVisibility(G.boolToVisibility(visible));
+        _gearRatio.setVisibility(G.toVisibility(visible));
+        _gearRatioFractionLayout.setVisibility(G.toVisibility(visible));
     }
 
     @Override
@@ -258,7 +258,7 @@ public final class View extends CalculationView implements Contract.View
     @Override
     public void showFormattedRatio(boolean visible)
     {
-        _ratioFormattedText.setVisibility(G.boolToVisibility(visible));
+        _ratioFormattedText.setVisibility(G.toVisibility(visible));
     }
 
     @Override
