@@ -4,9 +4,9 @@ import com.apsolete.machinery.R;
 import com.apsolete.machinery.common.DialogBase;
 import com.apsolete.machinery.utils.*;
 
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

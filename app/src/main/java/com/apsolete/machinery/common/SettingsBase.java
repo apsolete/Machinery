@@ -1,8 +1,8 @@
 package com.apsolete.machinery.common;
 
 import android.content.Context;
-import android.support.v7.preference.PreferenceFragmentCompat;
-import android.support.v7.app.*;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.appcompat.app.*;
 import android.os.*;
 import android.content.SharedPreferences;
 

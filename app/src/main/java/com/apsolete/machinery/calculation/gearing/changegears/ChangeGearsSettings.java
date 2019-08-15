@@ -4,7 +4,7 @@ import com.apsolete.machinery.R;
 import com.apsolete.machinery.common.*;
 
 import android.content.*;
-import android.support.v7.preference.*;
+import androidx.preference.PreferenceManager;
 
 public class ChangeGearsSettings extends SettingsBase
 {

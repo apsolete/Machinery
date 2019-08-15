@@ -1,15 +1,15 @@
 package com.apsolete.machinery.common.fabs;
 
 import android.animation.Animator;
-import android.support.annotation.*;
 import android.content.Context;
-import android.support.design.widget.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.content.res.TypedArray;
 import android.widget.TextView;
+import androidx.annotation.Nullable;
 
 import com.apsolete.machinery.R;
 

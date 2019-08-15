@@ -3,8 +3,8 @@ package com.apsolete.machinery.references;
 import com.apsolete.machinery.*;
 
 import android.os.*;
-import android.support.v7.app.*;
-import android.support.v7.widget.*;
+import androidx.appcompat.app.*;
+import androidx.appcompat.widget.*;
 
 public class ReferencesActivity extends AppCompatActivity
 {
