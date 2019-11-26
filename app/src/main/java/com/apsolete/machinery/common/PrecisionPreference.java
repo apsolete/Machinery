@@ -119,15 +119,26 @@ public class PrecisionPreference extends Preference
         _textView.setText(text.toString());
     }
 
-    @Override
-    protected void onSetInitialValue(@Nullable Object defaultValue)
-    {
-        super.onSetInitialValue(defaultValue);
-        int defPrecision = defaultValue != null ? (int) defaultValue : DefPrecision;
+//    @Override
+//    protected void onSetInitialValue(@Nullable Object defaultValue)
+//    {
+//        super.onSetInitialValue(defaultValue);
+//        int defPrecision = defaultValue != null ? (int) defaultValue : DefPrecision;
+//        int precision = getPersistedInt(defPrecision);
+//        if (_precision != precision)
+//            _precision = precision;
+//    }
+
+	@Override
+	protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue)
+	{
+		super.onSetInitialValue(restorePersistedValue, defaultValue);
+		int defPrecision = defaultValue != null ? (int) defaultValue : DefPrecision;
         int precision = getPersistedInt(defPrecision);
         if (_precision != precision)
             _precision = precision;
-    }
+	}
+	
 
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index)
