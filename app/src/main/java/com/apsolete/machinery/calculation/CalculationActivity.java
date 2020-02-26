@@ -123,11 +123,11 @@ public class CalculationActivity extends AppCompatActivity
         switch (type)
         {
             case G.CHANGEGEARS: {
-                com.apsolete.machinery.calculation.gearing.changegears.View view =
-                        new com.apsolete.machinery.calculation.gearing.changegears.View();
-                _presenter =
-                        new com.apsolete.machinery.calculation.gearing.changegears.Presenter(view);
-                fragment = view;
+                //com.apsolete.machinery.calculation.gearing.changegears.View view =
+                //        new com.apsolete.machinery.calculation.gearing.changegears.View();
+                //_presenter =
+                //        new com.apsolete.machinery.calculation.gearing.changegears.Presenter(view);
+                fragment = new com.apsolete.machinery.calculation.gearing.changegears.ChangeGearsFragment();
                 break;
             }
             case G.GEARWHEEL: {
