@@ -104,6 +104,13 @@ public abstract class CustomFragment<VM extends ViewModel> extends Fragment
         data.observe(getViewLifecycleOwner(), observer);
     }
 
+    protected void setViewCheckableObserver(@IdRes int id, LiveData<Boolean> data)
+    {
+        View view = mRootView.findViewById(id);
+        Observer<Boolean> observer = new Observers.CheckableObserver(view);
+        data.observe(getViewLifecycleOwner(), observer);
+    }
+
     protected void showProgress(int progress)
     {
         if (ProgressBar.getVisibility() == View.GONE)

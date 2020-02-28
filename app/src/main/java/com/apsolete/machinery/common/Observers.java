@@ -1,6 +1,7 @@
 package com.apsolete.machinery.common;
 
 import android.view.View;
+import android.widget.Checkable;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -48,6 +49,23 @@ public final class Observers
         public void onChanged(Boolean visible)
         {
             mView.setVisibility(visible?View.VISIBLE:View.GONE);
+        }
+    }
+
+    public static class CheckableObserver extends CustomObserver<View, Boolean>
+    {
+        public CheckableObserver(View view)
+        {
+            super(view);
+        }
+
+        @Override
+        public void onChanged(Boolean checked)
+        {
+            if (mView instanceof Checkable)
+            {
+                ((Checkable)mView).setChecked(checked);
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ package com.apsolete.machinery.calculation.gearing.changegears;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.OnResultListener;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -103,5 +104,10 @@ public class ChangeGearsViewModel extends ViewModel
         mGearKits.setChecked(G.Z2, true);
 
         mCalculator = new ChangeGears();
+    }
+
+    public LiveData<Boolean> getOneSet()
+    {
+        return mOneSet;
     }
 }
