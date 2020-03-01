@@ -2,6 +2,7 @@ package com.apsolete.machinery.calculation.gearing.changegears;
 
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.OnResultListener;
+import com.apsolete.machinery.utils.Numbers;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 public class ChangeGearsViewModel extends ViewModel
 {
     private MutableLiveData<Boolean> mOneSet = new MutableLiveData<>();
-    private GearKits mGearKits = new GearKits();
+    private GearKitsViewModel mGearKits = new GearKitsViewModel();
     private MutableLiveData<Integer> mOneSetGearsCount = new MutableLiveData<>();
     private MutableLiveData<Boolean> mDiffLockedZ2Z3 = new MutableLiveData<>();
     private MutableLiveData<Boolean> mDiffLockedZ4Z5 = new MutableLiveData<>();
@@ -92,18 +93,28 @@ public class ChangeGearsViewModel extends ViewModel
         mFirstResultNumber.setValue(1);
         mLastResultNumber.setValue(1);
 
-        mGearKits.putZ0(new int[]{20, 21, 22, 23, 24});
-        mGearKits.putZ1(new int[]{30, 31, 32, 33, 34});
-        mGearKits.putZ2(new int[]{40, 41, 42, 43, 44});
-        mGearKits.putZ3(new int[]{50, 51, 52, 53, 54});
-        mGearKits.putZ4(new int[]{});
-        mGearKits.putZ5(new int[]{});
-        mGearKits.putZ6(new int[]{});
+        mGearKits.get(G.Z0).setKit(new Integer[]{20, 21, 22, 23, 24});
+        mGearKits.get(G.Z1).setKit(new Integer[]{30, 31, 32, 33, 34});
+        mGearKits.get(G.Z2).setKit(new Integer[]{40, 41, 42, 43, 44});
+        mGearKits.get(G.Z3).setKit(new Integer[]{50, 51, 52, 53, 54});
+        mGearKits.get(G.Z4).setKit(new Integer[]{});
+        mGearKits.get(G.Z5).setKit(new Integer[]{});
+        mGearKits.get(G.Z6).setKit(new Integer[]{});
 
-        mGearKits.setChecked(G.Z1, true);
-        mGearKits.setChecked(G.Z2, true);
+        mGearKits.get(G.Z1).setChecked(true);
+        mGearKits.get(G.Z2).setChecked(true);
 
         mCalculator = new ChangeGears();
+    }
+
+    public void setGearKit(int kit, String valuesStr)
+    {
+        int[] values = Numbers.getNumbers(valuesStr);
+        mGearKits.put(kit, values);
+        if (kit > G.Z1 && kit < G.Z6)
+        {
+            //_view.setGearKitEnabled(kit + 1, valuesStr != null && !valuesStr.isEmpty());
+        }
     }
 
     public LiveData<Boolean> getOneSet()
