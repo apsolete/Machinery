@@ -208,7 +208,7 @@ public final class Presenter extends CalculationPresenter implements Contract.Pr
     @Override
     public void setGearKit(int kit, String valuesStr)
     {
-        int[] values = Numbers.getNumbers(valuesStr);
+        int[] values = Numbers.getNumbers2(valuesStr);
         _gearKits.put(kit, values);
         if (kit > G.Z1 && kit < G.Z6)
             _view.setGearKitEnabled(kit + 1, valuesStr != null && !valuesStr.isEmpty());

@@ -93,13 +93,13 @@ public class ChangeGearsViewModel extends ViewModel
         mFirstResultNumber.setValue(1);
         mLastResultNumber.setValue(1);
 
-        mGearKits.get(G.Z0).setKit(new Integer[]{20, 21, 22, 23, 24});
-        mGearKits.get(G.Z1).setKit(new Integer[]{30, 31, 32, 33, 34});
-        mGearKits.get(G.Z2).setKit(new Integer[]{40, 41, 42, 43, 44});
-        mGearKits.get(G.Z3).setKit(new Integer[]{50, 51, 52, 53, 54});
-        mGearKits.get(G.Z4).setKit(new Integer[]{});
-        mGearKits.get(G.Z5).setKit(new Integer[]{});
-        mGearKits.get(G.Z6).setKit(new Integer[]{});
+        mGearKits.get(G.Z0).setGears(new Integer[]{20, 21, 22, 23, 24});
+        mGearKits.get(G.Z1).setGears(new Integer[]{30, 31, 32, 33, 34});
+        mGearKits.get(G.Z2).setGears(new Integer[]{40, 41, 42, 43, 44});
+        mGearKits.get(G.Z3).setGears(new Integer[]{50, 51, 52, 53, 54});
+        mGearKits.get(G.Z4).setGears(new Integer[]{});
+        mGearKits.get(G.Z5).setGears(new Integer[]{});
+        mGearKits.get(G.Z6).setGears(new Integer[]{});
 
         mGearKits.get(G.Z1).setChecked(true);
         mGearKits.get(G.Z2).setChecked(true);
@@ -109,12 +109,27 @@ public class ChangeGearsViewModel extends ViewModel
 
     public void setGearKit(int kit, String valuesStr)
     {
-        int[] values = Numbers.getNumbers(valuesStr);
-        mGearKits.put(kit, values);
+        Integer[] values = Numbers.getNumbers(valuesStr);
+        mGearKits.putGears(kit, values);
         if (kit > G.Z1 && kit < G.Z6)
         {
-            //_view.setGearKitEnabled(kit + 1, valuesStr != null && !valuesStr.isEmpty());
+            mGearKits.get(kit+1).setEnabled(valuesStr != null && !valuesStr.isEmpty());
         }
+    }
+
+    public void setGearKitChecked(int kit, boolean checked)
+    {
+        mGearKits.get(kit).setChecked(checked);
+    }
+
+    public void setGearKitEditable(int kit, boolean editable)
+    {
+        mGearKits.get(kit).setEditable(editable);
+    }
+
+    public void setGearKitEnabled(int kit, boolean enabled)
+    {
+        mGearKits.get(kit).setEnabled(enabled);
     }
 
     public LiveData<Boolean> getOneSet()

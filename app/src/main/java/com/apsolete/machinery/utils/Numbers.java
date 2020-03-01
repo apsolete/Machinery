@@ -4,7 +4,17 @@ import java.util.*;
 
 public class Numbers
 {
-    public static int[] getNumbers(String strNumbers)
+    public static Integer[] getNumbers(String strNumbers)
+    {
+        if (strNumbers == null || strNumbers.isEmpty())
+            return null;
+
+        List<Integer> numList = getNumbersList(strNumbers);
+        Integer[] numbers = numList.toArray(new Integer[numList.size()]);
+        return numbers;
+    }
+
+    public static int[] getNumbers2(String strNumbers)
     {
         if (strNumbers == null || strNumbers.isEmpty())
             return null;

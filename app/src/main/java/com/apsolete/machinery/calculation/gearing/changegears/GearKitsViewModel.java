@@ -11,29 +11,33 @@ public class GearKitsViewModel
 {
     public static class Kit
     {
-        private MutableLiveData<Integer[]> mKit;
+        private MutableLiveData<Integer[]> mGears;
         private MutableLiveData<Boolean> mIsChecked;
+        private MutableLiveData<Boolean> mIsEditable;
+        private MutableLiveData<Boolean> mIsEnabled;
 
         public Kit()
         {
-            mKit = new MutableLiveData<Integer[]>(null);
+            mGears = new MutableLiveData<Integer[]>(null);
             mIsChecked = new MutableLiveData<>(false);
+            mIsEditable = new MutableLiveData<>(false);
+            mIsEnabled = new MutableLiveData<>(false);
         }
 
         public Kit(Integer[] kit, boolean isChecked)
         {
-            mKit = new MutableLiveData<Integer[]>(kit);
+            mGears = new MutableLiveData<Integer[]>(kit);
             mIsChecked = new MutableLiveData<>(isChecked);
         }
 
-        public LiveData<Integer[]> getKit()
+        public LiveData<Integer[]> getGears()
         {
-            return mKit;
+            return mGears;
         }
 
-        public void setKit(Integer[] kit)
+        public void setGears(Integer[] gears)
         {
-            mKit.setValue(kit);
+            mGears.setValue(gears);
         }
 
         public LiveData<Boolean> isChecked()
@@ -44,6 +48,26 @@ public class GearKitsViewModel
         public void setChecked(Boolean checked)
         {
             mIsChecked.setValue(checked);
+        }
+
+        public LiveData<Boolean> isEditable()
+        {
+            return mIsEditable;
+        }
+
+        public void setEditable(Boolean editable)
+        {
+            mIsEditable.setValue(editable);
+        }
+
+        public LiveData<Boolean> isEnabled()
+        {
+            return mIsEnabled;
+        }
+
+        public void setEnabled(Boolean enabled)
+        {
+            mIsEnabled.setValue(enabled);
         }
     }
 
@@ -66,8 +90,8 @@ public class GearKitsViewModel
         return mKits.get(z);
     }
 
-    public void put(int kit, Integer[] zz)
+    public void putGears(int kit, Integer[] zz)
     {
-        mKits.get(kit).setKit(zz);
+        mKits.get(kit).setGears(zz);
     }
 }

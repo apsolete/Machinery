@@ -51,13 +51,13 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         @Override
         public void onChanged(GearKitView gearKit)
         {
-            _presenter.setGearKit(gearKit.getId(), gearKit.getGears());
+            mViewModel.setGearKit(gearKit.getId(), gearKit.getGears());
         }
 
         @Override
         public void onChecked(GearKitView gearKit)
         {
-            _presenter.setGearKitChecked(gearKit.getId(), gearKit.isChecked());
+            mViewModel.setGearKitChecked(gearKit.getId(), gearKit.isChecked());
         }
     };
 }
