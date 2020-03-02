@@ -90,7 +90,7 @@
 							android:layout_height="match_parent"
 							android:checked="true"
 							android:enabled="false"
-							android:visibility="gone" />
+							android:visibility="visible" />
 
 						<CheckedTextView
 							android:id="@+id/z1Kit"
@@ -128,7 +128,7 @@
 							android:layout_height="match_parent"
 							android:checked="true"
 							android:enabled="false"
-							android:visibility="gone" />
+							android:visibility="visible" />
 
 						<CheckedTextView
 							android:id="@+id/z2Kit"
@@ -164,7 +164,7 @@
 							android:id="@+id/z3Select"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
-							android:visibility="gone" />
+							android:visibility="visible" />
 
 						<CheckedTextView
 							android:id="@+id/z3Kit"
@@ -200,7 +200,7 @@
 							android:id="@+id/z4Select"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
-							android:visibility="gone" />
+							android:visibility="visible" />
 
 						<CheckedTextView
 							android:id="@+id/z4Kit"
@@ -236,7 +236,7 @@
 							android:id="@+id/z5Select"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
-							android:visibility="gone" />
+							android:visibility="visible" />
 
 						<CheckedTextView
 							android:id="@+id/z5Kit"
@@ -272,7 +272,7 @@
 							android:id="@+id/z6Select"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
-							android:visibility="gone" />
+							android:visibility="visible" />
 
 						<CheckedTextView
 							android:id="@+id/z6Kit"

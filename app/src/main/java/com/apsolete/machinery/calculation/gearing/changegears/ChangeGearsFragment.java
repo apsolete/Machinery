@@ -37,6 +37,27 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
 
         setViewCheckableObserver(R.id.oneSetForAllGears, mViewModel.getOneSet());
 
+        setViewCheckableObserver(R.id.z1Select, mViewModel.getGearKit(G.Z1).isChecked());
+        setViewCheckableObserver(R.id.z2Select, mViewModel.getGearKit(G.Z2).isChecked());
+        setViewCheckableObserver(R.id.z3Select, mViewModel.getGearKit(G.Z3).isChecked());
+        setViewCheckableObserver(R.id.z4Select, mViewModel.getGearKit(G.Z4).isChecked());
+        setViewCheckableObserver(R.id.z5Select, mViewModel.getGearKit(G.Z5).isChecked());
+        setViewCheckableObserver(R.id.z6Select, mViewModel.getGearKit(G.Z6).isChecked());
+
+        setViewVisibilityObserver(R.id.z1Select, mViewModel.getGearKit(G.Z1).isEditable());
+        setViewVisibilityObserver(R.id.z2Select, mViewModel.getGearKit(G.Z2).isEditable());
+        setViewVisibilityObserver(R.id.z3Select, mViewModel.getGearKit(G.Z3).isEditable());
+        setViewVisibilityObserver(R.id.z4Select, mViewModel.getGearKit(G.Z4).isEditable());
+        setViewVisibilityObserver(R.id.z5Select, mViewModel.getGearKit(G.Z5).isEditable());
+        setViewVisibilityObserver(R.id.z6Select, mViewModel.getGearKit(G.Z6).isEditable());
+
+        setViewEnableObserver(R.id.z1Select, mViewModel.getGearKit(G.Z1).isEnabled());
+        setViewEnableObserver(R.id.z2Select, mViewModel.getGearKit(G.Z2).isEnabled());
+        setViewEnableObserver(R.id.z3Select, mViewModel.getGearKit(G.Z3).isEnabled());
+        setViewEnableObserver(R.id.z4Select, mViewModel.getGearKit(G.Z4).isEnabled());
+        setViewEnableObserver(R.id.z5Select, mViewModel.getGearKit(G.Z5).isEnabled());
+        setViewEnableObserver(R.id.z6Select, mViewModel.getGearKit(G.Z6).isEnabled());
+
         return view;
     }
 

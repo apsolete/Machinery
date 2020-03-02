@@ -68,4 +68,19 @@ public final class Observers
             }
         }
     }
+
+    public static class EnableObserver extends CustomObserver<View, Boolean>
+    {
+        public EnableObserver(View view)
+        {
+            super(view);
+        }
+
+        @Override
+        public void onChanged(Boolean enable)
+        {
+            mView.setEnabled(enable);
+        }
+    }
+
 }

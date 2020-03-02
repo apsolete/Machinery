@@ -106,6 +106,10 @@ public class ChangeGearsViewModel extends ViewModel
 
         mCalculator = new ChangeGears();
     }
+    public GearKitsViewModel.Kit getGearKit(int kit)
+    {
+        return mGearKits.get(kit);
+    }
 
     public void setGearKit(int kit, String valuesStr)
     {
@@ -119,7 +123,29 @@ public class ChangeGearsViewModel extends ViewModel
 
     public void setGearKitChecked(int kit, boolean checked)
     {
+        if (kit < G.Z1 || kit > G.Z6)
+            return;
         mGearKits.get(kit).setChecked(checked);
+        if (checked)
+        {
+            //_oneSetGearsCount = (kit % 2) == 0 ? kit : kit - 1;
+            if (kit < G.Z6)
+                setGearKitEnabled(kit + 1, true);
+        }
+        else
+        {
+            int s = kit - 1;
+            //_oneSetGearsCount = (s % 2) == 0 ? s : s - 1;
+            for (kit++; kit <= G.Z6; kit++)
+            {
+                GearKitsViewModel.Kit gk = mGearKits.get(s);
+                //_gearKits.setChecked(kit, false);
+                gk.setChecked(false);
+                gk.setEnabled(false);
+                //setGearKitChecked(kit, false);
+                //setGearKitEnabled(kit, false);
+            }
+        }
     }
 
     public void setGearKitEditable(int kit, boolean editable)
