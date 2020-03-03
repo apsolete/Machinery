@@ -6,6 +6,7 @@ import com.apsolete.machinery.utils.Numbers;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import java.text.NumberFormat;
@@ -71,6 +72,46 @@ public class ChangeGearsViewModel extends ViewModel
     public ChangeGearsViewModel()
     {
         mOneSet.setValue(true);
+        mOneSet.observeForever(new Observer<Boolean>()
+        {
+            @Override
+            public void onChanged(Boolean isOneSet)
+            {
+                if (isOneSet)
+                {
+                    mGearKits.get(G.Z0).setEditable(true).setEnabled(true);
+                    mGearKits.get(G.Z1).setEditable(false).setEnabled(false);
+                    mGearKits.get(G.Z2).setEditable(false).setEnabled(false);
+                    mGearKits.get(G.Z3).setEditable(false).setEnabled(true);
+                    mGearKits.get(G.Z4).setEditable(false);
+                    mGearKits.get(G.Z5).setEditable(false);
+                    mGearKits.get(G.Z6).setEditable(false);
+
+                    for (int kit = G.Z4; kit <= G.Z6; kit++)
+                    {
+                        GearKitsViewModel.Kit gk_n = mGearKits.get(kit);
+                        GearKitsViewModel.Kit gk_p = mGearKits.get(kit-1);
+                        gk_n.setEnabled(gk_p.isChecked().getValue());
+                    }
+                }
+                else
+                {
+                    mGearKits.get(G.Z0).setEditable(false).setEnabled(false);
+                    mGearKits.get(G.Z1).setEditable(true).setEnabled(true);
+                    mGearKits.get(G.Z2).setEditable(true);
+                    mGearKits.get(G.Z3).setEditable(true);
+                    mGearKits.get(G.Z4).setEditable(true);
+                    mGearKits.get(G.Z5).setEditable(true);
+                    mGearKits.get(G.Z6).setEditable(true);
+
+                    for (int set = G.Z2; set <= G.Z6; set++)
+                    {
+                        Integer[] values = mGearKits.get(set - 1).getGears().getValue();
+                        mGearKits.get(set).setEnabled((values != null && values.length > 0));
+                    }
+                }
+            }
+        });
         mOneSetGearsCount.setValue(2);
         mDiffLockedZ2Z3.setValue(true);
         mDiffLockedZ4Z5.setValue(true);
@@ -94,15 +135,15 @@ public class ChangeGearsViewModel extends ViewModel
         mLastResultNumber.setValue(1);
 
         mGearKits.get(G.Z0).setGears(new Integer[]{20, 21, 22, 23, 24});
-        mGearKits.get(G.Z1).setGears(new Integer[]{30, 31, 32, 33, 34});
-        mGearKits.get(G.Z2).setGears(new Integer[]{40, 41, 42, 43, 44});
+        mGearKits.get(G.Z1).setGears(new Integer[]{30, 31, 32, 33, 34}).setChecked(true).setEnabled(true).setEditable(true);
+        mGearKits.get(G.Z2).setGears(new Integer[]{40, 41, 42, 43, 44}).setChecked(true).setEnabled(true).setEditable(true);
         mGearKits.get(G.Z3).setGears(new Integer[]{50, 51, 52, 53, 54});
         mGearKits.get(G.Z4).setGears(new Integer[]{});
         mGearKits.get(G.Z5).setGears(new Integer[]{});
         mGearKits.get(G.Z6).setGears(new Integer[]{});
 
-        mGearKits.get(G.Z1).setChecked(true);
-        mGearKits.get(G.Z2).setChecked(true);
+        //mGearKits.get(G.Z1).setChecked(true);
+        //mGearKits.get(G.Z2).setChecked(true);
 
         mCalculator = new ChangeGears();
     }
@@ -158,7 +199,7 @@ public class ChangeGearsViewModel extends ViewModel
         mGearKits.get(kit).setEnabled(enabled);
     }
 
-    public LiveData<Boolean> getOneSet()
+    public MutableLiveData<Boolean> getOneSet()
     {
         return mOneSet;
     }

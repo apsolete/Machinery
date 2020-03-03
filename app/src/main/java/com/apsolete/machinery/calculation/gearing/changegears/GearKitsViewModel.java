@@ -30,44 +30,48 @@ public class GearKitsViewModel
             mIsChecked = new MutableLiveData<>(isChecked);
         }
 
-        public LiveData<Integer[]> getGears()
+        public MutableLiveData<Integer[]> getGears()
         {
             return mGears;
         }
 
-        public void setGears(Integer[] gears)
+        public Kit setGears(Integer[] gears)
         {
             mGears.setValue(gears);
+            return this;
         }
 
-        public LiveData<Boolean> isChecked()
+        public MutableLiveData<Boolean> isChecked()
         {
             return mIsChecked;
         }
 
-        public void setChecked(Boolean checked)
+        public Kit setChecked(Boolean checked)
         {
             mIsChecked.setValue(checked);
+            return this;
         }
 
-        public LiveData<Boolean> isEditable()
+        public MutableLiveData<Boolean> isEditable()
         {
             return mIsEditable;
         }
 
-        public void setEditable(Boolean editable)
+        public Kit setEditable(Boolean editable)
         {
             mIsEditable.setValue(editable);
+            return this;
         }
 
-        public LiveData<Boolean> isEnabled()
+        public MutableLiveData<Boolean> isEnabled()
         {
             return mIsEnabled;
         }
 
-        public void setEnabled(Boolean enabled)
+        public Kit setEnabled(Boolean enabled)
         {
             mIsEnabled.setValue(enabled);
+            return this;
         }
     }
 
