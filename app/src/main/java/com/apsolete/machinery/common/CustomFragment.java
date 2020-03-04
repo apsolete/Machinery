@@ -2,16 +2,22 @@ package com.apsolete.machinery.common;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.apsolete.machinery.R;
 import com.apsolete.machinery.common.Observers.VisibilityObserver;
 
+import androidx.annotation.ArrayRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
@@ -92,25 +98,38 @@ public abstract class CustomFragment<VM extends ViewModel> extends Fragment
         return mRootView;
     }
 
-    protected void setTextViewObserver(@IdRes int id, LiveData<String> data)
+    protected void setTextObserver(@IdRes int id, LiveData<String> data)
     {
         TextView textView = mRootView.findViewById(id);
         Observer<String> observer = new Observers.TextObserver(textView);
         data.observe(getViewLifecycleOwner(), observer);
     }
 
-    protected void setViewVisibilityObserver(@IdRes int id, LiveData<Boolean> data)
+    protected void setEditTextObserver(@IdRes int id, final MutableLiveData<String> data)
+    {
+        EditText editText = mRootView.findViewById(id);
+        Observer<String> observer = new Observers.TextObserver(editText);
+        data.observe(getViewLifecycleOwner(), observer);
+        editText.addTextChangedListener(new TextChangedListener()
+        {
+            @Override
+            public void onTextChanged(Editable editable)
+            {
+                data.setValue(editable.toString());
+            }
+        });
+    }
+
+    protected void setVisibilityObserver(@IdRes int id, LiveData<Boolean> data)
     {
         View view = mRootView.findViewById(id);
         Observer<Boolean> observer = new Observers.VisibilityObserver(view);
         data.observe(getViewLifecycleOwner(), observer);
     }
 
-    protected void setViewCheckableObserver(@IdRes int id, final MutableLiveData<Boolean> data)
+    protected void setCheckableObserver(@IdRes int id, final MutableLiveData<Boolean> data)
     {
         View view = mRootView.findViewById(id);
-        Observer<Boolean> observer = new Observers.CheckableObserver(view);
-        data.observe(getViewLifecycleOwner(), observer);
         view.setOnClickListener(new android.view.View.OnClickListener()
         {
             @Override
@@ -120,12 +139,62 @@ public abstract class CustomFragment<VM extends ViewModel> extends Fragment
                 data.setValue(isOneSet);
             }
         });
+        Observer<Boolean> observer = new Observers.CheckableObserver(view);
+        data.observe(getViewLifecycleOwner(), observer);
     }
 
-    protected void setViewEnableObserver(@IdRes int id, LiveData<Boolean> data)
+    protected void setEnableObserver(@IdRes int id, LiveData<Boolean> data)
     {
         View view = mRootView.findViewById(id);
         Observer<Boolean> observer = new Observers.EnableObserver(view);
+        data.observe(getViewLifecycleOwner(), observer);
+    }
+
+    protected void setSpinnerObserver(@IdRes int id, @ArrayRes int strArrayId, final MutableLiveData<Integer> data)
+    {
+        Spinner spinner = mRootView.findViewById(id);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(Activity,
+                strArrayId,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id)
+            {
+                data.setValue(pos);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
+            }
+        });
+        Observer<Integer> observer = new Observers.SpinnerObserver(spinner);
+        data.observe(getViewLifecycleOwner(), observer);
+    }
+
+    protected <E extends Enum<E>> void setSpinnerEnumObserver(@IdRes int id, @ArrayRes int strArrayId, final MutableLiveData<E> data, final E[] values)
+    {
+        Spinner spinner = mRootView.findViewById(id);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(Activity,
+                strArrayId,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id)
+            {
+                data.setValue(values[pos]);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView)
+            {
+            }
+        });
+        Observer<E> observer = new Observers.SpinnerEnumObserver(spinner);
         data.observe(getViewLifecycleOwner(), observer);
     }
 

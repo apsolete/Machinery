@@ -1,6 +1,7 @@
 package com.apsolete.machinery.common;
 
 import android.view.View;
+import android.widget.AbsSpinner;
 import android.widget.Checkable;
 import android.widget.TextView;
 
@@ -80,6 +81,40 @@ public final class Observers
         public void onChanged(Boolean enable)
         {
             mView.setEnabled(enable);
+        }
+    }
+
+    public static class SpinnerObserver extends CustomObserver<View, Integer>
+    {
+        public SpinnerObserver(View view)
+        {
+            super(view);
+        }
+
+        @Override
+        public void onChanged(Integer pos)
+        {
+            if (mView instanceof AbsSpinner)
+            {
+                ((AbsSpinner) mView).setSelection(pos);
+            }
+        }
+    }
+
+    public static class SpinnerEnumObserver<E extends Enum<E>> extends CustomObserver<View, E>
+    {
+        public SpinnerEnumObserver(View view)
+        {
+            super(view);
+        }
+
+        @Override
+        public void onChanged(E value)
+        {
+            if (mView instanceof AbsSpinner)
+            {
+                ((AbsSpinner) mView).setSelection(value.ordinal());
+            }
         }
     }
 

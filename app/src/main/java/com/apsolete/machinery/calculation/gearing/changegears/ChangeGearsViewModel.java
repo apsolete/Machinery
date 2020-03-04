@@ -203,4 +203,9 @@ public class ChangeGearsViewModel extends ViewModel
     {
         return mOneSet;
     }
+
+    public MutableLiveData<Integer> getCalculationMode()
+    {
+        return mCalculationMode;
+    }
 }
