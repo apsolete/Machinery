@@ -33,20 +33,22 @@ import androidx.lifecycle.ViewModelProvider;
 public abstract class CustomFragment<VM extends ViewModel> extends Fragment
 {
     protected AppCompatActivity Activity;
-    protected ProgressBar ProgressBar;
     protected View mRootView;
     protected VM mViewModel;
 
     private int _layoutId;
     private int _titleId;
+    private Class<VM> mVmClass;
 
-    public CustomFragment(@LayoutRes int contentLayoutId)
+//    public CustomFragment(@LayoutRes int contentLayoutId)
+//    {
+//        super(contentLayoutId);
+//    }
+
+    public CustomFragment(@LayoutRes int contentLayoutId, @LayoutRes int titleId, Class<VM> vmClass)
     {
         super(contentLayoutId);
-    }
-    public CustomFragment(@LayoutRes int contentLayoutId, @LayoutRes int titleId)
-    {
-        super(contentLayoutId);
+        mVmClass = vmClass;
     }
 
     @Override
@@ -68,19 +70,19 @@ public abstract class CustomFragment<VM extends ViewModel> extends Fragment
         }
     }
 
-//    @Override
-//    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-//    {
-//        mRootView = super.onCreateView(inflater, container, savedInstanceState);
-//        return mRootView;
-//    }
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
+        mRootView = super.onCreateView(inflater, container, savedInstanceState);
+        mViewModel = new ViewModelProvider(this).get(mVmClass);
+        return mRootView;
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
         Activity.getSupportActionBar().setTitle(_titleId);
-        ProgressBar = (ProgressBar)Activity.findViewById(R.id.progressBar);
     }
 
     @Override
@@ -89,13 +91,6 @@ public abstract class CustomFragment<VM extends ViewModel> extends Fragment
         super.onSaveInstanceState(outState);
         outState.putInt("layout", _layoutId);
         outState.putInt("title", _titleId);
-    }
-
-    protected View createView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState, @NonNull Class<VM> modelClass)
-    {
-        mRootView = super.onCreateView(inflater, container, savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(modelClass);
-        return mRootView;
     }
 
     protected void setTextObserver(@IdRes int id, LiveData<String> data)
@@ -108,8 +103,6 @@ public abstract class CustomFragment<VM extends ViewModel> extends Fragment
     protected void setEditTextObserver(@IdRes int id, final MutableLiveData<String> data)
     {
         EditText editText = mRootView.findViewById(id);
-        Observer<String> observer = new Observers.TextObserver(editText);
-        data.observe(getViewLifecycleOwner(), observer);
         editText.addTextChangedListener(new TextChangedListener()
         {
             @Override
@@ -118,6 +111,8 @@ public abstract class CustomFragment<VM extends ViewModel> extends Fragment
                 data.setValue(editable.toString());
             }
         });
+        Observer<String> observer = new Observers.EditTextObserver(editText);
+        data.observe(getViewLifecycleOwner(), observer);
     }
 
     protected void setVisibilityObserver(@IdRes int id, LiveData<Boolean> data)
@@ -129,7 +124,7 @@ public abstract class CustomFragment<VM extends ViewModel> extends Fragment
 
     protected void setCheckableObserver(@IdRes int id, final MutableLiveData<Boolean> data)
     {
-        View view = mRootView.findViewById(id);
+        CompoundButton view = mRootView.findViewById(id);
         view.setOnClickListener(new android.view.View.OnClickListener()
         {
             @Override
@@ -194,21 +189,7 @@ public abstract class CustomFragment<VM extends ViewModel> extends Fragment
             {
             }
         });
-        Observer<E> observer = new Observers.SpinnerEnumObserver(spinner);
+        Observer<E> observer = new Observers.SpinnerEnumObserver<E>(spinner);
         data.observe(getViewLifecycleOwner(), observer);
     }
-
-    protected void showProgress(int progress)
-    {
-        if (ProgressBar.getVisibility() == View.GONE)
-            ProgressBar.setVisibility(View.VISIBLE);
-        ProgressBar.setProgress(progress);
-    }
-
-    protected void resetProgress()
-    {
-        ProgressBar.setProgress(0);
-        ProgressBar.setVisibility(View.GONE);
-    }
-
 }

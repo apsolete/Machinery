@@ -2,7 +2,8 @@ package com.apsolete.machinery.common;
 
 import android.view.View;
 import android.widget.AbsSpinner;
-import android.widget.Checkable;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -12,14 +13,14 @@ public final class Observers
 {
     public static abstract class CustomObserver<V extends View, T> implements Observer<T>
     {
-        protected V mView;
+        V mView;
 
         public void setView(V view)
         {
             mView = view;
         }
 
-        public CustomObserver(V view)
+        CustomObserver(V view)
         {
             setView(view);
         }
@@ -27,7 +28,21 @@ public final class Observers
 
     public static class TextObserver extends CustomObserver<TextView, String>
     {
-        public TextObserver(TextView view)
+        TextObserver(TextView view)
+        {
+            super(view);
+        }
+
+        @Override
+        public void onChanged(@Nullable String text)
+        {
+            mView.setText(text);
+        }
+    }
+
+    public static class EditTextObserver extends CustomObserver<EditText, String>
+    {
+        EditTextObserver(EditText view)
         {
             super(view);
         }
@@ -41,7 +56,7 @@ public final class Observers
 
     public static class VisibilityObserver extends CustomObserver<View, Boolean>
     {
-        public VisibilityObserver(View view)
+        VisibilityObserver(View view)
         {
             super(view);
         }
@@ -53,9 +68,9 @@ public final class Observers
         }
     }
 
-    public static class CheckableObserver extends CustomObserver<View, Boolean>
+    public static class CheckableObserver extends CustomObserver<CompoundButton, Boolean>
     {
-        public CheckableObserver(View view)
+        CheckableObserver(CompoundButton view)
         {
             super(view);
         }
@@ -63,16 +78,13 @@ public final class Observers
         @Override
         public void onChanged(Boolean checked)
         {
-            if (mView instanceof Checkable)
-            {
-                ((Checkable)mView).setChecked(checked);
-            }
+            mView.setChecked(checked);
         }
     }
 
     public static class EnableObserver extends CustomObserver<View, Boolean>
     {
-        public EnableObserver(View view)
+        EnableObserver(View view)
         {
             super(view);
         }
@@ -84,9 +96,9 @@ public final class Observers
         }
     }
 
-    public static class SpinnerObserver extends CustomObserver<View, Integer>
+    public static class SpinnerObserver extends CustomObserver<AbsSpinner, Integer>
     {
-        public SpinnerObserver(View view)
+        SpinnerObserver(AbsSpinner view)
         {
             super(view);
         }
@@ -94,16 +106,13 @@ public final class Observers
         @Override
         public void onChanged(Integer pos)
         {
-            if (mView instanceof AbsSpinner)
-            {
-                ((AbsSpinner) mView).setSelection(pos);
-            }
+            mView.setSelection(pos);
         }
     }
 
-    public static class SpinnerEnumObserver<E extends Enum<E>> extends CustomObserver<View, E>
+    public static class SpinnerEnumObserver<E extends Enum<E>> extends CustomObserver<AbsSpinner, E>
     {
-        public SpinnerEnumObserver(View view)
+        SpinnerEnumObserver(AbsSpinner view)
         {
             super(view);
         }
@@ -111,11 +120,7 @@ public final class Observers
         @Override
         public void onChanged(E value)
         {
-            if (mView instanceof AbsSpinner)
-            {
-                ((AbsSpinner) mView).setSelection(value.ordinal());
-            }
+            mView.setSelection(value.ordinal());
         }
     }
-
 }
