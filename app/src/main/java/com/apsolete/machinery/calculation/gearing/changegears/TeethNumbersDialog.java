@@ -104,6 +104,12 @@ public class TeethNumbersDialog extends DialogBase
         return _teethNumbers;
     }
 
+    public Integer[] getGears()
+    {
+        Integer[] gears = getTeethNumbers().toArray(new Integer[]{});
+        return gears;
+    }
+
     private void selectall()
     {
         int count = _grid.getChildCount();

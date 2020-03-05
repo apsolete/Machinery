@@ -198,10 +198,15 @@ public class ChangeGearsViewModel extends ViewModel
     public void setGearKit(int kit, String valuesStr)
     {
         Integer[] values = Numbers.getNumbers(valuesStr);
+        setGearKit(kit, values);
+    }
+
+    public void setGearKit(int kit, Integer[] values)
+    {
         mGearKits.putGears(kit, values);
         if (kit > G.Z1 && kit < G.Z6)
         {
-            mGearKits.get(kit+1).setEnabled(valuesStr != null && !valuesStr.isEmpty());
+            mGearKits.get(kit+1).setEnabled(values.length > 0);
         }
     }
 

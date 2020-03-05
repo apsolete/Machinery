@@ -7,10 +7,14 @@ import android.view.ViewGroup;
 
 import com.apsolete.machinery.R;
 import com.apsolete.machinery.calculation.CalculationFragment;
+import com.apsolete.machinery.common.DialogBase;
 import com.apsolete.machinery.common.G;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+
+import java.util.ArrayList;
 
 public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewModel>
 {
@@ -21,7 +25,7 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         @Override
         public void onRequest(GearKitView gearKit)
         {
-            //requestGearKit(gearKit);
+            requestGearKit(gearKit);
         }
 
         @Override
@@ -92,4 +96,28 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
 
         return view;
     }
+
+    private void requestGearKit(GearKitView gsView)
+    {
+        final GearKitView gsv = gsView;
+
+        FragmentManager fragmentManager = Activity.getSupportFragmentManager();
+        final TeethNumbersDialog dialog = new TeethNumbersDialog();
+        dialog.setSelection(gsv.getGears());
+        dialog.setResultListener(new DialogBase.ResultListener()
+        {
+            @Override
+            public void onPositive()
+            {
+                Integer[] gears = dialog.getGears();
+                mViewModel.setGearKit(gsv.getId(), gears);
+            }
+
+            @Override
+            public void onNegative()
+            {}
+        });
+        dialog.show(fragmentManager, "teethnumbersdialog");
+    }
+
 }
