@@ -10,12 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.apsolete.machinery.R;
-import com.apsolete.machinery.common.Observers.VisibilityObserver;
 
 import androidx.annotation.ArrayRes;
 import androidx.annotation.IdRes;
@@ -122,6 +118,17 @@ public abstract class CustomFragment<VM extends ViewModel> extends Fragment
         data.observe(getViewLifecycleOwner(), observer);
     }
 
+    protected void setVisibilityMultiObserver(@IdRes int[] ids, LiveData<Boolean> data)
+    {
+        View[] views = new View[ids.length];
+        for (int i = 0; i < ids.length; i++)
+        {
+            views[i] = mRootView.findViewById(ids[i]);
+        }
+        Observer<Boolean> observer = new Observers.VisibilityMultiObserver(views);
+        data.observe(getViewLifecycleOwner(), observer);
+    }
+
     protected void setCheckableObserver(@IdRes int id, final MutableLiveData<Boolean> data)
     {
         CompoundButton view = mRootView.findViewById(id);
@@ -142,6 +149,17 @@ public abstract class CustomFragment<VM extends ViewModel> extends Fragment
     {
         View view = mRootView.findViewById(id);
         Observer<Boolean> observer = new Observers.EnableObserver(view);
+        data.observe(getViewLifecycleOwner(), observer);
+    }
+
+    protected void setEnableMultiObserver(@IdRes int[] ids, LiveData<Boolean> data)
+    {
+        View[] views = new View[ids.length];
+        for (int i = 0; i < ids.length; i++)
+        {
+            views[i] = mRootView.findViewById(ids[i]);
+        }
+        Observer<Boolean> observer = new Observers.EnableMultiObserver(views);
         data.observe(getViewLifecycleOwner(), observer);
     }
 

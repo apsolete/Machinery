@@ -26,6 +26,15 @@ public final class Observers
         }
     }
 
+    public static abstract class CustomMultiObserver<V extends View, T> implements Observer<T>
+    {
+        V[] mViews;
+        CustomMultiObserver(V[] views)
+        {
+            mViews = views;
+        }
+    }
+
     public static class TextObserver extends CustomObserver<TextView, String>
     {
         TextObserver(TextView view)
@@ -68,6 +77,23 @@ public final class Observers
         }
     }
 
+    public static class VisibilityMultiObserver extends CustomMultiObserver<View, Boolean>
+    {
+        VisibilityMultiObserver(View[] views)
+        {
+            super(views);
+        }
+
+        @Override
+        public void onChanged(Boolean visible)
+        {
+            for (View v : mViews)
+            {
+                v.setVisibility(visible?View.VISIBLE:View.GONE);
+            }
+        }
+    }
+
     public static class CheckableObserver extends CustomObserver<CompoundButton, Boolean>
     {
         CheckableObserver(CompoundButton view)
@@ -93,6 +119,23 @@ public final class Observers
         public void onChanged(Boolean enable)
         {
             mView.setEnabled(enable);
+        }
+    }
+
+    public static class EnableMultiObserver extends CustomMultiObserver<View, Boolean>
+    {
+        EnableMultiObserver(View[] views)
+        {
+            super(views);
+        }
+
+        @Override
+        public void onChanged(Boolean enable)
+        {
+            for (View v : mViews)
+            {
+                v.setEnabled(enable);
+            }
         }
     }
 

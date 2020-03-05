@@ -498,13 +498,13 @@ public final class View extends CalculationView implements Contract.View
         _threadPitchLayout = (LinearLayout)_view.findViewById(R.id.threadPitchLayout);
         _threadPitchEdit = (EditText)_view.findViewById(R.id.threadPitchValue);
         _threadPitchEdit.addTextChangedListener(_threadPitchTextChangedListener);
-        _threadPitchUnitSpinner = (Spinner)_view.findViewById(R.id.threadUnitSpinner);
+        _threadPitchUnitSpinner = (Spinner)_view.findViewById(R.id.threadPitchUnit);
         initSpinner(_threadPitchUnitSpinner, R.array.cg_pitchunit_array, _thrPitchUnitListener);
 
         _leadscrewPitchLayout = (LinearLayout)_view.findViewById(R.id.screwPitchLayout);
-        _leadscrewPitchEdit = (EditText)_view.findViewById(R.id.screwPitchValue);
+        _leadscrewPitchEdit = (EditText)_view.findViewById(R.id.leadScrewPitchValue);
         _leadscrewPitchEdit.addTextChangedListener(_leadscrewPitchTextChangedListener);
-        _leadscrewPitchUnitSpinner = (Spinner)_view.findViewById(R.id.screwUnitSpinner);
+        _leadscrewPitchUnitSpinner = (Spinner)_view.findViewById(R.id.leadScrewPitchUnit);
         initSpinner(_leadscrewPitchUnitSpinner, R.array.cg_pitchunit_array, _scrPitchUnitListener);
 
         //_gearRatioLayout = (LinearLayout)_view.findViewById(R.id.gearRatioLayout);

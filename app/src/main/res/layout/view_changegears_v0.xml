@@ -327,7 +327,7 @@
 				android:inputType="numberDecimal"/>
 
 			<Spinner
-				android:id="@+id/threadUnitSpinner"
+				android:id="@+id/threadPitchUnit"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
@@ -342,7 +342,7 @@
 			android:orientation="horizontal">
 
 			<TextView
-				android:id="@+id/leadscrewPitchText"
+				android:id="@+id/leadScrewPitchText"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
@@ -350,7 +350,7 @@
 				android:text="Leadscrew Pitch"/>
 
 			<EditText
-				android:id="@+id/screwPitchValue"
+				android:id="@+id/leadScrewPitchValue"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
@@ -359,7 +359,7 @@
 				android:inputType="numberDecimal"/>
 
 			<Spinner
-				android:id="@+id/screwUnitSpinner"
+				android:id="@+id/leadScrewPitchUnit"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
