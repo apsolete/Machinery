@@ -8,12 +8,13 @@ import android.widget.ProgressBar;
 
 import com.apsolete.machinery.R;
 import com.apsolete.machinery.common.CustomFragment;
+import com.apsolete.machinery.common.CustomViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModel;
 
-public abstract class CalculationFragment<VM extends ViewModel> extends CustomFragment<VM>
+public abstract class CalculationFragment<VM extends CustomViewModel> extends CustomFragment<VM>
 {
     private ProgressBar ProgressBar;
     private int _type;

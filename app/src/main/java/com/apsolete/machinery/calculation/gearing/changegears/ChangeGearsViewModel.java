@@ -1,20 +1,18 @@
 package com.apsolete.machinery.calculation.gearing.changegears;
 
-import com.apsolete.machinery.common.G;
-import com.apsolete.machinery.common.Observers;
-import com.apsolete.machinery.common.OnResultListener;
-import com.apsolete.machinery.utils.Numbers;
-
-import androidx.core.util.Pair;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
+import com.apsolete.machinery.common.CustomViewModel;
+import com.apsolete.machinery.common.G;
+import com.apsolete.machinery.common.OnResultListener;
+import com.apsolete.machinery.utils.Numbers;
+
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-public class ChangeGearsViewModel extends ViewModel
+public class ChangeGearsViewModel extends CustomViewModel
 {
     private MutableLiveData<Boolean> mOneSet = new MutableLiveData<>();
     private GearKitsViewModel mGearKits = new GearKitsViewModel();
@@ -76,7 +74,6 @@ public class ChangeGearsViewModel extends ViewModel
 
     public ChangeGearsViewModel()
     {
-        mOneSet.setValue(true);
         mOneSet.observeForever(new Observer<Boolean>()
         {
             @Override
@@ -117,14 +114,6 @@ public class ChangeGearsViewModel extends ViewModel
                 }
             }
         });
-        mOneSetGearsCount.setValue(2);
-        mDiffLockedZ2Z3.setValue(true);
-        mDiffLockedZ4Z5.setValue(true);
-        mDiffGearingZ1Z2.setValue(true);
-        mDiffGearingZ3Z4.setValue(true);
-        mDiffGearingZ5Z6.setValue(true);
-
-        mCalculationMode.setValue(1);
         mCalculationMode.observeForever(new Observer<Integer>()
         {
             @Override
@@ -162,6 +151,21 @@ public class ChangeGearsViewModel extends ViewModel
                 }
             }
         });
+
+    }
+
+    @Override
+    public void start()
+    {
+        mOneSet.setValue(true);
+        mOneSetGearsCount.setValue(2);
+        mDiffLockedZ2Z3.setValue(true);
+        mDiffLockedZ4Z5.setValue(true);
+        mDiffGearingZ1Z2.setValue(true);
+        mDiffGearingZ3Z4.setValue(true);
+        mDiffGearingZ5Z6.setValue(true);
+
+        mCalculationMode.setValue(1);
 
         mRatio.setValue(1.25);
         mRatioNumerator.setValue(34.0);

@@ -26,7 +26,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-public abstract class CustomFragment<VM extends ViewModel> extends Fragment
+public abstract class CustomFragment<VM extends CustomViewModel> extends Fragment
 {
     protected AppCompatActivity Activity;
     protected View mRootView;
@@ -72,6 +72,13 @@ public abstract class CustomFragment<VM extends ViewModel> extends Fragment
         mRootView = super.onCreateView(inflater, container, savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(mVmClass);
         return mRootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+        mViewModel.start();
     }
 
     @Override
