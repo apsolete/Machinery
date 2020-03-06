@@ -24,7 +24,7 @@
 			android:layout_weight="1.0">
 
 			<Switch
-                android:id="@+id/oneSetForAllGears"
+                android:id="@+id/oneSetOfGears"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -40,7 +40,7 @@
                 android:id="@+id/oneSetLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/oneSetForAllGears">
+                android:layout_below="@id/oneSetOfGears">
 
                 <Button
                     android:id="@+id/z0Set"

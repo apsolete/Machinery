@@ -14,31 +14,33 @@
 
 	<LinearLayout
 		android:id="@+id/panesLayout"
-		android:layout_width="wrap_content"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="horizontal">
+		android:orientation="horizontal"
+		android:baselineAligned="false">
 
 		<LinearLayout
 			android:id="@+id/gearsLayout"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:layout_weight="1"
 			android:orientation="vertical">
 
 			<Switch
-				android:id="@+id/oneSetForAllGears"
+				android:id="@+id/oneSetOfGears"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:layout_margin="@dimen/layout_margin"
 				android:showText="false"
-				android:text="@string/use_one_kit"
+				android:text="@string/use_one_set"
 				android:textStyle="italic" />
 
 			<LinearLayout
 				android:id="@+id/oneSetLayout"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_below="@id/oneSetForAllGears">
+				>
 
 				<TextView
 					android:id="@+id/z0Kit"
@@ -65,13 +67,12 @@
 			<HorizontalScrollView
 				android:id="@+id/gearkitScroll"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_below="@id/oneSetLayout">
+				android:layout_height="match_parent">
 
 				<GridLayout
 					android:id="@+id/gearkitGrid"
 					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+					android:layout_height="match_parent"
 					android:columnCount="4"
 					android:rowCount="3">
 
@@ -106,6 +107,7 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
+							android:importantForAutofill="no"
 							android:inputType="number|text"
 							android:maxEms="8"
 							android:minEms="4"
@@ -144,6 +146,7 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
+							android:importantForAutofill="no"
 							android:inputType="number|text"
 							android:maxEms="8"
 							android:minEms="4"
@@ -180,6 +183,7 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
+							android:importantForAutofill="no"
 							android:inputType="number|text"
 							android:maxEms="8"
 							android:minEms="4"
@@ -216,6 +220,7 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
+							android:importantForAutofill="no"
 							android:inputType="number|text"
 							android:maxEms="8"
 							android:minEms="4"
@@ -252,6 +257,7 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
+							android:importantForAutofill="no"
 							android:inputType="number|text"
 							android:maxEms="8"
 							android:minEms="4"
@@ -288,6 +294,7 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
+							android:importantForAutofill="no"
 							android:inputType="number|text"
 							android:maxEms="8"
 							android:minEms="4"
@@ -309,6 +316,7 @@
 			android:id="@+id/modeLayout"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:layout_weight="1"
 			android:orientation="vertical">
 
 			<TextView
@@ -357,7 +365,8 @@
 				android:layout_gravity="center_vertical"
 				android:layout_margin="@dimen/layout_margin"
 				android:ems="3"
-				android:inputType="numberDecimal" />
+				android:inputType="numberDecimal"
+				android:importantForAutofill="no" />
 
 			<Spinner
 				android:id="@+id/threadPitchUnit"
@@ -395,7 +404,8 @@
 				android:layout_gravity="center_vertical"
 				android:layout_margin="@dimen/layout_margin"
 				android:ems="3"
-				android:inputType="numberDecimal" />
+				android:inputType="numberDecimal"
+				android:importantForAutofill="no" />
 
 			<Spinner
 				android:id="@+id/leadScrewPitchUnit"
@@ -455,7 +465,8 @@
 				android:layout_gravity="center_vertical"
 				android:layout_margin="@dimen/layout_margin"
 				android:ems="3"
-				android:inputType="numberDecimal" />
+				android:inputType="numberDecimal"
+				android:importantForAutofill="no" />
 
 			<LinearLayout
 				android:id="@+id/gearRatioFractionLayout"
@@ -472,7 +483,8 @@
 					android:layout_gravity="center_vertical"
 					android:layout_margin="@dimen/layout_margin"
 					android:ems="3"
-					android:inputType="numberDecimal" />
+					android:inputType="numberDecimal"
+					android:importantForAutofill="no" />
 
 				<TextView
 					android:id="@+id/solidusText"
@@ -490,7 +502,8 @@
 					android:layout_gravity="center_vertical"
 					android:layout_margin="@dimen/layout_margin"
 					android:ems="3"
-					android:inputType="numberDecimal" />
+					android:inputType="numberDecimal"
+					android:importantForAutofill="no" />
 
 			</LinearLayout>
 

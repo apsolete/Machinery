@@ -14,9 +14,10 @@ import java.util.ArrayList;
 
 public class ChangeGearsViewModel extends CustomViewModel
 {
+    private int mOneSetGearsCount = 2;
+
     private MutableLiveData<Boolean> mOneSet = new MutableLiveData<>();
     private GearKitsViewModel mGearKits = new GearKitsViewModel();
-    private MutableLiveData<Integer> mOneSetGearsCount = new MutableLiveData<>();
     private MutableLiveData<Boolean> mDiffLockedZ2Z3 = new MutableLiveData<>();
     private MutableLiveData<Boolean> mDiffLockedZ4Z5 = new MutableLiveData<>();
     private MutableLiveData<Boolean> mDiffGearingZ1Z2 = new MutableLiveData<>();
@@ -157,20 +158,15 @@ public class ChangeGearsViewModel extends CustomViewModel
     @Override
     public void start()
     {
-        mOneSet.setValue(true);
-        mOneSetGearsCount.setValue(2);
         mDiffLockedZ2Z3.setValue(true);
         mDiffLockedZ4Z5.setValue(true);
         mDiffGearingZ1Z2.setValue(true);
         mDiffGearingZ3Z4.setValue(true);
         mDiffGearingZ5Z6.setValue(true);
 
-        mCalculationMode.setValue(1);
-
         mRatio.setValue(1.25);
         mRatioNumerator.setValue(34.0);
         mRatioDenominator.setValue(56.0);
-        mRatioAsFraction.setValue(true);
         mThreadPitchUnit.setValue(ThreadPitchUnit.mm);
         mLeadscrewPitchUnit.setValue(ThreadPitchUnit.mm);
         mLeadscrewPitch.setValue(4.0);
@@ -188,8 +184,9 @@ public class ChangeGearsViewModel extends CustomViewModel
         mGearKits.get(G.Z5).setGears(new Integer[]{});
         mGearKits.get(G.Z6).setGears(new Integer[]{});
 
-        //mGearKits.get(G.Z1).setChecked(true);
-        //mGearKits.get(G.Z2).setChecked(true);
+        mOneSet.setValue(true);
+        mCalculationMode.setValue(1);
+        mRatioAsFraction.setValue(true);
 
         mCalculator = new ChangeGears();
     }
@@ -221,14 +218,14 @@ public class ChangeGearsViewModel extends CustomViewModel
         mGearKits.get(kit).setChecked(checked);
         if (checked)
         {
-            mOneSetGearsCount.setValue((kit % 2) == 0 ? kit : kit - 1);
+            mOneSetGearsCount = (kit % 2) == 0 ? kit : kit - 1;
             if (kit < G.Z6)
                 setGearKitEnabled(kit + 1, true);
         }
         else
         {
             int s = kit - 1;
-            mOneSetGearsCount.setValue((s % 2) == 0 ? s : s - 1);
+            mOneSetGearsCount = (s % 2) == 0 ? s : s - 1;
             for (kit++; kit <= G.Z6; kit++)
             {
                 GearKitsViewModel.Kit gk = mGearKits.get(kit);

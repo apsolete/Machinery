@@ -14,8 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 
-import java.util.ArrayList;
-
 public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewModel>
 {
     private final GearKitView[] mGkViews = new GearKitView[7];
@@ -62,7 +60,7 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         mGkViews[G.Z5] = new GearKitView(G.Z5, view, R.id.z5Kit, R.id.z5Gears, R.id.z5Select, mGearKitViewListener);
         mGkViews[G.Z6] = new GearKitView(G.Z6, view, R.id.z6Kit, R.id.z6Gears, R.id.z6Select, mGearKitViewListener);
 
-        setCheckableObserver(R.id.oneSetForAllGears, mViewModel.getOneSet());
+        setCheckableObserver(R.id.oneSetOfGears, mViewModel.getOneSet());
 
         setCheckableObserver(R.id.z1Select, mViewModel.getGearKit(G.Z1).isChecked());
         setCheckableObserver(R.id.z2Select, mViewModel.getGearKit(G.Z2).isChecked());

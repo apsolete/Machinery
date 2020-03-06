@@ -25,20 +25,20 @@
 			android:orientation="vertical">
 
 			<Switch
-				android:id="@+id/oneSetForAllGears"
+				android:id="@+id/oneSetOfGears"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_gravity="center_vertical"
 				android:layout_margin="@dimen/layout_margin"
 				android:showText="false"
-				android:text="@string/use_one_kit"
+				android:text="@string/use_one_set"
 				android:textStyle="italic" />
 
 			<LinearLayout
 				android:id="@+id/oneSetLayout"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_below="@id/oneSetForAllGears">
+				android:layout_below="@id/oneSetOfGears">
 
 				<TextView
 					android:id="@+id/z0Kit"

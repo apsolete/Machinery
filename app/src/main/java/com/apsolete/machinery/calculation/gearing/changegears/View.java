@@ -473,7 +473,7 @@ public final class View extends CalculationView implements Contract.View
         _view = super.onCreateView(inflater, container, savedInstanceState);
         assert _view != null;
 
-        _oneSetSwitch = (CompoundButton)_view.findViewById(R.id.oneSetForAllGears);
+        _oneSetSwitch = (CompoundButton)_view.findViewById(R.id.oneSetOfGears);
         _oneSetSwitch.setOnClickListener(new android.view.View.OnClickListener()
             {
                 @Override
