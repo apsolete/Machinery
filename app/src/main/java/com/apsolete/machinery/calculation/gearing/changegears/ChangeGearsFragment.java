@@ -35,7 +35,7 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         @Override
         public void onChecked(GearKitView gearKit)
         {
-            mViewModel.setGearKitChecked(gearKit.getId(), gearKit.isChecked());
+            //mViewModel.setGearKitChecked(gearKit.getId(), gearKit.isChecked());
         }
     };
 
@@ -60,37 +60,46 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         mGkViews[G.Z5] = new GearKitView(G.Z5, view, R.id.z5Kit, R.id.z5Gears, R.id.z5Select, mGearKitViewListener);
         mGkViews[G.Z6] = new GearKitView(G.Z6, view, R.id.z6Kit, R.id.z6Gears, R.id.z6Select, mGearKitViewListener);
 
-        setCheckableObserver(R.id.oneSetOfGears, mViewModel.getOneSet());
+        setCheckableObserver(R.id.oneSetOfGears, mViewModel.getOneSet(), false);
 
-        setCheckableObserver(R.id.z1Select, mViewModel.getGearKit(G.Z1).isChecked());
-        setCheckableObserver(R.id.z2Select, mViewModel.getGearKit(G.Z2).isChecked());
-        setCheckableObserver(R.id.z3Select, mViewModel.getGearKit(G.Z3).isChecked());
-        setCheckableObserver(R.id.z4Select, mViewModel.getGearKit(G.Z4).isChecked());
-        setCheckableObserver(R.id.z5Select, mViewModel.getGearKit(G.Z5).isChecked());
-        setCheckableObserver(R.id.z6Select, mViewModel.getGearKit(G.Z6).isChecked());
+        setCheckableObserver(R.id.z1Select, mViewModel.getGearKit(G.Z1).isChecked(), false);
+        setCheckableObserver(R.id.z2Select, mViewModel.getGearKit(G.Z2).isChecked(), false);
+        setCheckableObserver(R.id.z3Select, mViewModel.getGearKit(G.Z3).isChecked(), false);
+        setCheckableObserver(R.id.z4Select, mViewModel.getGearKit(G.Z4).isChecked(), false);
+        setCheckableObserver(R.id.z5Select, mViewModel.getGearKit(G.Z5).isChecked(), false);
+        setCheckableObserver(R.id.z6Select, mViewModel.getGearKit(G.Z6).isChecked(), false);
 
-        setVisibilityObserver(R.id.z1Gears, mViewModel.getGearKit(G.Z1).isEditable());
-        setVisibilityObserver(R.id.z2Gears, mViewModel.getGearKit(G.Z2).isEditable());
-        setVisibilityObserver(R.id.z3Gears, mViewModel.getGearKit(G.Z3).isEditable());
-        setVisibilityObserver(R.id.z4Gears, mViewModel.getGearKit(G.Z4).isEditable());
-        setVisibilityObserver(R.id.z5Gears, mViewModel.getGearKit(G.Z5).isEditable());
-        setVisibilityObserver(R.id.z6Gears, mViewModel.getGearKit(G.Z6).isEditable());
+        setVisibilityObserver(R.id.z0Gears, mViewModel.getGearKit(G.Z0).isEditable(), false);
+        setVisibilityObserver(R.id.z1Gears, mViewModel.getGearKit(G.Z1).isEditable(), false);
+        setVisibilityObserver(R.id.z2Gears, mViewModel.getGearKit(G.Z2).isEditable(), false);
+        setVisibilityObserver(R.id.z3Gears, mViewModel.getGearKit(G.Z3).isEditable(), false);
+        setVisibilityObserver(R.id.z4Gears, mViewModel.getGearKit(G.Z4).isEditable(), false);
+        setVisibilityObserver(R.id.z5Gears, mViewModel.getGearKit(G.Z5).isEditable(), false);
+        setVisibilityObserver(R.id.z6Gears, mViewModel.getGearKit(G.Z6).isEditable(), false);
 
-        setEnableMultiObserver(new int[]{R.id.z1Kit, R.id.z1Gears, R.id.z1Select}, mViewModel.getGearKit(G.Z1).isEnabled());
-        setEnableMultiObserver(new int[]{R.id.z2Kit, R.id.z2Gears, R.id.z2Select}, mViewModel.getGearKit(G.Z2).isEnabled());
-        setEnableMultiObserver(new int[]{R.id.z3Kit, R.id.z3Gears, R.id.z3Select}, mViewModel.getGearKit(G.Z3).isEnabled());
-        setEnableMultiObserver(new int[]{R.id.z4Kit, R.id.z4Gears, R.id.z4Select}, mViewModel.getGearKit(G.Z4).isEnabled());
-        setEnableMultiObserver(new int[]{R.id.z5Kit, R.id.z5Gears, R.id.z5Select}, mViewModel.getGearKit(G.Z5).isEnabled());
-        setEnableMultiObserver(new int[]{R.id.z6Kit, R.id.z6Gears, R.id.z6Select}, mViewModel.getGearKit(G.Z6).isEnabled());
+        setEnableObserver(new int[]{R.id.z0Kit, R.id.z0Gears}, mViewModel.getOneSet(), false);
+        setEnableObserver(new int[]{R.id.z1Kit, R.id.z1Gears}, mViewModel.getOneSet(), true);
+        setEnableObserver(new int[]{R.id.z2Kit, R.id.z2Gears}, mViewModel.getOneSet(), true);
+        setEnableObserver(new int[]{R.id.z3Kit, R.id.z3Gears}, mViewModel.getOneSet(), true);
+        setEnableObserver(new int[]{R.id.z4Kit, R.id.z4Gears}, mViewModel.getOneSet(), true);
+        setEnableObserver(new int[]{R.id.z5Kit, R.id.z5Gears}, mViewModel.getOneSet(), true);
+        setEnableObserver(new int[]{R.id.z6Kit, R.id.z6Gears}, mViewModel.getOneSet(), true);
+
+        setEnableObserver(R.id.z1Select, mViewModel.getGearKit(G.Z1).isEnabled(), false);
+        setEnableObserver(R.id.z2Select, mViewModel.getGearKit(G.Z2).isEnabled(), false);
+        setEnableObserver(R.id.z3Select, mViewModel.getGearKit(G.Z3).isEnabled(), false);
+        setEnableObserver(R.id.z4Select, mViewModel.getGearKit(G.Z4).isEnabled(), false);
+        setEnableObserver(R.id.z5Select, mViewModel.getGearKit(G.Z5).isEnabled(), false);
+        setEnableObserver(R.id.z6Select, mViewModel.getGearKit(G.Z6).isEnabled(), false);
 
         setSpinnerObserver(R.id.calcTypeSpinner, R.array.cg_calctype_array, mViewModel.getCalculationMode());
         setSpinnerEnumObserver(R.id.threadPitchUnit, R.array.cg_pitchunit_array, mViewModel.getThreadPitchUnit(), ThreadPitchUnit.values());
         setSpinnerEnumObserver(R.id.leadScrewPitchUnit, R.array.cg_pitchunit_array, mViewModel.getLeadscrewPitchUnit(), ThreadPitchUnit.values());
 
-        setVisibilityMultiObserver(new int[]{R.id.threadPitchText, R.id.threadPitchValue, R.id.threadPitchUnit},
-                mViewModel.getThreadPitchEnabled());
-        setVisibilityMultiObserver(new int[]{R.id.leadScrewPitchText, R.id.leadScrewPitchValue, R.id.leadScrewPitchUnit},
-                mViewModel.getLeadscrewPitchEnabled());
+        setVisibilityObserver(new int[]{R.id.threadPitchText, R.id.threadPitchValue, R.id.threadPitchUnit},
+                mViewModel.getThreadPitchEnabled(), false);
+        setVisibilityObserver(new int[]{R.id.leadScrewPitchText, R.id.leadScrewPitchValue, R.id.leadScrewPitchUnit},
+                mViewModel.getLeadscrewPitchEnabled(), false);
 
         return view;
     }

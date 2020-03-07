@@ -1,5 +1,6 @@
 package com.apsolete.machinery.calculation.gearing.changegears;
 
+import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
@@ -16,7 +17,48 @@ public class ChangeGearsViewModel extends CustomViewModel
 {
     private int mOneSetGearsCount = 2;
 
-    private MutableLiveData<Boolean> mOneSet = new MutableLiveData<>();
+    private MutableLiveData<Boolean> mOneSet = new MutableLiveData<Boolean>()
+    {
+        @Override
+        public void setValue(Boolean value)
+        {
+            super.setValue(value);
+            if (value)
+            {
+                mGearKits.get(G.Z0).setEditable(true).setEnabled(true);
+                mGearKits.get(G.Z1).setEditable(false).setEnabled(false).setChecked(true);
+                mGearKits.get(G.Z2).setEditable(false).setEnabled(false).setChecked(true);
+                mGearKits.get(G.Z3).setEditable(false).setEnabled(true);
+                mGearKits.get(G.Z4).setEditable(false);
+                mGearKits.get(G.Z5).setEditable(false);
+                mGearKits.get(G.Z6).setEditable(false);
+
+//                for (int kit = G.Z4; kit <= G.Z6; kit++)
+//                {
+//                    GearKitsViewModel.Kit gk_n = mGearKits.get(kit);
+//                    GearKitsViewModel.Kit gk_p = mGearKits.get(kit-1);
+//                    gk_n.setEnabled(gk_p.isChecked().getValue());
+//                }
+            }
+            else
+            {
+                mGearKits.get(G.Z0).setEditable(false).setEnabled(false);
+                mGearKits.get(G.Z1).setEditable(true).setEnabled(false).setChecked(true);
+                mGearKits.get(G.Z2).setEditable(true).setEnabled(false).setChecked(true);
+                mGearKits.get(G.Z3).setEditable(true);
+                mGearKits.get(G.Z4).setEditable(true);
+                mGearKits.get(G.Z5).setEditable(true);
+                mGearKits.get(G.Z6).setEditable(true);
+
+//                for (int set = G.Z2; set <= G.Z6; set++)
+//                {
+//                    Integer[] values = mGearKits.get(set - 1).getGears().getValue();
+//                    mGearKits.get(set).setEnabled((values != null && values.length > 0));
+//                }
+            }
+        }
+    };
+
     private GearKitsViewModel mGearKits = new GearKitsViewModel();
     private MutableLiveData<Boolean> mDiffLockedZ2Z3 = new MutableLiveData<>();
     private MutableLiveData<Boolean> mDiffLockedZ4Z5 = new MutableLiveData<>();
@@ -24,12 +66,51 @@ public class ChangeGearsViewModel extends CustomViewModel
     private MutableLiveData<Boolean> mDiffGearingZ3Z4 = new MutableLiveData<>();
     private MutableLiveData<Boolean> mDiffGearingZ5Z6 = new MutableLiveData<>();
 
-    private MutableLiveData<Integer> mCalculationMode = new MutableLiveData<>();
+    private MutableLiveData<Integer> mCalculationMode = new MutableLiveData<Integer>()
+    {
+        @Override
+        public void setValue(Integer value)
+        {
+            super.setValue(value);
+            switch (value)
+            {
+                case G.RATIOS_BY_GEARS:
+                    //_view.showRatio(false);
+                    mLeadscrewPitchEnabled.setValue(false);
+                    mThreadPitchEnabled.setValue(false);
+                    //_view.showFormattedRatio(false);
+                    break;
+                case G.THREAD_BY_GEARS:
+                    //_view.showRatio(false);
+                    mLeadscrewPitchEnabled.setValue(true);
+                    mThreadPitchEnabled.setValue(false);
+                    //_view.showFormattedRatio(false);
+                    break;
+                case G.GEARS_BY_RATIO:
+                    //_view.showRatio(true);
+                    //_view.showRatioAsFration(_ratioAsFraction);
+                    mLeadscrewPitchEnabled.setValue(false);
+                    mThreadPitchEnabled.setValue(false);
+                    //_view.showFormattedRatio(true);
+                    //recalculateRatio();
+                    break;
+                case G.GEARS_BY_THREAD:
+                    //_view.showRatio(false);
+                    mLeadscrewPitchEnabled.setValue(true);
+                    mThreadPitchEnabled.setValue(true);
+                    //_view.showFormattedRatio(true);
+                    //recalculateRatio();
+                    break;
+            }
+        }
+    };
 
     private MutableLiveData<Double> mRatio = new MutableLiveData<>();
     private MutableLiveData<Double> mRatioNumerator = new MutableLiveData<>();
     private MutableLiveData<Double> mRatioDenominator = new MutableLiveData<>();
     private MutableLiveData<Boolean> mRatioAsFraction = new MutableLiveData<>();
+    private MutableLiveData<Boolean> mRatioEnabled = new MutableLiveData<>();
+
     private MutableLiveData<ThreadPitchUnit> mThreadPitchUnit = new MutableLiveData<>();
     private MutableLiveData<ThreadPitchUnit> mLeadscrewPitchUnit = new MutableLiveData<>();
     private MutableLiveData<Double> mLeadscrewPitch = new MutableLiveData<>();
@@ -42,7 +123,6 @@ public class ChangeGearsViewModel extends CustomViewModel
     private MutableLiveData<Integer> mLastResultNumber = new MutableLiveData<>();
     private ArrayList<Contract.Result> mResults = new ArrayList<>();
     private ChangeGears mCalculator;
-
 
     /*settings*/
     private int mRatioPrecision = 2;
@@ -75,84 +155,6 @@ public class ChangeGearsViewModel extends CustomViewModel
 
     public ChangeGearsViewModel()
     {
-        mOneSet.observeForever(new Observer<Boolean>()
-        {
-            @Override
-            public void onChanged(Boolean isOneSet)
-            {
-                if (isOneSet)
-                {
-                    mGearKits.get(G.Z0).setEditable(true).setEnabled(true);
-                    mGearKits.get(G.Z1).setEditable(false).setEnabled(false);
-                    mGearKits.get(G.Z2).setEditable(false).setEnabled(false);
-                    mGearKits.get(G.Z3).setEditable(false).setEnabled(true);
-                    mGearKits.get(G.Z4).setEditable(false);
-                    mGearKits.get(G.Z5).setEditable(false);
-                    mGearKits.get(G.Z6).setEditable(false);
-
-                    for (int kit = G.Z4; kit <= G.Z6; kit++)
-                    {
-                        GearKitsViewModel.Kit gk_n = mGearKits.get(kit);
-                        GearKitsViewModel.Kit gk_p = mGearKits.get(kit-1);
-                        gk_n.setEnabled(gk_p.isChecked().getValue());
-                    }
-                }
-                else
-                {
-                    mGearKits.get(G.Z0).setEditable(false).setEnabled(false);
-                    mGearKits.get(G.Z1).setEditable(true).setEnabled(true);
-                    mGearKits.get(G.Z2).setEditable(true);
-                    mGearKits.get(G.Z3).setEditable(true);
-                    mGearKits.get(G.Z4).setEditable(true);
-                    mGearKits.get(G.Z5).setEditable(true);
-                    mGearKits.get(G.Z6).setEditable(true);
-
-                    for (int set = G.Z2; set <= G.Z6; set++)
-                    {
-                        Integer[] values = mGearKits.get(set - 1).getGears().getValue();
-                        mGearKits.get(set).setEnabled((values != null && values.length > 0));
-                    }
-                }
-            }
-        });
-        mCalculationMode.observeForever(new Observer<Integer>()
-        {
-            @Override
-            public void onChanged(Integer calcType)
-            {
-                switch (calcType)
-                {
-                    case G.RATIOS_BY_GEARS:
-                        //_view.showRatio(false);
-                        mLeadscrewPitchEnabled.setValue(false);
-                        mThreadPitchEnabled.setValue(false);
-                        //_view.showFormattedRatio(false);
-                        break;
-                    case G.THREAD_BY_GEARS:
-                        //_view.showRatio(false);
-                        mLeadscrewPitchEnabled.setValue(true);
-                        mThreadPitchEnabled.setValue(false);
-                        //_view.showFormattedRatio(false);
-                        break;
-                    case G.GEARS_BY_RATIO:
-                        //_view.showRatio(true);
-                        //_view.showRatioAsFration(_ratioAsFraction);
-                        mLeadscrewPitchEnabled.setValue(false);
-                        mThreadPitchEnabled.setValue(false);
-                        //_view.showFormattedRatio(true);
-                        //recalculateRatio();
-                        break;
-                    case G.GEARS_BY_THREAD:
-                        //_view.showRatio(false);
-                        mLeadscrewPitchEnabled.setValue(true);
-                        mThreadPitchEnabled.setValue(true);
-                        //_view.showFormattedRatio(true);
-                        //recalculateRatio();
-                        break;
-                }
-            }
-        });
-
     }
 
     @Override
@@ -204,7 +206,7 @@ public class ChangeGearsViewModel extends CustomViewModel
 
     public void setGearKit(int kit, Integer[] values)
     {
-        mGearKits.putGears(kit, values);
+        mGearKits.get(kit).setGears(values);
         if (kit > G.Z1 && kit < G.Z6)
         {
             mGearKits.get(kit+1).setEnabled(values.length > 0);
@@ -283,5 +285,10 @@ public class ChangeGearsViewModel extends CustomViewModel
     public MutableLiveData<Boolean> getThreadPitchEnabled()
     {
         return mThreadPitchEnabled;
+    }
+
+    public MutableLiveData<Boolean> getRatioEnabled()
+    {
+        return mRatioEnabled;
     }
 }

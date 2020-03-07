@@ -11,24 +11,35 @@ public class GearKitsViewModel
 {
     public static class Kit
     {
-        private MutableLiveData<Integer[]> mGears;
-        private MutableLiveData<Boolean> mIsChecked;
-        private MutableLiveData<Boolean> mIsEditable;
-        private MutableLiveData<Boolean> mIsEnabled;
-
-        public Kit()
+        private Kit mNext = null;
+        private MutableLiveData<Integer[]> mGears = new MutableLiveData<Integer[]>(null);
+        private MutableLiveData<Boolean> mIsChecked = new MutableLiveData<Boolean>(false)
         {
-            mGears = new MutableLiveData<Integer[]>(null);
-            mIsChecked = new MutableLiveData<>(false);
-            mIsEditable = new MutableLiveData<>(false);
-            mIsEnabled = new MutableLiveData<>(false);
+            @Override
+            public void setValue(Boolean value)
+            {
+                super.setValue(value);
+                if (mNext != null)
+                {
+                    mNext.setEnabled(value);
+                    if (!value)
+                        mNext.setChecked(false);
+                }
+            }
+        };
+        private MutableLiveData<Boolean> mIsEditable = new MutableLiveData<>(false);
+        private MutableLiveData<Boolean> mIsEnabled = new MutableLiveData<>(false);
+
+        public Kit(Kit next)
+        {
+            mNext = next;
         }
 
-        public Kit(Integer[] kit, boolean isChecked)
-        {
-            mGears = new MutableLiveData<Integer[]>(kit);
-            mIsChecked = new MutableLiveData<>(isChecked);
-        }
+//        public Kit(Integer[] kit, boolean isChecked)
+//        {
+//            mGears = new MutableLiveData<Integer[]>(kit);
+//            mIsChecked = new MutableLiveData<>(isChecked);
+//        }
 
         public MutableLiveData<Integer[]> getGears()
         {
@@ -80,22 +91,24 @@ public class GearKitsViewModel
     public GearKitsViewModel()
     {
         mKits = new SparseArray<>(G.Z6 + 1);
-        mKits.put(G.Z0, new Kit());
-        mKits.put(G.Z1, new Kit());
-        mKits.put(G.Z2, new Kit());
-        mKits.put(G.Z3, new Kit());
-        mKits.put(G.Z4, new Kit());
-        mKits.put(G.Z5, new Kit());
-        mKits.put(G.Z6, new Kit());
+        Kit z6 = new Kit(null);
+        Kit z5 = new Kit(z6);
+        Kit z4 = new Kit(z5);
+        Kit z3 = new Kit(z4);
+        Kit z2 = new Kit(z3);
+        Kit z1 = new Kit(z2);
+        Kit z0 = new Kit(z1);
+        mKits.put(G.Z0, z0);
+        mKits.put(G.Z1, z1);
+        mKits.put(G.Z2, z2);
+        mKits.put(G.Z3, z3);
+        mKits.put(G.Z4, z4);
+        mKits.put(G.Z5, z5);
+        mKits.put(G.Z6, z6);
     }
 
     public Kit get(int z)
     {
         return mKits.get(z);
-    }
-
-    public void putGears(int kit, Integer[] zz)
-    {
-        mKits.get(kit).setGears(zz);
     }
 }

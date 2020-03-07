@@ -11,31 +11,123 @@ import androidx.lifecycle.Observer;
 
 public final class Observers
 {
-    public static abstract class CustomObserver<V extends View, T> implements Observer<T>
+    public static abstract class ViewObserver<V extends View, T> implements Observer<T>
     {
-        V mView;
+        View[] mViews;
 
-        public void setView(V view)
+        ViewObserver(V view)
         {
-            mView = view;
+            mViews = new View[1];
+            mViews[0] = view;
         }
 
-        CustomObserver(V view)
-        {
-            setView(view);
-        }
-    }
-
-    public static abstract class CustomMultiObserver<V extends View, T> implements Observer<T>
-    {
-        V[] mViews;
-        CustomMultiObserver(V[] views)
+        ViewObserver(V[] views)
         {
             mViews = views;
         }
+
+        public V view()
+        {
+            return (V)mViews[0];
+        }
+
+        public V view(int i)
+        {
+            return (V)mViews[i];
+        }
     }
 
-    public static class TextObserver extends CustomObserver<TextView, String>
+    public static abstract class ViewBoolObserver<V extends View> extends ViewObserver<V, Boolean>
+    {
+        boolean mInverse;
+
+        ViewBoolObserver(V view, boolean inverse)
+        {
+            super(view);
+            mInverse = inverse;
+        }
+
+        ViewBoolObserver(V[] views, boolean inverse)
+        {
+            super(views);
+            mInverse = inverse;
+        }
+    }
+
+    public static class VisibilityObserver extends ViewBoolObserver<View>
+    {
+        VisibilityObserver(View view, boolean inverse)
+        {
+            super(view, inverse);
+        }
+
+        VisibilityObserver(View[] views, boolean inverse)
+        {
+            super(views, inverse);
+        }
+
+        @Override
+        public void onChanged(Boolean value)
+        {
+            int visibility;
+            if (!mInverse)
+                visibility = value ? View.VISIBLE : View.GONE;
+            else
+                visibility = !value ? View.VISIBLE : View.GONE;
+            for (View v : mViews)
+            {
+                v.setVisibility(visibility);
+            }
+        }
+    }
+
+    public static class EnableObserver extends ViewBoolObserver<View>
+    {
+        EnableObserver(View view, boolean inverse)
+        {
+            super(view, inverse);
+        }
+
+        EnableObserver(View[] views, boolean inverse)
+        {
+            super(views, inverse);
+        }
+
+        @Override
+        public void onChanged(Boolean value)
+        {
+            boolean enable = !mInverse ? value : !value;
+            for (View v : mViews)
+            {
+                v.setEnabled(enable);
+            }
+        }
+    }
+
+    public static class CheckableObserver extends ViewBoolObserver<CompoundButton>
+    {
+        CheckableObserver(CompoundButton view, boolean inverse)
+        {
+            super(view, inverse);
+        }
+
+        CheckableObserver(CompoundButton[] views, boolean inverse)
+        {
+            super(views, inverse);
+        }
+
+        @Override
+        public void onChanged(Boolean value)
+        {
+            boolean checked = !mInverse ? value : !value;
+            for (int i = 0; i < mViews.length; i++)
+            {
+                view(i).setChecked(checked);
+            }
+        }
+    }
+
+    public static class TextObserver extends ViewObserver<TextView, String>
     {
         TextObserver(TextView view)
         {
@@ -45,11 +137,11 @@ public final class Observers
         @Override
         public void onChanged(@Nullable String text)
         {
-            mView.setText(text);
+            view().setText(text);
         }
     }
 
-    public static class EditTextObserver extends CustomObserver<EditText, String>
+    public static class EditTextObserver extends ViewObserver<EditText, String>
     {
         EditTextObserver(EditText view)
         {
@@ -59,87 +151,11 @@ public final class Observers
         @Override
         public void onChanged(@Nullable String text)
         {
-            mView.setText(text);
+            view().setText(text);
         }
     }
 
-    public static class VisibilityObserver extends CustomObserver<View, Boolean>
-    {
-        VisibilityObserver(View view)
-        {
-            super(view);
-        }
-
-        @Override
-        public void onChanged(Boolean visible)
-        {
-            mView.setVisibility(visible?View.VISIBLE:View.GONE);
-        }
-    }
-
-    public static class VisibilityMultiObserver extends CustomMultiObserver<View, Boolean>
-    {
-        VisibilityMultiObserver(View[] views)
-        {
-            super(views);
-        }
-
-        @Override
-        public void onChanged(Boolean visible)
-        {
-            for (View v : mViews)
-            {
-                v.setVisibility(visible?View.VISIBLE:View.GONE);
-            }
-        }
-    }
-
-    public static class CheckableObserver extends CustomObserver<CompoundButton, Boolean>
-    {
-        CheckableObserver(CompoundButton view)
-        {
-            super(view);
-        }
-
-        @Override
-        public void onChanged(Boolean checked)
-        {
-            mView.setChecked(checked);
-        }
-    }
-
-    public static class EnableObserver extends CustomObserver<View, Boolean>
-    {
-        EnableObserver(View view)
-        {
-            super(view);
-        }
-
-        @Override
-        public void onChanged(Boolean enable)
-        {
-            mView.setEnabled(enable);
-        }
-    }
-
-    public static class EnableMultiObserver extends CustomMultiObserver<View, Boolean>
-    {
-        EnableMultiObserver(View[] views)
-        {
-            super(views);
-        }
-
-        @Override
-        public void onChanged(Boolean enable)
-        {
-            for (View v : mViews)
-            {
-                v.setEnabled(enable);
-            }
-        }
-    }
-
-    public static class SpinnerObserver extends CustomObserver<AbsSpinner, Integer>
+    public static class SpinnerObserver extends ViewObserver<AbsSpinner, Integer>
     {
         SpinnerObserver(AbsSpinner view)
         {
@@ -149,11 +165,11 @@ public final class Observers
         @Override
         public void onChanged(Integer pos)
         {
-            mView.setSelection(pos);
+            view().setSelection(pos);
         }
     }
 
-    public static class SpinnerEnumObserver<E extends Enum<E>> extends CustomObserver<AbsSpinner, E>
+    public static class SpinnerEnumObserver<E extends Enum<E>> extends ViewObserver<AbsSpinner, E>
     {
         SpinnerEnumObserver(AbsSpinner view)
         {
@@ -163,7 +179,7 @@ public final class Observers
         @Override
         public void onChanged(E value)
         {
-            mView.setSelection(value.ordinal());
+            view().setSelection(value.ordinal());
         }
     }
 }
