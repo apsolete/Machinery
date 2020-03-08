@@ -118,14 +118,14 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
         data.observe(getViewLifecycleOwner(), observer);
     }
 
-    protected void setVisibilityObserver(@IdRes int id, LiveData<Boolean> data, boolean inverse)
-    {
-        View view = mRootView.findViewById(id);
-        Observer<Boolean> observer = new Observers.VisibilityObserver(view, inverse);
-        data.observe(getViewLifecycleOwner(), observer);
-    }
+//    protected void setVisibilityObserver(@IdRes int id, LiveData<Boolean> data, boolean inverse)
+//    {
+//        View view = mRootView.findViewById(id);
+//        Observer<Boolean> observer = new Observers.VisibilityObserver(view, inverse);
+//        data.observe(getViewLifecycleOwner(), observer);
+//    }
 
-    protected void setVisibilityObserver(@IdRes int[] ids, LiveData<Boolean> data, boolean inverse)
+    private void setVisibilityObserver(@IdRes int[] ids, LiveData<Boolean> data, boolean inverse)
     {
         View[] views = new View[ids.length];
         for (int i = 0; i < ids.length; i++)
@@ -136,7 +136,27 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
         data.observe(getViewLifecycleOwner(), observer);
     }
 
-    protected void setCheckableObserver(@IdRes int id, final MutableLiveData<Boolean> data, boolean inverse)
+    protected void setVisibilityObserver(@IdRes int id, LiveData<Boolean> data)
+    {
+        setVisibilityObserver(new int[]{id}, data, false);
+    }
+
+    protected void setVisibilityInversedObserver(@IdRes int id, LiveData<Boolean> data)
+    {
+        setVisibilityObserver(new int[]{id}, data, true);
+    }
+
+    protected void setVisibilityObserver(@IdRes int[] ids, LiveData<Boolean> data)
+    {
+        setVisibilityObserver(ids, data, false);
+    }
+
+    protected void setVisibilityInversedObserver(@IdRes int[] ids, LiveData<Boolean> data)
+    {
+        setVisibilityObserver(ids, data, true);
+    }
+
+    protected void setCheckableObserver(@IdRes int id, final MutableLiveData<Boolean> data)
     {
         CompoundButton view = mRootView.findViewById(id);
         view.setOnClickListener(new android.view.View.OnClickListener()
@@ -148,18 +168,34 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
                 data.setValue(isOneSet);
             }
         });
-        Observer<Boolean> observer = new Observers.CheckableObserver(view, inverse);
+        Observer<Boolean> observer = new Observers.CheckableObserver(view, false);
         data.observe(getViewLifecycleOwner(), observer);
     }
 
-    protected void setEnableObserver(@IdRes int id, LiveData<Boolean> data, boolean inverse)
+    protected void setCheckableInversedObserver(@IdRes int id, final MutableLiveData<Boolean> data)
     {
-        View view = mRootView.findViewById(id);
-        Observer<Boolean> observer = new Observers.EnableObserver(view, inverse);
+        CompoundButton view = mRootView.findViewById(id);
+        view.setOnClickListener(new android.view.View.OnClickListener()
+        {
+            @Override
+            public void onClick(android.view.View view)
+            {
+                boolean isOneSet = ((CompoundButton)view).isChecked();
+                data.setValue(isOneSet);
+            }
+        });
+        Observer<Boolean> observer = new Observers.CheckableObserver(view, true);
         data.observe(getViewLifecycleOwner(), observer);
     }
 
-    protected void setEnableObserver(@IdRes int[] ids, LiveData<Boolean> data, boolean inverse)
+//    protected void setEnableObserver(@IdRes int id, LiveData<Boolean> data, boolean inverse)
+//    {
+//        View view = mRootView.findViewById(id);
+//        Observer<Boolean> observer = new Observers.EnableObserver(view, inverse);
+//        data.observe(getViewLifecycleOwner(), observer);
+//    }
+
+    private void setEnableObserver(@IdRes int[] ids, LiveData<Boolean> data, boolean inverse)
     {
         View[] views = new View[ids.length];
         for (int i = 0; i < ids.length; i++)
@@ -168,6 +204,26 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
         }
         Observer<Boolean> observer = new Observers.EnableObserver(views, inverse);
         data.observe(getViewLifecycleOwner(), observer);
+    }
+
+    protected void setEnableObserver(@IdRes int id, LiveData<Boolean> data)
+    {
+        setEnableObserver(new int[]{id}, data, false);
+    }
+
+    protected void setEnableInversedObserver(@IdRes int id, LiveData<Boolean> data)
+    {
+        setEnableObserver(new int[]{id}, data, true);
+    }
+
+    protected void setEnableObserver(@IdRes int[] ids, LiveData<Boolean> data)
+    {
+        setEnableObserver(ids, data, false);
+    }
+
+    protected void setEnableInversedObserver(@IdRes int[] ids, LiveData<Boolean> data)
+    {
+        setEnableObserver(ids, data, true);
     }
 
     protected void setSpinnerObserver(@IdRes int id, @ArrayRes int strArrayId, final MutableLiveData<Integer> data)

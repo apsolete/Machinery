@@ -4,7 +4,6 @@ import android.util.SparseArray;
 
 import com.apsolete.machinery.common.G;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 public class GearKitsViewModel
@@ -13,22 +12,25 @@ public class GearKitsViewModel
     {
         private Kit mNext = null;
         private MutableLiveData<Integer[]> mGears = new MutableLiveData<Integer[]>(null);
-        private MutableLiveData<Boolean> mIsChecked = new MutableLiveData<Boolean>(false)
+        private MutableLiveData<Boolean> mSelected = new MutableLiveData<Boolean>(false)
         {
             @Override
             public void setValue(Boolean value)
             {
                 super.setValue(value);
+                boolean editAllowed = value && mEditable.getValue();
+                mEditAllowed.setValue(editAllowed);
                 if (mNext != null)
                 {
                     mNext.setEnabled(value);
                     if (!value)
-                        mNext.setChecked(false);
+                        mNext.setSelected(false);
                 }
             }
         };
-        private MutableLiveData<Boolean> mIsEditable = new MutableLiveData<>(false);
-        private MutableLiveData<Boolean> mIsEnabled = new MutableLiveData<>(false);
+        private MutableLiveData<Boolean> mEditable = new MutableLiveData<>(false);
+        private MutableLiveData<Boolean> mEditAllowed = new MutableLiveData<>(false);
+        private MutableLiveData<Boolean> mEnabled = new MutableLiveData<>(false);
 
         public Kit(Kit next)
         {
@@ -52,37 +54,42 @@ public class GearKitsViewModel
             return this;
         }
 
-        public MutableLiveData<Boolean> isChecked()
+        public MutableLiveData<Boolean> isSelected()
         {
-            return mIsChecked;
+            return mSelected;
         }
 
-        public Kit setChecked(Boolean checked)
+        public Kit setSelected(Boolean checked)
         {
-            mIsChecked.setValue(checked);
+            mSelected.setValue(checked);
             return this;
         }
 
         public MutableLiveData<Boolean> isEditable()
         {
-            return mIsEditable;
+            return mEditable;
         }
 
         public Kit setEditable(Boolean editable)
         {
-            mIsEditable.setValue(editable);
+            mEditable.setValue(editable);
             return this;
         }
 
         public MutableLiveData<Boolean> isEnabled()
         {
-            return mIsEnabled;
+            return mEnabled;
         }
 
         public Kit setEnabled(Boolean enabled)
         {
-            mIsEnabled.setValue(enabled);
+            mEnabled.setValue(enabled);
             return this;
+        }
+
+        public MutableLiveData<Boolean> isEditAllowed()
+        {
+            return mEditAllowed;
         }
     }
 
