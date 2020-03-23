@@ -6,13 +6,13 @@ import com.apsolete.machinery.common.G;
 
 import androidx.lifecycle.MutableLiveData;
 
-public class GearKitsViewModel
+public class GearSetsViewModel
 {
-    public static class Kit
+    public static class GSet
     {
-        private Kit mNext = null;
+        private GSet mNext = null;
         private MutableLiveData<Integer[]> mGears = new MutableLiveData<Integer[]>(null);
-        private MutableLiveData<Boolean> mSelected = new MutableLiveData<Boolean>(false)
+        private MutableLiveData<Boolean> mSwitched = new MutableLiveData<Boolean>(false)
         {
             @Override
             public void setValue(Boolean value)
@@ -24,7 +24,7 @@ public class GearKitsViewModel
                 {
                     mNext.setEnabled(value);
                     if (!value)
-                        mNext.setSelected(false);
+                        mNext.setSwitched(false);
                 }
             }
         };
@@ -32,15 +32,15 @@ public class GearKitsViewModel
         private MutableLiveData<Boolean> mEditAllowed = new MutableLiveData<>(false);
         private MutableLiveData<Boolean> mEnabled = new MutableLiveData<>(false);
 
-        public Kit(Kit next)
+        public GSet(GSet next)
         {
             mNext = next;
         }
 
-//        public Kit(Integer[] kit, boolean isChecked)
+//        public GSet(Integer[] set, boolean isSwitched)
 //        {
-//            mGears = new MutableLiveData<Integer[]>(kit);
-//            mIsChecked = new MutableLiveData<>(isChecked);
+//            mGears = new MutableLiveData<Integer[]>(set);
+//            mSwitched = new MutableLiveData<>(isSwitched);
 //        }
 
         public MutableLiveData<Integer[]> getGears()
@@ -48,20 +48,20 @@ public class GearKitsViewModel
             return mGears;
         }
 
-        public Kit setGears(Integer[] gears)
+        public GSet setGears(Integer[] gears)
         {
             mGears.setValue(gears);
             return this;
         }
 
-        public MutableLiveData<Boolean> isSelected()
+        public MutableLiveData<Boolean> isSwitched()
         {
-            return mSelected;
+            return mSwitched;
         }
 
-        public Kit setSelected(Boolean checked)
+        public GSet setSwitched(Boolean switched)
         {
-            mSelected.setValue(checked);
+            mSwitched.setValue(switched);
             return this;
         }
 
@@ -70,7 +70,7 @@ public class GearKitsViewModel
             return mEditable;
         }
 
-        public Kit setEditable(Boolean editable)
+        public GSet setEditable(Boolean editable)
         {
             mEditable.setValue(editable);
             return this;
@@ -81,7 +81,7 @@ public class GearKitsViewModel
             return mEnabled;
         }
 
-        public Kit setEnabled(Boolean enabled)
+        public GSet setEnabled(Boolean enabled)
         {
             mEnabled.setValue(enabled);
             return this;
@@ -93,29 +93,29 @@ public class GearKitsViewModel
         }
     }
 
-    private SparseArray<Kit> mKits;
+    private SparseArray<GSet> mGSets;
 
-    public GearKitsViewModel()
+    public GearSetsViewModel()
     {
-        mKits = new SparseArray<>(G.Z6 + 1);
-        Kit z6 = new Kit(null);
-        Kit z5 = new Kit(z6);
-        Kit z4 = new Kit(z5);
-        Kit z3 = new Kit(z4);
-        Kit z2 = new Kit(z3);
-        Kit z1 = new Kit(z2);
-        Kit z0 = new Kit(z1);
-        mKits.put(G.Z0, z0);
-        mKits.put(G.Z1, z1);
-        mKits.put(G.Z2, z2);
-        mKits.put(G.Z3, z3);
-        mKits.put(G.Z4, z4);
-        mKits.put(G.Z5, z5);
-        mKits.put(G.Z6, z6);
+        mGSets = new SparseArray<>(G.Z6 + 1);
+        GSet z6 = new GSet(null);
+        GSet z5 = new GSet(z6);
+        GSet z4 = new GSet(z5);
+        GSet z3 = new GSet(z4);
+        GSet z2 = new GSet(z3);
+        GSet z1 = new GSet(z2);
+        GSet z0 = new GSet(z1);
+        mGSets.put(G.Z0, z0);
+        mGSets.put(G.Z1, z1);
+        mGSets.put(G.Z2, z2);
+        mGSets.put(G.Z3, z3);
+        mGSets.put(G.Z4, z4);
+        mGSets.put(G.Z5, z5);
+        mGSets.put(G.Z6, z6);
     }
 
-    public Kit get(int z)
+    public GSet get(int z)
     {
-        return mKits.get(z);
+        return mGSets.get(z);
     }
 }

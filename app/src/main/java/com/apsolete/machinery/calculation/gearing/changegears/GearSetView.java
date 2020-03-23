@@ -4,29 +4,30 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import androidx.annotation.IdRes;
+
 import com.apsolete.machinery.common.TextChangedListener;
 
-public final class GearKitView extends TextChangedListener implements View.OnClickListener, InputFilter
+public final class GearSetView extends TextChangedListener implements View.OnClickListener, InputFilter
 {
     public interface OnGearKitViewListener
     {
-        void onRequest(GearKitView gearKit);
-        void onChanged(GearKitView gearKit);
-        void onChecked(GearKitView gearKit);
+        void onRequest(GearSetView gearSet);
+        void onChanged(GearSetView gearSet);
+        void onChecked(GearSetView gearSet);
     }
 
     private int _gearId;
     private View _gearsButton;
-    private CheckBox _gearSelect;
+    private CheckBox _gearSwitch;
     private EditText _gearsText;
     private boolean _isEditable = true;
     private OnGearKitViewListener _listener;
 
-    public GearKitView(int id, View parent, int buttonSetId, int textGearsId, int checkboxSelectId, OnGearKitViewListener listener)
+    public GearSetView(int id, View parent, @IdRes int buttonSetId, @IdRes int textGearsId, @IdRes int checkboxSelectId, OnGearKitViewListener listener)
     {
         _gearId = id;
 
@@ -39,8 +40,8 @@ public final class GearKitView extends TextChangedListener implements View.OnCli
 
         if (checkboxSelectId != 0)
         {
-            _gearSelect = (CheckBox)parent.findViewById(checkboxSelectId);
-            _gearSelect.setOnClickListener(this);
+            _gearSwitch = (CheckBox)parent.findViewById(checkboxSelectId);
+            _gearSwitch.setOnClickListener(this);
         }
 
         _listener = listener;
@@ -64,17 +65,17 @@ public final class GearKitView extends TextChangedListener implements View.OnCli
     {
         if (view == _gearsButton)
         {
-            if (!_isEditable && _gearSelect != null)
+            if (!_isEditable && _gearSwitch != null)
             {
-                boolean isChecked = _gearSelect.isChecked();
-                _gearSelect.setChecked(!isChecked);
+                boolean isChecked = _gearSwitch.isChecked();
+                _gearSwitch.setChecked(!isChecked);
                 _listener.onChecked(this);
             }
             else
                 _listener.onRequest(this);
         }
 
-        if (view == _gearSelect)
+        if (view == _gearSwitch)
             _listener.onChecked(this);
     }
 
@@ -88,14 +89,14 @@ public final class GearKitView extends TextChangedListener implements View.OnCli
     {
         _gearsButton.setEnabled(enabled);
         _gearsText.setEnabled(enabled && _isEditable);
-        if (_gearSelect != null)
-            _gearSelect.setEnabled(enabled);
+        if (_gearSwitch != null)
+            _gearSwitch.setEnabled(enabled);
     }
 
     public void setChecked(boolean checked)
     {
-        if (_gearSelect != null)
-            _gearSelect.setChecked(checked);
+        if (_gearSwitch != null)
+            _gearSwitch.setChecked(checked);
     }
 
     public int getId()
@@ -127,9 +128,9 @@ public final class GearKitView extends TextChangedListener implements View.OnCli
         return _gearsText.length() == 0;
     }
 
-    public boolean isChecked()
+    public boolean isSwitched()
     {
-        return _gearSelect != null && _gearSelect.isChecked();
+        return _gearSwitch != null && _gearSwitch.isChecked();
     }
 
     public void setEditable(boolean enable)
@@ -137,7 +138,7 @@ public final class GearKitView extends TextChangedListener implements View.OnCli
         _isEditable = enable;
 
         _gearsText.setVisibility(enable ? View.VISIBLE : View.GONE);
-        if (_gearSelect != null)
-            _gearSelect.setVisibility(!enable ? View.VISIBLE : View.GONE);
+        if (_gearSwitch != null)
+            _gearSwitch.setVisibility(!enable ? View.VISIBLE : View.GONE);
     }
 }

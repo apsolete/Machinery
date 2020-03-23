@@ -16,24 +16,24 @@ import androidx.fragment.app.FragmentManager;
 
 public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewModel>
 {
-    private final GearKitView[] mGkViews = new GearKitView[7];
+    private final GearSetView[] mGkViews = new GearSetView[7];
 
-    private GearKitView.OnGearKitViewListener mGearKitViewListener = new GearKitView.OnGearKitViewListener()
+    private GearSetView.OnGearKitViewListener mGearKitViewListener = new GearSetView.OnGearKitViewListener()
     {
         @Override
-        public void onRequest(GearKitView gearKit)
+        public void onRequest(GearSetView gearKit)
         {
             requestGearKit(gearKit);
         }
 
         @Override
-        public void onChanged(GearKitView gearKit)
+        public void onChanged(GearSetView gearKit)
         {
             mViewModel.setGearKit(gearKit.getId(), gearKit.getGears());
         }
 
         @Override
-        public void onChecked(GearKitView gearKit)
+        public void onChecked(GearSetView gearKit)
         {
             //mViewModel.setGearKitChecked(gearKit.getId(), gearKit.isChecked());
         }
@@ -52,22 +52,22 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
 
         assert view != null;
 
-        mGkViews[G.Z0] = new GearKitView(G.Z0, view, R.id.z0Kit, R.id.z0Gears, 0, mGearKitViewListener);
-        mGkViews[G.Z1] = new GearKitView(G.Z1, view, R.id.z1Kit, R.id.z1Gears, R.id.z1Select, mGearKitViewListener);
-        mGkViews[G.Z2] = new GearKitView(G.Z2, view, R.id.z2Kit, R.id.z2Gears, R.id.z2Select, mGearKitViewListener);
-        mGkViews[G.Z3] = new GearKitView(G.Z3, view, R.id.z3Kit, R.id.z3Gears, R.id.z3Select, mGearKitViewListener);
-        mGkViews[G.Z4] = new GearKitView(G.Z4, view, R.id.z4Kit, R.id.z4Gears, R.id.z4Select, mGearKitViewListener);
-        mGkViews[G.Z5] = new GearKitView(G.Z5, view, R.id.z5Kit, R.id.z5Gears, R.id.z5Select, mGearKitViewListener);
-        mGkViews[G.Z6] = new GearKitView(G.Z6, view, R.id.z6Kit, R.id.z6Gears, R.id.z6Select, mGearKitViewListener);
+        mGkViews[G.Z0] = new GearSetView(G.Z0, view, R.id.z0Kit, R.id.z0Gears, 0, mGearKitViewListener);
+        mGkViews[G.Z1] = new GearSetView(G.Z1, view, R.id.z1Kit, R.id.z1Gears, R.id.z1Select, mGearKitViewListener);
+        mGkViews[G.Z2] = new GearSetView(G.Z2, view, R.id.z2Kit, R.id.z2Gears, R.id.z2Select, mGearKitViewListener);
+        mGkViews[G.Z3] = new GearSetView(G.Z3, view, R.id.z3Kit, R.id.z3Gears, R.id.z3Select, mGearKitViewListener);
+        mGkViews[G.Z4] = new GearSetView(G.Z4, view, R.id.z4Kit, R.id.z4Gears, R.id.z4Select, mGearKitViewListener);
+        mGkViews[G.Z5] = new GearSetView(G.Z5, view, R.id.z5Kit, R.id.z5Gears, R.id.z5Select, mGearKitViewListener);
+        mGkViews[G.Z6] = new GearSetView(G.Z6, view, R.id.z6Kit, R.id.z6Gears, R.id.z6Select, mGearKitViewListener);
 
         setCheckableObserver(R.id.oneSetOfGears, mViewModel.getOneSet());
 
-        setCheckableObserver(R.id.z1Select, mViewModel.gearSet(G.Z1).isSelected());
-        setCheckableObserver(R.id.z2Select, mViewModel.gearSet(G.Z2).isSelected());
-        setCheckableObserver(R.id.z3Select, mViewModel.gearSet(G.Z3).isSelected());
-        setCheckableObserver(R.id.z4Select, mViewModel.gearSet(G.Z4).isSelected());
-        setCheckableObserver(R.id.z5Select, mViewModel.gearSet(G.Z5).isSelected());
-        setCheckableObserver(R.id.z6Select, mViewModel.gearSet(G.Z6).isSelected());
+        setCheckableObserver(R.id.z1Select, mViewModel.gearSet(G.Z1).isSwitched());
+        setCheckableObserver(R.id.z2Select, mViewModel.gearSet(G.Z2).isSwitched());
+        setCheckableObserver(R.id.z3Select, mViewModel.gearSet(G.Z3).isSwitched());
+        setCheckableObserver(R.id.z4Select, mViewModel.gearSet(G.Z4).isSwitched());
+        setCheckableObserver(R.id.z5Select, mViewModel.gearSet(G.Z5).isSwitched());
+        setCheckableObserver(R.id.z6Select, mViewModel.gearSet(G.Z6).isSwitched());
 
         setVisibilityObserver(R.id.z0Gears, mViewModel.getOneSet());
         setVisibilityInversedObserver(R.id.z1Gears, mViewModel.getOneSet());
@@ -104,9 +104,9 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         return view;
     }
 
-    private void requestGearKit(GearKitView gsView)
+    private void requestGearKit(GearSetView gsView)
     {
-        final GearKitView gsv = gsView;
+        final GearSetView gsv = gsView;
 
         FragmentManager fragmentManager = Activity.getSupportFragmentManager();
         final TeethNumbersDialog dialog = new TeethNumbersDialog();

@@ -52,7 +52,7 @@ public final class View extends CalculationView implements Contract.View
 
     private ChangeGearsSettings _settings = new ChangeGearsSettings();
 
-    private final GearKitView[] _gkViews = new GearKitView[7];
+    private final GearSetView[] _gkViews = new GearSetView[7];
 
     public View()
     {
@@ -336,24 +336,24 @@ public final class View extends CalculationView implements Contract.View
         }
     };
 
-    private GearKitView.OnGearKitViewListener _gearKitViewListener = new GearKitView.OnGearKitViewListener()
+    private GearSetView.OnGearKitViewListener _gearKitViewListener = new GearSetView.OnGearKitViewListener()
     {
         @Override
-        public void onRequest(GearKitView gearKit)
+        public void onRequest(GearSetView gearKit)
         {
             requestGearKit(gearKit);
         }
 
         @Override
-        public void onChanged(GearKitView gearKit)
+        public void onChanged(GearSetView gearKit)
         {
             _presenter.setGearKit(gearKit.getId(), gearKit.getGears());
         }
 
         @Override
-        public void onChecked(GearKitView gearKit)
+        public void onChecked(GearSetView gearKit)
         {
-            _presenter.setGearKitChecked(gearKit.getId(), gearKit.isChecked());
+            _presenter.setGearKitChecked(gearKit.getId(), gearKit.isSwitched());
         }
     };
 
@@ -484,13 +484,13 @@ public final class View extends CalculationView implements Contract.View
                 }
             });
 
-        _gkViews[G.Z0] = new GearKitView(G.Z0, _view, R.id.z0Kit, R.id.z0Gears, 0, _gearKitViewListener);
-        _gkViews[G.Z1] = new GearKitView(G.Z1, _view, R.id.z1Kit, R.id.z1Gears, R.id.z1Select, _gearKitViewListener);
-        _gkViews[G.Z2] = new GearKitView(G.Z2, _view, R.id.z2Kit, R.id.z2Gears, R.id.z2Select, _gearKitViewListener);
-        _gkViews[G.Z3] = new GearKitView(G.Z3, _view, R.id.z3Kit, R.id.z3Gears, R.id.z3Select, _gearKitViewListener);
-        _gkViews[G.Z4] = new GearKitView(G.Z4, _view, R.id.z4Kit, R.id.z4Gears, R.id.z4Select, _gearKitViewListener);
-        _gkViews[G.Z5] = new GearKitView(G.Z5, _view, R.id.z5Kit, R.id.z5Gears, R.id.z5Select, _gearKitViewListener);
-        _gkViews[G.Z6] = new GearKitView(G.Z6, _view, R.id.z6Kit, R.id.z6Gears, R.id.z6Select, _gearKitViewListener);
+        _gkViews[G.Z0] = new GearSetView(G.Z0, _view, R.id.z0Kit, R.id.z0Gears, 0, _gearKitViewListener);
+        _gkViews[G.Z1] = new GearSetView(G.Z1, _view, R.id.z1Kit, R.id.z1Gears, R.id.z1Select, _gearKitViewListener);
+        _gkViews[G.Z2] = new GearSetView(G.Z2, _view, R.id.z2Kit, R.id.z2Gears, R.id.z2Select, _gearKitViewListener);
+        _gkViews[G.Z3] = new GearSetView(G.Z3, _view, R.id.z3Kit, R.id.z3Gears, R.id.z3Select, _gearKitViewListener);
+        _gkViews[G.Z4] = new GearSetView(G.Z4, _view, R.id.z4Kit, R.id.z4Gears, R.id.z4Select, _gearKitViewListener);
+        _gkViews[G.Z5] = new GearSetView(G.Z5, _view, R.id.z5Kit, R.id.z5Gears, R.id.z5Select, _gearKitViewListener);
+        _gkViews[G.Z6] = new GearSetView(G.Z6, _view, R.id.z6Kit, R.id.z6Gears, R.id.z6Select, _gearKitViewListener);
 
         _calculationModeSpinner = (Spinner)_view.findViewById(R.id.calcTypeSpinner);
         initSpinner(_calculationModeSpinner, R.array.cg_calctype_array, _calcModeListener);
@@ -581,9 +581,9 @@ public final class View extends CalculationView implements Contract.View
         spinner.setOnItemSelectedListener(listener);
     }
 
-    private void requestGearKit(GearKitView gsView)
+    private void requestGearKit(GearSetView gsView)
     {
-        final GearKitView gsv = gsView;
+        final GearSetView gsv = gsView;
 
         FragmentManager fragmentManager = Activity.getSupportFragmentManager();
         final TeethNumbersDialog dialog = new TeethNumbersDialog();
