@@ -9,6 +9,7 @@ import com.apsolete.machinery.R;
 import com.apsolete.machinery.calculation.CalculationFragment;
 import com.apsolete.machinery.common.DialogBase;
 import com.apsolete.machinery.common.G;
+import com.apsolete.machinery.utils.Numbers;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -117,6 +118,7 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
             public void onPositive()
             {
                 Integer[] gears = dialog.getGears();
+                gsv.setGears(Numbers.getString(gears));
                 mViewModel.setGearSet(gsv.id(), gears);
             }
 

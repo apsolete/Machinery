@@ -118,6 +118,16 @@ public class Numbers
         for (int n: numbers) nums.add(n);
         return getString(nums);
     }
+
+    public static String getString(Integer[] numbers)
+    {
+        if (numbers == null)
+            return null;
+
+        ArrayList<Integer> nums = new ArrayList<>();
+        for (int n: numbers) nums.add(n);
+        return getString(nums);
+    }
     
     public static List<Long> getFactorsList(long number)
     {
