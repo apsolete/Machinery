@@ -27,20 +27,20 @@ public final class GearSetView extends TextChangedListener implements View.OnCli
     private boolean _isEditable = true;
     private OnGearKitViewListener _listener;
 
-    public GearSetView(int id, View parent, @IdRes int buttonSetId, @IdRes int textGearsId, @IdRes int checkboxSelectId, OnGearKitViewListener listener)
+    public GearSetView(int id, View parent, @IdRes int buttonSetId, @IdRes int textSetId, @IdRes int switchId, OnGearKitViewListener listener)
     {
         _gearId = id;
 
         _gearsButton = parent.findViewById(buttonSetId);
         _gearsButton.setOnClickListener(this);
 
-        _gearsText = (EditText)parent.findViewById(textGearsId);
+        _gearsText = (EditText)parent.findViewById(textSetId);
         _gearsText.addTextChangedListener(this);
         _gearsText.setFilters(new InputFilter[]{this});
 
-        if (checkboxSelectId != 0)
+        if (switchId != 0)
         {
-            _gearSwitch = (CheckBox)parent.findViewById(checkboxSelectId);
+            _gearSwitch = (CheckBox)parent.findViewById(switchId);
             _gearSwitch.setOnClickListener(this);
         }
 
@@ -67,8 +67,8 @@ public final class GearSetView extends TextChangedListener implements View.OnCli
         {
             if (!_isEditable && _gearSwitch != null)
             {
-                boolean isChecked = _gearSwitch.isChecked();
-                _gearSwitch.setChecked(!isChecked);
+                boolean switched = _gearSwitch.isChecked();
+                _gearSwitch.setChecked(!switched);
                 _listener.onChecked(this);
             }
             else
@@ -93,18 +93,18 @@ public final class GearSetView extends TextChangedListener implements View.OnCli
             _gearSwitch.setEnabled(enabled);
     }
 
-    public void setChecked(boolean checked)
+    public void setSwitched(boolean switched)
     {
         if (_gearSwitch != null)
-            _gearSwitch.setChecked(checked);
+            _gearSwitch.setChecked(switched);
     }
 
-    public int getId()
+    public int id()
     {
         return _gearId;
     }
 
-    public String getGears()
+    public String gears()
     {
         return _gearsText.getText().toString();
     }
@@ -128,12 +128,12 @@ public final class GearSetView extends TextChangedListener implements View.OnCli
         return _gearsText.length() == 0;
     }
 
-    public boolean isSwitched()
+    public boolean switched()
     {
         return _gearSwitch != null && _gearSwitch.isChecked();
     }
 
-    public void setEditable(boolean enable)
+    public void enableEdit(boolean enable)
     {
         _isEditable = enable;
 

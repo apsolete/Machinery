@@ -29,7 +29,7 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         @Override
         public void onChanged(GearSetView gearKit)
         {
-            mViewModel.setGearKit(gearKit.getId(), gearKit.getGears());
+            mViewModel.setGearSet(gearKit.id(), gearKit.gears());
         }
 
         @Override
@@ -110,14 +110,14 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
 
         FragmentManager fragmentManager = Activity.getSupportFragmentManager();
         final TeethNumbersDialog dialog = new TeethNumbersDialog();
-        dialog.setSelection(gsv.getGears());
+        dialog.setNumbers(gsv.gears());
         dialog.setResultListener(new DialogBase.ResultListener()
         {
             @Override
             public void onPositive()
             {
                 Integer[] gears = dialog.getGears();
-                mViewModel.setGearKit(gsv.getId(), gears);
+                mViewModel.setGearSet(gsv.id(), gears);
             }
 
             @Override

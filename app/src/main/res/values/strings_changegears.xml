@@ -50,4 +50,9 @@
     <string name="ratio_00">R = 0.0</string>
     <string name="previous_results">Previous results</string>
     <string name="next_results">Next results</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="reset">Reset</string>
+    <string name="all">All</string>
+    <string name="select_teeth_numbers">Select teeth numbers</string>
 </resources>

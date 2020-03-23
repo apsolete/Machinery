@@ -156,12 +156,12 @@ public class TeethNumbersDialog extends DialogBase
         dismiss();
     }
 
-    public void setSelection(ArrayList<Integer> selection)
+    public void setNumbers(ArrayList<Integer> selection)
     {
         _teethNumbers = new ArrayList<>(selection);
     }
 
-    public void setSelection(String selection)
+    public void setNumbers(String selection)
     {
         _teethNumbers = Numbers.getNumbersList(selection);
     }

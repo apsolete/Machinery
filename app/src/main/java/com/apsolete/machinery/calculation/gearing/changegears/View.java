@@ -107,7 +107,7 @@ public final class View extends CalculationView implements Contract.View
     @Override
     public void setGearKitChecked(int kit, boolean checked)
     {
-        _gkViews[kit].setChecked(checked);
+        _gkViews[kit].setSwitched(checked);
     }
 
     @Override
@@ -119,7 +119,7 @@ public final class View extends CalculationView implements Contract.View
     @Override
     public void setGearKitEditable(int kit, boolean enable)
     {
-        _gkViews[kit].setEditable(enable);
+        _gkViews[kit].enableEdit(enable);
     }
 
     @Override
@@ -347,13 +347,13 @@ public final class View extends CalculationView implements Contract.View
         @Override
         public void onChanged(GearSetView gearKit)
         {
-            _presenter.setGearKit(gearKit.getId(), gearKit.getGears());
+            _presenter.setGearKit(gearKit.id(), gearKit.gears());
         }
 
         @Override
         public void onChecked(GearSetView gearKit)
         {
-            _presenter.setGearKitChecked(gearKit.getId(), gearKit.isSwitched());
+            _presenter.setGearKitChecked(gearKit.id(), gearKit.switched());
         }
     };
 
@@ -587,14 +587,14 @@ public final class View extends CalculationView implements Contract.View
 
         FragmentManager fragmentManager = Activity.getSupportFragmentManager();
         final TeethNumbersDialog dialog = new TeethNumbersDialog();
-        dialog.setSelection(gsv.getGears());
+        dialog.setNumbers(gsv.gears());
         dialog.setResultListener(new DialogBase.ResultListener()
             {
                 @Override
                 public void onPositive()
                 {
                     ArrayList<Integer> teethNumbers = dialog.getTeethNumbers();
-                    _presenter.setGearKit(gsv.getId(), teethNumbers);
+                    _presenter.setGearKit(gsv.id(), teethNumbers);
                 }
 
                 @Override
