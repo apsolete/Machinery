@@ -30,7 +30,7 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         @Override
         public void onChanged(GearSetView gearKit)
         {
-            mViewModel.setGearSet(gearKit.id(), gearKit.gears());
+            //mViewModel.setGearSet(gearKit.id(), gearKit.gears());
         }
 
         @Override
@@ -53,22 +53,22 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
 
         assert view != null;
 
-        mGkViews[G.Z0] = new GearSetView(G.Z0, view, R.id.z0Kit, R.id.z0Gears, 0, mGearKitViewListener);
-        mGkViews[G.Z1] = new GearSetView(G.Z1, view, R.id.z1Kit, R.id.z1Gears, R.id.z1Select, mGearKitViewListener);
-        mGkViews[G.Z2] = new GearSetView(G.Z2, view, R.id.z2Kit, R.id.z2Gears, R.id.z2Select, mGearKitViewListener);
-        mGkViews[G.Z3] = new GearSetView(G.Z3, view, R.id.z3Kit, R.id.z3Gears, R.id.z3Select, mGearKitViewListener);
-        mGkViews[G.Z4] = new GearSetView(G.Z4, view, R.id.z4Kit, R.id.z4Gears, R.id.z4Select, mGearKitViewListener);
-        mGkViews[G.Z5] = new GearSetView(G.Z5, view, R.id.z5Kit, R.id.z5Gears, R.id.z5Select, mGearKitViewListener);
-        mGkViews[G.Z6] = new GearSetView(G.Z6, view, R.id.z6Kit, R.id.z6Gears, R.id.z6Select, mGearKitViewListener);
+        mGkViews[G.Z0] = new GearSetView(G.Z0, view, R.id.z0Set, R.id.z0Gears, 0, mGearKitViewListener);
+        mGkViews[G.Z1] = new GearSetView(G.Z1, view, R.id.z1Set, R.id.z1Gears, R.id.z1Switch, mGearKitViewListener);
+        mGkViews[G.Z2] = new GearSetView(G.Z2, view, R.id.z2Set, R.id.z2Gears, R.id.z2Switch, mGearKitViewListener);
+        mGkViews[G.Z3] = new GearSetView(G.Z3, view, R.id.z3Set, R.id.z3Gears, R.id.z3Switch, mGearKitViewListener);
+        mGkViews[G.Z4] = new GearSetView(G.Z4, view, R.id.z4Set, R.id.z4Gears, R.id.z4Switch, mGearKitViewListener);
+        mGkViews[G.Z5] = new GearSetView(G.Z5, view, R.id.z5Set, R.id.z5Gears, R.id.z5Switch, mGearKitViewListener);
+        mGkViews[G.Z6] = new GearSetView(G.Z6, view, R.id.z6Set, R.id.z6Gears, R.id.z6Switch, mGearKitViewListener);
 
         setCheckableObserver(R.id.oneSetOfGears, mViewModel.getOneSet());
 
-        setCheckableObserver(R.id.z1Select, mViewModel.gearSet(G.Z1).isSwitched());
-        setCheckableObserver(R.id.z2Select, mViewModel.gearSet(G.Z2).isSwitched());
-        setCheckableObserver(R.id.z3Select, mViewModel.gearSet(G.Z3).isSwitched());
-        setCheckableObserver(R.id.z4Select, mViewModel.gearSet(G.Z4).isSwitched());
-        setCheckableObserver(R.id.z5Select, mViewModel.gearSet(G.Z5).isSwitched());
-        setCheckableObserver(R.id.z6Select, mViewModel.gearSet(G.Z6).isSwitched());
+        setCheckableObserver(R.id.z1Switch, mViewModel.gearSet(G.Z1).isSwitched());
+        setCheckableObserver(R.id.z2Switch, mViewModel.gearSet(G.Z2).isSwitched());
+        setCheckableObserver(R.id.z3Switch, mViewModel.gearSet(G.Z3).isSwitched());
+        setCheckableObserver(R.id.z4Switch, mViewModel.gearSet(G.Z4).isSwitched());
+        setCheckableObserver(R.id.z5Switch, mViewModel.gearSet(G.Z5).isSwitched());
+        setCheckableObserver(R.id.z6Switch, mViewModel.gearSet(G.Z6).isSwitched());
 
         setVisibilityObserver(R.id.z0Gears, mViewModel.getOneSet());
         setVisibilityInversedObserver(R.id.z1Gears, mViewModel.getOneSet());
@@ -78,20 +78,28 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         setVisibilityInversedObserver(R.id.z5Gears, mViewModel.getOneSet());
         setVisibilityInversedObserver(R.id.z6Gears, mViewModel.getOneSet());
 
-        setEnableObserver(new int[]{R.id.z0Kit, R.id.z0Gears}, mViewModel.gearSet(G.Z0).isEditAllowed());
-        setEnableObserver(new int[]{R.id.z1Kit, R.id.z1Gears}, mViewModel.gearSet(G.Z1).isEditAllowed());
-        setEnableObserver(new int[]{R.id.z2Kit, R.id.z2Gears}, mViewModel.gearSet(G.Z2).isEditAllowed());
-        setEnableObserver(new int[]{R.id.z3Kit, R.id.z3Gears}, mViewModel.gearSet(G.Z3).isEditAllowed());
-        setEnableObserver(new int[]{R.id.z4Kit, R.id.z4Gears}, mViewModel.gearSet(G.Z4).isEditAllowed());
-        setEnableObserver(new int[]{R.id.z5Kit, R.id.z5Gears}, mViewModel.gearSet(G.Z5).isEditAllowed());
-        setEnableObserver(new int[]{R.id.z6Kit, R.id.z6Gears}, mViewModel.gearSet(G.Z6).isEditAllowed());
+        setEnableObserver(new int[]{R.id.z0Set, R.id.z0Gears}, mViewModel.gearSet(G.Z0).isEditAllowed());
+        setEnableObserver(new int[]{R.id.z1Set, R.id.z1Gears}, mViewModel.gearSet(G.Z1).isEditAllowed());
+        setEnableObserver(new int[]{R.id.z2Set, R.id.z2Gears}, mViewModel.gearSet(G.Z2).isEditAllowed());
+        setEnableObserver(new int[]{R.id.z3Set, R.id.z3Gears}, mViewModel.gearSet(G.Z3).isEditAllowed());
+        setEnableObserver(new int[]{R.id.z4Set, R.id.z4Gears}, mViewModel.gearSet(G.Z4).isEditAllowed());
+        setEnableObserver(new int[]{R.id.z5Set, R.id.z5Gears}, mViewModel.gearSet(G.Z5).isEditAllowed());
+        setEnableObserver(new int[]{R.id.z6Set, R.id.z6Gears}, mViewModel.gearSet(G.Z6).isEditAllowed());
 
-        setEnableObserver(R.id.z1Select, mViewModel.gearSet(G.Z1).isEnabled());
-        setEnableObserver(R.id.z2Select, mViewModel.gearSet(G.Z2).isEnabled());
-        setEnableObserver(R.id.z3Select, mViewModel.gearSet(G.Z3).isEnabled());
-        setEnableObserver(R.id.z4Select, mViewModel.gearSet(G.Z4).isEnabled());
-        setEnableObserver(R.id.z5Select, mViewModel.gearSet(G.Z5).isEnabled());
-        setEnableObserver(R.id.z6Select, mViewModel.gearSet(G.Z6).isEnabled());
+        setEnableObserver(R.id.z1Switch, mViewModel.gearSet(G.Z1).isEnabled());
+        setEnableObserver(R.id.z2Switch, mViewModel.gearSet(G.Z2).isEnabled());
+        setEnableObserver(R.id.z3Switch, mViewModel.gearSet(G.Z3).isEnabled());
+        setEnableObserver(R.id.z4Switch, mViewModel.gearSet(G.Z4).isEnabled());
+        setEnableObserver(R.id.z5Switch, mViewModel.gearSet(G.Z5).isEnabled());
+        setEnableObserver(R.id.z6Switch, mViewModel.gearSet(G.Z6).isEnabled());
+
+        setEditTextObserver(R.id.z0Gears, mViewModel.gearSet(G.Z0).getGearsStr());
+        setEditTextObserver(R.id.z1Gears, mViewModel.gearSet(G.Z1).getGearsStr());
+        setEditTextObserver(R.id.z2Gears, mViewModel.gearSet(G.Z2).getGearsStr());
+        setEditTextObserver(R.id.z3Gears, mViewModel.gearSet(G.Z3).getGearsStr());
+        setEditTextObserver(R.id.z4Gears, mViewModel.gearSet(G.Z4).getGearsStr());
+        setEditTextObserver(R.id.z5Gears, mViewModel.gearSet(G.Z5).getGearsStr());
+        setEditTextObserver(R.id.z6Gears, mViewModel.gearSet(G.Z6).getGearsStr());
 
         setSpinnerObserver(R.id.calcTypeSpinner, R.array.cg_calctype_array, mViewModel.getCalculationMode());
         setSpinnerEnumObserver(R.id.threadPitchUnit, R.array.cg_pitchunit_array, mViewModel.getThreadPitchUnit(), ThreadPitchUnit.values());

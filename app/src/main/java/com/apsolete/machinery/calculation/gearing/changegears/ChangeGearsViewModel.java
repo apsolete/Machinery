@@ -47,11 +47,13 @@ public class ChangeGearsViewModel extends CustomViewModel
                 mGearSets.get(G.Z5).setEditable(true);
                 mGearSets.get(G.Z6).setEditable(true);
 
-//                for (int set = G.Z2; set <= G.Z6; set++)
-//                {
-//                    Integer[] values = mGearSets.get(set - 1).getGears().getValue();
-//                    mGearSets.get(set).setEnabled((values != null && values.length > 0));
-//                }
+                boolean prevNotEmpty = !mGearSets.get(G.Z2).isEmpty();
+                for (int set = G.Z3; set <= G.Z6; set++)
+                {
+                    boolean notEmpty = !mGearSets.get(set).isEmpty();
+                    mGearSets.get(set).setEnabled(prevNotEmpty).setSwitched(notEmpty);
+                    prevNotEmpty = notEmpty;
+                }
             }
         }
     };
@@ -210,12 +212,12 @@ public class ChangeGearsViewModel extends CustomViewModel
         }
     }
 
-    public void setGearSetChecked(int set, boolean checked)
+    public void setGearSetSwitched(int set, boolean switched)
     {
         if (set < G.Z1 || set > G.Z6)
             return;
-        mGearSets.get(set).setSwitched(checked);
-        if (checked)
+        mGearSets.get(set).setSwitched(switched);
+        if (switched)
         {
             mOneSetGearsCount = (set % 2) == 0 ? set : set - 1;
             if (set < G.Z6)

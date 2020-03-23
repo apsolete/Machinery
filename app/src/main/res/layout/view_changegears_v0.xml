@@ -81,7 +81,7 @@
 					android:textColor="@android:color/holo_red_dark"/>
 
 				<CheckBox
-					android:id="@+id/z1Select"
+					android:id="@+id/z1Switch"
 					android:layout_width="wrap_content"
 					android:layout_height="match_parent"
 					android:checked="true"
@@ -118,7 +118,7 @@
 					android:textColor="@android:color/holo_blue_dark"/>
 
 				<CheckBox
-					android:id="@+id/z2Select"
+					android:id="@+id/z2Switch"
 					android:layout_width="wrap_content"
 					android:layout_height="match_parent"
 					android:checked="true"
@@ -155,7 +155,7 @@
 					android:textColor="@android:color/holo_blue_dark"/>
 
 				<CheckBox
-					android:id="@+id/z3Select"
+					android:id="@+id/z3Switch"
 					android:layout_width="wrap_content"
 					android:layout_height="match_parent"
 					android:visibility="gone"/>
@@ -190,7 +190,7 @@
 					android:textColor="@android:color/holo_green_dark"/>
 
 				<CheckBox
-					android:id="@+id/z4Select"
+					android:id="@+id/z4Switch"
 					android:layout_width="wrap_content"
 					android:layout_height="match_parent"
 					android:visibility="gone"/>
@@ -225,7 +225,7 @@
 					android:textColor="@android:color/holo_green_dark"/>
 
 				<CheckBox
-					android:id="@+id/z5Select"
+					android:id="@+id/z5Switch"
 					android:layout_width="wrap_content"
 					android:layout_height="match_parent"
 					android:visibility="gone"/>
@@ -260,7 +260,7 @@
 					android:textColor="@android:color/holo_orange_dark"/>
 
 				<CheckBox
-					android:id="@+id/z6Select"
+					android:id="@+id/z6Switch"
 					android:layout_width="wrap_content"
 					android:layout_height="match_parent"
 					android:visibility="gone"/>

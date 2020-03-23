@@ -43,7 +43,7 @@
 				>
 
 				<TextView
-					android:id="@+id/z0Kit"
+					android:id="@+id/z0Set"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_margin="6dp"
@@ -86,7 +86,7 @@
 						android:padding="6dp">
 
 						<CheckBox
-							android:id="@+id/z1Select"
+							android:id="@+id/z1Switch"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:checked="true"
@@ -94,7 +94,7 @@
 							android:visibility="visible" />
 
 						<CheckedTextView
-							android:id="@+id/z1Kit"
+							android:id="@+id/z1Set"
 							android:layout_width="0dp"
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
@@ -125,7 +125,7 @@
 						android:padding="6dp">
 
 						<CheckBox
-							android:id="@+id/z2Select"
+							android:id="@+id/z2Switch"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:checked="true"
@@ -133,7 +133,7 @@
 							android:visibility="visible" />
 
 						<CheckedTextView
-							android:id="@+id/z2Kit"
+							android:id="@+id/z2Set"
 							android:layout_width="0dp"
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
@@ -164,13 +164,13 @@
 						android:padding="6dp">
 
 						<CheckBox
-							android:id="@+id/z3Select"
+							android:id="@+id/z3Switch"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:visibility="visible" />
 
 						<CheckedTextView
-							android:id="@+id/z3Kit"
+							android:id="@+id/z3Set"
 							android:layout_width="0dp"
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
@@ -201,13 +201,13 @@
 						android:padding="6dp">
 
 						<CheckBox
-							android:id="@+id/z4Select"
+							android:id="@+id/z4Switch"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:visibility="visible" />
 
 						<CheckedTextView
-							android:id="@+id/z4Kit"
+							android:id="@+id/z4Set"
 							android:layout_width="0dp"
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
@@ -238,13 +238,13 @@
 						android:padding="6dp">
 
 						<CheckBox
-							android:id="@+id/z5Select"
+							android:id="@+id/z5Switch"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:visibility="visible" />
 
 						<CheckedTextView
-							android:id="@+id/z5Kit"
+							android:id="@+id/z5Set"
 							android:layout_width="0dp"
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
@@ -275,13 +275,13 @@
 						android:padding="6dp">
 
 						<CheckBox
-							android:id="@+id/z6Select"
+							android:id="@+id/z6Switch"
 							android:layout_width="wrap_content"
 							android:layout_height="match_parent"
 							android:visibility="visible" />
 
 						<CheckedTextView
-							android:id="@+id/z6Kit"
+							android:id="@+id/z6Set"
 							android:layout_width="0dp"
 							android:layout_height="wrap_content"
 							android:layout_gravity="center_vertical"
