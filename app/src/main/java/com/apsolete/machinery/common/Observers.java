@@ -1,6 +1,5 @@
 package com.apsolete.machinery.common;
 
-import android.text.Editable;
 import android.view.View;
 import android.widget.AbsSpinner;
 import android.widget.CompoundButton;
@@ -110,13 +109,12 @@ public final class Observers
     {
         MutableLiveData<Boolean> mLiveData;
 
-        android.view.View.OnClickListener mClickListener = new android.view.View.OnClickListener()
+        Listeners.CheckedChangeListener mListener = new Listeners.CheckedChangeListener()
         {
             @Override
-            public void onClick(android.view.View view)
+            public void onChanged(Boolean isChecked)
             {
-                boolean checked = ((CompoundButton)view).isChecked();
-                mLiveData.setValue(mInverse != checked);
+                mLiveData.setValue(mInverse != isChecked);
             }
         };
 
@@ -124,7 +122,7 @@ public final class Observers
         {
             super(view, inverse);
             mLiveData = data;
-            view.setOnClickListener(mClickListener);
+            view.setOnCheckedChangeListener(mListener);
         }
 
         CheckableObserver(CompoundButton[] views, MutableLiveData<Boolean> data, boolean inverse)
@@ -135,7 +133,10 @@ public final class Observers
         @Override
         public void onChanged(Boolean value)
         {
-            boolean checked = !mInverse ? value : !value;
+            if (mListener.isBroadcasting())
+                return;
+
+            boolean checked = mInverse ? !value : value;
             for (int i = 0; i < mViews.length; i++)
             {
                 view(i).setChecked(checked);
@@ -161,12 +162,12 @@ public final class Observers
     {
         MutableLiveData<String> mLiveData;
 
-        private TextChangedListener mTextChangedListener = new TextChangedListener()
+        private Listeners.TextChangeListener mListener = new Listeners.TextChangeListener()
         {
             @Override
-            public void onTextChanged(Editable editable)
+            public void onChanged(String text)
             {
-                mLiveData.setValue(editable.toString());
+                mLiveData.setValue(text);
             }
         };
 
@@ -174,20 +175,23 @@ public final class Observers
         {
             super(view);
             mLiveData = data;
-            view.addTextChangedListener(mTextChangedListener);
+            view.addTextChangedListener(mListener);
         }
 
         @Override
         public void onChanged(@Nullable String text)
         {
-            mTextChangedListener.stop();
+            if (mListener.isBroadcasting())
+                return;
+
+            mListener.stop();
             try
             {
                 view().setText(text);
             }
             finally
             {
-                mTextChangedListener.start();
+                mListener.start();
             }
         }
     }

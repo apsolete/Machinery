@@ -126,7 +126,6 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
             public void onPositive()
             {
                 Integer[] gears = dialog.getGears();
-                gsv.setGears(Numbers.getString(gears));
                 mViewModel.setGearSet(gsv.id(), gears);
             }
 
