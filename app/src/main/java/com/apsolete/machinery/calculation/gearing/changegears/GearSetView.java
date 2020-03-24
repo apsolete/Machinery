@@ -1,6 +1,5 @@
 package com.apsolete.machinery.calculation.gearing.changegears;
 
-import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.view.View;
@@ -9,11 +8,11 @@ import android.widget.EditText;
 
 import androidx.annotation.IdRes;
 
-import com.apsolete.machinery.common.TextChangedListener;
+import com.apsolete.machinery.common.Listeners;
 
-public final class GearSetView extends TextChangedListener implements View.OnClickListener, InputFilter
+public final class GearSetView extends Listeners.TextChangeListener implements View.OnClickListener, InputFilter
 {
-    public interface OnGearKitViewListener
+    public interface OnGearSetViewListener
     {
         void onRequest(GearSetView gearSet);
         void onChanged(GearSetView gearSet);
@@ -25,9 +24,9 @@ public final class GearSetView extends TextChangedListener implements View.OnCli
     private CheckBox _gearSwitch;
     private EditText _gearsText;
     private boolean _isEditable = true;
-    private OnGearKitViewListener _listener;
+    private OnGearSetViewListener _listener;
 
-    public GearSetView(int id, View parent, @IdRes int buttonSetId, @IdRes int textSetId, @IdRes int switchId, OnGearKitViewListener listener)
+    public GearSetView(int id, View parent, @IdRes int buttonSetId, @IdRes int textSetId, @IdRes int switchId, OnGearSetViewListener listener)
     {
         _gearId = id;
 
@@ -80,7 +79,7 @@ public final class GearSetView extends TextChangedListener implements View.OnCli
     }
 
     @Override
-    public void onTextChanged(Editable editable)
+    public void onChanged(String text)
     {
         _listener.onChanged(this);
     }

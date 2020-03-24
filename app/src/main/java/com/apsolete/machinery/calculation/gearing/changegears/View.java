@@ -336,7 +336,7 @@ public final class View extends CalculationView implements Contract.View
         }
     };
 
-    private GearSetView.OnGearKitViewListener _gearKitViewListener = new GearSetView.OnGearKitViewListener()
+    private GearSetView.OnGearSetViewListener _gearKitViewListener = new GearSetView.OnGearSetViewListener()
     {
         @Override
         public void onRequest(GearSetView gearKit)

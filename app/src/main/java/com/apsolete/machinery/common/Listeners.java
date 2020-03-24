@@ -4,7 +4,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.CompoundButton;
 
-final class Listeners
+public final class Listeners
 {
     public static abstract class ChangeListener<T>
     {

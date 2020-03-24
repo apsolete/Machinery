@@ -9,7 +9,6 @@ import com.apsolete.machinery.R;
 import com.apsolete.machinery.calculation.CalculationFragment;
 import com.apsolete.machinery.common.DialogBase;
 import com.apsolete.machinery.common.G;
-import com.apsolete.machinery.utils.Numbers;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,26 +16,25 @@ import androidx.fragment.app.FragmentManager;
 
 public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewModel>
 {
-    private final GearSetView[] mGkViews = new GearSetView[7];
-
-    private GearSetView.OnGearKitViewListener mGearKitViewListener = new GearSetView.OnGearKitViewListener()
+    private View.OnClickListener mGearSetClickListener = new View.OnClickListener()
     {
         @Override
-        public void onRequest(GearSetView gearKit)
+        public void onClick(View v)
         {
-            requestGearKit(gearKit);
-        }
+            int set = -1;
+            switch (v.getId())
+            {
+                case R.id.z0Set: set = G.Z0; break;
+                case R.id.z1Set: set = G.Z1; break;
+                case R.id.z2Set: set = G.Z2; break;
+                case R.id.z3Set: set = G.Z3; break;
+                case R.id.z4Set: set = G.Z4; break;
+                case R.id.z5Set: set = G.Z5; break;
+                case R.id.z6Set: set = G.Z6; break;
+            }
 
-        @Override
-        public void onChanged(GearSetView gearKit)
-        {
-            //mViewModel.setGearSet(gearKit.id(), gearKit.gears());
-        }
-
-        @Override
-        public void onChecked(GearSetView gearKit)
-        {
-            //mViewModel.setGearKitChecked(gearKit.getId(), gearKit.isChecked());
+            if (set >= 0)
+                requestGearSet(set);
         }
     };
 
@@ -53,13 +51,13 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
 
         assert view != null;
 
-        mGkViews[G.Z0] = new GearSetView(G.Z0, view, R.id.z0Set, R.id.z0Gears, 0, mGearKitViewListener);
-        mGkViews[G.Z1] = new GearSetView(G.Z1, view, R.id.z1Set, R.id.z1Gears, R.id.z1Switch, mGearKitViewListener);
-        mGkViews[G.Z2] = new GearSetView(G.Z2, view, R.id.z2Set, R.id.z2Gears, R.id.z2Switch, mGearKitViewListener);
-        mGkViews[G.Z3] = new GearSetView(G.Z3, view, R.id.z3Set, R.id.z3Gears, R.id.z3Switch, mGearKitViewListener);
-        mGkViews[G.Z4] = new GearSetView(G.Z4, view, R.id.z4Set, R.id.z4Gears, R.id.z4Switch, mGearKitViewListener);
-        mGkViews[G.Z5] = new GearSetView(G.Z5, view, R.id.z5Set, R.id.z5Gears, R.id.z5Switch, mGearKitViewListener);
-        mGkViews[G.Z6] = new GearSetView(G.Z6, view, R.id.z6Set, R.id.z6Gears, R.id.z6Switch, mGearKitViewListener);
+        view.findViewById(R.id.z0Set).setOnClickListener(mGearSetClickListener);
+        view.findViewById(R.id.z1Set).setOnClickListener(mGearSetClickListener);
+        view.findViewById(R.id.z2Set).setOnClickListener(mGearSetClickListener);
+        view.findViewById(R.id.z3Set).setOnClickListener(mGearSetClickListener);
+        view.findViewById(R.id.z4Set).setOnClickListener(mGearSetClickListener);
+        view.findViewById(R.id.z5Set).setOnClickListener(mGearSetClickListener);
+        view.findViewById(R.id.z6Set).setOnClickListener(mGearSetClickListener);
 
         setCheckableObserver(R.id.oneSetOfGears, mViewModel.getOneSet());
 
@@ -113,20 +111,18 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         return view;
     }
 
-    private void requestGearKit(GearSetView gsView)
+    private void requestGearSet(final int set)
     {
-        final GearSetView gsv = gsView;
-
         FragmentManager fragmentManager = Activity.getSupportFragmentManager();
         final TeethNumbersDialog dialog = new TeethNumbersDialog();
-        dialog.setNumbers(gsv.gears());
+        dialog.setNumbers(mViewModel.gearSet(set).getGearsStr().getValue());
         dialog.setResultListener(new DialogBase.ResultListener()
         {
             @Override
             public void onPositive()
             {
                 Integer[] gears = dialog.getGears();
-                mViewModel.setGearSet(gsv.id(), gears);
+                mViewModel.setGearSet(set, gears);
             }
 
             @Override
