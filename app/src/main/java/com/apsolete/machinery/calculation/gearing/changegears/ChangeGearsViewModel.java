@@ -177,13 +177,13 @@ public class ChangeGearsViewModel extends CustomViewModel
         mFirstResultNumber.setValue(1);
         mLastResultNumber.setValue(1);
 
-        mGearSets.get(G.Z0).setGears(new Integer[]{20, 21, 22, 23, 24});
-        mGearSets.get(G.Z1).setGears(new Integer[]{30, 31, 32, 33, 34}).setSwitched(true).setEnabled(true).setEditable(true);
-        mGearSets.get(G.Z2).setGears(new Integer[]{40, 41, 42, 43, 44}).setSwitched(true).setEnabled(true).setEditable(true);
-        mGearSets.get(G.Z3).setGears(new Integer[]{50, 51, 52, 53, 54});
-        mGearSets.get(G.Z4).setGears(new Integer[]{});
-        mGearSets.get(G.Z5).setGears(new Integer[]{});
-        mGearSets.get(G.Z6).setGears(new Integer[]{});
+        mGearSets.get(G.Z0).setGears("20-24");
+        mGearSets.get(G.Z1).setGears("30-34").setSwitched(true).setEnabled(true).setEditable(true);
+        mGearSets.get(G.Z2).setGears("40-44").setSwitched(true).setEnabled(true).setEditable(true);
+        mGearSets.get(G.Z3).setGears("50-54");
+        mGearSets.get(G.Z4).setGears("");
+        mGearSets.get(G.Z5).setGears("");
+        mGearSets.get(G.Z6).setGears("");
 
         mOneSet.setValue(true);
         mCalculationMode.setValue(1);
@@ -205,7 +205,8 @@ public class ChangeGearsViewModel extends CustomViewModel
 
     public void setGearSet(int set, Integer[] values)
     {
-        mGearSets.get(set).setGears(values);
+        String gearsStr = Numbers.getString(values);
+        mGearSets.get(set).setGears(gearsStr);
         if (set > G.Z1 && set < G.Z6)
         {
             mGearSets.get(set+1).setEnabled(values.length > 0);

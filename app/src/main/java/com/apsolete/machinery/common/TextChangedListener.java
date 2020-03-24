@@ -4,15 +4,14 @@ import android.text.*;
 
 public abstract class TextChangedListener implements TextWatcher
 {
-
     private boolean _ignoreTextChange = false;
 
-    public void stopTracking()
+    public void stop()
     {
         _ignoreTextChange = true;
     }
 
-    public void startTracking()
+    public void start()
     {
         _ignoreTextChange = false;
     }

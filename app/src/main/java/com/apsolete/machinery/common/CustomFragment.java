@@ -103,18 +103,10 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
         data.observe(getViewLifecycleOwner(), observer);
     }
 
-    protected void setEditTextObserver(@IdRes int id, final MutableLiveData<String> data)
+    protected void setEditTextObserver(@IdRes int id, MutableLiveData<String> data)
     {
         EditText editText = mRootView.findViewById(id);
-        editText.addTextChangedListener(new TextChangedListener()
-        {
-            @Override
-            public void onTextChanged(Editable editable)
-            {
-                data.setValue(editable.toString());
-            }
-        });
-        Observer<String> observer = new Observers.EditTextObserver(editText);
+        Observer<String> observer = new Observers.EditTextObserver(editText, data);
         data.observe(getViewLifecycleOwner(), observer);
     }
 
@@ -159,32 +151,14 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
     protected void setCheckableObserver(@IdRes int id, final MutableLiveData<Boolean> data)
     {
         CompoundButton view = mRootView.findViewById(id);
-        view.setOnClickListener(new android.view.View.OnClickListener()
-        {
-            @Override
-            public void onClick(android.view.View view)
-            {
-                boolean isOneSet = ((CompoundButton)view).isChecked();
-                data.setValue(isOneSet);
-            }
-        });
-        Observer<Boolean> observer = new Observers.CheckableObserver(view, false);
+        Observer<Boolean> observer = new Observers.CheckableObserver(view, data, false);
         data.observe(getViewLifecycleOwner(), observer);
     }
 
-    protected void setCheckableInversedObserver(@IdRes int id, final MutableLiveData<Boolean> data)
+    protected void setCheckableInversedObserver(@IdRes int id, MutableLiveData<Boolean> data)
     {
         CompoundButton view = mRootView.findViewById(id);
-        view.setOnClickListener(new android.view.View.OnClickListener()
-        {
-            @Override
-            public void onClick(android.view.View view)
-            {
-                boolean isOneSet = ((CompoundButton)view).isChecked();
-                data.setValue(isOneSet);
-            }
-        });
-        Observer<Boolean> observer = new Observers.CheckableObserver(view, true);
+        Observer<Boolean> observer = new Observers.CheckableObserver(view, data, true);
         data.observe(getViewLifecycleOwner(), observer);
     }
 

@@ -11,38 +11,13 @@ public class GearSetsViewModel
 {
     public static class GSet
     {
-        private boolean mSetGearsInternal = false;
         private GSet mNext = null;
-        private MutableLiveData<Integer[]> mGears = new MutableLiveData<Integer[]>(null)
-        {
-            @Override
-            public void setValue(Integer[] value)
-            {
-                super.setValue(value);
-                if (mSetGearsInternal)
-                    return;
-                else
-                {
-                    mSetGearsInternal = true;
-                    mGearsStr.setValue(Numbers.getString(value));
-                    mSetGearsInternal = false;
-                }
-            }
-        };
         private MutableLiveData<String> mGearsStr = new MutableLiveData<String>(null)
         {
             @Override
             public void setValue(String value)
             {
                 super.setValue(value);
-                if (mSetGearsInternal)
-                    return;
-                else
-                {
-                    mSetGearsInternal = true;
-                    mGears.setValue(Numbers.getNumbers(value));
-                    mSetGearsInternal = false;
-                }
             }
         };
         private MutableLiveData<Boolean> mSwitched = new MutableLiveData<Boolean>(false)
@@ -70,30 +45,10 @@ public class GearSetsViewModel
             mNext = next;
         }
 
-//        public GSet(Integer[] set, boolean isSwitched)
-//        {
-//            mGears = new MutableLiveData<Integer[]>(set);
-//            mSwitched = new MutableLiveData<>(isSwitched);
-//        }
-
-        public MutableLiveData<Integer[]> getGears()
+        public Integer[] getGears()
         {
-            return mGears;
-        }
-
-        public GSet setGears(Integer[] gears)
-        {
-            try
-            {
-                mSetGearsInternal = true;
-                mGears.setValue(gears);
-                mGearsStr.setValue(Numbers.getString(gears));
-                return this;
-            }
-            finally
-            {
-                mSetGearsInternal = false;
-            }
+            Integer[] gears = Numbers.getNumbers(mGearsStr.getValue());
+            return gears;
         }
 
         public MutableLiveData<String> getGearsStr()
@@ -103,18 +58,8 @@ public class GearSetsViewModel
 
         public GSet setGears(String gears)
         {
-            try
-            {
-                mSetGearsInternal = true;
-                mGearsStr.setValue(gears);
-                mGears.setValue(Numbers.getNumbers(gears));
-                return this;
-            }
-            finally
-            {
-                mSetGearsInternal = false;
-            }
-
+            mGearsStr.setValue(gears);
+            return this;
         }
 
         public MutableLiveData<Boolean> isSwitched()
@@ -157,7 +102,7 @@ public class GearSetsViewModel
 
         public boolean isEmpty()
         {
-            return mGears.getValue().length == 0;
+            return mGearsStr.getValue().isEmpty();
         }
     }
 

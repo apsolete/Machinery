@@ -1,5 +1,6 @@
 package com.apsolete.machinery.common;
 
+import android.text.Editable;
 import android.view.View;
 import android.widget.AbsSpinner;
 import android.widget.CompoundButton;
@@ -7,6 +8,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 public final class Observers
@@ -106,12 +108,26 @@ public final class Observers
 
     public static class CheckableObserver extends ViewBoolObserver<CompoundButton>
     {
-        CheckableObserver(CompoundButton view, boolean inverse)
+        MutableLiveData<Boolean> mLiveData;
+
+        android.view.View.OnClickListener mClickListener = new android.view.View.OnClickListener()
+        {
+            @Override
+            public void onClick(android.view.View view)
+            {
+                boolean checked = ((CompoundButton)view).isChecked();
+                mLiveData.setValue(mInverse != checked);
+            }
+        };
+
+        CheckableObserver(CompoundButton view, MutableLiveData<Boolean> data, boolean inverse)
         {
             super(view, inverse);
+            mLiveData = data;
+            view.setOnClickListener(mClickListener);
         }
 
-        CheckableObserver(CompoundButton[] views, boolean inverse)
+        CheckableObserver(CompoundButton[] views, MutableLiveData<Boolean> data, boolean inverse)
         {
             super(views, inverse);
         }
@@ -143,15 +159,36 @@ public final class Observers
 
     public static class EditTextObserver extends ViewObserver<EditText, String>
     {
-        EditTextObserver(EditText view)
+        MutableLiveData<String> mLiveData;
+
+        private TextChangedListener mTextChangedListener = new TextChangedListener()
+        {
+            @Override
+            public void onTextChanged(Editable editable)
+            {
+                mLiveData.setValue(editable.toString());
+            }
+        };
+
+        EditTextObserver(EditText view, MutableLiveData<String> data)
         {
             super(view);
+            mLiveData = data;
+            view.addTextChangedListener(mTextChangedListener);
         }
 
         @Override
         public void onChanged(@Nullable String text)
         {
-            view().setText(text);
+            mTextChangedListener.stop();
+            try
+            {
+                view().setText(text);
+            }
+            finally
+            {
+                mTextChangedListener.start();
+            }
         }
     }
 

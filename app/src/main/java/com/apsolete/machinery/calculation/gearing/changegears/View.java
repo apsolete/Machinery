@@ -163,12 +163,12 @@ public final class View extends CalculationView implements Contract.View
     {
         try
         {
-            _threadPitchTextChangedListener.stopTracking();
+            _threadPitchTextChangedListener.stop();
             _threadPitchEdit.setText(valueStr);
         }
         finally
         {
-            _threadPitchTextChangedListener.startTracking();
+            _threadPitchTextChangedListener.start();
         }
     }
 
@@ -189,12 +189,12 @@ public final class View extends CalculationView implements Contract.View
     {
         try
         {
-            _leadscrewPitchTextChangedListener.stopTracking();
+            _leadscrewPitchTextChangedListener.stop();
             _leadscrewPitchEdit.setText(valueStr);
         }
         finally
         {
-            _leadscrewPitchTextChangedListener.startTracking();
+            _leadscrewPitchTextChangedListener.start();
         }
     }
 
@@ -215,18 +215,18 @@ public final class View extends CalculationView implements Contract.View
     {
         try
         {
-            _ratioTextChangedListener.stopTracking();
+            _ratioTextChangedListener.stop();
             _gearRatio.setText(ratioStr);
-            _ratioNumeratorTextChangedListener.stopTracking();
+            _ratioNumeratorTextChangedListener.stop();
             _gearRatioNumerator.setText(ratioNumStr);
-            _ratioDenominatorTextChangedListener.stopTracking();
+            _ratioDenominatorTextChangedListener.stop();
             _gearRatioDenominator.setText(ratioDenStr);
         }
         finally
         {
-            _ratioTextChangedListener.startTracking();
-            _ratioNumeratorTextChangedListener.startTracking();
-            _ratioDenominatorTextChangedListener.startTracking();
+            _ratioTextChangedListener.start();
+            _ratioNumeratorTextChangedListener.start();
+            _ratioDenominatorTextChangedListener.start();
         }
     }
 
