@@ -200,51 +200,30 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
         setEnableObserver(ids, data, true);
     }
 
-    protected void setSpinnerObserver(@IdRes int id, @ArrayRes int strArrayId, final MutableLiveData<Integer> data)
+    protected void setSpinnerObserver(@IdRes int id, @ArrayRes int strArrayId, MutableLiveData<Integer> data)
     {
         Spinner spinner = mRootView.findViewById(id);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(Activity,
-                strArrayId,
-                android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> adapter = createAdapter(strArrayId);
         spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id)
-            {
-                data.setValue(pos);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView)
-            {
-            }
-        });
-        Observer<Integer> observer = new Observers.SpinnerObserver(spinner);
+        Observer<Integer> observer = new Observers.SpinnerObserver(spinner, data);
         data.observe(getViewLifecycleOwner(), observer);
     }
 
-    protected <E extends Enum<E>> void setSpinnerEnumObserver(@IdRes int id, @ArrayRes int strArrayId, final MutableLiveData<E> data, final E[] values)
+    protected <E extends Enum<E>> void setSpinnerEnumObserver(@IdRes int id, @ArrayRes int strArrayId, final MutableLiveData<E> data, E[] values)
     {
         Spinner spinner = mRootView.findViewById(id);
+        ArrayAdapter<CharSequence> adapter = createAdapter(strArrayId);
+        spinner.setAdapter(adapter);
+        Observer<E> observer = new Observers.SpinnerEnumObserver<E>(spinner, data, values);
+        data.observe(getViewLifecycleOwner(), observer);
+    }
+
+    protected ArrayAdapter<CharSequence> createAdapter(@ArrayRes int strArrayId)
+    {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(Activity,
                 strArrayId,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id)
-            {
-                data.setValue(values[pos]);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView)
-            {
-            }
-        });
-        Observer<E> observer = new Observers.SpinnerEnumObserver<E>(spinner);
-        data.observe(getViewLifecycleOwner(), observer);
+        return adapter;
     }
 }

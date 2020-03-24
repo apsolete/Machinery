@@ -15,11 +15,19 @@ public final class Observers
     public static abstract class ViewObserver<V extends View, T> implements Observer<T>
     {
         View[] mViews;
+        Listeners.ChangeListener<T> mListener = null;
 
         ViewObserver(V view)
         {
             mViews = new View[1];
             mViews[0] = view;
+        }
+
+        ViewObserver(V view, Listeners.ChangeListener<T> listener)
+        {
+            mViews = new View[1];
+            mViews[0] = view;
+            mListener = listener;
         }
 
         ViewObserver(V[] views)
@@ -36,6 +44,36 @@ public final class Observers
         {
             return (V)mViews[i];
         }
+
+        protected void setListener(Listeners.ChangeListener<T> listener)
+        {
+            mListener = listener;
+        }
+
+        @Override
+        public void onChanged(T value)
+        {
+            if (mListener != null)
+            {
+                if (mListener.isBroadcasting())
+                    return;
+                mListener.stop();
+                try
+                {
+                    change(value);
+                }
+                finally
+                {
+                    mListener.start();
+                }
+            }
+            else
+            {
+                change(value);
+            }
+        }
+
+        protected abstract void change(T value);
     }
 
     public static abstract class ViewBoolObserver<V extends View> extends ViewObserver<V, Boolean>
@@ -68,7 +106,7 @@ public final class Observers
         }
 
         @Override
-        public void onChanged(Boolean value)
+        public void change(Boolean value)
         {
             int visibility;
             if (!mInverse)
@@ -95,7 +133,7 @@ public final class Observers
         }
 
         @Override
-        public void onChanged(Boolean value)
+        public void change(Boolean value)
         {
             boolean enable = !mInverse ? value : !value;
             for (View v : mViews)
@@ -107,35 +145,28 @@ public final class Observers
 
     public static class CheckableObserver extends ViewBoolObserver<CompoundButton>
     {
-        MutableLiveData<Boolean> mLiveData;
-
-        Listeners.CheckedChangeListener mListener = new Listeners.CheckedChangeListener()
-        {
-            @Override
-            public void onChanged(Boolean isChecked)
-            {
-                mLiveData.setValue(mInverse != isChecked);
-            }
-        };
-
         CheckableObserver(CompoundButton view, MutableLiveData<Boolean> data, boolean inverse)
         {
             super(view, inverse);
-            mLiveData = data;
-            view.setOnCheckedChangeListener(mListener);
+            Listeners.CheckedChangeListener listener = new Listeners.CheckedChangeListener(data);
+            view.setOnCheckedChangeListener(listener);
+            setListener(listener);
         }
 
         CheckableObserver(CompoundButton[] views, MutableLiveData<Boolean> data, boolean inverse)
         {
             super(views, inverse);
+            Listeners.CheckedChangeListener listener = new Listeners.CheckedChangeListener(data);
+            for (CompoundButton view: views)
+            {
+                view.setOnCheckedChangeListener(listener);
+            }
+            setListener(listener);
         }
 
         @Override
-        public void onChanged(Boolean value)
+        public void change(Boolean value)
         {
-            if (mListener.isBroadcasting())
-                return;
-
             boolean checked = mInverse ? !value : value;
             for (int i = 0; i < mViews.length; i++)
             {
@@ -152,7 +183,7 @@ public final class Observers
         }
 
         @Override
-        public void onChanged(@Nullable String text)
+        public void change(@Nullable String text)
         {
             view().setText(text);
         }
@@ -160,51 +191,35 @@ public final class Observers
 
     public static class EditTextObserver extends ViewObserver<EditText, String>
     {
-        MutableLiveData<String> mLiveData;
-
-        private Listeners.TextChangeListener mListener = new Listeners.TextChangeListener()
-        {
-            @Override
-            public void onChanged(String text)
-            {
-                mLiveData.setValue(text);
-            }
-        };
-
         EditTextObserver(EditText view, MutableLiveData<String> data)
         {
             super(view);
-            mLiveData = data;
-            view.addTextChangedListener(mListener);
+
+            Listeners.TextChangeListener listener = new Listeners.TextChangeListener(data);
+            view.addTextChangedListener(listener);
+            setListener(listener);
         }
 
         @Override
-        public void onChanged(@Nullable String text)
+        public void change(@Nullable String text)
         {
-            if (mListener.isBroadcasting())
-                return;
-
-            mListener.stop();
-            try
-            {
-                view().setText(text);
-            }
-            finally
-            {
-                mListener.start();
-            }
+            view().setText(text);
         }
     }
 
     public static class SpinnerObserver extends ViewObserver<AbsSpinner, Integer>
     {
-        SpinnerObserver(AbsSpinner view)
+        SpinnerObserver(AbsSpinner view, MutableLiveData<Integer> data)
         {
             super(view);
+
+            Listeners.IntegerItemSelectListener listener = new Listeners.IntegerItemSelectListener(data);
+            view.setOnItemSelectedListener(listener);
+            setListener(listener);
         }
 
         @Override
-        public void onChanged(Integer pos)
+        public void change(Integer pos)
         {
             view().setSelection(pos);
         }
@@ -212,13 +227,16 @@ public final class Observers
 
     public static class SpinnerEnumObserver<E extends Enum<E>> extends ViewObserver<AbsSpinner, E>
     {
-        SpinnerEnumObserver(AbsSpinner view)
+        SpinnerEnumObserver(AbsSpinner view, MutableLiveData<E> data, E[] values)
         {
             super(view);
+            Listeners.EnumItemSelectListener<E> listener = new Listeners.EnumItemSelectListener<>(data, values);
+            view.setOnItemSelectedListener(listener);
+            setListener(listener);
         }
 
         @Override
-        public void onChanged(E value)
+        public void change(E value)
         {
             view().setSelection(value.ordinal());
         }
