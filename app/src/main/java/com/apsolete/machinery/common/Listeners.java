@@ -28,8 +28,7 @@ final class Listeners
             if (!mIsListening)
                 return;
 
-            if (!mIsBroadcasting)
-                startBroadcasting();
+            startBroadcasting();
 
             onChanged(value);
 
@@ -63,22 +62,9 @@ final class Listeners
 
     public static abstract class TextChangeListener extends ChangeListener<String> implements TextWatcher
     {
-        private boolean _ignoreTextChange = false;
-
-        public void stop()
-        {
-            _ignoreTextChange = true;
-        }
-
-        public void start()
-        {
-            _ignoreTextChange = false;
-        }
-
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
         {
-            startBroadcasting();
         }
 
         @Override
