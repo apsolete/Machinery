@@ -586,14 +586,14 @@ public final class View extends CalculationView implements Contract.View
         final GearSetView gsv = gsView;
 
         FragmentManager fragmentManager = Activity.getSupportFragmentManager();
-        final TeethNumbersDialog dialog = new TeethNumbersDialog();
-        dialog.setNumbers(gsv.gears());
+        final GearSetPickerDialog dialog = new GearSetPickerDialog();
+        dialog.setGears(gsv.gears());
         dialog.setResultListener(new DialogBase.ResultListener()
             {
                 @Override
                 public void onPositive()
                 {
-                    ArrayList<Integer> teethNumbers = dialog.getTeethNumbers();
+                    ArrayList<Integer> teethNumbers = dialog.getGearsList();
                     _presenter.setGearKit(gsv.id(), teethNumbers);
                 }
 

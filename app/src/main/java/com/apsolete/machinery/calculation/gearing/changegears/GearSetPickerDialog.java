@@ -15,16 +15,16 @@ import android.util.*;
 
 import java.util.ArrayList;
 
-public class TeethNumbersDialog extends DialogBase
+public class GearSetPickerDialog extends DialogBase
 {
     private static final int COLUMNS = 5;
     private static final int TEETH_MIN = 13;
     private static final int TEETH_MAX = 132;
 
-    private ArrayList<Integer> _teethNumbers = null;
-    private ArrayMap<Integer, CompoundButton> _tglButtons = new ArrayMap<Integer, CompoundButton>();
+    private ArrayList<Integer> mGearSet = null;
+    private ArrayMap<Integer, CompoundButton> mButtons = new ArrayMap<Integer, CompoundButton>();
 
-    private GridLayout _grid;
+    private GridLayout mGrid;
 
     private View.OnClickListener _clickListener = new View.OnClickListener()
     {
@@ -35,7 +35,7 @@ public class TeethNumbersDialog extends DialogBase
             switch (id)
             {
                 case R.id.buttonSelectAll:
-                    selectall();
+                    selectAll();
                     break;
                 case R.id.buttonReset:
                     reset();
@@ -50,9 +50,9 @@ public class TeethNumbersDialog extends DialogBase
         }
     };
 
-    public TeethNumbersDialog()
+    public GearSetPickerDialog()
     {
-        super(R.layout.teeth_numbers);
+        super(R.layout.gearset_picker);
     }
 
     @Nullable
@@ -61,61 +61,63 @@ public class TeethNumbersDialog extends DialogBase
     {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        _grid = (GridLayout)view.findViewById(R.id.teethNumbersGrid);
-        _grid.setColumnCount(COLUMNS);
-        _grid.setRowCount((TEETH_MAX - TEETH_MIN) / COLUMNS + 1);
+        assert view != null;
+        mGrid = view.findViewById(R.id.gearsGrid);
+        mGrid.setColumnCount(COLUMNS);
+        mGrid.setRowCount((TEETH_MAX - TEETH_MIN) / COLUMNS + 1);
 
-        if (_grid != null)
+        if (mGrid != null)
         {
             for (int t = TEETH_MIN; t <= TEETH_MAX; t++)
             {
-                ToggleButton button = new ToggleButton(_grid.getContext());
+                ToggleButton button = new ToggleButton(mGrid.getContext(), null, R.attr.buttonBarButtonStyle);
                 button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 button.setText(String.valueOf(t));
                 button.setTextOn(String.valueOf(t));
                 button.setTextOff(String.valueOf(t));
+                button.setTag(t);
                 button.setPadding(2, 2, 2, 2);
                 button.setTextColor(ContextCompat.getColorStateList(getContext(), R.color.toglebuttonstatecolors));
-                _tglButtons.put(t, button);
-                _grid.addView(button);
+                mButtons.put(t, button);
+                mGrid.addView(button);
             }
         }
         
-        if (_teethNumbers != null && !_teethNumbers.isEmpty())
+        if (mGearSet != null && !mGearSet.isEmpty())
         {
-            for (Integer n: _teethNumbers)
+            for (Integer n: mGearSet)
             {
-                CompoundButton cb = _tglButtons.get(n);
+                CompoundButton cb = mButtons.get(n);
                 if (cb != null)
                     cb.setChecked(true);
             }
         }
 
-        ((Button)view.findViewById(R.id.buttonSelectAll)).setOnClickListener(_clickListener);
-        ((Button)view.findViewById(R.id.buttonReset)).setOnClickListener(_clickListener);
-        ((Button)view.findViewById(R.id.buttonOk)).setOnClickListener(_clickListener);
-        ((Button)view.findViewById(R.id.buttonCancel)).setOnClickListener(_clickListener);
+        view.findViewById(R.id.buttonSelectAll).setOnClickListener(_clickListener);
+        view.findViewById(R.id.buttonReset).setOnClickListener(_clickListener);
+        view.findViewById(R.id.buttonOk).setOnClickListener(_clickListener);
+        view.findViewById(R.id.buttonCancel).setOnClickListener(_clickListener);
 
         return view;
     }
 
-    public ArrayList<Integer> getTeethNumbers()
+    public ArrayList<Integer> getGearsList()
     {
-        return _teethNumbers;
+        return mGearSet;
     }
 
     public Integer[] getGears()
     {
-        Integer[] gears = getTeethNumbers().toArray(new Integer[]{});
+        Integer[] gears = getGearsList().toArray(new Integer[]{});
         return gears;
     }
 
-    private void selectall()
+    private void selectAll()
     {
-        int count = _grid.getChildCount();
+        int count = mGrid.getChildCount();
         for (int i = 0; i < count; i++)
         {
-            CompoundButton cb = (CompoundButton)_grid.getChildAt(i);
+            CompoundButton cb = (CompoundButton) mGrid.getChildAt(i);
             if (cb != null)
                 cb.setChecked(true);
         }
@@ -123,10 +125,10 @@ public class TeethNumbersDialog extends DialogBase
 
     private void reset()
     {
-        int count = _grid.getChildCount();
+        int count = mGrid.getChildCount();
         for (int i = 0; i < count; i++)
         {
-            CompoundButton cb = (CompoundButton)_grid.getChildAt(i);
+            CompoundButton cb = (CompoundButton) mGrid.getChildAt(i);
             if (cb != null)
                 cb.setChecked(false);
         }
@@ -134,15 +136,15 @@ public class TeethNumbersDialog extends DialogBase
 
     private void apply()
     {
-        _teethNumbers = new ArrayList<>();
-        int count = _grid.getChildCount();
+        mGearSet = new ArrayList<>();
+        int count = mGrid.getChildCount();
         for (int i = 0; i < count; i++)
         {
-            CompoundButton cb = (CompoundButton)_grid.getChildAt(i);
+            CompoundButton cb = (CompoundButton) mGrid.getChildAt(i);
             if (cb != null && cb.isChecked())
             {
-                int teeth = Integer.parseInt(cb.getText().toString());
-                _teethNumbers.add(teeth);
+                int teeth = (int)cb.getTag();
+                mGearSet.add(teeth);
             }
         }
         dismiss();
@@ -151,18 +153,18 @@ public class TeethNumbersDialog extends DialogBase
 
     private void cancel()
     {
-        _teethNumbers = null;
+        mGearSet = null;
         _resultListener.onNegative();
         dismiss();
     }
 
-    public void setNumbers(ArrayList<Integer> selection)
+    public void setGears(ArrayList<Integer> gearSet)
     {
-        _teethNumbers = new ArrayList<>(selection);
+        mGearSet = new ArrayList<>(gearSet);
     }
 
-    public void setNumbers(String selection)
+    public void setGears(String gearSet)
     {
-        _teethNumbers = Numbers.getNumbersList(selection);
+        mGearSet = Numbers.getNumbersList(gearSet);
     }
 }
