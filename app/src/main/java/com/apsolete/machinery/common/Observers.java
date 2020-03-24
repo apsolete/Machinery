@@ -207,6 +207,24 @@ public final class Observers
         }
     }
 
+    public static class EditTextDoubleObserver extends ViewObserver<EditText, Double>
+    {
+        EditTextDoubleObserver(EditText view, MutableLiveData<Double> data)
+        {
+            super(view);
+
+            Listeners.DoubleChangeListener listener = new Listeners.DoubleChangeListener(data);
+            view.addTextChangedListener(listener);
+            setListener(listener);
+        }
+
+        @Override
+        public void change(@Nullable Double value)
+        {
+            view().setText(value.toString());
+        }
+    }
+
     public static class SpinnerObserver extends ViewObserver<AbsSpinner, Integer>
     {
         SpinnerObserver(AbsSpinner view, MutableLiveData<Integer> data)

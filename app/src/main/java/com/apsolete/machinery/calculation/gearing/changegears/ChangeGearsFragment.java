@@ -108,6 +108,8 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         setVisibilityObserver(new int[]{R.id.leadScrewPitchText, R.id.leadScrewPitchValue, R.id.leadScrewPitchUnit},
                 mViewModel.getLeadscrewPitchEnabled());
 
+        setEditTextDoubleObserver(R.id.leadScrewPitchValue, mViewModel.getLeadscrewPitch());
+
         return view;
     }
 

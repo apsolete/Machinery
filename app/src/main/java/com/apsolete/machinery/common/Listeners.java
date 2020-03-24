@@ -101,6 +101,32 @@ public final class Listeners
         }
     }
 
+    public static class DoubleChangeListener extends ChangeListener<Double> implements TextWatcher
+    {
+        public DoubleChangeListener(MutableLiveData<Double> liveData)
+        {
+            super(liveData);
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2)
+        {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2)
+        {
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable)
+        {
+            String str = editable.toString();
+            Double value = Double.parseDouble(str);
+            onChangedInternal(value);
+        }
+    }
+
     public static class IntegerItemSelectListener extends ChangeListener<Integer> implements AdapterView.OnItemSelectedListener
     {
         public IntegerItemSelectListener(MutableLiveData<Integer> liveData)
