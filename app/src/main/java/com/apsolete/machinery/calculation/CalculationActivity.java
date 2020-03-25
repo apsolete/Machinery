@@ -36,6 +36,7 @@ public class CalculationActivity extends AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
 
         // Enable the Up button
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         // Show content

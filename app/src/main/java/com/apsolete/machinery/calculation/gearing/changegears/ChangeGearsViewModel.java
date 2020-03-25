@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.apsolete.machinery.common.CustomViewModel;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.OnResultListener;
+import com.apsolete.machinery.utils.Fraction;
 import com.apsolete.machinery.utils.Numbers;
 
 import java.text.NumberFormat;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 public class ChangeGearsViewModel extends CustomViewModel
 {
     private int mOneSetGearsCount = 2;
+    private double mCalculatedRatio = 0.0;
 
     private MutableLiveData<Boolean> mOneSet = new MutableLiveData<Boolean>()
     {
@@ -77,29 +79,28 @@ public class ChangeGearsViewModel extends CustomViewModel
                     mLeadscrewPitchEnabled.setValue(false);
                     mThreadPitchEnabled.setValue(false);
                     mRatioEnabled.setValue(false);
-                    //_view.showFormattedRatio(false);
+                    mRatioResultEnabled.setValue(false);
                     break;
                 case G.THREAD_BY_GEARS:
                     mLeadscrewPitchEnabled.setValue(true);
                     mThreadPitchEnabled.setValue(false);
                     mRatioEnabled.setValue(false);
-                    //_view.showFormattedRatio(false);
+                    mRatioResultEnabled.setValue(false);
                     break;
                 case G.GEARS_BY_RATIO:
                     mLeadscrewPitchEnabled.setValue(false);
                     mThreadPitchEnabled.setValue(false);
                     mRatioEnabled.setValue(true);
-                    //_view.showRatioAsFration(_ratioAsFraction);
-                    //_view.showFormattedRatio(true);
-                    //recalculateRatio();
+                    mRatioResultEnabled.setValue(true);
+                    recalculateRatio();
                     break;
                 case G.GEARS_BY_THREAD:
                     //_view.showRatio(false);
                     mLeadscrewPitchEnabled.setValue(true);
                     mThreadPitchEnabled.setValue(true);
                     mRatioEnabled.setValue(false);
-                    //_view.showFormattedRatio(true);
-                    //recalculateRatio();
+                    mRatioResultEnabled.setValue(true);
+                    recalculateRatio();
                     break;
             }
         }
@@ -110,6 +111,7 @@ public class ChangeGearsViewModel extends CustomViewModel
     private MutableLiveData<Integer> mRatioDenominator = new MutableLiveData<>();
     private MutableLiveData<Boolean> mRatioAsFraction = new MutableLiveData<>();
     private MutableLiveData<Boolean> mRatioEnabled = new MutableLiveData<>();
+    private MutableLiveData<Boolean> mRatioResultEnabled = new MutableLiveData<>();
 
     private MutableLiveData<ThreadPitchUnit> mThreadPitchUnit = new MutableLiveData<>();
     private MutableLiveData<ThreadPitchUnit> mLeadscrewPitchUnit = new MutableLiveData<>();
@@ -118,7 +120,8 @@ public class ChangeGearsViewModel extends CustomViewModel
     private MutableLiveData<Boolean> mLeadscrewPitchEnabled = new MutableLiveData<>();
     private MutableLiveData<Boolean> mThreadPitchEnabled = new MutableLiveData<>();
     private NumberFormat mRatioFormat;
-    private MutableLiveData<Double> mCalculatedRatio = new MutableLiveData<>();
+    //private MutableLiveData<Double> mCalculatedRatio = new MutableLiveData<>();
+    private MutableLiveData<String> mCalculatedRatioInfo = new MutableLiveData<>();
     private MutableLiveData<Integer> mFirstResultNumber = new MutableLiveData<>();
     private MutableLiveData<Integer> mLastResultNumber = new MutableLiveData<>();
     private ArrayList<Contract.Result> mResults = new ArrayList<>();
@@ -176,7 +179,7 @@ public class ChangeGearsViewModel extends CustomViewModel
         mLeadscrewPitchUnit.setValue(ThreadPitchUnit.mm);
         mLeadscrewPitch.setValue(4.0);
 
-        mCalculatedRatio.setValue(0.0);
+        //mCalculatedRatio.setValue(0.0);
         mFirstResultNumber.setValue(1);
         mLastResultNumber.setValue(1);
 
@@ -314,4 +317,65 @@ public class ChangeGearsViewModel extends CustomViewModel
     {
         return mRatioAsFraction;
     }
+
+    private void recalculateRatio()
+    {
+        String ratioInfo = "R = <Undefined>";
+
+        mCalculatedRatio = 0.0;
+
+        if (_calculationMode == G.GEARS_BY_THREAD)
+        {
+            if (_threadPitch == 0.0)
+            {
+                mCalculatedRatio = 0.0;
+            }
+            else if (_leadscrewPitch == 0.0)
+            {
+                mCalculatedRatio = _threadPitchUnit.toMm(_threadPitch);
+                ratioInfo = "R = " + _ratioFormat.format(_calculatedRatio) + " (" + _threadPitchUnit + ")";
+            }
+            else
+            {
+                Fraction tpf = _threadPitchUnit.toMmFraction(_threadPitch);
+                Fraction spf = _leadscrewPitchUnit.toMmFraction(_leadscrewPitch);
+                Fraction fract = tpf.divide(spf);
+                mCalculatedRatio = fract.toDouble();
+                ratioInfo = "R = " + _threadPitch + " (" + _threadPitchUnit + ") / " +
+                        _leadscrewPitch + " (" + _leadscrewPitchUnit + ") = " + fract.toString() +
+                        " = " + _ratioFormat.format(_calculatedRatio);
+            }
+        }
+        else if (_calculationMode == G.GEARS_BY_RATIO)
+        {
+            if (_ratioAsFraction)
+            {
+                if (_ratioNumerator == 0.0)
+                {
+                    mCalculatedRatio = 0.0;
+                }
+                else if (_ratioDenominator == 0.0)
+                {
+                    mCalculatedRatio = _ratioNumerator;
+                    ratioInfo = "R = " + _ratioFormat.format(_calculatedRatio);
+                }
+                else
+                {
+                    Fraction fract = new Fraction(_ratioNumerator, _ratioDenominator);
+                    mCalculatedRatio = fract.toDouble();
+                    ratioInfo = "R = " + _ratioNumerator + " / " + _ratioDenominator + " = " +
+                            fract.toString() + " = " + _ratioFormat.format(_calculatedRatio);
+                }
+            }
+            else
+            {
+                mCalculatedRatio = _ratio;
+                ratioInfo = "R = " + _ratioFormat.format(_calculatedRatio);
+            }
+
+        }
+
+        _view.setFormattedRatio(ratioInfo);
+    }
+
 }
