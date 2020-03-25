@@ -24,6 +24,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
+			android:background="@drawable/border"
 			android:orientation="vertical">
 
 			<Switch
@@ -39,8 +40,7 @@
 			<LinearLayout
 				android:id="@+id/oneSetLayout"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				>
+				android:layout_height="wrap_content">
 
 				<TextView
 					android:id="@+id/z0Set"
@@ -317,6 +317,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
+			android:background="@drawable/border"
 			android:orientation="vertical">
 
 			<TextView
@@ -365,8 +366,8 @@
 				android:layout_gravity="center_vertical"
 				android:layout_margin="@dimen/layout_margin"
 				android:ems="3"
-				android:inputType="numberDecimal"
-				android:importantForAutofill="no" />
+				android:importantForAutofill="no"
+				android:inputType="numberDecimal" />
 
 			<Spinner
 				android:id="@+id/threadPitchUnit"
@@ -404,8 +405,8 @@
 				android:layout_gravity="center_vertical"
 				android:layout_margin="@dimen/layout_margin"
 				android:ems="3"
-				android:inputType="numberDecimal"
-				android:importantForAutofill="no" />
+				android:importantForAutofill="no"
+				android:inputType="numberDecimal" />
 
 			<Spinner
 				android:id="@+id/leadScrewPitchUnit"
@@ -425,6 +426,7 @@
             android:orientation="vertical">-->
 
 			<LinearLayout
+				android:id="@+id/ratioTextLayout"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_row="4"
@@ -433,7 +435,7 @@
 				android:orientation="horizontal">
 
 				<TextView
-					android:id="@+id/gearRatioText"
+					android:id="@+id/ratioText"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_gravity="center_vertical"
@@ -442,7 +444,7 @@
 					android:visibility="gone" />
 
 				<Switch
-					android:id="@+id/ratioAsFractionSwitch"
+					android:id="@+id/ratioFractionSwitch"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_gravity="center_vertical"
@@ -456,54 +458,65 @@
 
 			</LinearLayout>
 
-			<EditText
-				android:id="@+id/gearRatioValue"
+			<LinearLayout
+				android:id="@+id/ratioLayout"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_row="4"
 				android:layout_column="1"
-				android:layout_gravity="center_vertical"
-				android:layout_margin="@dimen/layout_margin"
-				android:ems="3"
-				android:inputType="numberDecimal"
-				android:importantForAutofill="no" />
-
-			<LinearLayout
-				android:id="@+id/gearRatioFractionLayout"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_row="4"
-				android:layout_column="2"
+				android:layout_columnSpan="2"
 				android:orientation="horizontal">
 
+			<LinearLayout
+				android:id="@+id/ratioValueLayout"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal">
 				<EditText
-					android:id="@+id/gearRatioNumerator"
+					android:id="@+id/ratioValue"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_gravity="center_vertical"
 					android:layout_margin="@dimen/layout_margin"
 					android:ems="3"
-					android:inputType="numberDecimal"
-					android:importantForAutofill="no" />
-
-				<TextView
-					android:id="@+id/solidusText"
+					android:importantForAutofill="no"
+					android:inputType="numberDecimal" />
+			</LinearLayout>
+				<LinearLayout
+					android:id="@+id/ratioFractionLayout"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
-					android:layout_margin="@dimen/layout_margin"
-					android:text="@string/slash"
-					android:textAppearance="?android:attr/textAppearanceLarge" />
+					android:orientation="horizontal">
 
-				<EditText
-					android:id="@+id/gearRatioDenominator"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="center_vertical"
-					android:layout_margin="@dimen/layout_margin"
-					android:ems="3"
-					android:inputType="numberDecimal"
-					android:importantForAutofill="no" />
+					<EditText
+						android:id="@+id/ratioNumeratorValue"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_vertical"
+						android:layout_margin="@dimen/layout_margin"
+						android:ems="3"
+						android:importantForAutofill="no"
+						android:inputType="numberDecimal" />
+
+					<TextView
+						android:id="@+id/solidusText"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_vertical"
+						android:layout_margin="@dimen/layout_margin"
+						android:text="@string/slash"
+						android:textAppearance="?android:attr/textAppearanceLarge" />
+
+					<EditText
+						android:id="@+id/ratioDenominatorValue"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center_vertical"
+						android:layout_margin="@dimen/layout_margin"
+						android:ems="3"
+						android:importantForAutofill="no"
+						android:inputType="numberDecimal" />
+				</LinearLayout>
 
 			</LinearLayout>
 

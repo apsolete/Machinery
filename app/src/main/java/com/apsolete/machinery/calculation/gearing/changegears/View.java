@@ -508,19 +508,19 @@ public final class View extends CalculationView implements Contract.View
         initSpinner(_leadscrewPitchUnitSpinner, R.array.cg_pitchunit_array, _scrPitchUnitListener);
 
         //_gearRatioLayout = (LinearLayout)_view.findViewById(R.id.gearRatioLayout);
-        _gearRatio = (EditText)_view.findViewById(R.id.gearRatioValue);
+        _gearRatio = (EditText)_view.findViewById(R.id.ratioValue);
         _gearRatio.addTextChangedListener(_ratioTextChangedListener);
 
-        _gearRatioNumerator = (EditText)_view.findViewById(R.id.gearRatioNumerator);
+        _gearRatioNumerator = (EditText)_view.findViewById(R.id.ratioNumeratorValue);
         _gearRatioNumerator.addTextChangedListener(_ratioNumeratorTextChangedListener);
 
-        _gearRatioDenominator = (EditText)_view.findViewById(R.id.gearRatioDenominator);
+        _gearRatioDenominator = (EditText)_view.findViewById(R.id.ratioDenominatorValue);
         _gearRatioDenominator.addTextChangedListener(_ratioDenominatorTextChangedListener);
 
-        _gearRatioFractionLayout = (LinearLayout)_view.findViewById(R.id.gearRatioFractionLayout);
+        _gearRatioFractionLayout = (LinearLayout)_view.findViewById(R.id.ratioFractionLayout);
         _ratioFormattedText = (TextView)_view.findViewById(R.id.ratioResultText);
 
-        _ratioAsFractionSwitch = (CompoundButton)_view.findViewById(R.id.ratioAsFractionSwitch);
+        _ratioAsFractionSwitch = (CompoundButton)_view.findViewById(R.id.ratioFractionSwitch);
         _ratioAsFractionSwitch.setOnClickListener(new android.view.View.OnClickListener()
             {
                 @Override

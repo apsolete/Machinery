@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="cg_calctype_array">
-        <item>Calculate Ratios by Gears</item>
-        <item>Calculate Thread Pitches by Gears</item>
-        <item>Calculate Gears by Ratio</item>
-        <item>Calculate Gears by Thread Pitch</item>
+        <item>Ratios by Gears</item>
+        <item>Thread Pitches by Gears</item>
+        <item>Gears by Ratio</item>
+        <item>Gears by Thread Pitch</item>
     </string-array>
     <string-array name="cg_pitchunit_array">
         <item>mm</item>
@@ -41,7 +41,7 @@
     <string name="key_accuracyofratio">accuracyofratio</string>
     <string name="title_accuracyofratio">Accuracy of ratio</string>
     <string name="summary_accuracyofratio">Accuracy of gear ratio.</string>
-    <string name="mode">Mode</string>
+    <string name="mode">Calculate</string>
     <string name="thread_pitch">Thread Pitch</string>
     <string name="leadscrew_pitch">Leadscrew Pitch</string>
     <string name="ratio">Ratio</string>

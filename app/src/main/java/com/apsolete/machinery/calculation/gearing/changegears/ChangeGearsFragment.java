@@ -69,12 +69,12 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         setCheckableObserver(R.id.z6Switch, mViewModel.gearSet(G.Z6).isSwitched());
 
         setVisibilityObserver(R.id.z0Gears, mViewModel.getOneSet());
-        setVisibilityInversedObserver(R.id.z1Gears, mViewModel.getOneSet());
-        setVisibilityInversedObserver(R.id.z2Gears, mViewModel.getOneSet());
-        setVisibilityInversedObserver(R.id.z3Gears, mViewModel.getOneSet());
-        setVisibilityInversedObserver(R.id.z4Gears, mViewModel.getOneSet());
-        setVisibilityInversedObserver(R.id.z5Gears, mViewModel.getOneSet());
-        setVisibilityInversedObserver(R.id.z6Gears, mViewModel.getOneSet());
+        setVisibilityInverseObserver(R.id.z1Gears, mViewModel.getOneSet());
+        setVisibilityInverseObserver(R.id.z2Gears, mViewModel.getOneSet());
+        setVisibilityInverseObserver(R.id.z3Gears, mViewModel.getOneSet());
+        setVisibilityInverseObserver(R.id.z4Gears, mViewModel.getOneSet());
+        setVisibilityInverseObserver(R.id.z5Gears, mViewModel.getOneSet());
+        setVisibilityInverseObserver(R.id.z6Gears, mViewModel.getOneSet());
 
         setEnableObserver(new int[]{R.id.z0Set, R.id.z0Gears}, mViewModel.gearSet(G.Z0).isEditAllowed());
         setEnableObserver(new int[]{R.id.z1Set, R.id.z1Gears}, mViewModel.gearSet(G.Z1).isEditAllowed());
@@ -108,7 +108,16 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         setVisibilityObserver(new int[]{R.id.leadScrewPitchText, R.id.leadScrewPitchValue, R.id.leadScrewPitchUnit},
                 mViewModel.getLeadscrewPitchEnabled());
 
+        setEditTextDoubleObserver(R.id.threadPitchValue, mViewModel.getThreadPitch());
         setEditTextDoubleObserver(R.id.leadScrewPitchValue, mViewModel.getLeadscrewPitch());
+
+        setEditTextDoubleObserver(R.id.ratioValue, mViewModel.getRatio());
+        setEditTextIntegerObserver(R.id.ratioNumeratorValue, mViewModel.getRatioNumerator());
+        setEditTextIntegerObserver(R.id.ratioDenominatorValue, mViewModel.getRatioDenominator());
+        setCheckableObserver(R.id.ratioFractionSwitch, mViewModel.getRatioAsFraction());
+        setVisibilityObserver(new int[]{R.id.ratioTextLayout, R.id.ratioLayout}, mViewModel.getRatioEnabled());
+        setVisibilityInverseObserver(R.id.ratioValueLayout, mViewModel.getRatioAsFraction());
+        setVisibilityObserver(R.id.ratioFractionLayout, mViewModel.getRatioAsFraction());
 
         return view;
     }

@@ -225,6 +225,24 @@ public final class Observers
         }
     }
 
+    public static class EditTextIntegerObserver extends ViewObserver<EditText, Integer>
+    {
+        EditTextIntegerObserver(EditText view, MutableLiveData<Integer> data)
+        {
+            super(view);
+
+            Listeners.IntegerChangeListener listener = new Listeners.IntegerChangeListener(data);
+            view.addTextChangedListener(listener);
+            setListener(listener);
+        }
+
+        @Override
+        public void change(@Nullable Integer value)
+        {
+            view().setText(value.toString());
+        }
+    }
+
     public static class SpinnerObserver extends ViewObserver<AbsSpinner, Integer>
     {
         SpinnerObserver(AbsSpinner view, MutableLiveData<Integer> data)

@@ -74,22 +74,22 @@ public class ChangeGearsViewModel extends CustomViewModel
             switch (value)
             {
                 case G.RATIOS_BY_GEARS:
-                    //_view.showRatio(false);
                     mLeadscrewPitchEnabled.setValue(false);
                     mThreadPitchEnabled.setValue(false);
+                    mRatioEnabled.setValue(false);
                     //_view.showFormattedRatio(false);
                     break;
                 case G.THREAD_BY_GEARS:
-                    //_view.showRatio(false);
                     mLeadscrewPitchEnabled.setValue(true);
                     mThreadPitchEnabled.setValue(false);
+                    mRatioEnabled.setValue(false);
                     //_view.showFormattedRatio(false);
                     break;
                 case G.GEARS_BY_RATIO:
-                    //_view.showRatio(true);
-                    //_view.showRatioAsFration(_ratioAsFraction);
                     mLeadscrewPitchEnabled.setValue(false);
                     mThreadPitchEnabled.setValue(false);
+                    mRatioEnabled.setValue(true);
+                    //_view.showRatioAsFration(_ratioAsFraction);
                     //_view.showFormattedRatio(true);
                     //recalculateRatio();
                     break;
@@ -97,6 +97,7 @@ public class ChangeGearsViewModel extends CustomViewModel
                     //_view.showRatio(false);
                     mLeadscrewPitchEnabled.setValue(true);
                     mThreadPitchEnabled.setValue(true);
+                    mRatioEnabled.setValue(false);
                     //_view.showFormattedRatio(true);
                     //recalculateRatio();
                     break;
@@ -105,8 +106,8 @@ public class ChangeGearsViewModel extends CustomViewModel
     };
 
     private MutableLiveData<Double> mRatio = new MutableLiveData<>();
-    private MutableLiveData<Double> mRatioNumerator = new MutableLiveData<>();
-    private MutableLiveData<Double> mRatioDenominator = new MutableLiveData<>();
+    private MutableLiveData<Integer> mRatioNumerator = new MutableLiveData<>();
+    private MutableLiveData<Integer> mRatioDenominator = new MutableLiveData<>();
     private MutableLiveData<Boolean> mRatioAsFraction = new MutableLiveData<>();
     private MutableLiveData<Boolean> mRatioEnabled = new MutableLiveData<>();
 
@@ -166,12 +167,14 @@ public class ChangeGearsViewModel extends CustomViewModel
         mDiffGearingZ5Z6.setValue(true);
 
         mRatio.setValue(1.25);
-        mRatioNumerator.setValue(34.0);
-        mRatioDenominator.setValue(56.0);
+        mRatioNumerator.setValue(34);
+        mRatioDenominator.setValue(56);
+        //mRatioEnabled.setValue(true);
+
         mThreadPitchUnit.setValue(ThreadPitchUnit.mm);
+        mThreadPitch.setValue(0.75);
         mLeadscrewPitchUnit.setValue(ThreadPitchUnit.mm);
         mLeadscrewPitch.setValue(4.0);
-        mThreadPitch.setValue(0.75);
 
         mCalculatedRatio.setValue(0.0);
         mFirstResultNumber.setValue(1);
@@ -287,8 +290,28 @@ public class ChangeGearsViewModel extends CustomViewModel
         return mThreadPitchEnabled;
     }
 
+    public MutableLiveData<Double> getRatio()
+    {
+        return mRatio;
+    }
+
+    public MutableLiveData<Integer> getRatioNumerator()
+    {
+        return mRatioNumerator;
+    }
+
+    public MutableLiveData<Integer> getRatioDenominator()
+    {
+        return mRatioDenominator;
+    }
+
     public MutableLiveData<Boolean> getRatioEnabled()
     {
         return mRatioEnabled;
+    }
+
+    public MutableLiveData<Boolean> getRatioAsFraction()
+    {
+        return mRatioAsFraction;
     }
 }

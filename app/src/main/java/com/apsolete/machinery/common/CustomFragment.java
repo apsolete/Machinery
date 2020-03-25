@@ -117,6 +117,13 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
         data.observe(getViewLifecycleOwner(), observer);
     }
 
+    protected void setEditTextIntegerObserver(@IdRes int id, MutableLiveData<Integer> data)
+    {
+        EditText editText = mRootView.findViewById(id);
+        Observer<Integer> observer = new Observers.EditTextIntegerObserver(editText, data);
+        data.observe(getViewLifecycleOwner(), observer);
+    }
+
 //    protected void setVisibilityObserver(@IdRes int id, LiveData<Boolean> data, boolean inverse)
 //    {
 //        View view = mRootView.findViewById(id);
@@ -140,7 +147,7 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
         setVisibilityObserver(new int[]{id}, data, false);
     }
 
-    protected void setVisibilityInversedObserver(@IdRes int id, LiveData<Boolean> data)
+    protected void setVisibilityInverseObserver(@IdRes int id, LiveData<Boolean> data)
     {
         setVisibilityObserver(new int[]{id}, data, true);
     }
@@ -150,7 +157,7 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
         setVisibilityObserver(ids, data, false);
     }
 
-    protected void setVisibilityInversedObserver(@IdRes int[] ids, LiveData<Boolean> data)
+    protected void setVisibilityInverseObserver(@IdRes int[] ids, LiveData<Boolean> data)
     {
         setVisibilityObserver(ids, data, true);
     }
@@ -162,7 +169,7 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
         data.observe(getViewLifecycleOwner(), observer);
     }
 
-    protected void setCheckableInversedObserver(@IdRes int id, MutableLiveData<Boolean> data)
+    protected void setCheckableInverseObserver(@IdRes int id, MutableLiveData<Boolean> data)
     {
         CompoundButton view = mRootView.findViewById(id);
         Observer<Boolean> observer = new Observers.CheckableObserver(view, data, true);
@@ -192,7 +199,7 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
         setEnableObserver(new int[]{id}, data, false);
     }
 
-    protected void setEnableInversedObserver(@IdRes int id, LiveData<Boolean> data)
+    protected void setEnableInverseObserver(@IdRes int id, LiveData<Boolean> data)
     {
         setEnableObserver(new int[]{id}, data, true);
     }
@@ -202,7 +209,7 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
         setEnableObserver(ids, data, false);
     }
 
-    protected void setEnableInversedObserver(@IdRes int[] ids, LiveData<Boolean> data)
+    protected void setEnableInverseObserver(@IdRes int[] ids, LiveData<Boolean> data)
     {
         setEnableObserver(ids, data, true);
     }
