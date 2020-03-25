@@ -518,7 +518,7 @@ public final class View extends CalculationView implements Contract.View
         _gearRatioDenominator.addTextChangedListener(_ratioDenominatorTextChangedListener);
 
         _gearRatioFractionLayout = (LinearLayout)_view.findViewById(R.id.ratioFractionLayout);
-        _ratioFormattedText = (TextView)_view.findViewById(R.id.ratioResultText);
+        _ratioFormattedText = (TextView)_view.findViewById(R.id.ratioCalculated);
 
         _ratioAsFractionSwitch = (CompoundButton)_view.findViewById(R.id.ratioFractionSwitch);
         _ratioAsFractionSwitch.setOnClickListener(new android.view.View.OnClickListener()

@@ -14,6 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModel;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public abstract class CalculationFragment<VM extends CustomViewModel> extends CustomFragment<VM>
 {
     private ProgressBar ProgressBar;
@@ -51,4 +57,15 @@ public abstract class CalculationFragment<VM extends CustomViewModel> extends Cu
         ProgressBar.setProgress(0);
         ProgressBar.setVisibility(View.GONE);
     }
+
+
+    public static NumberFormat getNumberFormat(String pattern)
+    {
+        DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols(Locale.getDefault());
+        formatSymbols.setDecimalSeparator('.');
+        DecimalFormat _numFormat = new DecimalFormat(pattern, formatSymbols);
+        _numFormat.setRoundingMode(RoundingMode.CEILING);
+        return _numFormat;
+    }
+
 }

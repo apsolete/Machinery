@@ -2,6 +2,7 @@ package com.apsolete.machinery.calculation.gearing.changegears;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.apsolete.machinery.calculation.CalculationFragment;
 import com.apsolete.machinery.common.CustomViewModel;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.OnResultListener;
@@ -14,7 +15,11 @@ import java.util.ArrayList;
 public class ChangeGearsViewModel extends CustomViewModel
 {
     private int mOneSetGearsCount = 2;
-    private double mCalculatedRatio = 0.0;
+    private boolean mStarted = false;
+
+    /*settings*/
+    private int _ratioPrecision = 2;
+    private NumberFormat _ratioFormat;
 
     private MutableLiveData<Boolean> mOneSet = new MutableLiveData<Boolean>()
     {
@@ -22,6 +27,8 @@ public class ChangeGearsViewModel extends CustomViewModel
         public void setValue(Boolean value)
         {
             super.setValue(value);
+            if (!mStarted)
+                return;
             if (value)
             {
                 mGearSets.get(G.Z0).setEditable(true).setEnabled(true).setSwitched(true);
@@ -73,33 +80,34 @@ public class ChangeGearsViewModel extends CustomViewModel
         public void setValue(Integer value)
         {
             super.setValue(value);
+            if (!mStarted)
+                return;
             switch (value)
             {
                 case G.RATIOS_BY_GEARS:
                     mLeadscrewPitchEnabled.setValue(false);
                     mThreadPitchEnabled.setValue(false);
                     mRatioEnabled.setValue(false);
-                    mRatioResultEnabled.setValue(false);
+                    mRatioCalculatedEnabled.setValue(false);
                     break;
                 case G.THREAD_BY_GEARS:
                     mLeadscrewPitchEnabled.setValue(true);
                     mThreadPitchEnabled.setValue(false);
                     mRatioEnabled.setValue(false);
-                    mRatioResultEnabled.setValue(false);
+                    mRatioCalculatedEnabled.setValue(false);
                     break;
                 case G.GEARS_BY_RATIO:
                     mLeadscrewPitchEnabled.setValue(false);
                     mThreadPitchEnabled.setValue(false);
                     mRatioEnabled.setValue(true);
-                    mRatioResultEnabled.setValue(true);
+                    mRatioCalculatedEnabled.setValue(true);
                     recalculateRatio();
                     break;
                 case G.GEARS_BY_THREAD:
-                    //_view.showRatio(false);
                     mLeadscrewPitchEnabled.setValue(true);
                     mThreadPitchEnabled.setValue(true);
                     mRatioEnabled.setValue(false);
-                    mRatioResultEnabled.setValue(true);
+                    mRatioCalculatedEnabled.setValue(true);
                     recalculateRatio();
                     break;
             }
@@ -107,11 +115,42 @@ public class ChangeGearsViewModel extends CustomViewModel
     };
 
     private MutableLiveData<Double> mRatio = new MutableLiveData<>();
-    private MutableLiveData<Integer> mRatioNumerator = new MutableLiveData<>();
-    private MutableLiveData<Integer> mRatioDenominator = new MutableLiveData<>();
-    private MutableLiveData<Boolean> mRatioAsFraction = new MutableLiveData<>();
+    private MutableLiveData<Integer> mRatioNumerator = new MutableLiveData<Integer>()
+    {
+        @Override
+        public void setValue(Integer value)
+        {
+            super.setValue(value);
+            if (!mStarted)
+                return;
+            recalculateRatio();
+        }
+    };
+    private MutableLiveData<Integer> mRatioDenominator = new MutableLiveData<Integer>()
+    {
+        @Override
+        public void setValue(Integer value)
+        {
+            super.setValue(value);
+            if (!mStarted)
+                return;
+            recalculateRatio();
+        }
+    };
+    private MutableLiveData<Boolean> mRatioAsFraction = new MutableLiveData<Boolean>()
+    {
+        @Override
+        public void setValue(Boolean value)
+        {
+            super.setValue(value);
+            if (!mStarted)
+                return;
+            recalculateRatio();
+        }
+    };
     private MutableLiveData<Boolean> mRatioEnabled = new MutableLiveData<>();
-    private MutableLiveData<Boolean> mRatioResultEnabled = new MutableLiveData<>();
+    private MutableLiveData<String> mRatioCalculated = new MutableLiveData<>();
+    private MutableLiveData<Boolean> mRatioCalculatedEnabled = new MutableLiveData<>();
 
     private MutableLiveData<ThreadPitchUnit> mThreadPitchUnit = new MutableLiveData<>();
     private MutableLiveData<ThreadPitchUnit> mLeadscrewPitchUnit = new MutableLiveData<>();
@@ -121,7 +160,6 @@ public class ChangeGearsViewModel extends CustomViewModel
     private MutableLiveData<Boolean> mThreadPitchEnabled = new MutableLiveData<>();
     private NumberFormat mRatioFormat;
     //private MutableLiveData<Double> mCalculatedRatio = new MutableLiveData<>();
-    private MutableLiveData<String> mCalculatedRatioInfo = new MutableLiveData<>();
     private MutableLiveData<Integer> mFirstResultNumber = new MutableLiveData<>();
     private MutableLiveData<Integer> mLastResultNumber = new MutableLiveData<>();
     private ArrayList<Contract.Result> mResults = new ArrayList<>();
@@ -163,6 +201,8 @@ public class ChangeGearsViewModel extends CustomViewModel
     @Override
     public void start()
     {
+        mStarted = false;
+
         mDiffLockedZ2Z3.setValue(true);
         mDiffLockedZ4Z5.setValue(true);
         mDiffGearingZ1Z2.setValue(true);
@@ -179,7 +219,6 @@ public class ChangeGearsViewModel extends CustomViewModel
         mLeadscrewPitchUnit.setValue(ThreadPitchUnit.mm);
         mLeadscrewPitch.setValue(4.0);
 
-        //mCalculatedRatio.setValue(0.0);
         mFirstResultNumber.setValue(1);
         mLastResultNumber.setValue(1);
 
@@ -194,8 +233,10 @@ public class ChangeGearsViewModel extends CustomViewModel
         mOneSet.setValue(true);
         mCalculationMode.setValue(1);
         mRatioAsFraction.setValue(true);
+        setRatioPrecision(4);
 
         mCalculator = new ChangeGears();
+        mStarted = true;
     }
 
     public GearSetsViewModel.GSet gearSet(int set)
@@ -318,21 +359,41 @@ public class ChangeGearsViewModel extends CustomViewModel
         return mRatioAsFraction;
     }
 
+    public MutableLiveData<String> getRatioCalculated()
+    {
+        return mRatioCalculated;
+    }
+
+    public MutableLiveData<Boolean> getRatioCalculatedEnabled()
+    {
+        return mRatioCalculatedEnabled;
+    }
+
+
+
     private void recalculateRatio()
     {
         String ratioInfo = "R = <Undefined>";
 
-        mCalculatedRatio = 0.0;
+        double _calculatedRatio = 0.0;
+        int _calculationMode = mCalculationMode.getValue();
+        double _threadPitch = mThreadPitch.getValue();
+        double _leadscrewPitch = mLeadscrewPitch.getValue();
+        ThreadPitchUnit _threadPitchUnit = mThreadPitchUnit.getValue();
+        ThreadPitchUnit _leadscrewPitchUnit = mLeadscrewPitchUnit.getValue();
+        boolean _ratioAsFraction = mRatioAsFraction.getValue();
+        double _ratioNumerator = mRatioNumerator.getValue();
+        double _ratioDenominator = mRatioDenominator.getValue();
 
         if (_calculationMode == G.GEARS_BY_THREAD)
         {
             if (_threadPitch == 0.0)
             {
-                mCalculatedRatio = 0.0;
+                _calculatedRatio = 0.0;
             }
             else if (_leadscrewPitch == 0.0)
             {
-                mCalculatedRatio = _threadPitchUnit.toMm(_threadPitch);
+                _calculatedRatio = _threadPitchUnit.toMm(_threadPitch);
                 ratioInfo = "R = " + _ratioFormat.format(_calculatedRatio) + " (" + _threadPitchUnit + ")";
             }
             else
@@ -340,7 +401,7 @@ public class ChangeGearsViewModel extends CustomViewModel
                 Fraction tpf = _threadPitchUnit.toMmFraction(_threadPitch);
                 Fraction spf = _leadscrewPitchUnit.toMmFraction(_leadscrewPitch);
                 Fraction fract = tpf.divide(spf);
-                mCalculatedRatio = fract.toDouble();
+                _calculatedRatio = fract.toDouble();
                 ratioInfo = "R = " + _threadPitch + " (" + _threadPitchUnit + ") / " +
                         _leadscrewPitch + " (" + _leadscrewPitchUnit + ") = " + fract.toString() +
                         " = " + _ratioFormat.format(_calculatedRatio);
@@ -352,30 +413,39 @@ public class ChangeGearsViewModel extends CustomViewModel
             {
                 if (_ratioNumerator == 0.0)
                 {
-                    mCalculatedRatio = 0.0;
+                    _calculatedRatio = 0.0;
                 }
                 else if (_ratioDenominator == 0.0)
                 {
-                    mCalculatedRatio = _ratioNumerator;
+                    _calculatedRatio = _ratioNumerator;
                     ratioInfo = "R = " + _ratioFormat.format(_calculatedRatio);
                 }
                 else
                 {
                     Fraction fract = new Fraction(_ratioNumerator, _ratioDenominator);
-                    mCalculatedRatio = fract.toDouble();
+                    _calculatedRatio = fract.toDouble();
                     ratioInfo = "R = " + _ratioNumerator + " / " + _ratioDenominator + " = " +
                             fract.toString() + " = " + _ratioFormat.format(_calculatedRatio);
                 }
             }
             else
             {
-                mCalculatedRatio = _ratio;
+                _calculatedRatio = mRatio.getValue();
                 ratioInfo = "R = " + _ratioFormat.format(_calculatedRatio);
             }
-
         }
 
-        _view.setFormattedRatio(ratioInfo);
+        mRatioCalculated.setValue(ratioInfo);
+    }
+
+    public void setRatioPrecision(int precision)
+    {
+        _ratioPrecision = precision;
+        StringBuilder pattern = new StringBuilder("#0.0");
+        for (int i = 0; i < precision-1; i++)
+            pattern.append("#");
+        _ratioFormat = CalculationFragment.getNumberFormat(pattern.toString());
+        recalculateRatio();
     }
 
 }

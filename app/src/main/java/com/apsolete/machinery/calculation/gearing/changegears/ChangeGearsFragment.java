@@ -118,6 +118,8 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         setVisibilityObserver(new int[]{R.id.ratioTextLayout, R.id.ratioLayout}, mViewModel.getRatioEnabled());
         setVisibilityInverseObserver(R.id.ratioValueLayout, mViewModel.getRatioAsFraction());
         setVisibilityObserver(R.id.ratioFractionLayout, mViewModel.getRatioAsFraction());
+        setVisibilityObserver(R.id.ratioCalculated, mViewModel.getRatioCalculatedEnabled());
+        setTextObserver(R.id.ratioCalculated, mViewModel.getRatioCalculated());
 
         return view;
     }
