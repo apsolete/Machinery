@@ -131,4 +131,14 @@ public class GearSetsViewModel
     {
         return mGSets.get(z);
     }
+    public int getWheelsCount()
+    {
+        int count = 2;
+        for (int i = 3; i < G.ZMAX; i++)
+        {
+            if (mGSets.get(i).isSwitched().getValue())
+                count++;
+        }
+        return count;
+    }
 }

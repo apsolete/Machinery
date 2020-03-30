@@ -2,6 +2,7 @@ package com.apsolete.machinery.calculation;
 
 import com.apsolete.machinery.common.ContentBase;
 
+@Deprecated
 public abstract class CalculationView extends ContentBase
 {
     private int _type;

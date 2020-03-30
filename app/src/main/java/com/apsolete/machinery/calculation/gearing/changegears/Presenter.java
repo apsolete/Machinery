@@ -11,6 +11,7 @@ import java.text.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public final class Presenter extends CalculationPresenter implements Contract.Presenter
 {
     private final Contract.View _view;

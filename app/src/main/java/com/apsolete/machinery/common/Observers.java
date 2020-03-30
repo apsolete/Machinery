@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.google.android.material.snackbar.Snackbar;
+
 public final class Observers
 {
     public static abstract class ViewObserver<V extends View, T> implements Observer<T>
@@ -275,6 +277,21 @@ public final class Observers
         public void change(E value)
         {
             view().setSelection(value.ordinal());
+        }
+    }
+
+    public static class SnackbarObserver extends ViewObserver<View, String>
+    {
+
+        SnackbarObserver(View view)
+        {
+            super(view);
+        }
+
+        @Override
+        protected void change(String message)
+        {
+            Snackbar.make(view(), message, Snackbar.LENGTH_SHORT).show();
         }
     }
 }

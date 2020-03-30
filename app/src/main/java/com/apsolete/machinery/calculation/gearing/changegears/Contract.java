@@ -4,6 +4,7 @@ import com.apsolete.machinery.calculation.*;
 
 import java.util.List;
 
+@Deprecated
 public interface Contract
 {
     interface Presenter extends CalculationContract.Presenter

@@ -122,8 +122,15 @@ public final class Listeners
         public void afterTextChanged(Editable editable)
         {
             String str = editable.toString();
-            Double value = Double.parseDouble(str);
-            onChangedInternal(value);
+            double value = 0.0;
+            try
+            {
+                value = !str.isEmpty() ? Double.parseDouble(str) : 0.0;
+            }
+            finally
+            {
+                onChangedInternal(value);
+            }
         }
     }
 
@@ -148,8 +155,15 @@ public final class Listeners
         public void afterTextChanged(Editable editable)
         {
             String str = editable.toString();
-            Integer value = Integer.parseInt(str);
-            onChangedInternal(value);
+            int value = 0;
+            try
+            {
+                value = !str.isEmpty() ? Integer.parseInt(str) : 0;
+            }
+            finally
+            {
+                onChangedInternal(value);
+            }
         }
     }
 

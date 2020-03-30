@@ -26,6 +26,7 @@ import com.apsolete.machinery.common.TextChangedListener;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public final class View extends CalculationView implements Contract.View
 {
     private Contract.Presenter _presenter;

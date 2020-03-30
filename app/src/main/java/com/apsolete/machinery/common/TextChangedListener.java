@@ -2,6 +2,7 @@ package com.apsolete.machinery.common;
 
 import android.text.*;
 
+@Deprecated
 public abstract class TextChangedListener implements TextWatcher
 {
     private boolean _ignoreTextChange = false;

@@ -6,6 +6,7 @@ import java.text.*;
 import java.util.*;
 import java.math.*;
 
+@Deprecated
 public abstract class CalculationPresenter implements CalculationContract.Presenter
 {
     private CalculationContract.View _view;

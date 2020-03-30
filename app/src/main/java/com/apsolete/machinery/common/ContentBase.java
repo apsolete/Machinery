@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import com.apsolete.machinery.R;
 
+@Deprecated
 public abstract class ContentBase extends Fragment
 {
     protected AppCompatActivity Activity;

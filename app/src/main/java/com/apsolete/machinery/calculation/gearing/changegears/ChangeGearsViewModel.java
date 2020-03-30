@@ -3,6 +3,7 @@ package com.apsolete.machinery.calculation.gearing.changegears;
 import androidx.lifecycle.MutableLiveData;
 
 import com.apsolete.machinery.calculation.CalculationFragment;
+import com.apsolete.machinery.calculation.CalculationViewModel;
 import com.apsolete.machinery.common.CustomViewModel;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.OnResultListener;
@@ -11,15 +12,17 @@ import com.apsolete.machinery.utils.Numbers;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.List;
 
-public class ChangeGearsViewModel extends CustomViewModel
+public class ChangeGearsViewModel extends CalculationViewModel
 {
     private int mOneSetGearsCount = 2;
     private boolean mStarted = false;
 
     /*settings*/
     private int _ratioPrecision = 2;
-    private NumberFormat _ratioFormat;
+    private NumberFormat mRatioFormat;
+    private double _calculatedRatio = 0.0;
 
     private MutableLiveData<Boolean> mOneSet = new MutableLiveData<Boolean>()
     {
@@ -158,10 +161,11 @@ public class ChangeGearsViewModel extends CustomViewModel
     private MutableLiveData<Double> mThreadPitch = new MutableLiveData<>();
     private MutableLiveData<Boolean> mLeadscrewPitchEnabled = new MutableLiveData<>();
     private MutableLiveData<Boolean> mThreadPitchEnabled = new MutableLiveData<>();
-    private NumberFormat mRatioFormat;
-    //private MutableLiveData<Double> mCalculatedRatio = new MutableLiveData<>();
+
     private MutableLiveData<Integer> mFirstResultNumber = new MutableLiveData<>();
     private MutableLiveData<Integer> mLastResultNumber = new MutableLiveData<>();
+    private MutableLiveData<Integer> mProgress = new MutableLiveData<>();
+    private MutableLiveData<String> mMessage = new MutableLiveData<>();
     private ArrayList<Contract.Result> mResults = new ArrayList<>();
     private ChangeGears mCalculator;
 
@@ -182,13 +186,13 @@ public class ChangeGearsViewModel extends CustomViewModel
         @Override
         public void onProgress(int percent)
         {
-            //_view.showProgress(percent);
+            mProgress.setValue(percent);
         }
 
         @Override
         public void onCompleted(int count)
         {
-            //_view.showProgress(0);
+            mProgress.setValue(0);
             //int shown = getNextResults();
             //_view.showMessage("Calculated " + count + " ratios. Shown " + shown + " results.");
         }
@@ -369,6 +373,36 @@ public class ChangeGearsViewModel extends CustomViewModel
         return mRatioCalculatedEnabled;
     }
 
+    public int getNextResults()
+    {
+        int fi = mLastResultNumber.getValue() > 1 ? mLastResultNumber.getValue() + 1 : 1;
+        if (fi > mResults.size())
+            return 0;
+        int li = fi + 99;
+        if (li > mResults.size())
+            li = mResults.size();
+        mFirstResultNumber.setValue(fi);
+        mLastResultNumber.setValue(li);
+        List<Contract.Result> next = mResults.subList(fi-1, li);
+        //_view.showResults(next);
+        return next.size();
+    }
+
+    public int getPrevResults()
+    {
+        int fi = mFirstResultNumber.getValue() - 100;
+        if (fi < 0)
+            return 0;
+        int ti = fi + 99;
+        if (ti > mResults.size())
+            ti = mResults.size();
+        mFirstResultNumber.setValue(fi);
+        mLastResultNumber.setValue(ti);
+        List<Contract.Result> prev = mResults.subList(fi-1, ti);
+        //_view.showResults(prev);
+        return prev.size();
+    }
+
 
 
     private void recalculateRatio()
@@ -394,7 +428,7 @@ public class ChangeGearsViewModel extends CustomViewModel
             else if (_leadscrewPitch == 0.0)
             {
                 _calculatedRatio = _threadPitchUnit.toMm(_threadPitch);
-                ratioInfo = "R = " + _ratioFormat.format(_calculatedRatio) + " (" + _threadPitchUnit + ")";
+                ratioInfo = "R = " + mRatioFormat.format(_calculatedRatio) + " (" + _threadPitchUnit + ")";
             }
             else
             {
@@ -404,7 +438,7 @@ public class ChangeGearsViewModel extends CustomViewModel
                 _calculatedRatio = fract.toDouble();
                 ratioInfo = "R = " + _threadPitch + " (" + _threadPitchUnit + ") / " +
                         _leadscrewPitch + " (" + _leadscrewPitchUnit + ") = " + fract.toString() +
-                        " = " + _ratioFormat.format(_calculatedRatio);
+                        " = " + mRatioFormat.format(_calculatedRatio);
             }
         }
         else if (_calculationMode == G.GEARS_BY_RATIO)
@@ -418,20 +452,20 @@ public class ChangeGearsViewModel extends CustomViewModel
                 else if (_ratioDenominator == 0.0)
                 {
                     _calculatedRatio = _ratioNumerator;
-                    ratioInfo = "R = " + _ratioFormat.format(_calculatedRatio);
+                    ratioInfo = "R = " + mRatioFormat.format(_calculatedRatio);
                 }
                 else
                 {
                     Fraction fract = new Fraction(_ratioNumerator, _ratioDenominator);
                     _calculatedRatio = fract.toDouble();
                     ratioInfo = "R = " + _ratioNumerator + " / " + _ratioDenominator + " = " +
-                            fract.toString() + " = " + _ratioFormat.format(_calculatedRatio);
+                            fract.toString() + " = " + mRatioFormat.format(_calculatedRatio);
                 }
             }
             else
             {
                 _calculatedRatio = mRatio.getValue();
-                ratioInfo = "R = " + _ratioFormat.format(_calculatedRatio);
+                ratioInfo = "R = " + mRatioFormat.format(_calculatedRatio);
             }
         }
 
@@ -444,8 +478,70 @@ public class ChangeGearsViewModel extends CustomViewModel
         StringBuilder pattern = new StringBuilder("#0.0");
         for (int i = 0; i < precision-1; i++)
             pattern.append("#");
-        _ratioFormat = CalculationFragment.getNumberFormat(pattern.toString());
+        mRatioFormat = CalculationFragment.getNumberFormat(pattern.toString());
         recalculateRatio();
     }
 
+    @Override
+    public void save()
+    {
+
+    }
+
+    @Override
+    public void clear()
+    {
+
+    }
+
+    @Override
+    public void calculate()
+    {
+        clear();
+
+        mCalculator.setAccuracy(Math.pow(10, -_ratioPrecision));
+        mCalculator.setDiffLockedZ2Z3(mDiffLockedZ2Z3.getValue());
+        mCalculator.setDiffLockedZ4Z5(mDiffLockedZ4Z5.getValue());
+        mCalculator.setDiffGearingZ1Z2(mDiffGearingZ1Z2.getValue());
+        mCalculator.setDiffGearingZ3Z4(mDiffGearingZ3Z4.getValue());
+        mCalculator.setDiffGearingZ5Z6(mDiffGearingZ5Z6.getValue());
+
+        double r = mCalculationMode.getValue() == G.GEARS_BY_RATIO || mCalculationMode.getValue() == G.GEARS_BY_THREAD
+                ? _calculatedRatio : 0.0;
+        mCalculator.setRatio(r);
+
+        if (mOneSet.getValue())
+        {
+
+            //mCalculator.setGearKit(mGearSets.getWheelsCount(), mGearSets.get(G.Z0).getGears());
+        }
+        else
+        {
+            Integer[] zs1 = mGearSets.get(G.Z1).getGears();
+            Integer[] zs2 = mGearSets.get(G.Z2).getGears();
+            Integer[] zs3 = mGearSets.get(G.Z3).getGears();
+            Integer[] zs4 = mGearSets.get(G.Z4).getGears();
+            Integer[] zs5 = mGearSets.get(G.Z5).getGears();
+            Integer[] zs6 = mGearSets.get(G.Z6).getGears();
+            Integer total = zs1.length > 0 ? zs1.length : 1;
+            total *= zs2.length > 0 ? zs2.length : 1;
+            total *= zs3.length > 0 ? zs3.length : 1;
+            total *= zs4.length > 0 ? zs4.length : 1;
+            total *= zs5.length > 0 ? zs5.length : 1;
+            total *= zs6.length > 0 ? zs6.length : 1;
+            if (total > 20000)
+            {
+                mMessage.setValue("Too much gears!");
+                return;
+            }
+            //mCalculator.setGearKit(zs1, zs2, zs3, zs4, zs5, zs6);
+        }
+        mCalculator.calculate();
+    }
+
+    @Override
+    public boolean close()
+    {
+        return false;
+    }
 }
