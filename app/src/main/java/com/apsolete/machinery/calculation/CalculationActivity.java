@@ -17,7 +17,10 @@ public class CalculationActivity extends AppCompatActivity
 {
     private boolean _isSettingsOpened;
 
+    @Deprecated
     private CalculationPresenter _presenter;
+    //private CalculationViewModel mCalcViewModel;
+    private CalculationFragment mCalculationFragment;
     private MenuItem _miSave;
     private MenuItem _miClear;
     private MenuItem _miOptions;
@@ -60,19 +63,19 @@ public class CalculationActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        if (_presenter != null)
+        if (mCalculationFragment != null)
         {
             int id = item.getItemId();
             switch (id)
             {
                 case R.id.mi_action_calculate:
-                    _presenter.calculate();
+                    mCalculationFragment.getViewModel().calculate();
                     break;
                 case R.id.mi_action_save:
-                    _presenter.save();
+                    mCalculationFragment.getViewModel().save();
                     break;
                 case R.id.mi_action_clear:
-                    _presenter.clear();
+                    mCalculationFragment.getViewModel().clear();
                     break;
                 case R.id.mi_action_options:
                     openCalculationContentSettings();
@@ -90,7 +93,7 @@ public class CalculationActivity extends AppCompatActivity
                         setOptionsMenuEnabled(!_isSettingsOpened);
                         return true;
                     }
-                    if (_presenter.close())
+                    if (mCalculationFragment.getViewModel().close())
                     {
                         if (id == R.id.mi_action_close)
                             onNavigateUp();
@@ -128,7 +131,9 @@ public class CalculationActivity extends AppCompatActivity
                 //        new com.apsolete.machinery.calculation.gearing.changegears.View();
                 //_presenter =
                 //        new com.apsolete.machinery.calculation.gearing.changegears.Presenter(view);
-                fragment = new com.apsolete.machinery.calculation.gearing.changegears.ChangeGearsFragment();
+                mCalculationFragment = new com.apsolete.machinery.calculation.gearing.changegears.ChangeGearsFragment();
+                //mCalcViewModel = calcFragment.getViewModel();
+                fragment = mCalculationFragment;
                 break;
             }
             case G.GEARWHEEL: {

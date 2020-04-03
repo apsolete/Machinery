@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.apsolete.machinery.R;
+import com.apsolete.machinery.calculation.gearing.changegears.ChangeGearsViewModel;
 import com.apsolete.machinery.common.CustomFragment;
 import com.apsolete.machinery.common.CustomViewModel;
 
@@ -20,7 +21,7 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-public abstract class CalculationFragment<VM extends CustomViewModel> extends CustomFragment<VM>
+public abstract class CalculationFragment<VM extends CalculationViewModel> extends CustomFragment<VM>
 {
     private ProgressBar ProgressBar;
     private int _type;
@@ -29,6 +30,12 @@ public abstract class CalculationFragment<VM extends CustomViewModel> extends Cu
     {
         super(layout, title, vmClass);
         _type = type;
+    }
+
+    @Override
+    public VM getViewModel()
+    {
+        return mViewModel;
     }
 
     @Override

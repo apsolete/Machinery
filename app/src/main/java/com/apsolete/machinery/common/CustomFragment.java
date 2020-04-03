@@ -47,6 +47,8 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
         mVmClass = vmClass;
     }
 
+    public abstract VM getViewModel();
+
     @Override
     public void onAttach(Context context)
     {

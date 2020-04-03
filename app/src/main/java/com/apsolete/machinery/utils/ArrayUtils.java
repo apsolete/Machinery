@@ -1,5 +1,6 @@
 package com.apsolete.machinery.utils;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class ArrayUtils
@@ -11,6 +12,28 @@ public class ArrayUtils
             array[i] = list.get(i);
 
         return array;
+    }
+
+    public static Integer[] toArrayInteger(int[] array)
+    {
+        Integer[] newArray = new Integer[array.length];
+        int i = 0;
+        for (int value : array)
+        {
+            newArray[i++] = Integer.valueOf(value);
+        }
+        return newArray;
+    }
+
+    public static int[] toArrayInt(Integer[] array)
+    {
+        int[] newArray = new int[array.length];
+        int i = 0;
+        for (int value : array)
+        {
+            newArray[i++] = value;
+        }
+        return newArray;
     }
 
     public static long[] toArrayLong(List<Long> list)

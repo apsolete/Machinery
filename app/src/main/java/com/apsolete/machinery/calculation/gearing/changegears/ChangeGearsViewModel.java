@@ -7,6 +7,7 @@ import com.apsolete.machinery.calculation.CalculationViewModel;
 import com.apsolete.machinery.common.CustomViewModel;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.OnResultListener;
+import com.apsolete.machinery.utils.ArrayUtils;
 import com.apsolete.machinery.utils.Fraction;
 import com.apsolete.machinery.utils.Numbers;
 
@@ -512,18 +513,19 @@ public class ChangeGearsViewModel extends CalculationViewModel
 
         if (mOneSet.getValue())
         {
-
-            //mCalculator.setGearKit(mGearSets.getWheelsCount(), mGearSets.get(G.Z0).getGears());
+            int wheelsCount = mGearSets.getWheelsCount();
+            int[] set = ArrayUtils.toArrayInt(mGearSets.get(G.Z0).getGears());
+            mCalculator.setGearKit(wheelsCount, set);
         }
         else
         {
-            Integer[] zs1 = mGearSets.get(G.Z1).getGears();
-            Integer[] zs2 = mGearSets.get(G.Z2).getGears();
-            Integer[] zs3 = mGearSets.get(G.Z3).getGears();
-            Integer[] zs4 = mGearSets.get(G.Z4).getGears();
-            Integer[] zs5 = mGearSets.get(G.Z5).getGears();
-            Integer[] zs6 = mGearSets.get(G.Z6).getGears();
-            Integer total = zs1.length > 0 ? zs1.length : 1;
+            int[] zs1 = ArrayUtils.toArrayInt(mGearSets.get(G.Z1).getGears());
+            int[] zs2 = ArrayUtils.toArrayInt(mGearSets.get(G.Z2).getGears());
+            int[] zs3 = ArrayUtils.toArrayInt(mGearSets.get(G.Z3).getGears());
+            int[] zs4 = ArrayUtils.toArrayInt(mGearSets.get(G.Z4).getGears());
+            int[] zs5 = ArrayUtils.toArrayInt(mGearSets.get(G.Z5).getGears());
+            int[] zs6 = ArrayUtils.toArrayInt(mGearSets.get(G.Z6).getGears());
+            int total = zs1.length > 0 ? zs1.length : 1;
             total *= zs2.length > 0 ? zs2.length : 1;
             total *= zs3.length > 0 ? zs3.length : 1;
             total *= zs4.length > 0 ? zs4.length : 1;
@@ -534,7 +536,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
                 mMessage.setValue("Too much gears!");
                 return;
             }
-            //mCalculator.setGearKit(zs1, zs2, zs3, zs4, zs5, zs6);
+            mCalculator.setGearKit(zs1, zs2, zs3, zs4, zs5, zs6);
         }
         mCalculator.calculate();
     }
