@@ -187,15 +187,15 @@ public class ChangeGearsViewModel extends CalculationViewModel
         @Override
         public void onProgress(int percent)
         {
-            mProgress.setValue(percent);
+            mProgress.postValue(percent);
         }
 
         @Override
         public void onCompleted(int count)
         {
-            mProgress.setValue(0);
-            //int shown = getNextResults();
-            //_view.showMessage("Calculated " + count + " ratios. Shown " + shown + " results.");
+            mProgress.postValue(0);
+            int shown = getNextResults();
+            mMessage.postValue("Calculated " + count + " ratios. Shown " + shown + " results.");
         }
     };
 
@@ -241,6 +241,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
         setRatioPrecision(4);
 
         mCalculator = new ChangeGears();
+        mCalculator.setResultListener(_resultListener);
         mStarted = true;
     }
 
