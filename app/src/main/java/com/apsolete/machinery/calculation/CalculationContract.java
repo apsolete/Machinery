@@ -11,7 +11,8 @@ public interface CalculationContract
         void calculate();
     }
 
-	interface Presenter extends BaseContract.Presenter
+	@Deprecated
+    interface Presenter extends BaseContract.Presenter
 	{
 		void save();
 		void clear();
@@ -20,6 +21,7 @@ public interface CalculationContract
 		View getView();
 	}
 
+	@Deprecated
 	interface View<P extends Presenter> extends BaseContract.View<P>
 	{
 		SettingsBase getSettings();

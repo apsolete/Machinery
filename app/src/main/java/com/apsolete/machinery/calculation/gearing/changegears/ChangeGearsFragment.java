@@ -127,7 +127,7 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
     private void requestGearSet(final int set)
     {
         FragmentManager fragmentManager = Activity.getSupportFragmentManager();
-        final GearSetPickerDialog dialog = new GearSetPickerDialog();
+        final GearPickerDialog dialog = new GearPickerDialog();
         dialog.setGears(mViewModel.gearSet(set).getGearsStr().getValue());
         dialog.setResultListener(new DialogBase.ResultListener()
         {

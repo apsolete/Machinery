@@ -7,6 +7,7 @@ import java.util.List;
 @Deprecated
 public interface Contract
 {
+    @Deprecated
     interface Presenter extends CalculationContract.Presenter
     {
         void setOneGearKit(boolean oneKit);
@@ -52,6 +53,7 @@ public interface Contract
         String threadPitch();
     }
 
+    @Deprecated
     interface View extends CalculationContract.View<Presenter>
     {
         void setOneGearKit(boolean oneKit);

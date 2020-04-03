@@ -15,7 +15,7 @@ import android.util.*;
 
 import java.util.ArrayList;
 
-public class GearSetPickerDialog extends DialogBase
+public class GearPickerDialog extends DialogBase
 {
     private static final int COLUMNS = 5;
     private static final int TEETH_MIN = 13;
@@ -50,7 +50,7 @@ public class GearSetPickerDialog extends DialogBase
         }
     };
 
-    public GearSetPickerDialog()
+    public GearPickerDialog()
     {
         super(R.layout.gearset_picker);
     }

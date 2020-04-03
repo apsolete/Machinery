@@ -16,7 +16,7 @@ public final class Presenter extends CalculationPresenter implements Contract.Pr
 {
     private final Contract.View _view;
     private boolean _oneSet;
-    private GearKits _gearKits = new GearKits();
+    private GearSets _gearKits = new GearSets();
     private int _oneSetGearsCount = 2;
     private boolean _diffLockedZ2Z3 = true;
     private boolean _diffLockedZ4Z5 = true;

@@ -587,7 +587,7 @@ public final class View extends CalculationView implements Contract.View
         final GearSetView gsv = gsView;
 
         FragmentManager fragmentManager = Activity.getSupportFragmentManager();
-        final GearSetPickerDialog dialog = new GearSetPickerDialog();
+        final GearPickerDialog dialog = new GearPickerDialog();
         dialog.setGears(gsv.gears());
         dialog.setResultListener(new DialogBase.ResultListener()
             {

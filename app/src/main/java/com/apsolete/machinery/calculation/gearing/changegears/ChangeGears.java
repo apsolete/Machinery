@@ -22,7 +22,7 @@ public final class ChangeGears extends CalculationModel
     private boolean _diffGearingZ5Z6 = false;
     private boolean _isOneSet = false;
     private int _gearsCount = 2;
-    private GearKits _gearKits = new GearKits();
+    private GearSets _gearSets = new GearSets();
 
     private int _calculatedRatios = 0;
 
@@ -41,7 +41,7 @@ public final class ChangeGears extends CalculationModel
         _diffGearingZ3Z4 = in.readByte() == 1;
         _diffGearingZ5Z6 = in.readByte() == 1;
         _isOneSet = in.readByte() == 1;
-        _gearKits = in.readParcelable(GearKits.class.getClassLoader());
+        _gearSets = in.readParcelable(GearSets.class.getClassLoader());
     }
 
     @Override
@@ -63,7 +63,7 @@ public final class ChangeGears extends CalculationModel
         out.writeByte(_diffGearingZ3Z4 ? (byte)1 : (byte)0);
         out.writeByte(_diffGearingZ5Z6 ? (byte)1 : (byte)0);
         out.writeByte(_isOneSet? (byte)1 : (byte)0);
-        out.writeParcelable(_gearKits, flags);
+        out.writeParcelable(_gearSets, flags);
     }
 
     public static final Parcelable.Creator<ChangeGears> CREATOR = new Parcelable.Creator<ChangeGears>()
@@ -130,18 +130,18 @@ public final class ChangeGears extends CalculationModel
     {
         _isOneSet = true;
         _gearsCount = gears;
-        _gearKits.putZ0(kit);
+        _gearSets.putZ0(kit);
     }
 
     public void setGearKit(int[] gs1, int[] gs2, int[] gs3, int[] gs4, int[] gs5, int[] gs6)
     {
         _isOneSet = false;
-        _gearKits.putZ1(gs1);
-        _gearKits.putZ2(gs2);
-        _gearKits.putZ3(gs3);
-        _gearKits.putZ4(gs4);
-        _gearKits.putZ5(gs5);
-        _gearKits.putZ6(gs6);
+        _gearSets.putZ1(gs1);
+        _gearSets.putZ2(gs2);
+        _gearSets.putZ3(gs3);
+        _gearSets.putZ4(gs4);
+        _gearSets.putZ5(gs5);
+        _gearSets.putZ6(gs6);
     }
 
 //    public void setGearsCount(int count)
@@ -183,12 +183,12 @@ public final class ChangeGears extends CalculationModel
                 return;
             }
 
-            int[] gs1 = _gearKits.getZ1();
-            int[] gs2 = _gearKits.getZ2();
-            int[] gs3 = _gearKits.getZ3();
-            int[] gs4 = _gearKits.getZ4();
-            int[] gs5 = _gearKits.getZ5();
-            int[] gs6 = _gearKits.getZ6();
+            int[] gs1 = _gearSets.getZ1();
+            int[] gs2 = _gearSets.getZ2();
+            int[] gs3 = _gearSets.getZ3();
+            int[] gs4 = _gearSets.getZ4();
+            int[] gs5 = _gearSets.getZ5();
+            int[] gs6 = _gearSets.getZ6();
 
             if (gs1 == null || gs2 == null)
                 return;
@@ -331,7 +331,7 @@ public final class ChangeGears extends CalculationModel
         if (count == 3) count = 2;
         if (count == 5) count = 4;
 
-        int[] set = _gearKits.getZ0();
+        int[] set = _gearSets.getZ0();
         List<List<Integer>> combinations = Numbers.combinations(set.length, count);
         List<List<Integer>> permutations = Numbers.permutations(count);
         int totalResults = combinations.size() * permutations.size();
