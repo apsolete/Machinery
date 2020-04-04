@@ -163,8 +163,26 @@ public class ChangeGearsViewModel extends CalculationViewModel
     private MutableLiveData<Boolean> mLeadscrewPitchEnabled = new MutableLiveData<>();
     private MutableLiveData<Boolean> mThreadPitchEnabled = new MutableLiveData<>();
 
-    private MutableLiveData<Integer> mFirstResultNumber = new MutableLiveData<>();
-    private MutableLiveData<Integer> mLastResultNumber = new MutableLiveData<>();
+    private MutableLiveData<Integer> mFirstResultNumber = new MutableLiveData<Integer>()
+    {
+        @Override
+        public void setValue(Integer value)
+        {
+            super.setValue(value);
+            mFirstResultNumberStr.setValue(value.toString());
+        }
+    };
+    private MutableLiveData<String> mFirstResultNumberStr = new MutableLiveData<>();
+    private MutableLiveData<Integer> mLastResultNumber = new MutableLiveData<Integer>()
+    {
+        @Override
+        public void setValue(Integer value)
+        {
+            super.setValue(value);
+            mLastResultNumberStr.setValue(value.toString());
+        }
+    };
+    private MutableLiveData<String> mLastResultNumberStr = new MutableLiveData<>();
     private MutableLiveData<Integer> mProgress = new MutableLiveData<>();
     private MutableLiveData<String> mMessage = new MutableLiveData<>();
     private ArrayList<Contract.Result> mResults = new ArrayList<>();
@@ -375,6 +393,16 @@ public class ChangeGearsViewModel extends CalculationViewModel
         return mRatioCalculatedEnabled;
     }
 
+    public MutableLiveData<String> getFirstResultNumberStr()
+    {
+        return mFirstResultNumberStr;
+    }
+
+    public MutableLiveData<String> getLastResultNumberStr()
+    {
+        return mLastResultNumberStr;
+    }
+
     public int getNextResults()
     {
         int fi = mLastResultNumber.getValue() > 1 ? mLastResultNumber.getValue() + 1 : 1;
@@ -383,8 +411,8 @@ public class ChangeGearsViewModel extends CalculationViewModel
         int li = fi + 99;
         if (li > mResults.size())
             li = mResults.size();
-        mFirstResultNumber.setValue(fi);
-        mLastResultNumber.setValue(li);
+        mFirstResultNumber.postValue(fi);
+        mLastResultNumber.postValue(li);
         List<Contract.Result> next = mResults.subList(fi-1, li);
         //_view.showResults(next);
         return next.size();
@@ -398,8 +426,8 @@ public class ChangeGearsViewModel extends CalculationViewModel
         int ti = fi + 99;
         if (ti > mResults.size())
             ti = mResults.size();
-        mFirstResultNumber.setValue(fi);
-        mLastResultNumber.setValue(ti);
+        mFirstResultNumber.postValue(fi);
+        mLastResultNumber.postValue(ti);
         List<Contract.Result> prev = mResults.subList(fi-1, ti);
         //_view.showResults(prev);
         return prev.size();
