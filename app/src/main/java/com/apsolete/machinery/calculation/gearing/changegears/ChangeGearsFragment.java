@@ -138,10 +138,27 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
             @Override
             public void onChanged(List<Contract.Result> results)
             {
+                _resultView.removeAllViews();
                 for (Contract.Result result : results)
                 {
                     setResultItem(result);
                 }
+            }
+        });
+        view.findViewById(R.id.showNext).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                mViewModel.getNextResults();
+            }
+        });
+        view.findViewById(R.id.showPrev).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                mViewModel.getPrevResults();
             }
         });
 

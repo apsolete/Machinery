@@ -412,7 +412,6 @@ public class ChangeGearsViewModel extends CalculationViewModel
         mLastResultNumber.postValue(li);
         List<Contract.Result> next = mResults.subList(fi-1, li);
         mResultsToShow.postValue(next);
-        //_view.showResults(next);
         return next.size();
     }
 
@@ -428,7 +427,6 @@ public class ChangeGearsViewModel extends CalculationViewModel
         mLastResultNumber.postValue(ti);
         List<Contract.Result> prev = mResults.subList(fi-1, ti);
         mResultsToShow.postValue(prev);
-        //_view.showResults(prev);
         return prev.size();
     }
 
