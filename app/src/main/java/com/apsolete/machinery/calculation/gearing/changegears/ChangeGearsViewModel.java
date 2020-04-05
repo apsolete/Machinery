@@ -8,6 +8,7 @@ import com.apsolete.machinery.calculation.CalculationFragment;
 import com.apsolete.machinery.calculation.CalculationViewModel;
 import com.apsolete.machinery.common.CustomViewModel;
 import com.apsolete.machinery.common.G;
+import com.apsolete.machinery.common.LiveArrayList;
 import com.apsolete.machinery.common.OnResultListener;
 import com.apsolete.machinery.utils.ArrayUtils;
 import com.apsolete.machinery.utils.Fraction;
@@ -100,6 +101,8 @@ public class ChangeGearsViewModel extends CalculationViewModel
     private MutableLiveData<Integer> mProgress = new MutableLiveData<>();
     private MutableLiveData<String> mMessage = new MutableLiveData<>();
     private ArrayList<Contract.Result> mResults = new ArrayList<>();
+    //private LiveArrayList<Contract.Result> mResultsToShow = new LiveArrayList<>();
+    private MutableLiveData<List<Contract.Result>> mResultsToShow = new MutableLiveData<>();
     private ChangeGears mCalculator;
 
     /*settings*/
@@ -392,6 +395,11 @@ public class ChangeGearsViewModel extends CalculationViewModel
         return mLastResultNumberStr;
     }
 
+    public LiveData<List<Contract.Result>> getResultsToShow()
+    {
+        return mResultsToShow;
+    }
+
     public int getNextResults()
     {
         int fi = mLastResultNumber.getValue() > 1 ? mLastResultNumber.getValue() + 1 : 1;
@@ -403,6 +411,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
         mFirstResultNumber.postValue(fi);
         mLastResultNumber.postValue(li);
         List<Contract.Result> next = mResults.subList(fi-1, li);
+        mResultsToShow.postValue(next);
         //_view.showResults(next);
         return next.size();
     }
@@ -418,6 +427,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
         mFirstResultNumber.postValue(fi);
         mLastResultNumber.postValue(ti);
         List<Contract.Result> prev = mResults.subList(fi-1, ti);
+        mResultsToShow.postValue(prev);
         //_view.showResults(prev);
         return prev.size();
     }

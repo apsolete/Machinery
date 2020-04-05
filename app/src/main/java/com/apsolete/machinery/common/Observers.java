@@ -294,4 +294,13 @@ public final class Observers
             Snackbar.make(view(), message, Snackbar.LENGTH_SHORT).show();
         }
     }
+
+    public static class ArrayListObserver<T> implements Observer<LiveArrayList.Item<T>>
+    {
+        @Override
+        public void onChanged(LiveArrayList.Item<T> tItem)
+        {
+
+        }
+    }
 }

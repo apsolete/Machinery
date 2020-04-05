@@ -15,6 +15,9 @@ import com.apsolete.machinery.common.G;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+
+import java.util.List;
 
 public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewModel>
 {
@@ -129,6 +132,18 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
 
         setTextObserver(R.id.resultFirstNumberText, mViewModel.getFirstResultNumberStr());
         setTextObserver(R.id.resultLastNumberText, mViewModel.getLastResultNumberStr());
+
+        mViewModel.getResultsToShow().observe(getViewLifecycleOwner(), new Observer<List<Contract.Result>>()
+        {
+            @Override
+            public void onChanged(List<Contract.Result> results)
+            {
+                for (Contract.Result result : results)
+                {
+                    setResultItem(result);
+                }
+            }
+        });
 
         return view;
     }
