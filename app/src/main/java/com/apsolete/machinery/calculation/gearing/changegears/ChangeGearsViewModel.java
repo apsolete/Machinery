@@ -1,6 +1,8 @@
 package com.apsolete.machinery.calculation.gearing.changegears;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import com.apsolete.machinery.calculation.CalculationFragment;
 import com.apsolete.machinery.calculation.CalculationViewModel;
@@ -31,43 +33,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
         public void setValue(Boolean value)
         {
             super.setValue(value);
-            if (!mStarted)
-                return;
-            if (value)
-            {
-                mGearSets.get(G.Z0).setEditable(true).setEnabled(true).setSwitched(true);
-                mGearSets.get(G.Z1).setEditable(false).setEnabled(false).setSwitched(true);
-                mGearSets.get(G.Z2).setEditable(false).setEnabled(false).setSwitched(true);
-                mGearSets.get(G.Z3).setEditable(false).setEnabled(true);
-                mGearSets.get(G.Z4).setEditable(false);
-                mGearSets.get(G.Z5).setEditable(false);
-                mGearSets.get(G.Z6).setEditable(false);
-
-                for (int set = G.Z4; set <= G.Z6; set++)
-                {
-                    GearSetsViewModel.GSet gk_n = mGearSets.get(set);
-                    GearSetsViewModel.GSet gk_p = mGearSets.get(set-1);
-                    gk_n.setEnabled(gk_p.isSwitched().getValue());
-                }
-            }
-            else
-            {
-                mGearSets.get(G.Z0).setEditable(false).setEnabled(false).setSwitched(false);
-                mGearSets.get(G.Z1).setEditable(true).setEnabled(false).setSwitched(true);
-                mGearSets.get(G.Z2).setEditable(true).setEnabled(false).setSwitched(true);
-                mGearSets.get(G.Z3).setEditable(true);
-                mGearSets.get(G.Z4).setEditable(true);
-                mGearSets.get(G.Z5).setEditable(true);
-                mGearSets.get(G.Z6).setEditable(true);
-
-                boolean prevNotEmpty = !mGearSets.get(G.Z2).isEmpty();
-                for (int set = G.Z3; set <= G.Z6; set++)
-                {
-                    boolean notEmpty = !mGearSets.get(set).isEmpty();
-                    mGearSets.get(set).setEnabled(prevNotEmpty).setSwitched(notEmpty);
-                    prevNotEmpty = notEmpty;
-                }
-            }
+            switchOneSet(value);
         }
     };
 
@@ -84,37 +50,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
         public void setValue(Integer value)
         {
             super.setValue(value);
-            if (!mStarted)
-                return;
-            switch (value)
-            {
-                case G.RATIOS_BY_GEARS:
-                    mLeadscrewPitchEnabled.setValue(false);
-                    mThreadPitchEnabled.setValue(false);
-                    mRatioEnabled.setValue(false);
-                    mRatioCalculatedEnabled.setValue(false);
-                    break;
-                case G.THREAD_BY_GEARS:
-                    mLeadscrewPitchEnabled.setValue(true);
-                    mThreadPitchEnabled.setValue(false);
-                    mRatioEnabled.setValue(false);
-                    mRatioCalculatedEnabled.setValue(false);
-                    break;
-                case G.GEARS_BY_RATIO:
-                    mLeadscrewPitchEnabled.setValue(false);
-                    mThreadPitchEnabled.setValue(false);
-                    mRatioEnabled.setValue(true);
-                    mRatioCalculatedEnabled.setValue(true);
-                    recalculateRatio();
-                    break;
-                case G.GEARS_BY_THREAD:
-                    mLeadscrewPitchEnabled.setValue(true);
-                    mThreadPitchEnabled.setValue(true);
-                    mRatioEnabled.setValue(false);
-                    mRatioCalculatedEnabled.setValue(true);
-                    recalculateRatio();
-                    break;
-            }
+            switchCalculationMode(value);
         }
     };
 
@@ -125,8 +61,6 @@ public class ChangeGearsViewModel extends CalculationViewModel
         public void setValue(Integer value)
         {
             super.setValue(value);
-            if (!mStarted)
-                return;
             recalculateRatio();
         }
     };
@@ -136,8 +70,6 @@ public class ChangeGearsViewModel extends CalculationViewModel
         public void setValue(Integer value)
         {
             super.setValue(value);
-            if (!mStarted)
-                return;
             recalculateRatio();
         }
     };
@@ -147,8 +79,6 @@ public class ChangeGearsViewModel extends CalculationViewModel
         public void setValue(Boolean value)
         {
             super.setValue(value);
-            if (!mStarted)
-                return;
             recalculateRatio();
         }
     };
@@ -163,26 +93,10 @@ public class ChangeGearsViewModel extends CalculationViewModel
     private MutableLiveData<Boolean> mLeadscrewPitchEnabled = new MutableLiveData<>();
     private MutableLiveData<Boolean> mThreadPitchEnabled = new MutableLiveData<>();
 
-    private MutableLiveData<Integer> mFirstResultNumber = new MutableLiveData<Integer>()
-    {
-        @Override
-        public void setValue(Integer value)
-        {
-            super.setValue(value);
-            mFirstResultNumberStr.setValue(value.toString());
-        }
-    };
-    private MutableLiveData<String> mFirstResultNumberStr = new MutableLiveData<>();
-    private MutableLiveData<Integer> mLastResultNumber = new MutableLiveData<Integer>()
-    {
-        @Override
-        public void setValue(Integer value)
-        {
-            super.setValue(value);
-            mLastResultNumberStr.setValue(value.toString());
-        }
-    };
-    private MutableLiveData<String> mLastResultNumberStr = new MutableLiveData<>();
+    private MutableLiveData<Integer> mFirstResultNumber = new MutableLiveData<Integer>();
+    private LiveData<String> mFirstResultNumberStr = Transformations.map(mFirstResultNumber, Object::toString);
+    private MutableLiveData<Integer> mLastResultNumber = new MutableLiveData<Integer>();
+    private LiveData<String> mLastResultNumberStr = Transformations.map(mLastResultNumber, Object::toString);
     private MutableLiveData<Integer> mProgress = new MutableLiveData<>();
     private MutableLiveData<String> mMessage = new MutableLiveData<>();
     private ArrayList<Contract.Result> mResults = new ArrayList<>();
@@ -318,6 +232,81 @@ public class ChangeGearsViewModel extends CalculationViewModel
         mGearSets.get(set).setEnabled(enabled);
     }
 
+    private void switchOneSet(boolean value)
+    {
+        if (!mStarted)
+            return;
+        if (value)
+        {
+            mGearSets.get(G.Z0).setEditable(true).setEnabled(true).setSwitched(true);
+            mGearSets.get(G.Z1).setEditable(false).setEnabled(false).setSwitched(true);
+            mGearSets.get(G.Z2).setEditable(false).setEnabled(false).setSwitched(true);
+            mGearSets.get(G.Z3).setEditable(false).setEnabled(true);
+            mGearSets.get(G.Z4).setEditable(false);
+            mGearSets.get(G.Z5).setEditable(false);
+            mGearSets.get(G.Z6).setEditable(false);
+
+            for (int set = G.Z4; set <= G.Z6; set++)
+            {
+                GearSetsViewModel.GSet gk_n = mGearSets.get(set);
+                GearSetsViewModel.GSet gk_p = mGearSets.get(set-1);
+                gk_n.setEnabled(gk_p.isSwitched().getValue());
+            }
+        }
+        else
+        {
+            mGearSets.get(G.Z0).setEditable(false).setEnabled(false).setSwitched(false);
+            mGearSets.get(G.Z1).setEditable(true).setEnabled(false).setSwitched(true);
+            mGearSets.get(G.Z2).setEditable(true).setEnabled(false).setSwitched(true);
+            mGearSets.get(G.Z3).setEditable(true);
+            mGearSets.get(G.Z4).setEditable(true);
+            mGearSets.get(G.Z5).setEditable(true);
+            mGearSets.get(G.Z6).setEditable(true);
+
+            boolean prevNotEmpty = !mGearSets.get(G.Z2).isEmpty();
+            for (int set = G.Z3; set <= G.Z6; set++)
+            {
+                boolean notEmpty = !mGearSets.get(set).isEmpty();
+                mGearSets.get(set).setEnabled(prevNotEmpty).setSwitched(notEmpty);
+                prevNotEmpty = notEmpty;
+            }
+        }
+    }
+    private void switchCalculationMode(int value)
+    {
+        if (!mStarted)
+            return;
+        switch (value)
+        {
+            case G.RATIOS_BY_GEARS:
+                mLeadscrewPitchEnabled.setValue(false);
+                mThreadPitchEnabled.setValue(false);
+                mRatioEnabled.setValue(false);
+                mRatioCalculatedEnabled.setValue(false);
+                break;
+            case G.THREAD_BY_GEARS:
+                mLeadscrewPitchEnabled.setValue(true);
+                mThreadPitchEnabled.setValue(false);
+                mRatioEnabled.setValue(false);
+                mRatioCalculatedEnabled.setValue(false);
+                break;
+            case G.GEARS_BY_RATIO:
+                mLeadscrewPitchEnabled.setValue(false);
+                mThreadPitchEnabled.setValue(false);
+                mRatioEnabled.setValue(true);
+                mRatioCalculatedEnabled.setValue(true);
+                recalculateRatio();
+                break;
+            case G.GEARS_BY_THREAD:
+                mLeadscrewPitchEnabled.setValue(true);
+                mThreadPitchEnabled.setValue(true);
+                mRatioEnabled.setValue(false);
+                mRatioCalculatedEnabled.setValue(true);
+                recalculateRatio();
+                break;
+        }
+    }
+
     public MutableLiveData<Boolean> getOneSet()
     {
         return mOneSet;
@@ -393,12 +382,12 @@ public class ChangeGearsViewModel extends CalculationViewModel
         return mRatioCalculatedEnabled;
     }
 
-    public MutableLiveData<String> getFirstResultNumberStr()
+    public LiveData<String> getFirstResultNumberStr()
     {
         return mFirstResultNumberStr;
     }
 
-    public MutableLiveData<String> getLastResultNumberStr()
+    public LiveData<String> getLastResultNumberStr()
     {
         return mLastResultNumberStr;
     }
@@ -433,10 +422,11 @@ public class ChangeGearsViewModel extends CalculationViewModel
         return prev.size();
     }
 
-
-
     private void recalculateRatio()
     {
+        if (!mStarted)
+            return;
+
         String ratioInfo = "R = <Undefined>";
 
         double _calculatedRatio = 0.0;
