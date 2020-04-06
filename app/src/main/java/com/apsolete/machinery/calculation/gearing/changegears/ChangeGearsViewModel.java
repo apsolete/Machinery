@@ -6,9 +6,7 @@ import androidx.lifecycle.Transformations;
 
 import com.apsolete.machinery.calculation.CalculationFragment;
 import com.apsolete.machinery.calculation.CalculationViewModel;
-import com.apsolete.machinery.common.CustomViewModel;
 import com.apsolete.machinery.common.G;
-import com.apsolete.machinery.common.LiveArrayList;
 import com.apsolete.machinery.common.OnResultListener;
 import com.apsolete.machinery.utils.ArrayUtils;
 import com.apsolete.machinery.utils.Fraction;
@@ -100,18 +98,18 @@ public class ChangeGearsViewModel extends CalculationViewModel
     private LiveData<String> mLastResultNumberStr = Transformations.map(mLastResultNumber, Object::toString);
     private MutableLiveData<Integer> mProgress = new MutableLiveData<>();
     private MutableLiveData<String> mMessage = new MutableLiveData<>();
-    private ArrayList<Contract.Result> mResults = new ArrayList<>();
+    private ArrayList<ChangeGears.Result> mResults = new ArrayList<>();
     //private LiveArrayList<Contract.Result> mResultsToShow = new LiveArrayList<>();
-    private MutableLiveData<List<Contract.Result>> mResultsToShow = new MutableLiveData<>();
-    private ChangeGears mCalculator;
+    private MutableLiveData<List<ChangeGears.Result>> mResultsToShow = new MutableLiveData<>();
+    private ChangeGearsModel mCalculator;
 
     /*settings*/
     private int mRatioPrecision = 2;
 
-    private OnResultListener<Result> _resultListener = new OnResultListener<Result>()
+    private OnResultListener<ChangeGearsResult> _resultListener = new OnResultListener<ChangeGearsResult>()
     {
         @Override
-        public void onResult(Result result)
+        public void onResult(ChangeGearsResult result)
         {
             if (mCalculationMode.getValue() == G.THREAD_BY_GEARS)
                 result.setLeadscrewPitch(mLeadscrewPitch.getValue());
@@ -175,7 +173,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
         mRatioAsFraction.setValue(true);
         setRatioPrecision(4);
 
-        mCalculator = new ChangeGears();
+        mCalculator = new ChangeGearsModel();
         mCalculator.setResultListener(_resultListener);
         mStarted = true;
     }
@@ -395,7 +393,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
         return mLastResultNumberStr;
     }
 
-    public LiveData<List<Contract.Result>> getResultsToShow()
+    public LiveData<List<ChangeGears.Result>> getResultsToShow()
     {
         return mResultsToShow;
     }
@@ -410,7 +408,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
             li = mResults.size();
         mFirstResultNumber.postValue(fi);
         mLastResultNumber.postValue(li);
-        List<Contract.Result> next = mResults.subList(fi-1, li);
+        List<ChangeGears.Result> next = mResults.subList(fi-1, li);
         mResultsToShow.postValue(next);
         return next.size();
     }
@@ -425,7 +423,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
             ti = mResults.size();
         mFirstResultNumber.postValue(fi);
         mLastResultNumber.postValue(ti);
-        List<Contract.Result> prev = mResults.subList(fi-1, ti);
+        List<ChangeGears.Result> prev = mResults.subList(fi-1, ti);
         mResultsToShow.postValue(prev);
         return prev.size();
     }
