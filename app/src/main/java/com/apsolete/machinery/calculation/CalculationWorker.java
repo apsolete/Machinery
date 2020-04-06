@@ -6,8 +6,15 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.apsolete.machinery.common.OnProgressListener;
+
 public abstract class CalculationWorker extends Worker
 {
+
+    private int _total = 1;
+    private int _progress = 0;
+    private OnProgressListener _progressListener;
+
     public CalculationWorker(@NonNull Context context, @NonNull WorkerParameters workerParams)
     {
         super(context, workerParams);
@@ -29,4 +36,25 @@ public abstract class CalculationWorker extends Worker
     }
 
     protected abstract void calculate();
+
+    protected void setOnProgressListener(OnProgressListener listener)
+    {
+        if (listener == null)
+            throw new NullPointerException();
+
+        _progressListener = listener;
+    }
+
+    protected void publishProgress()
+    {
+        _progressListener.onProgress((100 * _progress) / _total);
+        _progress++;
+    }
+
+    protected void resetProgress(int total)
+    {
+        _total = total;
+        _progress = 0;
+    }
+
 }

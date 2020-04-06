@@ -1,8 +1,14 @@
 package com.apsolete.machinery.calculation.gearing.changegears;
 
+import android.app.Application;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.apsolete.machinery.calculation.CalculationFragment;
 import com.apsolete.machinery.calculation.CalculationViewModel;
@@ -524,6 +530,13 @@ public class ChangeGearsViewModel extends CalculationViewModel
     public void calculate()
     {
         clear();
+        Data.Builder db = new Data.Builder()
+                .putDouble("Accuracy", Math.pow(10, -_ratioPrecision))
+                .putBoolean("DiffLockedZ2Z3", mDiffLockedZ2Z3.getValue())
+                .putBoolean("DiffLockedZ4Z5", mDiffLockedZ4Z5.getValue())
+                .putBoolean("DiffGearingZ1Z2", mDiffGearingZ1Z2.getValue())
+                .putBoolean("DiffGearingZ3Z4", mDiffGearingZ3Z4.getValue())
+                .putBoolean("DiffGearingZ5Z6", mDiffGearingZ5Z6.getValue());
 
         mCalculator.setAccuracy(Math.pow(10, -_ratioPrecision));
         mCalculator.setDiffLockedZ2Z3(mDiffLockedZ2Z3.getValue());
@@ -535,12 +548,14 @@ public class ChangeGearsViewModel extends CalculationViewModel
         double r = mCalculationMode.getValue() == G.GEARS_BY_RATIO || mCalculationMode.getValue() == G.GEARS_BY_THREAD
                 ? _calculatedRatio : 0.0;
         mCalculator.setRatio(r);
+        db.putDouble("Ratio", r);
 
         if (mOneSet.getValue())
         {
             int wheelsCount = mGearSets.getWheelsCount();
             int[] set = ArrayUtils.toArrayInt(mGearSets.get(G.Z0).getGears());
             mCalculator.setGearKit(wheelsCount, set);
+            db.putInt("WheelsCount", wheelsCount).putIntArray("Z0", set);
         }
         else
         {
@@ -562,7 +577,15 @@ public class ChangeGearsViewModel extends CalculationViewModel
                 return;
             }
             mCalculator.setGearKit(zs1, zs2, zs3, zs4, zs5, zs6);
+            db.putIntArray("Z1", zs1).putIntArray("Z2", zs2)
+                    .putIntArray("Z3", zs3).putIntArray("Z4", zs4)
+                    .putIntArray("Z5", zs5).putIntArray("Z6", zs6);
         }
+
+        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(ChangeGears.class)
+                .setInputData(db.build())
+                .build();
+        WorkManager.getInstance().enqueue(request);
         mCalculator.calculate();
     }
 
