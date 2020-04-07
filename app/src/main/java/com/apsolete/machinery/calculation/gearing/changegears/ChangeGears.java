@@ -3,6 +3,7 @@ package com.apsolete.machinery.calculation.gearing.changegears;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.work.Data;
 import androidx.work.WorkerParameters;
 
 import com.apsolete.machinery.calculation.*;
@@ -37,7 +38,7 @@ public class ChangeGears extends CalculationWorker
     private boolean _diffGearingZ5Z6 = false;
     private boolean _isOneSet = false;
     private int _gearsCount = 2;
-    private GearSets _gearSets = new GearSets();
+    //private GearSets _gearSets = new GearSets();
 
     private int _calculatedRatios = 0;
 
@@ -51,10 +52,10 @@ public class ChangeGears extends CalculationWorker
 //        return _ratio;
 //    }
 
-    public void setRatio(double ratio)
-    {
-        _ratio = ratio;
-    }
+//    public void setRatio(double ratio)
+//    {
+//        _ratio = ratio;
+//    }
 
 //    public double getAccuracy()
 //    {
@@ -91,23 +92,23 @@ public class ChangeGears extends CalculationWorker
         _diffGearingZ5Z6 = equal;
     }
 
-    public void setGearKit(int gears, int[] kit)
-    {
-        _isOneSet = true;
-        _gearsCount = gears;
-        _gearSets.putZ0(kit);
-    }
+//    public void setGearKit(int gears, int[] kit)
+//    {
+//        _isOneSet = true;
+//        _gearsCount = gears;
+//        _gearSets.putZ0(kit);
+//    }
 
-    public void setGearKit(int[] gs1, int[] gs2, int[] gs3, int[] gs4, int[] gs5, int[] gs6)
-    {
-        _isOneSet = false;
-        _gearSets.putZ1(gs1);
-        _gearSets.putZ2(gs2);
-        _gearSets.putZ3(gs3);
-        _gearSets.putZ4(gs4);
-        _gearSets.putZ5(gs5);
-        _gearSets.putZ6(gs6);
-    }
+//    public void setGearKit(int[] gs1, int[] gs2, int[] gs3, int[] gs4, int[] gs5, int[] gs6)
+//    {
+//        _isOneSet = false;
+//        _gearSets.putZ1(gs1);
+//        _gearSets.putZ2(gs2);
+//        _gearSets.putZ3(gs3);
+//        _gearSets.putZ4(gs4);
+//        _gearSets.putZ5(gs5);
+//        _gearSets.putZ6(gs6);
+//    }
 
 //    public void setGearsCount(int count)
 //    {
@@ -138,21 +139,33 @@ public class ChangeGears extends CalculationWorker
     @Override
     protected void calculate()
     {
+        final Data inputData = getInputData();
+
+        _accuracy = inputData.getDouble("Accuracy", Math.pow(10, -3));
+        _diffLockedZ2Z3 = inputData.getBoolean("DiffLockedZ2Z3", true);
+        _diffLockedZ4Z5 = inputData.getBoolean("DiffLockedZ4Z5", true);
+        _diffGearingZ1Z2 = inputData.getBoolean("DiffGearingZ1Z2", true);
+        _diffGearingZ3Z4 = inputData.getBoolean("DiffGearingZ3Z4", true);
+        _diffGearingZ5Z6 = inputData.getBoolean("DiffGearingZ5Z6", true);
+        _ratio = inputData.getDouble("Ratio", 0.0);
+        _isOneSet = inputData.getBoolean("OneSet", false);
 
         try
         {
             if (_isOneSet)
             {
-                calculateByOneSet();
+                _gearsCount = inputData.getInt("WheelsCount", 2);
+                int[] gs0 = inputData.getIntArray("Z0");
+                calculateByOneSet(_gearsCount, gs0);
                 return;
             }
 
-            int[] gs1 = _gearSets.getZ1();
-            int[] gs2 = _gearSets.getZ2();
-            int[] gs3 = _gearSets.getZ3();
-            int[] gs4 = _gearSets.getZ4();
-            int[] gs5 = _gearSets.getZ5();
-            int[] gs6 = _gearSets.getZ6();
+            int[] gs1 = inputData.getIntArray("Z1");//_gearSets.getZ1();
+            int[] gs2 = inputData.getIntArray("Z2");//_gearSets.getZ2();
+            int[] gs3 = inputData.getIntArray("Z3");//_gearSets.getZ3();
+            int[] gs4 = inputData.getIntArray("Z4");//_gearSets.getZ4();
+            int[] gs5 = inputData.getIntArray("Z5");//_gearSets.getZ5();
+            int[] gs6 = inputData.getIntArray("Z6");//_gearSets.getZ6();
 
             if (gs1 == null || gs2 == null)
                 return;
@@ -282,13 +295,13 @@ public class ChangeGears extends CalculationWorker
         }
     }
 
-    private void calculateByOneSet()
+    private void calculateByOneSet(int count, int[] set)
     {
-        int count = _gearsCount;
+        //int count = _gearsCount;
         if (count == 3) count = 2;
         if (count == 5) count = 4;
 
-        int[] set = _gearSets.getZ0();
+        //int[] set = _gearSets.getZ0();
         List<List<Integer>> combinations = Numbers.combinations(set.length, count);
         List<List<Integer>> permutations = Numbers.permutations(count);
         int totalResults = combinations.size() * permutations.size();

@@ -2,6 +2,7 @@ package com.apsolete.machinery.calculation.gearing.changegears;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -137,9 +138,14 @@ public class ChangeGearsViewModel extends CalculationViewModel
             mMessage.postValue("Calculated " + count + " ratios. Shown " + shown + " results.");
         }
     };
+//
+//    public ChangeGearsViewModel()
+//    {
+//    }
 
-    public ChangeGearsViewModel()
+    public ChangeGearsViewModel(@NonNull Application application)
     {
+        super(application);
     }
 
     @Override
@@ -538,27 +544,29 @@ public class ChangeGearsViewModel extends CalculationViewModel
                 .putBoolean("DiffGearingZ3Z4", mDiffGearingZ3Z4.getValue())
                 .putBoolean("DiffGearingZ5Z6", mDiffGearingZ5Z6.getValue());
 
-        mCalculator.setAccuracy(Math.pow(10, -_ratioPrecision));
-        mCalculator.setDiffLockedZ2Z3(mDiffLockedZ2Z3.getValue());
-        mCalculator.setDiffLockedZ4Z5(mDiffLockedZ4Z5.getValue());
-        mCalculator.setDiffGearingZ1Z2(mDiffGearingZ1Z2.getValue());
-        mCalculator.setDiffGearingZ3Z4(mDiffGearingZ3Z4.getValue());
-        mCalculator.setDiffGearingZ5Z6(mDiffGearingZ5Z6.getValue());
+        //mCalculator.setAccuracy(Math.pow(10, -_ratioPrecision));
+        //mCalculator.setDiffLockedZ2Z3(mDiffLockedZ2Z3.getValue());
+        //mCalculator.setDiffLockedZ4Z5(mDiffLockedZ4Z5.getValue());
+        //mCalculator.setDiffGearingZ1Z2(mDiffGearingZ1Z2.getValue());
+        //mCalculator.setDiffGearingZ3Z4(mDiffGearingZ3Z4.getValue());
+        //mCalculator.setDiffGearingZ5Z6(mDiffGearingZ5Z6.getValue());
 
         double r = mCalculationMode.getValue() == G.GEARS_BY_RATIO || mCalculationMode.getValue() == G.GEARS_BY_THREAD
                 ? _calculatedRatio : 0.0;
-        mCalculator.setRatio(r);
+        //mCalculator.setRatio(r);
         db.putDouble("Ratio", r);
 
         if (mOneSet.getValue())
         {
+            db.putBoolean("OneSet", true);
             int wheelsCount = mGearSets.getWheelsCount();
             int[] set = ArrayUtils.toArrayInt(mGearSets.get(G.Z0).getGears());
-            mCalculator.setGearKit(wheelsCount, set);
+            //mCalculator.setGearKit(wheelsCount, set);
             db.putInt("WheelsCount", wheelsCount).putIntArray("Z0", set);
         }
         else
         {
+            db.putBoolean("OneSet", false);
             int[] zs1 = ArrayUtils.toArrayInt(mGearSets.get(G.Z1).getGears());
             int[] zs2 = ArrayUtils.toArrayInt(mGearSets.get(G.Z2).getGears());
             int[] zs3 = ArrayUtils.toArrayInt(mGearSets.get(G.Z3).getGears());
@@ -576,7 +584,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
                 mMessage.setValue("Too much gears!");
                 return;
             }
-            mCalculator.setGearKit(zs1, zs2, zs3, zs4, zs5, zs6);
+            //mCalculator.setGearKit(zs1, zs2, zs3, zs4, zs5, zs6);
             db.putIntArray("Z1", zs1).putIntArray("Z2", zs2)
                     .putIntArray("Z3", zs3).putIntArray("Z4", zs4)
                     .putIntArray("Z5", zs5).putIntArray("Z6", zs6);
@@ -585,8 +593,8 @@ public class ChangeGearsViewModel extends CalculationViewModel
         OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(ChangeGears.class)
                 .setInputData(db.build())
                 .build();
-        WorkManager.getInstance().enqueue(request);
-        mCalculator.calculate();
+        WorkManager.getInstance(getApplication()).enqueue(request);
+        //mCalculator.calculate();
     }
 
     @Override
