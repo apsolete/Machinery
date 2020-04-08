@@ -303,4 +303,32 @@ public final class Observers
 
         }
     }
+
+    public static class EventObserver<T> implements Observer<Event<T>> {
+
+        private Listener<T> listener;
+
+        public EventObserver(Listener<T> listener)
+        {
+            this.listener = listener;
+        }
+
+        @Override
+        public void onChanged(Event<T> event)
+        {
+            if (event != null)
+            {
+                T content = event.getContentIfNotHandled();
+                if (content != null)
+                {
+                    listener.onEventUnhandledContent(content);
+                }
+            }
+        }
+
+        public interface Listener<T>
+        {
+            void onEventUnhandledContent(T t);
+        }
+    }
 }

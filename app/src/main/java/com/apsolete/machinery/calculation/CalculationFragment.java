@@ -10,16 +10,25 @@ import com.apsolete.machinery.R;
 import com.apsolete.machinery.calculation.gearing.changegears.ChangeGearsViewModel;
 import com.apsolete.machinery.common.CustomFragment;
 import com.apsolete.machinery.common.CustomViewModel;
+import com.apsolete.machinery.common.Event;
+import com.apsolete.machinery.common.Observers;
+import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
+import androidx.work.Data;
+import androidx.work.WorkInfo;
+import androidx.work.WorkManager;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.UUID;
 
 public abstract class CalculationFragment<VM extends CalculationViewModel> extends CustomFragment<VM>
 {
@@ -44,12 +53,37 @@ public abstract class CalculationFragment<VM extends CalculationViewModel> exten
         View view = super.onCreateView(inflater, container, savedInstanceState);
         assert view != null;
         ProgressBar = view.findViewById(R.id.progressBar);
+
+        mViewModel.getNotificationEvent().observe(getViewLifecycleOwner(),
+                new Observers.EventObserver<>(this::displayMessage));
+
+        mViewModel.getCalculationEvent().observe(getViewLifecycleOwner(), new Observers.EventObserver<UUID>(id ->
+        {
+            final LiveData<WorkInfo> workInfo = WorkManager.getInstance(getContext()).getWorkInfoByIdLiveData(id);
+            workInfo.observe(getViewLifecycleOwner(), info ->
+            {
+                if (info != null)
+                {
+                    if (info.getState() == WorkInfo.State.SUCCEEDED)
+                        displayMessage("Calculation finished");
+                    Data progress = info.getProgress();
+                    int value = progress.getInt("PROGRESS", 0);
+                    showProgress(value);
+                }
+            });
+        }));
+
         return view;
     }
 
     public int type()
     {
         return _type;
+    }
+
+    protected void displayMessage(String message)
+    {
+        Snackbar.make(mRootView, message, Snackbar.LENGTH_SHORT).show();
     }
 
     protected void showProgress(int progress)

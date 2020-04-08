@@ -130,11 +130,11 @@ public class ChangeGears extends CalculationWorker
 //        _gearKits.put(z, gears);
 //    }
 
-    public void setResultListener(OnResultListener<ChangeGearsResult> resultListener)
-    {
-        _resultListener = resultListener;
-        setOnProgressListener(_resultListener);
-    }
+//    public void setResultListener(OnResultListener<ChangeGearsResult> resultListener)
+//    {
+//        _resultListener = resultListener;
+//        setOnProgressListener(_resultListener);
+//    }
 
     @Override
     protected void calculate()
@@ -191,7 +191,8 @@ public class ChangeGears extends CalculationWorker
         }
         finally
         {
-            _resultListener.onCompleted(_calculatedRatios);
+            if (_resultListener != null)
+                _resultListener.onCompleted(_calculatedRatios);
         }
     }
 

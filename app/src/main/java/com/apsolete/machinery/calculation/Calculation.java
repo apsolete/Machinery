@@ -1,5 +1,7 @@
 package com.apsolete.machinery.calculation;
 
+import java.util.UUID;
+
 public interface Calculation
 {
     interface Model

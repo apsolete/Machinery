@@ -5,6 +5,11 @@ public class Event<T>
     private T content;
     private boolean isHandled = false;
 
+    public Event(T content)
+    {
+        this.content = content;
+    }
+
     public T getContentIfNotHandled()
     {
         if (isHandled)

@@ -3,28 +3,27 @@ package com.apsolete.machinery.calculation.gearing.changegears;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkInfo;
+import androidx.work.Operation;
 import androidx.work.WorkManager;
 
 import com.apsolete.machinery.calculation.CalculationFragment;
 import com.apsolete.machinery.calculation.CalculationViewModel;
+import com.apsolete.machinery.common.Event;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.OnResultListener;
 import com.apsolete.machinery.utils.ArrayUtils;
 import com.apsolete.machinery.utils.Fraction;
 import com.apsolete.machinery.utils.Numbers;
-import com.google.common.util.concurrent.ListenableFuture;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+import java.util.UUID;
 
 public class ChangeGearsViewModel extends CalculationViewModel
 {
@@ -107,12 +106,10 @@ public class ChangeGearsViewModel extends CalculationViewModel
     private MutableLiveData<Integer> mLastResultNumber = new MutableLiveData<Integer>();
     private LiveData<String> mLastResultNumberStr = Transformations.map(mLastResultNumber, Object::toString);
     private MutableLiveData<Integer> mProgress = new MutableLiveData<>();
-    private MutableLiveData<String> mMessage = new MutableLiveData<>();
     private ArrayList<ChangeGears.Result> mResults = new ArrayList<>();
     //private LiveArrayList<Contract.Result> mResultsToShow = new LiveArrayList<>();
     private MutableLiveData<List<ChangeGears.Result>> mResultsToShow = new MutableLiveData<>();
     //private ChangeGearsModel mCalculator;
-    private MutableLiveData<WorkInfo> mCalculationWorkInfo = new MutableLiveData<>(null);
 
     /*settings*/
     private int mRatioPrecision = 2;
@@ -139,7 +136,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
         {
             mProgress.postValue(0);
             int shown = getNextResults();
-            mMessage.postValue("Calculated " + count + " ratios. Shown " + shown + " results.");
+            mNotificationEvent.postValue(new Event("Calculated " + count + " ratios. Shown " + shown + " results."));
         }
     };
 //
@@ -576,7 +573,8 @@ public class ChangeGearsViewModel extends CalculationViewModel
             total *= zs6.length > 0 ? zs6.length : 1;
             if (total > 20000)
             {
-                mMessage.setValue("Too much gears!");
+                mNotificationEvent.setValue(new Event("Too much gears!"));
+                mCalculationEvent.setValue(new Event(null));
                 return;
             }
             db.putIntArray("Z1", zs1).putIntArray("Z2", zs2);
@@ -587,21 +585,9 @@ public class ChangeGearsViewModel extends CalculationViewModel
         OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(ChangeGears.class)
                 .setInputData(db.build())
                 .build();
-        WorkManager wm = WorkManager.getInstance(getApplication());
-        wm.enqueue(request);
-        ListenableFuture<WorkInfo> workInfo = wm.getWorkInfoById(request.getId());
-        try
-        {
-            workInfo.get();
-        }
-        catch (ExecutionException e)
-        {
-            e.printStackTrace();
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
+        WorkManager.getInstance(getApplication()).enqueue(request);
+
+        mCalculationEvent.setValue(new Event(request.getId()));
     }
 
     @Override
