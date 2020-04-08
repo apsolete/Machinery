@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.apsolete.machinery.calculation.CalculationFragment;
@@ -18,10 +19,12 @@ import com.apsolete.machinery.common.OnResultListener;
 import com.apsolete.machinery.utils.ArrayUtils;
 import com.apsolete.machinery.utils.Fraction;
 import com.apsolete.machinery.utils.Numbers;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ChangeGearsViewModel extends CalculationViewModel
 {
@@ -108,7 +111,8 @@ public class ChangeGearsViewModel extends CalculationViewModel
     private ArrayList<ChangeGears.Result> mResults = new ArrayList<>();
     //private LiveArrayList<Contract.Result> mResultsToShow = new LiveArrayList<>();
     private MutableLiveData<List<ChangeGears.Result>> mResultsToShow = new MutableLiveData<>();
-    private ChangeGearsModel mCalculator;
+    //private ChangeGearsModel mCalculator;
+    private MutableLiveData<WorkInfo> mCalculationWorkInfo = new MutableLiveData<>(null);
 
     /*settings*/
     private int mRatioPrecision = 2;
@@ -185,8 +189,8 @@ public class ChangeGearsViewModel extends CalculationViewModel
         mRatioAsFraction.setValue(true);
         setRatioPrecision(4);
 
-        mCalculator = new ChangeGearsModel();
-        mCalculator.setResultListener(_resultListener);
+        //mCalculator = new ChangeGearsModel();
+        //mCalculator.setResultListener(_resultListener);
         mStarted = true;
     }
 
@@ -536,33 +540,24 @@ public class ChangeGearsViewModel extends CalculationViewModel
     public void calculate()
     {
         clear();
-        Data.Builder db = new Data.Builder()
-                .putDouble("Accuracy", Math.pow(10, -_ratioPrecision))
-                .putBoolean("DiffLockedZ2Z3", mDiffLockedZ2Z3.getValue())
-                .putBoolean("DiffLockedZ4Z5", mDiffLockedZ4Z5.getValue())
-                .putBoolean("DiffGearingZ1Z2", mDiffGearingZ1Z2.getValue())
-                .putBoolean("DiffGearingZ3Z4", mDiffGearingZ3Z4.getValue())
-                .putBoolean("DiffGearingZ5Z6", mDiffGearingZ5Z6.getValue());
-
-        //mCalculator.setAccuracy(Math.pow(10, -_ratioPrecision));
-        //mCalculator.setDiffLockedZ2Z3(mDiffLockedZ2Z3.getValue());
-        //mCalculator.setDiffLockedZ4Z5(mDiffLockedZ4Z5.getValue());
-        //mCalculator.setDiffGearingZ1Z2(mDiffGearingZ1Z2.getValue());
-        //mCalculator.setDiffGearingZ3Z4(mDiffGearingZ3Z4.getValue());
-        //mCalculator.setDiffGearingZ5Z6(mDiffGearingZ5Z6.getValue());
 
         double r = mCalculationMode.getValue() == G.GEARS_BY_RATIO || mCalculationMode.getValue() == G.GEARS_BY_THREAD
                 ? _calculatedRatio : 0.0;
-        //mCalculator.setRatio(r);
+
+        Data.Builder db = new Data.Builder();
+        db.putDouble("Accuracy", Math.pow(10, -_ratioPrecision));
         db.putDouble("Ratio", r);
+        db.putBoolean("DiffLockedZ2Z3", mDiffLockedZ2Z3.getValue());
+        db.putBoolean("DiffLockedZ4Z5", mDiffLockedZ4Z5.getValue());
+        db.putBoolean("DiffGearingZ1Z2", mDiffGearingZ1Z2.getValue());
+        db.putBoolean("DiffGearingZ3Z4", mDiffGearingZ3Z4.getValue());
+        db.putBoolean("DiffGearingZ5Z6", mDiffGearingZ5Z6.getValue());
 
         if (mOneSet.getValue())
         {
             db.putBoolean("OneSet", true);
-            int wheelsCount = mGearSets.getWheelsCount();
-            int[] set = ArrayUtils.toArrayInt(mGearSets.get(G.Z0).getGears());
-            //mCalculator.setGearKit(wheelsCount, set);
-            db.putInt("WheelsCount", wheelsCount).putIntArray("Z0", set);
+            db.putInt("WheelsCount", mGearSets.getWheelsCount());
+            db.putIntArray("Z0", ArrayUtils.toArrayInt(mGearSets.get(G.Z0).getGears()));
         }
         else
         {
@@ -584,17 +579,29 @@ public class ChangeGearsViewModel extends CalculationViewModel
                 mMessage.setValue("Too much gears!");
                 return;
             }
-            //mCalculator.setGearKit(zs1, zs2, zs3, zs4, zs5, zs6);
-            db.putIntArray("Z1", zs1).putIntArray("Z2", zs2)
-                    .putIntArray("Z3", zs3).putIntArray("Z4", zs4)
-                    .putIntArray("Z5", zs5).putIntArray("Z6", zs6);
+            db.putIntArray("Z1", zs1).putIntArray("Z2", zs2);
+            db.putIntArray("Z3", zs3).putIntArray("Z4", zs4);
+            db.putIntArray("Z5", zs5).putIntArray("Z6", zs6);
         }
 
         OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(ChangeGears.class)
                 .setInputData(db.build())
                 .build();
-        WorkManager.getInstance(getApplication()).enqueue(request);
-        //mCalculator.calculate();
+        WorkManager wm = WorkManager.getInstance(getApplication());
+        wm.enqueue(request);
+        ListenableFuture<WorkInfo> workInfo = wm.getWorkInfoById(request.getId());
+        try
+        {
+            workInfo.get();
+        }
+        catch (ExecutionException e)
+        {
+            e.printStackTrace();
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
