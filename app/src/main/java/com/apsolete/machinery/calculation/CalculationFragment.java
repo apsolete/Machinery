@@ -6,22 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.apsolete.machinery.R;
-import com.apsolete.machinery.calculation.gearing.changegears.ChangeGearsViewModel;
-import com.apsolete.machinery.common.CustomFragment;
-import com.apsolete.machinery.common.CustomViewModel;
-import com.apsolete.machinery.common.Event;
-import com.apsolete.machinery.common.Observers;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.work.Data;
 import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
+
+import com.apsolete.machinery.R;
+import com.apsolete.machinery.common.CustomFragment;
+import com.apsolete.machinery.common.Observers;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -52,7 +47,9 @@ public abstract class CalculationFragment<VM extends CalculationViewModel> exten
     {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         assert view != null;
-        ProgressBar = view.findViewById(R.id.progressBar);
+
+        //The ProgressBar is in Activity layout
+        ProgressBar = Activity.findViewById(R.id.progressBar);
 
         mViewModel.getNotificationEvent().observe(getViewLifecycleOwner(),
                 new Observers.EventObserver<>(this::displayMessage));
@@ -108,5 +105,4 @@ public abstract class CalculationFragment<VM extends CalculationViewModel> exten
         _numFormat.setRoundingMode(RoundingMode.CEILING);
         return _numFormat;
     }
-
 }
