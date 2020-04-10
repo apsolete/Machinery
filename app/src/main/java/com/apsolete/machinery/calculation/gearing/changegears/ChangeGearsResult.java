@@ -5,7 +5,7 @@ import java.text.*;
 
 import com.apsolete.machinery.calculation.*;
 
-public class ChangeGearsResult implements ChangeGears.Result
+public class ChangeGearsResult implements ChangeGearsWorker.Result
 {
     private int _id;
     private double _ratio;

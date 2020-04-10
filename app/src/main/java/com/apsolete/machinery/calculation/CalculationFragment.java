@@ -42,6 +42,14 @@ public abstract class CalculationFragment<VM extends CalculationViewModel> exten
         return mViewModel;
     }
 
+    protected CalculationDatabase getDb()
+    {
+        CalculationActivity ca = (CalculationActivity)Activity;
+        if (ca != null)
+            return ca.mDatabase;
+        return null;
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {

@@ -133,13 +133,13 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         setTextObserver(R.id.resultFirstNumberText, mViewModel.getFirstResultNumberStr());
         setTextObserver(R.id.resultLastNumberText, mViewModel.getLastResultNumberStr());
 
-        mViewModel.getResultsToShow().observe(getViewLifecycleOwner(), new Observer<List<ChangeGears.Result>>()
+        mViewModel.getResultsToShow().observe(getViewLifecycleOwner(), new Observer<List<ChangeGearsWorker.Result>>()
         {
             @Override
-            public void onChanged(List<ChangeGears.Result> results)
+            public void onChanged(List<ChangeGearsWorker.Result> results)
             {
                 _resultView.removeAllViews();
-                for (ChangeGears.Result result : results)
+                for (ChangeGearsWorker.Result result : results)
                 {
                     setResultItem(result);
                 }
@@ -186,7 +186,7 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         dialog.show(fragmentManager, "teethnumbersdialog");
     }
 
-    private void setResultItem(final ChangeGears.Result result)
+    private void setResultItem(final ChangeGearsWorker.Result result)
     {
         try
         {

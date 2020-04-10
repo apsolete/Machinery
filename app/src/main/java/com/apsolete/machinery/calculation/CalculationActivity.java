@@ -6,6 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.room.Room;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,6 +23,7 @@ public class CalculationActivity extends AppCompatActivity
     private CalculationPresenter _presenter;
     //private CalculationViewModel mCalcViewModel;
     private CalculationFragment mCalculationFragment;
+    protected CalculationDatabase mDatabase;
     private MenuItem _miSave;
     private MenuItem _miClear;
     private MenuItem _miOptions;
@@ -30,6 +33,8 @@ public class CalculationActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        mDatabase = Room.databaseBuilder(getApplicationContext(),
+                CalculationDatabase.class, "calculations").build();
 
         setContentView(R.layout.activity_calculation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_calculation);
@@ -46,6 +51,7 @@ public class CalculationActivity extends AppCompatActivity
         int calcType = getIntent().getExtras().getInt("calcType");
         showCalculationContent(calcType);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {

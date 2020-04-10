@@ -12,7 +12,7 @@ import com.apsolete.machinery.utils.Numbers;
 
 import java.util.List;
 
-public class ChangeGears extends CalculationWorker
+public class ChangeGearsWorker extends CalculationWorker
 {
     public interface Result
     {
@@ -42,7 +42,7 @@ public class ChangeGears extends CalculationWorker
 
     private int _calculatedRatios = 0;
 
-    public ChangeGears(@NonNull Context context, @NonNull WorkerParameters workerParams)
+    public ChangeGearsWorker(@NonNull Context context, @NonNull WorkerParameters workerParams)
     {
         super(context, workerParams);
     }

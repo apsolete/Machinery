@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
-import androidx.work.Operation;
 import androidx.work.WorkManager;
 
 import com.apsolete.machinery.calculation.CalculationFragment;
@@ -23,7 +22,6 @@ import com.apsolete.machinery.utils.Numbers;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class ChangeGearsViewModel extends CalculationViewModel
 {
@@ -106,9 +104,9 @@ public class ChangeGearsViewModel extends CalculationViewModel
     private MutableLiveData<Integer> mLastResultNumber = new MutableLiveData<Integer>();
     private LiveData<String> mLastResultNumberStr = Transformations.map(mLastResultNumber, Object::toString);
     private MutableLiveData<Integer> mProgress = new MutableLiveData<>();
-    private ArrayList<ChangeGears.Result> mResults = new ArrayList<>();
+    private ArrayList<ChangeGearsWorker.Result> mResults = new ArrayList<>();
     //private LiveArrayList<Contract.Result> mResultsToShow = new LiveArrayList<>();
-    private MutableLiveData<List<ChangeGears.Result>> mResultsToShow = new MutableLiveData<>();
+    private MutableLiveData<List<ChangeGearsWorker.Result>> mResultsToShow = new MutableLiveData<>();
     //private ChangeGearsModel mCalculator;
 
     /*settings*/
@@ -406,7 +404,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
         return mLastResultNumberStr;
     }
 
-    public LiveData<List<ChangeGears.Result>> getResultsToShow()
+    public LiveData<List<ChangeGearsWorker.Result>> getResultsToShow()
     {
         return mResultsToShow;
     }
@@ -421,7 +419,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
             li = mResults.size();
         mFirstResultNumber.postValue(fi);
         mLastResultNumber.postValue(li);
-        List<ChangeGears.Result> next = mResults.subList(fi-1, li);
+        List<ChangeGearsWorker.Result> next = mResults.subList(fi-1, li);
         mResultsToShow.postValue(next);
         return next.size();
     }
@@ -436,7 +434,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
             ti = mResults.size();
         mFirstResultNumber.postValue(fi);
         mLastResultNumber.postValue(ti);
-        List<ChangeGears.Result> prev = mResults.subList(fi-1, ti);
+        List<ChangeGearsWorker.Result> prev = mResults.subList(fi-1, ti);
         mResultsToShow.postValue(prev);
         return prev.size();
     }
@@ -582,12 +580,12 @@ public class ChangeGearsViewModel extends CalculationViewModel
             db.putIntArray("Z5", zs5).putIntArray("Z6", zs6);
         }
 
-        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(ChangeGears.class)
+        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(ChangeGearsWorker.class)
                 .setInputData(db.build())
                 .build();
-        WorkManager.getInstance(getApplication()).enqueue(request);
-
         mCalculationEvent.setValue(new Event(request.getId()));
+
+        WorkManager.getInstance(getApplication()).enqueue(request);
     }
 
     @Override

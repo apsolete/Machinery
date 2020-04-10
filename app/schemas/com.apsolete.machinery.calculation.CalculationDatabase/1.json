@@ -1,0 +1,183 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "11dfbe499e834acf21eb6bb3fbdb8243",
+    "entities": [
+      {
+        "tableName": "changegears",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `description` TEXT, `count` INTEGER, `set0` TEXT, `set1` TEXT, `set2` TEXT, `set3` TEXT, `set4` TEXT, `set5` TEXT, `set6` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "count",
+            "columnName": "count",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "set0",
+            "columnName": "set0",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "set1",
+            "columnName": "set1",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "set2",
+            "columnName": "set2",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "set3",
+            "columnName": "set3",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "set4",
+            "columnName": "set4",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "set5",
+            "columnName": "set5",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "set6",
+            "columnName": "set6",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "chgresult",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `chg_id` INTEGER NOT NULL, `ratio` REAL, `z1` INTEGER, `z2` INTEGER, `z3` INTEGER, `z4` INTEGER, `z5` INTEGER, `z6` INTEGER, FOREIGN KEY(`chg_id`) REFERENCES `changegears`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "chg_id",
+            "columnName": "chg_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ratio",
+            "columnName": "ratio",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "z1",
+            "columnName": "z1",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "z2",
+            "columnName": "z2",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "z3",
+            "columnName": "z3",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "z4",
+            "columnName": "z4",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "z5",
+            "columnName": "z5",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "z6",
+            "columnName": "z6",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_chgresult_chg_id",
+            "unique": false,
+            "columnNames": [
+              "chg_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_chgresult_chg_id` ON `${TABLE_NAME}` (`chg_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "changegears",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "chg_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '11dfbe499e834acf21eb6bb3fbdb8243')"
+    ]
+  }
+}
