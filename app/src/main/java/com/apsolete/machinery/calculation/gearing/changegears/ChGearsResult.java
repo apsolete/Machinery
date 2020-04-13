@@ -17,6 +17,8 @@ public class ChGearsResult
     @ColumnInfo(index = true)
     public long chg_id;
     @ColumnInfo
+    public Integer number;
+    @ColumnInfo
     public Double ratio;
     @ColumnInfo
     public Integer z1;

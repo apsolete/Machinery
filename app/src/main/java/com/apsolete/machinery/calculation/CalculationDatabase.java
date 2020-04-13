@@ -26,7 +26,7 @@ public abstract class CalculationDatabase extends RoomDatabase
     private static volatile CalculationDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
 
-    public static final ExecutorService writeExecutor =
+    public static final ExecutorService executor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public static CalculationDatabase getDatabase(final Context context)

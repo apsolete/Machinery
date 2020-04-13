@@ -51,35 +51,35 @@ public class ChangeGearsWorker extends CalculationWorker
         mRepository = new ChGearsRepository(context);
     }
 
-    public void setAccuracy(double accuracy)
-    {
-        _accuracy = accuracy;
-    }
-
-    public void setDiffLockedZ2Z3(boolean equal)
-    {
-        _diffLockedZ2Z3 = equal;
-    }
-
-    public void setDiffLockedZ4Z5(boolean equal)
-    {
-        _diffLockedZ4Z5 = equal;
-    }
-
-    public void setDiffGearingZ1Z2(boolean equal)
-    {
-        _diffGearingZ1Z2 = equal;
-    }
-
-    public void setDiffGearingZ3Z4(boolean equal)
-    {
-        _diffGearingZ3Z4 = equal;
-    }
-
-    public void setDiffGearingZ5Z6(boolean equal)
-    {
-        _diffGearingZ5Z6 = equal;
-    }
+//    public void setAccuracy(double accuracy)
+//    {
+//        _accuracy = accuracy;
+//    }
+//
+//    public void setDiffLockedZ2Z3(boolean equal)
+//    {
+//        _diffLockedZ2Z3 = equal;
+//    }
+//
+//    public void setDiffLockedZ4Z5(boolean equal)
+//    {
+//        _diffLockedZ4Z5 = equal;
+//    }
+//
+//    public void setDiffGearingZ1Z2(boolean equal)
+//    {
+//        _diffGearingZ1Z2 = equal;
+//    }
+//
+//    public void setDiffGearingZ3Z4(boolean equal)
+//    {
+//        _diffGearingZ3Z4 = equal;
+//    }
+//
+//    public void setDiffGearingZ5Z6(boolean equal)
+//    {
+//        _diffGearingZ5Z6 = equal;
+//    }
 
     @Override
     protected void calculate()
@@ -89,6 +89,8 @@ public class ChangeGearsWorker extends CalculationWorker
         mEntity = mRepository.getChangeGears(id);
         if (mEntity == null)
             return;
+
+        mRepository.deleteResultsById(mEntity.id);
 
         _accuracy = mEntity.accuracy;
         _diffLockedZ2Z3 = mEntity.diffLocked23;
@@ -290,10 +292,11 @@ public class ChangeGearsWorker extends CalculationWorker
         if (checkRatio(ratio))
         {
             _calculatedRatios++;
-            if (_resultListener != null)
-            {
-                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, new int[]{z1, z2, 0, 0, 0, 0}));
-            }
+            publishResult(_calculatedRatios, ratio, z1, z2);
+//            if (_resultListener != null)
+//            {
+//                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, new int[]{z1, z2, 0, 0, 0, 0}));
+//            }
             return true;
         }
         return false;
@@ -305,10 +308,11 @@ public class ChangeGearsWorker extends CalculationWorker
         if (checkRatio(ratio))
         {
             _calculatedRatios++;
-            if (_resultListener != null)
-            {
-                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, new int[]{z1, z2, z3, z4, 0, 0}));
-            }
+            publishResult(_calculatedRatios, ratio, z1, z2, z3, z4);
+//            if (_resultListener != null)
+//            {
+//                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, new int[]{z1, z2, z3, z4, 0, 0}));
+//            }
             return true;
         }
         return false;
@@ -320,10 +324,11 @@ public class ChangeGearsWorker extends CalculationWorker
         if (checkRatio(ratio))
         {
             _calculatedRatios++;
-            if (_resultListener != null)
-            {
-                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, new int[]{z1, z2, z3, z4, z5, z6}));
-            }
+            publishResult(_calculatedRatios, ratio, z1, z2, z3, z4, z5, z6);
+//            if (_resultListener != null)
+//            {
+//                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, new int[]{z1, z2, z3, z4, z5, z6}));
+//            }
             return true;
         }
         return false;
@@ -334,5 +339,20 @@ public class ChangeGearsWorker extends CalculationWorker
         if (_ratio == 0)
             return true;
         return Math.abs(ratio - _ratio) <= _accuracy;
+    }
+
+    private void publishResult(int number, double ratio, int...z)
+    {
+        ChGearsResult result = new ChGearsResult();
+        result.chg_id = mEntity.id;
+        result.number = number;
+        result.ratio = ratio;
+        result.z1 = z[0];
+        result.z2 = z[1];
+        result.z3 = z[2];
+        result.z4 = z[3];
+        result.z5 = z[4];
+        result.z6 = z[5];
+        mRepository.insert(result);
     }
 }

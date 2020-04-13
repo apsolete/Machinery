@@ -32,6 +32,9 @@ public interface ChGearsDao
     @Delete
     int deleteChgResult(ChGearsResult result);
 
+    @Query("DELETE FROM changegearsresult WHERE chg_id = :chgId")
+    void deleteChgResults(long chgId);
+
     @Query("SELECT * FROM changegearsresult WHERE chg_id = :chgId")
     LiveData<List<ChGearsResult>> getResultsByChgId(long chgId);
 }

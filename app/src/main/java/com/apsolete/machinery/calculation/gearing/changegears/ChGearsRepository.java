@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
+import com.apsolete.machinery.calculation.Calculation;
 import com.apsolete.machinery.calculation.CalculationDatabase;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class ChGearsRepository
 {
     private ChGearsDao mDao;
     private LiveData<List<ChGearsEntity>> mAllChGears;
+    //private LiveData<List<ChGearsEntity>> mAllChGears;
 
     public ChGearsRepository(Context context)
     {
@@ -29,8 +31,8 @@ public class ChGearsRepository
 
     public long insert(ChGearsEntity entity)
     {
-        AtomicLong id = new AtomicLong();
-        CalculationDatabase.writeExecutor.execute(()->
+        AtomicLong id = new AtomicLong(0);
+        CalculationDatabase.executor.execute(()->
         {
             try
             {
@@ -50,7 +52,7 @@ public class ChGearsRepository
         if (id == 0)
         {
             id = entity.id;
-            CalculationDatabase.writeExecutor.execute(()->
+            CalculationDatabase.executor.execute(()->
             {
                 mDao.updateChangeGears(entity);
             });
@@ -63,7 +65,7 @@ public class ChGearsRepository
         AtomicReference<ChGearsEntity> changeGears = new AtomicReference<>(null);
         try
         {
-            CalculationDatabase.writeExecutor.execute(()->
+            CalculationDatabase.executor.execute(()->
             {
                 changeGears.set(mDao.getChangeGearsById(id));
             });
@@ -73,5 +75,49 @@ public class ChGearsRepository
         {
             return changeGears.get();
         }
+    }
+
+    public LiveData<List<ChGearsResult>> getChGearsResults(long chgId)
+    {
+        return mDao.getResultsByChgId(chgId);
+    }
+
+    public long insert(ChGearsResult result)
+    {
+        AtomicLong id = new AtomicLong(0);
+        CalculationDatabase.executor.execute(()->
+        {
+            try
+            {
+                id.set(mDao.insertChgResult(result));
+            }
+            catch (Exception e)
+            {
+                id.set(0);
+            }
+        });
+        return id.get();
+    }
+
+    public long upsert(ChGearsResult result)
+    {
+        long id = insert(result);
+        if (id == 0)
+        {
+            id = result.id;
+            CalculationDatabase.executor.execute(()->
+            {
+                mDao.updateChgResult(result);
+            });
+        }
+        return id;
+    }
+
+    public void deleteResultsById(long chgId)
+    {
+        CalculationDatabase.executor.execute(()->
+        {
+            mDao.deleteChgResults(chgId);
+        });
     }
 }
