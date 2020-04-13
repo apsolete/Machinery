@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "11dfbe499e834acf21eb6bb3fbdb8243",
+    "identityHash": "4e67a560fa9043047a230144cafc267b",
     "entities": [
       {
         "tableName": "changegears",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `description` TEXT, `count` INTEGER, `set0` TEXT, `set1` TEXT, `set2` TEXT, `set3` TEXT, `set4` TEXT, `set5` TEXT, `set6` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `description` TEXT, `accuracy` REAL, `ratio` REAL, `diffLocked23` INTEGER, `diffLocked45` INTEGER, `diffGearing12` INTEGER, `diffGearing34` INTEGER, `diffGearing56` INTEGER, `oneSet` INTEGER, `count` INTEGER, `set0` TEXT, `set1` TEXT, `set2` TEXT, `set3` TEXT, `set4` TEXT, `set5` TEXT, `set6` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -24,6 +24,54 @@
             "fieldPath": "description",
             "columnName": "description",
             "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "accuracy",
+            "columnName": "accuracy",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ratio",
+            "columnName": "ratio",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "diffLocked23",
+            "columnName": "diffLocked23",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "diffLocked45",
+            "columnName": "diffLocked45",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "diffGearing12",
+            "columnName": "diffGearing12",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "diffGearing34",
+            "columnName": "diffGearing34",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "diffGearing56",
+            "columnName": "diffGearing56",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "oneSet",
+            "columnName": "oneSet",
+            "affinity": "INTEGER",
             "notNull": false
           },
           {
@@ -85,7 +133,7 @@
         "foreignKeys": []
       },
       {
-        "tableName": "chgresult",
+        "tableName": "changegearsresult",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `chg_id` INTEGER NOT NULL, `ratio` REAL, `z1` INTEGER, `z2` INTEGER, `z3` INTEGER, `z4` INTEGER, `z5` INTEGER, `z6` INTEGER, FOREIGN KEY(`chg_id`) REFERENCES `changegears`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
@@ -151,12 +199,12 @@
         },
         "indices": [
           {
-            "name": "index_chgresult_chg_id",
+            "name": "index_changegearsresult_chg_id",
             "unique": false,
             "columnNames": [
               "chg_id"
             ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_chgresult_chg_id` ON `${TABLE_NAME}` (`chg_id`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_changegearsresult_chg_id` ON `${TABLE_NAME}` (`chg_id`)"
           }
         ],
         "foreignKeys": [
@@ -177,7 +225,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '11dfbe499e834acf21eb6bb3fbdb8243')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4e67a560fa9043047a230144cafc267b')"
     ]
   }
 }

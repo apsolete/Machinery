@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 import java.util.UUID;
 
 @Entity(tableName = "changegears")
-public class ChgEntity
+public class ChGearsEntity
 {
     @PrimaryKey(autoGenerate = true)
     public long id;
@@ -15,6 +15,22 @@ public class ChgEntity
     public String name;
     @ColumnInfo
     public String description;
+    @ColumnInfo
+    public Double accuracy;
+    @ColumnInfo
+    public Double ratio;
+    @ColumnInfo
+    public Boolean diffLocked23;
+    @ColumnInfo
+    public Boolean diffLocked45;
+    @ColumnInfo
+    public Boolean diffGearing12;
+    @ColumnInfo
+    public Boolean diffGearing34;
+    @ColumnInfo
+    public Boolean diffGearing56;
+    @ColumnInfo
+    public Boolean oneSet;
     @ColumnInfo
     public Integer count;
     @ColumnInfo

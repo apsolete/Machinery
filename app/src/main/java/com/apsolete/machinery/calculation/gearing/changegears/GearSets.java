@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.util.SparseArray;
 
 
+@Deprecated
 public class GearSets implements Parcelable
 {
     private class GearSet

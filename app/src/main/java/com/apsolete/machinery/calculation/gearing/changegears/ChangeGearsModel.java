@@ -9,6 +9,7 @@ import android.os.Parcelable;
 
 import java.util.List;
 
+@Deprecated
 public final class ChangeGearsModel extends CalculationModel
 {
     private OnResultListener<ChangeGearsResult> _resultListener;

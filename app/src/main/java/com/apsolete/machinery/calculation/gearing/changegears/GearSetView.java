@@ -12,6 +12,7 @@ import androidx.annotation.IdRes;
 import com.apsolete.machinery.common.Listeners;
 import com.apsolete.machinery.common.TextChangedListener;
 
+@Deprecated
 public final class GearSetView extends TextChangedListener implements View.OnClickListener, InputFilter
 {
     @Override

@@ -7,6 +7,7 @@ import androidx.work.Data;
 import androidx.work.WorkerParameters;
 
 import com.apsolete.machinery.calculation.*;
+import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.OnResultListener;
 import com.apsolete.machinery.utils.Numbers;
 
@@ -29,6 +30,9 @@ public class ChangeGearsWorker extends CalculationWorker
 
     private OnResultListener<ChangeGearsResult> _resultListener;
 
+    private ChGearsRepository mRepository;
+    private ChGearsEntity mEntity;
+
     private double _ratio = 0;
     private double _accuracy;
     private boolean _diffLockedZ2Z3 = false;
@@ -38,29 +42,14 @@ public class ChangeGearsWorker extends CalculationWorker
     private boolean _diffGearingZ5Z6 = false;
     private boolean _isOneSet = false;
     private int _gearsCount = 2;
-    //private GearSets _gearSets = new GearSets();
 
     private int _calculatedRatios = 0;
 
     public ChangeGearsWorker(@NonNull Context context, @NonNull WorkerParameters workerParams)
     {
         super(context, workerParams);
+        mRepository = new ChGearsRepository(context);
     }
-
-//    public double getRatio()
-//    {
-//        return _ratio;
-//    }
-
-//    public void setRatio(double ratio)
-//    {
-//        _ratio = ratio;
-//    }
-
-//    public double getAccuracy()
-//    {
-//        return _accuracy;
-//    }
 
     public void setAccuracy(double accuracy)
     {
@@ -92,80 +81,40 @@ public class ChangeGearsWorker extends CalculationWorker
         _diffGearingZ5Z6 = equal;
     }
 
-//    public void setGearKit(int gears, int[] kit)
-//    {
-//        _isOneSet = true;
-//        _gearsCount = gears;
-//        _gearSets.putZ0(kit);
-//    }
-
-//    public void setGearKit(int[] gs1, int[] gs2, int[] gs3, int[] gs4, int[] gs5, int[] gs6)
-//    {
-//        _isOneSet = false;
-//        _gearSets.putZ1(gs1);
-//        _gearSets.putZ2(gs2);
-//        _gearSets.putZ3(gs3);
-//        _gearSets.putZ4(gs4);
-//        _gearSets.putZ5(gs5);
-//        _gearSets.putZ6(gs6);
-//    }
-
-//    public void setGearsCount(int count)
-//    {
-//        _gearsCount = count;
-//    }
-
-//    public int getGearsCount()
-//    {
-//        return _gearsCount;
-//    }
-
-//    public int[] getGears(int z)
-//    {
-//        return _gearKits.get(z);
-//    }
-
-//    public void setGears(int z, int[] gears)
-//    {
-//        _gearKits.put(z, gears);
-//    }
-
-//    public void setResultListener(OnResultListener<ChangeGearsResult> resultListener)
-//    {
-//        _resultListener = resultListener;
-//        setOnProgressListener(_resultListener);
-//    }
-
     @Override
     protected void calculate()
     {
         final Data inputData = getInputData();
+        long id = inputData.getLong(G.ChangeGearsId, 0);
+        mEntity = mRepository.getChangeGears(id);
+        if (mEntity == null)
+            return;
 
-        _accuracy = inputData.getDouble("Accuracy", Math.pow(10, -3));
-        _diffLockedZ2Z3 = inputData.getBoolean("DiffLockedZ2Z3", true);
-        _diffLockedZ4Z5 = inputData.getBoolean("DiffLockedZ4Z5", true);
-        _diffGearingZ1Z2 = inputData.getBoolean("DiffGearingZ1Z2", true);
-        _diffGearingZ3Z4 = inputData.getBoolean("DiffGearingZ3Z4", true);
-        _diffGearingZ5Z6 = inputData.getBoolean("DiffGearingZ5Z6", true);
-        _ratio = inputData.getDouble("Ratio", 0.0);
-        _isOneSet = inputData.getBoolean("OneSet", false);
+        _accuracy = mEntity.accuracy;
+        _diffLockedZ2Z3 = mEntity.diffLocked23;
+        _diffLockedZ4Z5 = mEntity.diffLocked45;
+        _diffGearingZ1Z2 = mEntity.diffGearing12;
+        _diffGearingZ3Z4 = mEntity.diffGearing34;
+        _diffGearingZ5Z6 = mEntity.diffGearing56;
+        _ratio = mEntity.ratio;
+        _isOneSet = mEntity.oneSet;
 
         try
         {
             if (_isOneSet)
             {
-                _gearsCount = inputData.getInt("WheelsCount", 2);
-                int[] gs0 = inputData.getIntArray("Z0");
+                _gearsCount = mEntity.count;
+                int[] gs0 = Numbers.getIntNumbers(mEntity.set0);
                 calculateByOneSet(_gearsCount, gs0);
                 return;
             }
 
-            int[] gs1 = inputData.getIntArray("Z1");//_gearSets.getZ1();
-            int[] gs2 = inputData.getIntArray("Z2");//_gearSets.getZ2();
-            int[] gs3 = inputData.getIntArray("Z3");//_gearSets.getZ3();
-            int[] gs4 = inputData.getIntArray("Z4");//_gearSets.getZ4();
-            int[] gs5 = inputData.getIntArray("Z5");//_gearSets.getZ5();
-            int[] gs6 = inputData.getIntArray("Z6");//_gearSets.getZ6();
+            int[] gs1 = Numbers.getIntNumbers(mEntity.set1);
+            int[] gs2 = Numbers.getIntNumbers(mEntity.set2);
+            int[] gs3 = Numbers.getIntNumbers(mEntity.set3);
+            int[] gs4 = Numbers.getIntNumbers(mEntity.set4);
+            int[] gs5 = Numbers.getIntNumbers(mEntity.set5);
+            int[] gs6 = Numbers.getIntNumbers(mEntity.set6);
 
             if (gs1 == null || gs2 == null)
                 return;

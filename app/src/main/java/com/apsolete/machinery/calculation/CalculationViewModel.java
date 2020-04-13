@@ -20,6 +20,7 @@ public abstract class CalculationViewModel extends CustomViewModel implements Ca
         super(application);
     }
 
+    public abstract boolean validate();
     public abstract void save();
     public abstract void clear();
     public abstract void calculate();

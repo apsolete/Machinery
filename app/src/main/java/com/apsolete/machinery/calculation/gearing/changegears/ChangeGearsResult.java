@@ -31,55 +31,55 @@ public class ChangeGearsResult implements ChangeGearsWorker.Result
         setFormat(numformat);
     }
 
-    //@Override
+    @Override
     public String id()
     {
         return Integer.toString(_id);
     }
 
-    //@Override
+    @Override
     public String z1()
     {
         return Integer.toString(_gears[0]);
     }
 
-    //@Override
+    @Override
     public String z2()
     {
         return Integer.toString(_gears[1]);
     }
 
-    //@Override
+    @Override
     public String z3()
     {
         return (_gears[2] > 0) ? Integer.toString(_gears[2]) : null;
     }
 
-    //@Override
+    @Override
     public String z4()
     {
         return (_gears[3] > 0) ? Integer.toString(_gears[3]) : null;
     }
 
-    //@Override
+    @Override
     public String z5()
     {
         return (_gears[4] > 0) ? Integer.toString(_gears[4]) : null;
     }
 
-    //@Override
+    @Override
     public String z6()
     {
         return (_gears[5] > 0) ? Integer.toString(_gears[5]) : null;
     }
 
-    //@Override
+    @Override
     public String ratio()
     {
         return _numFormat.format(_ratio);
     }
 
-    //@Override
+    @Override
     public String threadPitch()
     {
         return _thrPitch ? _numFormat.format(_ratio * _leadscrewPitch) : null;

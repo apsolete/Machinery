@@ -5,12 +5,12 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "chgresult",
+@Entity(tableName = "changegearsresult",
         foreignKeys =
                 {
-                        @ForeignKey(entity = ChgEntity.class, parentColumns = "id", childColumns = "chg_id")
+                        @ForeignKey(entity = ChGearsEntity.class, parentColumns = "id", childColumns = "chg_id")
                 })
-public class ChgResult
+public class ChGearsResult
 {
     @PrimaryKey(autoGenerate = true)
     public long id;

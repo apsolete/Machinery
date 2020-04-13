@@ -47,7 +47,7 @@ public class GearSetsViewModel
 
         public Integer[] getGears()
         {
-            Integer[] gears = Numbers.getNumbers(mGearsStr.getValue());
+            Integer[] gears = Numbers.getIntegerNumbers(mGearsStr.getValue());
             return gears;
         }
 

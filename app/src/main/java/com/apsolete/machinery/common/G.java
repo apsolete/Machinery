@@ -31,6 +31,8 @@ public final class G
     public static final int GEARS_BY_RATIO = 2;
     public static final int GEARS_BY_THREAD = 3;
 
+    public static final String ChangeGearsId = "ChangeGearsId";
+
     public static final int toVisibility(boolean visible)
     {
         return visible ? View.VISIBLE : View.GONE;

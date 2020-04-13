@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Numbers
 {
-    public static Integer[] getNumbers(String strNumbers)
+    public static Integer[] getIntegerNumbers(String strNumbers)
     {
         if (strNumbers == null || strNumbers.isEmpty())
             return null;
@@ -14,7 +14,7 @@ public class Numbers
         return numbers;
     }
 
-    public static int[] getNumbers2(String strNumbers)
+    public static int[] getIntNumbers(String strNumbers)
     {
         if (strNumbers == null || strNumbers.isEmpty())
             return null;
