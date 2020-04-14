@@ -107,39 +107,40 @@ public class ChangeGearsViewModel extends CalculationViewModel
     private MutableLiveData<Integer> mLastResultNumber = new MutableLiveData<Integer>();
     private LiveData<String> mLastResultNumberStr = Transformations.map(mLastResultNumber, Object::toString);
     private MutableLiveData<Integer> mProgress = new MutableLiveData<>();
-    private ArrayList<ChangeGearsWorker.Result> mResults = new ArrayList<>();
+    //private ArrayList<ChangeGearsWorker.Result> mResults = new ArrayList<>();
     //private LiveArrayList<Contract.Result> mResultsToShow = new LiveArrayList<>();
-    private MutableLiveData<List<ChangeGearsWorker.Result>> mResultsToShow = new MutableLiveData<>();
+    private MutableLiveData<List<ChGearsResult>> mResultsToShow = new MutableLiveData<>();
+    private MutableLiveData<List<ChGearsResult>> mResults = new MutableLiveData<>();
     //private ChangeGearsModel mCalculator;
 
     /*settings*/
     private int mRatioPrecision = 2;
 
-    private OnResultListener<ChangeGearsResult> _resultListener = new OnResultListener<ChangeGearsResult>()
-    {
-        @Override
-        public void onResult(ChangeGearsResult result)
-        {
-            if (mCalculationMode.getValue() == G.THREAD_BY_GEARS)
-                result.setLeadscrewPitch(mLeadscrewPitch.getValue());
-            result.setFormat(mRatioFormat);
-            mResults.add(result);
-        }
-
-        @Override
-        public void onProgress(int percent)
-        {
-            mProgress.postValue(percent);
-        }
-
-        @Override
-        public void onCompleted(int count)
-        {
-            mProgress.postValue(0);
-            int shown = getNextResults();
-            mNotificationEvent.postValue(new Event("Calculated " + count + " ratios. Shown " + shown + " results."));
-        }
-    };
+//    private OnResultListener<ChangeGearsResult> _resultListener = new OnResultListener<ChangeGearsResult>()
+//    {
+//        @Override
+//        public void onResult(ChangeGearsResult result)
+//        {
+//            if (mCalculationMode.getValue() == G.THREAD_BY_GEARS)
+//                result.setLeadscrewPitch(mLeadscrewPitch.getValue());
+//            result.setFormat(mRatioFormat);
+//            mResults.add(result);
+//        }
+//
+//        @Override
+//        public void onProgress(int percent)
+//        {
+//            mProgress.postValue(percent);
+//        }
+//
+//        @Override
+//        public void onCompleted(int count)
+//        {
+//            mProgress.postValue(0);
+//            int shown = getNextResults();
+//            mNotificationEvent.postValue(new Event<>("Calculated " + count + " ratios. Shown " + shown + " results."));
+//        }
+//    };
 //
 //    public ChangeGearsViewModel()
 //    {
@@ -415,7 +416,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
         return mLastResultNumberStr;
     }
 
-    public LiveData<List<ChangeGearsWorker.Result>> getResultsToShow()
+    public LiveData<List<ChGearsResult>> getResultsToShow()
     {
         return mResultsToShow;
     }
@@ -423,31 +424,52 @@ public class ChangeGearsViewModel extends CalculationViewModel
     public int getNextResults()
     {
         int fi = mLastResultNumber.getValue() > 1 ? mLastResultNumber.getValue() + 1 : 1;
-        if (fi > mResults.size())
-            return 0;
-        int li = fi + 99;
-        if (li > mResults.size())
-            li = mResults.size();
+        int li = fi + 20;
         mFirstResultNumber.postValue(fi);
         mLastResultNumber.postValue(li);
-        List<ChangeGearsWorker.Result> next = mResults.subList(fi-1, li);
-        mResultsToShow.postValue(next);
-        return next.size();
+        List<ChGearsResult> chGearsResults = mRepository.getChGearsResults(mChangeGearsId, mFirstResultNumber.getValue(), mLastResultNumber.getValue());
+        if (chGearsResults.size() == 0)
+            return 0;
+        mResultsToShow.postValue(chGearsResults);
+        return chGearsResults.size();
+
+//        int fi = mLastResultNumber.getValue() > 1 ? mLastResultNumber.getValue() + 1 : 1;
+//        if (fi > mResults.size())
+//            return 0;
+//        int li = fi + 99;
+//        if (li > mResults.size())
+//            li = mResults.size();
+//        mFirstResultNumber.postValue(fi);
+//        mLastResultNumber.postValue(li);
+//        List<ChangeGearsWorker.Result> next = mResults.subList(fi-1, li);
+//        mResultsToShow.postValue(next);
+//        return next.size();
     }
 
     public int getPrevResults()
     {
-        int fi = mFirstResultNumber.getValue() - 100;
+        int fi = mFirstResultNumber.getValue() - 20;
         if (fi < 0)
             return 0;
-        int ti = fi + 99;
-        if (ti > mResults.size())
-            ti = mResults.size();
+        int li = fi + 20;
         mFirstResultNumber.postValue(fi);
-        mLastResultNumber.postValue(ti);
-        List<ChangeGearsWorker.Result> prev = mResults.subList(fi-1, ti);
-        mResultsToShow.postValue(prev);
-        return prev.size();
+        mLastResultNumber.postValue(li);
+        List<ChGearsResult> chGearsResults = mRepository.getChGearsResults(mChangeGearsId, mFirstResultNumber.getValue(), mLastResultNumber.getValue());
+        if (chGearsResults.size() == 0)
+            return 0;
+        mResultsToShow.postValue(chGearsResults);
+        return chGearsResults.size();
+//        int fi = mFirstResultNumber.getValue() - 100;
+//        if (fi < 0)
+//            return 0;
+//        int ti = fi + 99;
+//        if (ti > mResults.size())
+//            ti = mResults.size();
+//        mFirstResultNumber.postValue(fi);
+//        mLastResultNumber.postValue(ti);
+//        List<ChangeGearsWorker.Result> prev = mResults.subList(fi-1, ti);
+//        mResultsToShow.postValue(prev);
+//        return prev.size();
     }
 
     private void recalculateRatio()
@@ -549,8 +571,8 @@ public class ChangeGearsViewModel extends CalculationViewModel
             total *= zs6.length > 0 ? zs6.length : 1;
             if (total > 20000)
             {
-                mNotificationEvent.setValue(new Event("Too much gears!"));
-                mCalculationEvent.setValue(new Event(null));
+                mNotificationEvent.setValue(new Event<>("Too much gears!"));
+                mCalculationEvent.setValue(new Event<>(null));
                 return false;
             }
         }
@@ -587,7 +609,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
     @Override
     public void clear()
     {
-
+        mRepository.deleteResultsById(mChangeGearsId);
     }
 
     @Override
@@ -606,7 +628,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
         OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(ChangeGearsWorker.class)
                 .setInputData(db.build())
                 .build();
-        mCalculationEvent.setValue(new Event(request.getId()));
+        mCalculationEvent.setValue(new Event<>(request.getId()));
 
         WorkManager.getInstance(getApplication()).enqueue(request);
     }

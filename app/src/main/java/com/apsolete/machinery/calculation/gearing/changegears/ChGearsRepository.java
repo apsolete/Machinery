@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.apsolete.machinery.calculation.Calculation;
 import com.apsolete.machinery.calculation.CalculationDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
@@ -54,7 +55,14 @@ public class ChGearsRepository
             id = entity.id;
             CalculationDatabase.executor.execute(()->
             {
-                mDao.updateChangeGears(entity);
+                try
+                {
+                    mDao.updateChangeGears(entity);
+                }
+                catch (Exception e)
+                {
+
+                }
             });
         }
         return id;
@@ -62,24 +70,50 @@ public class ChGearsRepository
 
     public ChGearsEntity getChangeGears(long id)
     {
-        AtomicReference<ChGearsEntity> changeGears = new AtomicReference<>(null);
         try
         {
-            CalculationDatabase.executor.execute(()->
-            {
-                changeGears.set(mDao.getChangeGearsById(id));
-            });
-            return changeGears.get();
+            return mDao.getChangeGearsById(id);
         }
         catch (Exception e)
         {
-            return changeGears.get();
+            return null;
         }
+
+//        AtomicReference<ChGearsEntity> changeGears = new AtomicReference<>(null);
+//        try
+//        {
+//            CalculationDatabase.executor.execute(()->
+//            {
+//                changeGears.set(mDao.getChangeGearsById(id));
+//            });
+//            return changeGears.get();
+//        }
+//        catch (Exception e)
+//        {
+//            return changeGears.get();
+//        }
     }
 
-    public LiveData<List<ChGearsResult>> getChGearsResults(long chgId)
+    public LiveData<List<ChGearsResult>> getChGearsResultsLive(long chgId)
     {
-        return mDao.getResultsByChgId(chgId);
+        return mDao.getAllResultsByChgId(chgId);
+    }
+
+    public List<ChGearsResult> getChGearsResults(long chgId, int from, int count)
+    {
+        AtomicReference<List<ChGearsResult>> results = new AtomicReference<>();
+        CalculationDatabase.executor.execute(()->
+        {
+            try
+            {
+                results.set(mDao.getPartResultsByChgId(chgId, from, count));
+            }
+            catch (Exception e)
+            {
+                results.set(new ArrayList<>());
+            }
+        });
+        return results.get();
     }
 
     public long insert(ChGearsResult result)

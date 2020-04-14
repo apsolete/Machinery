@@ -90,8 +90,6 @@ public class ChangeGearsWorker extends CalculationWorker
         if (mEntity == null)
             return;
 
-        mRepository.deleteResultsById(mEntity.id);
-
         _accuracy = mEntity.accuracy;
         _diffLockedZ2Z3 = mEntity.diffLocked23;
         _diffLockedZ4Z5 = mEntity.diffLocked45;
@@ -349,10 +347,10 @@ public class ChangeGearsWorker extends CalculationWorker
         result.ratio = ratio;
         result.z1 = z[0];
         result.z2 = z[1];
-        result.z3 = z[2];
-        result.z4 = z[3];
-        result.z5 = z[4];
-        result.z6 = z[5];
+        result.z3 = z.length > 2 ? z[2] : 0;
+        result.z4 = z.length > 3 ? z[3] : 0;
+        result.z5 = z.length > 4 ? z[4] : 0;
+        result.z6 = z.length > 5 ? z[5] : 0;
         mRepository.insert(result);
     }
 }

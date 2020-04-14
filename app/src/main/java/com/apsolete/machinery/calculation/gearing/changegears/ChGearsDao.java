@@ -36,5 +36,8 @@ public interface ChGearsDao
     void deleteChgResults(long chgId);
 
     @Query("SELECT * FROM changegearsresult WHERE chg_id = :chgId")
-    LiveData<List<ChGearsResult>> getResultsByChgId(long chgId);
+    LiveData<List<ChGearsResult>> getAllResultsByChgId(long chgId);
+
+    @Query("SELECT * FROM changegearsresult WHERE chg_id = :chgId LIMIT :from, :count")
+    List<ChGearsResult> getPartResultsByChgId(long chgId, int from, int count);
 }
