@@ -26,10 +26,10 @@ public final class G
     public static final int ZMIN = Z0;
     public static final int ZMAX = Z6;
     
-    public static final int RATIOS_BY_GEARS = 0;
-    public static final int THREAD_BY_GEARS = 1;
-    public static final int GEARS_BY_RATIO = 2;
-    public static final int GEARS_BY_THREAD = 3;
+    public static final int CHG_RATIOS_BY_GEARS = 0;
+    public static final int CHG_THREAD_BY_GEARS = 1;
+    public static final int CHG_GEARS_BY_RATIO = 2;
+    public static final int CHG_GEARS_BY_THREAD = 3;
 
     public static final String ChangeGearsId = "ChangeGearsId";
 

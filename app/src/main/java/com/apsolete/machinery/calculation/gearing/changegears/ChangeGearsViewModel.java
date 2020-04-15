@@ -14,12 +14,10 @@ import com.apsolete.machinery.calculation.CalculationFragment;
 import com.apsolete.machinery.calculation.CalculationViewModel;
 import com.apsolete.machinery.common.Event;
 import com.apsolete.machinery.common.G;
-import com.apsolete.machinery.common.OnResultListener;
 import com.apsolete.machinery.utils.Fraction;
 import com.apsolete.machinery.utils.Numbers;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ChangeGearsViewModel extends CalculationViewModel
@@ -183,7 +181,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
         mFirstResultNumber.setValue(1);
         mLastResultNumber.setValue(1);
 
-        mGearSets.get(G.Z0).setGears("20-24");
+        mGearSets.get(G.Z0).setGears("21-24");
         mGearSets.get(G.Z1).setGears("30-34").setSwitched(true).setEnabled(true).setEditable(true);
         mGearSets.get(G.Z2).setGears("40-44").setSwitched(true).setEnabled(true).setEditable(true);
         mGearSets.get(G.Z3).setGears("50-54");
@@ -192,7 +190,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
         mGearSets.get(G.Z6).setGears("");
 
         mOneSet.setValue(true);
-        mCalculationMode.setValue(1);
+        mCalculationMode.setValue(G.CHG_RATIOS_BY_GEARS);
         mRatioAsFraction.setValue(true);
         setRatioPrecision(4);
 
@@ -302,26 +300,26 @@ public class ChangeGearsViewModel extends CalculationViewModel
             return;
         switch (value)
         {
-            case G.RATIOS_BY_GEARS:
+            case G.CHG_RATIOS_BY_GEARS:
                 mLeadscrewPitchEnabled.setValue(false);
                 mThreadPitchEnabled.setValue(false);
                 mRatioEnabled.setValue(false);
                 mRatioCalculatedEnabled.setValue(false);
                 break;
-            case G.THREAD_BY_GEARS:
+            case G.CHG_THREAD_BY_GEARS:
                 mLeadscrewPitchEnabled.setValue(true);
                 mThreadPitchEnabled.setValue(false);
                 mRatioEnabled.setValue(false);
                 mRatioCalculatedEnabled.setValue(false);
                 break;
-            case G.GEARS_BY_RATIO:
+            case G.CHG_GEARS_BY_RATIO:
                 mLeadscrewPitchEnabled.setValue(false);
                 mThreadPitchEnabled.setValue(false);
                 mRatioEnabled.setValue(true);
                 mRatioCalculatedEnabled.setValue(true);
                 recalculateRatio();
                 break;
-            case G.GEARS_BY_THREAD:
+            case G.CHG_GEARS_BY_THREAD:
                 mLeadscrewPitchEnabled.setValue(true);
                 mThreadPitchEnabled.setValue(true);
                 mRatioEnabled.setValue(false);
@@ -427,7 +425,8 @@ public class ChangeGearsViewModel extends CalculationViewModel
         int li = fi + 20;
         mFirstResultNumber.postValue(fi);
         mLastResultNumber.postValue(li);
-        List<ChGearsResult> chGearsResults = mRepository.getChGearsResults(mChangeGearsId, mFirstResultNumber.getValue(), mLastResultNumber.getValue());
+        //List<ChGearsResult> chGearsResults = mRepository.getChGearsResults(mChangeGearsId, mFirstResultNumber.getValue(), mLastResultNumber.getValue());
+        List<ChGearsResult> chGearsResults = mRepository.getChGearsResultsLive(mChangeGearsId);
         if (chGearsResults.size() == 0)
             return 0;
         mResultsToShow.postValue(chGearsResults);
@@ -489,7 +488,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
         double _ratioNumerator = mRatioNumerator.getValue();
         double _ratioDenominator = mRatioDenominator.getValue();
 
-        if (_calculationMode == G.GEARS_BY_THREAD)
+        if (_calculationMode == G.CHG_GEARS_BY_THREAD)
         {
             if (_threadPitch == 0.0)
             {
@@ -511,7 +510,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
                         " = " + mRatioFormat.format(_calculatedRatio);
             }
         }
-        else if (_calculationMode == G.GEARS_BY_RATIO)
+        else if (_calculationMode == G.CHG_GEARS_BY_RATIO)
         {
             if (_ratioAsFraction)
             {
@@ -583,7 +582,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
     @Override
     public void save()
     {
-        double r = mCalculationMode.getValue() == G.GEARS_BY_RATIO || mCalculationMode.getValue() == G.GEARS_BY_THREAD
+        double r = mCalculationMode.getValue() == G.CHG_GEARS_BY_RATIO || mCalculationMode.getValue() == G.CHG_GEARS_BY_THREAD
                 ? _calculatedRatio : 0.0;
 
         mEntity.accuracy = Math.pow(10, -_ratioPrecision);

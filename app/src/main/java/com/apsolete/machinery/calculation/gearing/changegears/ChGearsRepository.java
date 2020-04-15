@@ -9,6 +9,7 @@ import com.apsolete.machinery.calculation.CalculationDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -94,9 +95,29 @@ public class ChGearsRepository
 //        }
     }
 
-    public LiveData<List<ChGearsResult>> getChGearsResultsLive(long chgId)
+    public List<ChGearsResult> getChGearsResultsLive(long chgId)
     {
-        return mDao.getAllResultsByChgId(chgId);
+        AtomicReference<List<ChGearsResult>> results = new AtomicReference<>();
+        CalculationDatabase.executor.execute(()->
+        {
+            try
+            {
+                results.set(mDao.getAllResultsByChgId(chgId));
+            }
+            catch (Exception e)
+            {
+                results.set(new ArrayList<>());
+            }
+        });
+        try
+        {
+            CalculationDatabase.executor.awaitTermination(1000, TimeUnit.MILLISECONDS);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+        return results.get();
     }
 
     public List<ChGearsResult> getChGearsResults(long chgId, int from, int count)
@@ -113,6 +134,14 @@ public class ChGearsRepository
                 results.set(new ArrayList<>());
             }
         });
+        try
+        {
+            CalculationDatabase.executor.awaitTermination(1000, TimeUnit.MILLISECONDS);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
         return results.get();
     }
 
