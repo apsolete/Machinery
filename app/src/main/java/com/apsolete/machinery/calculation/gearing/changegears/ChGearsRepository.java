@@ -4,7 +4,6 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
-import com.apsolete.machinery.calculation.Calculation;
 import com.apsolete.machinery.calculation.CalculationDatabase;
 
 import java.util.ArrayList;
@@ -17,11 +16,10 @@ public class ChGearsRepository
 {
     private ChGearsDao mDao;
     private LiveData<List<ChGearsEntity>> mAllChGears;
-    //private LiveData<List<ChGearsEntity>> mAllChGears;
 
     public ChGearsRepository(Context context)
     {
-        CalculationDatabase db = CalculationDatabase.getDatabase(context);
+        CalculationDatabase db = CalculationDatabase.getInstance(context);
         mDao = db.changeGearsDao();
         mAllChGears = mDao.getAllChangeGears();
     }
@@ -34,7 +32,7 @@ public class ChGearsRepository
     public long insert(ChGearsEntity entity)
     {
         AtomicLong id = new AtomicLong(0);
-        CalculationDatabase.executor.execute(()->
+        CalculationDatabase.execute(()->
         {
             try
             {
@@ -45,6 +43,7 @@ public class ChGearsRepository
                 id.set(0);
             }
         });
+        //CalculationDatabase.executor.awaitTermination(1000, TimeUnit.MILLISECONDS);
         return id.get();
     }
 
@@ -54,7 +53,7 @@ public class ChGearsRepository
         if (id == 0)
         {
             id = entity.id;
-            CalculationDatabase.executor.execute(()->
+            CalculationDatabase.execute(()->
             {
                 try
                 {
@@ -62,7 +61,7 @@ public class ChGearsRepository
                 }
                 catch (Exception e)
                 {
-
+                    e.printStackTrace();
                 }
             });
         }
@@ -98,7 +97,7 @@ public class ChGearsRepository
     public List<ChGearsResult> getChGearsResultsLive(long chgId)
     {
         AtomicReference<List<ChGearsResult>> results = new AtomicReference<>();
-        CalculationDatabase.executor.execute(()->
+        CalculationDatabase.execute(()->
         {
             try
             {
@@ -109,21 +108,13 @@ public class ChGearsRepository
                 results.set(new ArrayList<>());
             }
         });
-        try
-        {
-            CalculationDatabase.executor.awaitTermination(1000, TimeUnit.MILLISECONDS);
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
         return results.get();
     }
 
     public List<ChGearsResult> getChGearsResults(long chgId, int from, int count)
     {
         AtomicReference<List<ChGearsResult>> results = new AtomicReference<>();
-        CalculationDatabase.executor.execute(()->
+        CalculationDatabase.execute(()->
         {
             try
             {
@@ -134,21 +125,13 @@ public class ChGearsRepository
                 results.set(new ArrayList<>());
             }
         });
-        try
-        {
-            CalculationDatabase.executor.awaitTermination(1000, TimeUnit.MILLISECONDS);
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
         return results.get();
     }
 
     public long insert(ChGearsResult result)
     {
         AtomicLong id = new AtomicLong(0);
-        CalculationDatabase.executor.execute(()->
+        CalculationDatabase.execute(()->
         {
             try
             {
@@ -168,7 +151,7 @@ public class ChGearsRepository
         if (id == 0)
         {
             id = result.id;
-            CalculationDatabase.executor.execute(()->
+            CalculationDatabase.execute(()->
             {
                 mDao.updateChgResult(result);
             });
@@ -178,7 +161,7 @@ public class ChGearsRepository
 
     public void deleteResultsById(long chgId)
     {
-        CalculationDatabase.executor.execute(()->
+        CalculationDatabase.execute(()->
         {
             mDao.deleteChgResults(chgId);
         });
