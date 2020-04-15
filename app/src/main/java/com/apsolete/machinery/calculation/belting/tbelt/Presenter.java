@@ -2,6 +2,7 @@ package com.apsolete.machinery.calculation.belting.tbelt;
 
 import com.apsolete.machinery.calculation.CalculationPresenter;
 
+@Deprecated
 public class Presenter extends CalculationPresenter implements Contract.Presenter
 {
 	private Model _model;

@@ -2,9 +2,10 @@ package com.apsolete.machinery.calculation.gearing.gearwheel;
 
 import com.apsolete.machinery.calculation.CalculationPresenter;
 
+@Deprecated
 public class Presenter extends CalculationPresenter implements Contract.Presenter
 {
-	private Model _model;
+	private GearWheelViewModel _model;
 	
     public Presenter(Contract.View view)
     {

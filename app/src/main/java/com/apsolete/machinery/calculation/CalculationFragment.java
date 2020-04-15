@@ -14,7 +14,11 @@ import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.apsolete.machinery.R;
+import com.apsolete.machinery.calculation.gearing.changegears.ChangeGearsFragment;
+import com.apsolete.machinery.calculation.gearing.geardrive.GearDriveFragment;
+import com.apsolete.machinery.calculation.gearing.gearwheel.GearWheelFragment;
 import com.apsolete.machinery.common.CustomFragment;
+import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.Observers;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -112,5 +116,30 @@ public abstract class CalculationFragment<VM extends CalculationViewModel> exten
         DecimalFormat _numFormat = new DecimalFormat(pattern, formatSymbols);
         _numFormat.setRoundingMode(RoundingMode.CEILING);
         return _numFormat;
+    }
+
+    @Nullable
+    static CalculationFragment create(int type)
+    {
+        switch (type)
+        {
+            case G.CHANGEGEARS:
+                return new ChangeGearsFragment();
+            case G.GEARWHEEL:
+                return new GearWheelFragment();
+            case G.GEARDRIVE:
+                return new GearDriveFragment();
+//            case G.FBELT:
+//                return new com.apsolete.machinery.calculation.belting.fbelt.View();
+//            case G.VBELT:
+//                return new com.apsolete.machinery.calculation.belting.vbelt.View();
+//            case G.PBELT:
+//                return new com.apsolete.machinery.calculation.belting.pbelt.View();
+//            case G.TBELT:
+//                return new com.apsolete.machinery.calculation.belting.tbelt.View();
+            case G.CHAINDRIVE:
+                return new com.apsolete.machinery.calculation.chaindrive.ChainDriveFragment();
+        }
+        return null;
     }
 }

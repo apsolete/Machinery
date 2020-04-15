@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.apsolete.machinery.R;
-import com.apsolete.machinery.common.G;
 
 public class CalculationActivity extends AppCompatActivity
 {
@@ -21,7 +20,7 @@ public class CalculationActivity extends AppCompatActivity
 
     @Deprecated
     private CalculationPresenter _presenter;
-    //private CalculationViewModel mCalcViewModel;
+
     private CalculationFragment mCalculationFragment;
     protected CalculationDatabase mDatabase;
     private MenuItem _miSave;
@@ -128,81 +127,10 @@ public class CalculationActivity extends AppCompatActivity
 
     public void showCalculationContent(int type)
     {
-        Fragment fragment = null;
-
-        switch (type)
-        {
-            case G.CHANGEGEARS: {
-                //com.apsolete.machinery.calculation.gearing.changegears.View view =
-                //        new com.apsolete.machinery.calculation.gearing.changegears.View();
-                //_presenter =
-                //        new com.apsolete.machinery.calculation.gearing.changegears.Presenter(view);
-                mCalculationFragment = new com.apsolete.machinery.calculation.gearing.changegears.ChangeGearsFragment();
-                //mCalcViewModel = calcFragment.getViewModel();
-                fragment = mCalculationFragment;
-                break;
-            }
-            case G.GEARWHEEL: {
-                com.apsolete.machinery.calculation.gearing.gearwheel.View view =
-                        new com.apsolete.machinery.calculation.gearing.gearwheel.View();
-                _presenter =
-                        new com.apsolete.machinery.calculation.gearing.gearwheel.Presenter(view);
-                fragment = view;
-                break;
-            }
-            case G.GEARDRIVE: {
-                com.apsolete.machinery.calculation.gearing.geardrive.View view =
-                        new com.apsolete.machinery.calculation.gearing.geardrive.View();
-                _presenter =
-                        new com.apsolete.machinery.calculation.gearing.geardrive.Presenter(view);
-                fragment = view;
-                break;
-            }
-            case G.FBELT: {
-                com.apsolete.machinery.calculation.belting.fbelt.View view =
-                        new com.apsolete.machinery.calculation.belting.fbelt.View();
-                _presenter =
-                        new com.apsolete.machinery.calculation.belting.fbelt.Presenter(view);
-                fragment = view;
-                break;
-            }
-            case G.VBELT: {
-                com.apsolete.machinery.calculation.belting.vbelt.View view =
-                        new com.apsolete.machinery.calculation.belting.vbelt.View();
-                _presenter =
-                        new com.apsolete.machinery.calculation.belting.vbelt.Presenter(view);
-                fragment = view;
-                break;
-            }
-            case G.PBELT: {
-                com.apsolete.machinery.calculation.belting.pbelt.View view =
-                        new com.apsolete.machinery.calculation.belting.pbelt.View();
-                _presenter =
-                        new com.apsolete.machinery.calculation.belting.pbelt.Presenter(view);
-                fragment = view;
-                break;
-            }
-            case G.TBELT: {
-                com.apsolete.machinery.calculation.belting.tbelt.View view =
-                        new com.apsolete.machinery.calculation.belting.tbelt.View();
-                _presenter =
-                        new com.apsolete.machinery.calculation.belting.tbelt.Presenter(view);
-                fragment = view;
-                break;
-            }
-            case G.CHAINDRIVE: {
-                com.apsolete.machinery.calculation.chaindrive.View view =
-                        new com.apsolete.machinery.calculation.chaindrive.View();
-                _presenter =
-                        new com.apsolete.machinery.calculation.chaindrive.Presenter(view);
-                fragment = view;
-                break;
-            }
-        }
+        Fragment fragment = CalculationFragment.create(type);
 
         if (fragment == null)
             return;
-
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -214,7 +142,6 @@ public class CalculationActivity extends AppCompatActivity
     {
         if (_presenter == null)
             return;
-
 
         Fragment fragment = _presenter.getView().getSettings();
 

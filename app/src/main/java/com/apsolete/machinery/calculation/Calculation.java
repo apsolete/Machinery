@@ -11,6 +11,7 @@ public interface Calculation
 
     interface ViewModel
     {
+        boolean validate();
         void save();
         void clear();
         void calculate();

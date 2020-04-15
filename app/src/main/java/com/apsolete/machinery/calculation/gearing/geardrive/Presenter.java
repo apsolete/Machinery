@@ -2,9 +2,10 @@ package com.apsolete.machinery.calculation.gearing.geardrive;
 
 import com.apsolete.machinery.calculation.CalculationPresenter;
 
+@Deprecated
 public class Presenter extends CalculationPresenter implements Contract.Presenter
 {
-	private Model _model;
+	private GearDriveViewModel _model;
 	
     public Presenter(Contract.View view)
     {
