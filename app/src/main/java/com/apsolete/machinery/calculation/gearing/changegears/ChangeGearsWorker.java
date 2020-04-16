@@ -6,28 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.work.Data;
 import androidx.work.WorkerParameters;
 
-import com.apsolete.machinery.calculation.*;
+import com.apsolete.machinery.calculation.CalculationWorker;
 import com.apsolete.machinery.common.G;
-import com.apsolete.machinery.common.OnResultListener;
 import com.apsolete.machinery.utils.Numbers;
 
 import java.util.List;
 
 public class ChangeGearsWorker extends CalculationWorker
 {
-    public interface Result
-    {
-        String id();
-        String z1();
-        String z2();
-        String z3();
-        String z4();
-        String z5();
-        String z6();
-        String ratio();
-        String threadPitch();
-    }
-
     private ChGearsRepository mRepository;
     private ChGearsEntity mEntity;
 
@@ -48,36 +34,6 @@ public class ChangeGearsWorker extends CalculationWorker
         super(context, workerParams);
         mRepository = new ChGearsRepository(context);
     }
-
-//    public void setAccuracy(double accuracy)
-//    {
-//        _accuracy = accuracy;
-//    }
-//
-//    public void setDiffLockedZ2Z3(boolean equal)
-//    {
-//        _diffLockedZ2Z3 = equal;
-//    }
-//
-//    public void setDiffLockedZ4Z5(boolean equal)
-//    {
-//        _diffLockedZ4Z5 = equal;
-//    }
-//
-//    public void setDiffGearingZ1Z2(boolean equal)
-//    {
-//        _diffGearingZ1Z2 = equal;
-//    }
-//
-//    public void setDiffGearingZ3Z4(boolean equal)
-//    {
-//        _diffGearingZ3Z4 = equal;
-//    }
-//
-//    public void setDiffGearingZ5Z6(boolean equal)
-//    {
-//        _diffGearingZ5Z6 = equal;
-//    }
 
     @Override
     protected void calculate()
@@ -247,7 +203,6 @@ public class ChangeGearsWorker extends CalculationWorker
         if (count == 3) count = 2;
         if (count == 5) count = 4;
 
-        //int[] set = _gearSets.getZ0();
         List<List<Integer>> combinations = Numbers.combinations(set.length, count);
         List<List<Integer>> permutations = Numbers.permutations(count);
         int totalResults = combinations.size() * permutations.size();
@@ -287,10 +242,6 @@ public class ChangeGearsWorker extends CalculationWorker
         {
             _calculatedRatios++;
             publishResult(_calculatedRatios, ratio, z1, z2);
-//            if (_resultListener != null)
-//            {
-//                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, new int[]{z1, z2, 0, 0, 0, 0}));
-//            }
             return true;
         }
         return false;
@@ -303,10 +254,6 @@ public class ChangeGearsWorker extends CalculationWorker
         {
             _calculatedRatios++;
             publishResult(_calculatedRatios, ratio, z1, z2, z3, z4);
-//            if (_resultListener != null)
-//            {
-//                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, new int[]{z1, z2, z3, z4, 0, 0}));
-//            }
             return true;
         }
         return false;
@@ -319,10 +266,6 @@ public class ChangeGearsWorker extends CalculationWorker
         {
             _calculatedRatios++;
             publishResult(_calculatedRatios, ratio, z1, z2, z3, z4, z5, z6);
-//            if (_resultListener != null)
-//            {
-//                _resultListener.onResult(new ChangeGearsResult(_calculatedRatios, ratio, new int[]{z1, z2, z3, z4, z5, z6}));
-//            }
             return true;
         }
         return false;

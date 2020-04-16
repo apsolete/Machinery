@@ -1,10 +1,10 @@
 package com.apsolete.machinery.calculation.gearing.changegears;
 
-import com.apsolete.machinery.R;
-import com.apsolete.machinery.common.*;
-
-import android.content.*;
+import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
+
+import com.apsolete.machinery.R;
+import com.apsolete.machinery.common.CustomSettingsFragment;
 
 public class ChangeGearsSettingsFragment extends CustomSettingsFragment<ChangeGearsSettingsViewModel>
 {

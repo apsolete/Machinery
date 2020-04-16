@@ -1,7 +1,7 @@
 package com.apsolete.machinery.utils;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArrayUtils
 {
@@ -20,7 +20,7 @@ public class ArrayUtils
         int i = 0;
         for (int value : array)
         {
-            newArray[i++] = Integer.valueOf(value);
+            newArray[i++] = value;
         }
         return newArray;
     }

@@ -108,8 +108,7 @@ public class GearPickerDialog extends DialogBase
 
     public Integer[] getGears()
     {
-        Integer[] gears = getGearsList().toArray(new Integer[]{});
-        return gears;
+        return getGearsList().toArray(new Integer[]{});
     }
 
     private void selectAll()

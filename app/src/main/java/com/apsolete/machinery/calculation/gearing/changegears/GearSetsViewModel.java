@@ -1,11 +1,10 @@
 package com.apsolete.machinery.calculation.gearing.changegears;
 
 import android.util.SparseArray;
+import androidx.lifecycle.MutableLiveData;
 
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.utils.Numbers;
-
-import androidx.lifecycle.MutableLiveData;
 
 public class GearSetsViewModel
 {
@@ -47,8 +46,7 @@ public class GearSetsViewModel
 
         public Integer[] getGears()
         {
-            Integer[] gears = Numbers.getIntegerNumbers(mGearsStr.getValue());
-            return gears;
+            return Numbers.getIntegerNumbers(mGearsStr.getValue());
         }
 
         public MutableLiveData<String> getGearsStr()
