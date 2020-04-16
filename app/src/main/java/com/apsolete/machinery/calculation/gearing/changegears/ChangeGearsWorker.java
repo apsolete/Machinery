@@ -28,8 +28,6 @@ public class ChangeGearsWorker extends CalculationWorker
         String threadPitch();
     }
 
-    private OnResultListener<ChangeGearsResult> _resultListener;
-
     private ChGearsRepository mRepository;
     private ChGearsEntity mEntity;
 
@@ -140,8 +138,6 @@ public class ChangeGearsWorker extends CalculationWorker
         }
         finally
         {
-            if (_resultListener != null)
-                _resultListener.onCompleted(_calculatedRatios);
         }
     }
 

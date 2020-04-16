@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.room.Room;
 
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,9 +16,6 @@ import com.apsolete.machinery.R;
 public class CalculationActivity extends AppCompatActivity
 {
     private boolean _isSettingsOpened;
-
-    @Deprecated
-    private CalculationPresenter _presenter;
 
     private CalculationFragment mCalculationFragment;
     protected CalculationDatabase mDatabase;
@@ -32,8 +28,7 @@ public class CalculationActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        mDatabase = Room.databaseBuilder(getApplicationContext(),
-                CalculationDatabase.class, "calculations").build();
+        mDatabase = CalculationDatabase.getInstance(getApplicationContext());
 
         setContentView(R.layout.activity_calculation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_calculation);
@@ -83,7 +78,7 @@ public class CalculationActivity extends AppCompatActivity
                     mCalculationFragment.getViewModel().clear();
                     break;
                 case R.id.mi_action_options:
-                    openCalculationContentSettings();
+                    openCalculationSettings();
                     break;
                 case R.id.mi_action_close:
                     // button Up pressed
@@ -121,29 +116,29 @@ public class CalculationActivity extends AppCompatActivity
             setOptionsMenuEnabled(!_isSettingsOpened);
             super.onBackPressed();
         }
-        else if (_presenter.close())
+        else if (mCalculationFragment.close())
             onNavigateUp();
     }
 
     public void showCalculationContent(int type)
     {
-        Fragment fragment = CalculationFragment.create(type);
+        mCalculationFragment = CalculationFragment.create(type);
 
-        if (fragment == null)
+        if (mCalculationFragment == null)
             return;
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.content_design, fragment)
+                .replace(R.id.content_design, mCalculationFragment)
                 .commit();
     }
 
-    private void openCalculationContentSettings()
+    private void openCalculationSettings()
     {
-        if (_presenter == null)
+        if (mCalculationFragment == null)
             return;
 
-        Fragment fragment = _presenter.getView().getSettings();
+        Fragment fragment = mCalculationFragment.getSettings();
 
         if (fragment == null)
             return;

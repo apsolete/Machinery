@@ -1,14 +1,13 @@
-package com.apsolete.machinery.calculation.chaindrive;
+package com.apsolete.machinery.calculation.belting.pbelt;
 
 import com.apsolete.machinery.calculation.CalculationViewModel;
 
 import android.app.Application;
-
 import androidx.annotation.NonNull;
 
-public class ChainDriveViewModel extends CalculationViewModel
+public class PbeltViewModel extends CalculationViewModel
 {
-	public ChainDriveViewModel(@NonNull Application application)
+	public PbeltViewModel(@NonNull Application application)
 	{
 		super(application);
 	}

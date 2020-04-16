@@ -1,12 +1,8 @@
 package com.apsolete.machinery.calculation.gearing.gearwheel;
 
-import com.apsolete.machinery.calculation.CalculationModel;
 import com.apsolete.machinery.calculation.CalculationViewModel;
 
 import android.app.Application;
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
 
 public class GearWheelViewModel extends CalculationViewModel

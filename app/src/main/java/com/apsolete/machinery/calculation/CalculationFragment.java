@@ -14,12 +14,18 @@ import androidx.work.WorkInfo;
 import androidx.work.WorkManager;
 
 import com.apsolete.machinery.R;
+import com.apsolete.machinery.calculation.belting.fbelt.FbeltFragment;
+import com.apsolete.machinery.calculation.belting.pbelt.PbeltFragment;
+import com.apsolete.machinery.calculation.belting.tbelt.TbeltFragment;
+import com.apsolete.machinery.calculation.belting.vbelt.VbeltFragment;
+import com.apsolete.machinery.calculation.chaindrive.ChainDriveFragment;
 import com.apsolete.machinery.calculation.gearing.changegears.ChangeGearsFragment;
 import com.apsolete.machinery.calculation.gearing.geardrive.GearDriveFragment;
 import com.apsolete.machinery.calculation.gearing.gearwheel.GearWheelFragment;
 import com.apsolete.machinery.common.CustomFragment;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.Observers;
+import com.apsolete.machinery.common.SettingsBase;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.math.RoundingMode;
@@ -29,7 +35,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.UUID;
 
-public abstract class CalculationFragment<VM extends CalculationViewModel> extends CustomFragment<VM>
+public abstract class CalculationFragment<VM extends CalculationViewModel> extends CustomFragment<VM> implements Calculation.View
 {
     private ProgressBar ProgressBar;
     private int _type;
@@ -44,6 +50,18 @@ public abstract class CalculationFragment<VM extends CalculationViewModel> exten
     public VM getViewModel()
     {
         return mViewModel;
+    }
+
+    @Override
+    public SettingsBase getSettings()
+    {
+        return null;
+    }
+
+    @Override
+    public boolean close()
+    {
+        return true;
     }
 
     protected CalculationDatabase getDb()
@@ -129,16 +147,16 @@ public abstract class CalculationFragment<VM extends CalculationViewModel> exten
                 return new GearWheelFragment();
             case G.GEARDRIVE:
                 return new GearDriveFragment();
-//            case G.FBELT:
-//                return new com.apsolete.machinery.calculation.belting.fbelt.View();
-//            case G.VBELT:
-//                return new com.apsolete.machinery.calculation.belting.vbelt.View();
-//            case G.PBELT:
-//                return new com.apsolete.machinery.calculation.belting.pbelt.View();
-//            case G.TBELT:
-//                return new com.apsolete.machinery.calculation.belting.tbelt.View();
+            case G.FBELT:
+                return new FbeltFragment();
+            case G.VBELT:
+                return new VbeltFragment();
+            case G.PBELT:
+                return new PbeltFragment();
+            case G.TBELT:
+                return new TbeltFragment();
             case G.CHAINDRIVE:
-                return new com.apsolete.machinery.calculation.chaindrive.ChainDriveFragment();
+                return new ChainDriveFragment();
         }
         return null;
     }
