@@ -6,7 +6,7 @@ import com.apsolete.machinery.common.*;
 import android.content.*;
 import androidx.preference.PreferenceManager;
 
-public class ChangeGearsSettings extends SettingsBase
+public class ChangeGearsSettingsFragment extends CustomSettingsFragment<ChangeGearsSettingsViewModel>
 {
     public interface OnChangeListener
     {
@@ -17,9 +17,9 @@ public class ChangeGearsSettings extends SettingsBase
     
     private OnChangeListener _listener;
     
-    public ChangeGearsSettings()
+    public ChangeGearsSettingsFragment()
     {
-        super(R.xml.settings_changegears, R.string.title_changegears);
+        super(R.xml.settings_changegears, R.string.title_changegears, ChangeGearsSettingsViewModel.class);
     }
     
     public void setListener(OnChangeListener listener)

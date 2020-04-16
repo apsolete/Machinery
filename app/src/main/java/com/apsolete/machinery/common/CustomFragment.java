@@ -18,6 +18,7 @@ import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
@@ -37,12 +38,7 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
     private int _titleId;
     private Class<VM> mVmClass;
 
-//    public CustomFragment(@LayoutRes int contentLayoutId)
-//    {
-//        super(contentLayoutId);
-//    }
-
-    public CustomFragment(@LayoutRes int contentLayoutId, @LayoutRes int titleId, Class<VM> vmClass)
+    public CustomFragment(@LayoutRes int contentLayoutId, @StringRes int titleId, Class<VM> vmClass)
     {
         super(contentLayoutId);
         mVmClass = vmClass;

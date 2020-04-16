@@ -1,21 +1,26 @@
 package com.apsolete.machinery.common;
 
 import android.content.Context;
-import androidx.preference.PreferenceFragmentCompat;
-import androidx.appcompat.app.*;
-import android.os.*;
-import android.content.SharedPreferences;
 
-public abstract class SettingsBase extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener
+import androidx.annotation.StringRes;
+import androidx.annotation.XmlRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceFragmentCompat;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+
+public abstract class CustomSettingsFragment<VM extends CustomViewModel> extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener
 {
     protected AppCompatActivity _activity;
     private int _layoutId;
     private int _titleId;
+    private Class<VM> mVmClass;
     
-    public SettingsBase(int layoutId, int titleId)
+    public CustomSettingsFragment(@XmlRes int layoutId, @StringRes int titleId, Class<VM> vmClass)
     {
         _layoutId = layoutId;
         _titleId = titleId;
+        mVmClass = vmClass;
     }
 
     @Override

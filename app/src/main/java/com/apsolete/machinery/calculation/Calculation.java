@@ -1,8 +1,6 @@
 package com.apsolete.machinery.calculation;
 
-import com.apsolete.machinery.common.SettingsBase;
-
-import java.util.UUID;
+import com.apsolete.machinery.common.CustomSettingsFragment;
 
 public interface Calculation
 {
@@ -22,7 +20,7 @@ public interface Calculation
 
     interface View
     {
-        SettingsBase getSettings();
+        CustomSettingsFragment getSettings();
         boolean close();
     }
 }

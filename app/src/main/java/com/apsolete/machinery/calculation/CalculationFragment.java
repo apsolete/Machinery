@@ -25,7 +25,7 @@ import com.apsolete.machinery.calculation.gearing.gearwheel.GearWheelFragment;
 import com.apsolete.machinery.common.CustomFragment;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.common.Observers;
-import com.apsolete.machinery.common.SettingsBase;
+import com.apsolete.machinery.common.CustomSettingsFragment;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.math.RoundingMode;
@@ -53,7 +53,7 @@ public abstract class CalculationFragment<VM extends CalculationViewModel> exten
     }
 
     @Override
-    public SettingsBase getSettings()
+    public CustomSettingsFragment getSettings()
     {
         return null;
     }

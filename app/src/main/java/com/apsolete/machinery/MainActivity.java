@@ -1,10 +1,10 @@
 package com.apsolete.machinery;
 
 import com.apsolete.machinery.common.G;
-import com.apsolete.machinery.contents.StartPageContent;
-import com.apsolete.machinery.contents.SettingsContent;
-import com.apsolete.machinery.contents.HelpContent;
-import com.apsolete.machinery.contents.AboutContent;
+import com.apsolete.machinery.contents.StartPageFragment;
+import com.apsolete.machinery.contents.SettingsFragment;
+import com.apsolete.machinery.contents.HelpFragment;
+import com.apsolete.machinery.contents.AboutFragment;
 import com.apsolete.machinery.calculation.CalculationActivity;
 import com.apsolete.machinery.common.fabs.FabsView;
 import com.apsolete.machinery.references.ReferencesActivity;
@@ -34,10 +34,10 @@ implements NavigationView.OnNavigationItemSelectedListener
     private ActionBarDrawerToggle _drawerToggle;
     private FabsView _fabs;
 
-    private StartPageContent _contentMain = new StartPageContent();
-    private SettingsContent _contentSettings = new SettingsContent();
-    private HelpContent _contentHelp = new HelpContent();
-    private AboutContent _contentAbout = new AboutContent();
+    private StartPageFragment _contentMain = new StartPageFragment();
+    private SettingsFragment _contentSettings = new SettingsFragment();
+    private HelpFragment _contentHelp = new HelpFragment();
+    private AboutFragment _contentAbout = new AboutFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
