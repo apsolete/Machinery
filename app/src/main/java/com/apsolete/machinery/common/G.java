@@ -4,6 +4,7 @@ import android.view.View;
 
 public final class G
 {
+    public static final double INCH = 25.4;
     public static final int CHANGEGEARS = 1;
     public static final int GEARWHEEL   = 2;
     public static final int GEARDRIVE   = 3;

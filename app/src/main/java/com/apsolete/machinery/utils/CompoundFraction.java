@@ -1,6 +1,9 @@
 package com.apsolete.machinery.utils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class CompoundFraction extends Fraction
 {

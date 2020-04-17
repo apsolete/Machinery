@@ -38,7 +38,7 @@ public class Fraction implements Comparable<Fraction>
         this(num, 1, false);
     }
 
-    private Fraction(long num, long den)
+    protected Fraction(long num, long den)
     {
         this(num, den, false);
     }

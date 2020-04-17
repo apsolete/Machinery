@@ -13,7 +13,7 @@ public class Fractions
             num *= fraction.numerator();
             den *= fraction.denominator();
         }
-        return new Fraction(num, den);
+        return Fraction.fromLong(num, den);
     }
     
     public static Fraction product(Fraction[] fractions)
@@ -34,8 +34,8 @@ public class Fractions
                 long[] df = d.getFactors();
                 if (nf[0] == df[0] || nf[1] == df[1])
                     continue;
-                Fraction f1 = new Fraction(nf[0], df[0]);
-                Fraction f2 = new Fraction(nf[1], df[1]);
+                Fraction f1 = Fraction.fromLong(nf[0], df[0]);
+                Fraction f2 = Fraction.fromLong(nf[1], df[1]);
                 CompoundFraction cf = new CompoundFraction(new Fraction[]{f1,f2});
                 fractions.add(cf);
             }
@@ -56,9 +56,9 @@ public class Fractions
                 long[] df = d.getFactors();
                 if (nf[0] == df[0] || nf[1] == df[1] || nf[2] == df[2])
                     continue;
-                Fraction f1 = new Fraction(nf[0], df[0]);
-                Fraction f2 = new Fraction(nf[1], df[1]);
-                Fraction f3 = new Fraction(nf[2], df[2]);
+                Fraction f1 = Fraction.fromLong(nf[0], df[0]);
+                Fraction f2 = Fraction.fromLong(nf[1], df[1]);
+                Fraction f3 = Fraction.fromLong(nf[2], df[2]);
                 CompoundFraction cf = new CompoundFraction(new Fraction[]{f1,f2,f3});
                 fractions.add(cf);
             }
@@ -103,7 +103,7 @@ public class Fractions
     public static List<CompoundFraction> getCompoundFractions(long[] numbers, double ratio, double error)
     {
         List<List<Integer>> ns = Numbers.combinations(numbers.length, 2);
-        List<CompoundFraction> compounds = new ArrayList<CompoundFraction>();
+        List<CompoundFraction> compounds = new ArrayList<>();
         double loRatio = ratio - error;
         double hiRatio = ratio + error;
         

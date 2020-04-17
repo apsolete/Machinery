@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "80c176aecc202433f40e4ada0e025c40",
+    "identityHash": "d863327a0e6729ef27fe72c35b42623f",
     "entities": [
       {
         "tableName": "changegears",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `description` TEXT, `accuracy` REAL, `ratio` REAL, `diffLocked23` INTEGER, `diffLocked45` INTEGER, `diffGearing12` INTEGER, `diffGearing34` INTEGER, `diffGearing56` INTEGER, `oneSet` INTEGER, `count` INTEGER, `set0` TEXT, `set1` TEXT, `set2` TEXT, `set3` TEXT, `set4` TEXT, `set5` TEXT, `set6` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `description` TEXT, `accuracy` REAL, `mode` INTEGER, `ratio` REAL, `ratioAsFraction` INTEGER, `threadPitch` REAL, `threadPitchUnit` INTEGER, `leadScrewPitch` REAL, `leadScrewPitchUnit` INTEGER, `diffLocked23` INTEGER, `diffLocked45` INTEGER, `diffGearing12` INTEGER, `diffGearing34` INTEGER, `diffGearing56` INTEGER, `oneSet` INTEGER, `count` INTEGER, `set0` TEXT, `set1` TEXT, `set2` TEXT, `set3` TEXT, `set4` TEXT, `set5` TEXT, `set6` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -33,9 +33,45 @@
             "notNull": false
           },
           {
+            "fieldPath": "mode",
+            "columnName": "mode",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
             "fieldPath": "ratio",
             "columnName": "ratio",
             "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "ratioAsFraction",
+            "columnName": "ratioAsFraction",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "threadPitch",
+            "columnName": "threadPitch",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "threadPitchUnit",
+            "columnName": "threadPitchUnit",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "leadScrewPitch",
+            "columnName": "leadScrewPitch",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "leadScrewPitchUnit",
+            "columnName": "leadScrewPitchUnit",
+            "affinity": "INTEGER",
             "notNull": false
           },
           {
@@ -231,7 +267,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '80c176aecc202433f40e4ada0e025c40')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd863327a0e6729ef27fe72c35b42623f')"
     ]
   }
 }

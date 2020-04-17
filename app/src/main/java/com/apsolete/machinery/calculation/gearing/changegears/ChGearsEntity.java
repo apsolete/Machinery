@@ -18,7 +18,19 @@ public class ChGearsEntity
     @ColumnInfo
     public Double accuracy;
     @ColumnInfo
+    public Integer mode;
+    @ColumnInfo
     public Double ratio;
+    @ColumnInfo
+    public Boolean ratioAsFraction;
+    @ColumnInfo
+    public Double threadPitch;
+    @ColumnInfo
+    public Integer threadPitchUnit;
+    @ColumnInfo
+    public Double leadScrewPitch;
+    @ColumnInfo
+    public Integer leadScrewPitchUnit;
     @ColumnInfo
     public Boolean diffLocked23;
     @ColumnInfo

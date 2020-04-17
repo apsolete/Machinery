@@ -128,53 +128,72 @@ public class ChangeGearsViewModel extends CalculationViewModel
         {
             mEntity = new ChGearsEntity();
             mEntity.id = mChangeGearsId;
+
+            mEntity.mode = G.CHG_RATIOS_BY_GEARS;
+
+            mEntity.ratio = 1.25;
+            mEntity.ratioAsFraction = true;
+            mEntity.threadPitch = 0.5;
+            mEntity.threadPitchUnit = ThreadPitchUnit.toInt(ThreadPitchUnit.mm);
+            mEntity.leadScrewPitch = 4.0;
+            mEntity.leadScrewPitchUnit = ThreadPitchUnit.toInt(ThreadPitchUnit.mm);
+
+            mEntity.accuracy = 0.0001;
             mEntity.diffLocked23 = true;
             mEntity.diffLocked45 = true;
             mEntity.diffGearing12 = true;
             mEntity.diffGearing34 = true;
             mEntity.diffGearing56 = true;
-            mEntity.ratio = 1.25;
-            mEntity.accuracy = 0.0001;
+            mEntity.oneSet = true;
+            mEntity.set0 = "21-24";
+            mEntity.set1 = "31-34";
+            mEntity.set2 = "41-44";
+            mEntity.set3 = "51-54";
+            mEntity.set4 = "61-64";
+            mEntity.set5 = "";
+            mEntity.set6 = "";
         }
 
-        mDiffLockedZ2Z3.setValue(true);
-        mDiffLockedZ4Z5.setValue(true);
-        mDiffGearingZ1Z2.setValue(true);
-        mDiffGearingZ3Z4.setValue(true);
-        mDiffGearingZ5Z6.setValue(true);
+        mCalculationMode.setValue(mEntity.mode);
 
-        mRatio.setValue(1.25);
-        Fraction fr = Fraction.fromDouble(1.25);
+        mRatio.setValue(mEntity.ratio);
+        mRatioAsFraction.setValue(mEntity.ratioAsFraction);
+        Fraction fr = Fraction.fromDouble(mEntity.ratio);
         mRatioNumerator.setValue(fr.numerator());
         mRatioDenominator.setValue(fr.denominator());
-        mRatioAsFraction.setValue(false);
-        mCalculationMode.setValue(G.CHG_RATIOS_BY_GEARS);
-        mRatioEnabled.setValue(true);
+        mRatioEnabled.setValue(mEntity.mode == G.CHG_GEARS_BY_RATIO);
+        setRatioPrecision(4);
 
-        mThreadPitchUnit.setValue(ThreadPitchUnit.mm);
-        mThreadPitch.setValue(0.75);
-        mLeadscrewPitchUnit.setValue(ThreadPitchUnit.mm);
-        mLeadscrewPitch.setValue(4.0);
+        mThreadPitch.setValue(mEntity.threadPitch);
+        mThreadPitchUnit.setValue(ThreadPitchUnit.fromInt(mEntity.threadPitchUnit));
+        mLeadscrewPitch.setValue(mEntity.leadScrewPitch);
+        mLeadscrewPitchUnit.setValue(ThreadPitchUnit.fromInt(mEntity.leadScrewPitchUnit));
+
+        mDiffLockedZ2Z3.setValue(mEntity.diffLocked23);
+        mDiffLockedZ4Z5.setValue(mEntity.diffLocked45);
+        mDiffGearingZ1Z2.setValue(mEntity.diffGearing12);
+        mDiffGearingZ3Z4.setValue(mEntity.diffGearing34);
+        mDiffGearingZ5Z6.setValue(mEntity.diffGearing56);
+
+        mGearSets.set0().setGears(mEntity.set0).setEnabled(mEntity.oneSet).setEditable(mEntity.oneSet).setSwitched(mEntity.oneSet);
+        mGearSets.set1().setGears(mEntity.set1).setSwitched(true).setEnabled(true).setEditable(true);
+        mGearSets.set2().setGears(mEntity.set2).setSwitched(true).setEnabled(true).setEditable(true);
+        mGearSets.set3().setGears(mEntity.set3);
+        mGearSets.set4().setGears(mEntity.set4);
+        mGearSets.set5().setGears(mEntity.set5);
+        mGearSets.set6().setGears(mEntity.set6);
+
+        mOneSet.setValue(mEntity.oneSet);
 
         mFirstResultNumber.setValue(1);
         mLastResultNumber.setValue(1);
-
-        mGearSets.get(G.Z0).setGears("21-24");
-        mGearSets.get(G.Z1).setGears("30-34").setSwitched(true).setEnabled(true).setEditable(true);
-        mGearSets.get(G.Z2).setGears("40-44").setSwitched(true).setEnabled(true).setEditable(true);
-        mGearSets.get(G.Z3).setGears("50-54");
-        mGearSets.get(G.Z4).setGears("");
-        mGearSets.get(G.Z5).setGears("");
-        mGearSets.get(G.Z6).setGears("");
-
-        mOneSet.setValue(true);
-        setRatioPrecision(4);
     }
 
     @Override
     public void save()
     {
-        double r = mCalculationMode.getValue() == G.CHG_GEARS_BY_RATIO || mCalculationMode.getValue() == G.CHG_GEARS_BY_THREAD
+        mEntity.mode = mCalculationMode.getValue();
+        double r = mEntity.mode == G.CHG_GEARS_BY_RATIO || mEntity.mode == G.CHG_GEARS_BY_THREAD
                 ? _calculatedRatio : 0.0;
 
         mEntity.accuracy = Math.pow(10, -_ratioPrecision);
@@ -186,13 +205,13 @@ public class ChangeGearsViewModel extends CalculationViewModel
         mEntity.diffGearing56 = mDiffGearingZ5Z6.getValue();
         mEntity.oneSet = mOneSet.getValue();
         mEntity.count = mGearSets.getWheelsCount();
-        mEntity.set0 = mGearSets.get(G.Z0).getGearsStr().getValue();
-        mEntity.set1 = mGearSets.get(G.Z1).getGearsStr().getValue();
-        mEntity.set2 = mGearSets.get(G.Z2).getGearsStr().getValue();
-        mEntity.set3 = mGearSets.get(G.Z3).getGearsStr().getValue();
-        mEntity.set4 = mGearSets.get(G.Z4).getGearsStr().getValue();
-        mEntity.set5 = mGearSets.get(G.Z5).getGearsStr().getValue();
-        mEntity.set6 = mGearSets.get(G.Z6).getGearsStr().getValue();
+        mEntity.set0 = mGearSets.set0().getGearsStr().getValue();
+        mEntity.set1 = mGearSets.set1().getGearsStr().getValue();
+        mEntity.set2 = mGearSets.set2().getGearsStr().getValue();
+        mEntity.set3 = mGearSets.set3().getGearsStr().getValue();
+        mEntity.set4 = mGearSets.set4().getGearsStr().getValue();
+        mEntity.set5 = mGearSets.set5().getGearsStr().getValue();
+        mEntity.set6 = mGearSets.set6().getGearsStr().getValue();
 
         mRepository.upsert(mEntity);
     }
@@ -200,14 +219,14 @@ public class ChangeGearsViewModel extends CalculationViewModel
     @Override
     public boolean validate()
     {
-        if (!mOneSet.getValue())
+        if (!mEntity.oneSet)
         {
-            Integer[] zs1 = mGearSets.get(G.Z1).getGears();
-            Integer[] zs2 = mGearSets.get(G.Z2).getGears();
-            Integer[] zs3 = mGearSets.get(G.Z3).getGears();
-            Integer[] zs4 = mGearSets.get(G.Z4).getGears();
-            Integer[] zs5 = mGearSets.get(G.Z5).getGears();
-            Integer[] zs6 = mGearSets.get(G.Z6).getGears();
+            Integer[] zs1 = mGearSets.set1().getGears();
+            Integer[] zs2 = mGearSets.set2().getGears();
+            Integer[] zs3 = mGearSets.set3().getGears();
+            Integer[] zs4 = mGearSets.set4().getGears();
+            Integer[] zs5 = mGearSets.set5().getGears();
+            Integer[] zs6 = mGearSets.set6().getGears();
             int total = zs1.length > 0 ? zs1.length : 1;
             total *= zs2.length > 0 ? zs2.length : 1;
             total *= zs3.length > 0 ? zs3.length : 1;
@@ -263,10 +282,6 @@ public class ChangeGearsViewModel extends CalculationViewModel
     {
         mStarted = false;
         load();
-
-
-
-
         mStarted = true;
     }
 
@@ -331,13 +346,13 @@ public class ChangeGearsViewModel extends CalculationViewModel
             return;
         if (value)
         {
-            mGearSets.get(G.Z0).setEditable(true).setEnabled(true).setSwitched(true);
-            mGearSets.get(G.Z1).setEditable(false).setEnabled(false).setSwitched(true);
-            mGearSets.get(G.Z2).setEditable(false).setEnabled(false).setSwitched(true);
-            mGearSets.get(G.Z3).setEditable(false).setEnabled(true);
-            mGearSets.get(G.Z4).setEditable(false);
-            mGearSets.get(G.Z5).setEditable(false);
-            mGearSets.get(G.Z6).setEditable(false);
+            mGearSets.set0().setEditable(true).setEnabled(true).setSwitched(true);
+            mGearSets.set1().setEditable(false).setEnabled(false).setSwitched(true);
+            mGearSets.set2().setEditable(false).setEnabled(false).setSwitched(true);
+            mGearSets.set3().setEditable(false).setEnabled(true);
+            mGearSets.set4().setEditable(false);
+            mGearSets.set5().setEditable(false);
+            mGearSets.set6().setEditable(false);
 
             for (int set = G.Z4; set <= G.Z6; set++)
             {
@@ -348,13 +363,13 @@ public class ChangeGearsViewModel extends CalculationViewModel
         }
         else
         {
-            mGearSets.get(G.Z0).setEditable(false).setEnabled(false).setSwitched(false);
-            mGearSets.get(G.Z1).setEditable(true).setEnabled(false).setSwitched(true);
-            mGearSets.get(G.Z2).setEditable(true).setEnabled(false).setSwitched(true);
-            mGearSets.get(G.Z3).setEditable(true);
-            mGearSets.get(G.Z4).setEditable(true);
-            mGearSets.get(G.Z5).setEditable(true);
-            mGearSets.get(G.Z6).setEditable(true);
+            mGearSets.set0().setEditable(false).setEnabled(false).setSwitched(false);
+            mGearSets.set1().setEditable(true).setEnabled(false).setSwitched(true);
+            mGearSets.set2().setEditable(true).setEnabled(false).setSwitched(true);
+            mGearSets.set3().setEditable(true);
+            mGearSets.set4().setEditable(true);
+            mGearSets.set5().setEditable(true);
+            mGearSets.set6().setEditable(true);
 
             boolean prevNotEmpty = !mGearSets.get(G.Z2).isEmpty();
             for (int set = G.Z3; set <= G.Z6; set++)
