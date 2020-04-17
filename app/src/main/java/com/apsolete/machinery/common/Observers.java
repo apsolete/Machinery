@@ -245,6 +245,24 @@ public final class Observers
         }
     }
 
+    public static class EditTextLongObserver extends ViewObserver<EditText, Long>
+    {
+        EditTextLongObserver(EditText view, MutableLiveData<Long> data)
+        {
+            super(view);
+
+            Listeners.LongChangeListener listener = new Listeners.LongChangeListener(data);
+            view.addTextChangedListener(listener);
+            setListener(listener);
+        }
+
+        @Override
+        public void change(@Nullable Long value)
+        {
+            view().setText(value.toString());
+        }
+    }
+
     public static class SpinnerObserver extends ViewObserver<AbsSpinner, Integer>
     {
         SpinnerObserver(AbsSpinner view, MutableLiveData<Integer> data)

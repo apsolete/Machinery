@@ -121,8 +121,8 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         setEditTextDoubleObserver(R.id.leadScrewPitchValue, mViewModel.getLeadscrewPitch());
 
         setEditTextDoubleObserver(R.id.ratioValue, mViewModel.getRatio());
-        setEditTextIntegerObserver(R.id.ratioNumeratorValue, mViewModel.getRatioNumerator());
-        setEditTextIntegerObserver(R.id.ratioDenominatorValue, mViewModel.getRatioDenominator());
+        setEditTextLongObserver(R.id.ratioNumeratorValue, mViewModel.getRatioNumerator());
+        setEditTextLongObserver(R.id.ratioDenominatorValue, mViewModel.getRatioDenominator());
         setCheckableObserver(R.id.ratioFractionSwitch, mViewModel.getRatioAsFraction());
         setVisibilityObserver(new int[]{R.id.ratioTextLayout, R.id.ratioLayout}, mViewModel.getRatioEnabled());
         setVisibilityInverseObserver(R.id.ratioValueLayout, mViewModel.getRatioAsFraction());

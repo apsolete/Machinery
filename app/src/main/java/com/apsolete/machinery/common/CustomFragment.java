@@ -123,6 +123,13 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
         data.observe(getViewLifecycleOwner(), observer);
     }
 
+    protected void setEditTextLongObserver(@IdRes int id, MutableLiveData<Long> data)
+    {
+        EditText editText = mRootView.findViewById(id);
+        Observer<Long> observer = new Observers.EditTextLongObserver(editText, data);
+        data.observe(getViewLifecycleOwner(), observer);
+    }
+
 //    protected void setVisibilityObserver(@IdRes int id, LiveData<Boolean> data, boolean inverse)
 //    {
 //        View view = mRootView.findViewById(id);

@@ -10,8 +10,8 @@ public class Fractions
         long den = 1;
         for (Fraction fraction: fractions)
         {
-            num *= fraction.getNumerator();
-            den *= fraction.getDenominator();
+            num *= fraction.numerator();
+            den *= fraction.denominator();
         }
         return new Fraction(num, den);
     }
@@ -24,8 +24,8 @@ public class Fractions
     public static List<CompoundFraction> getCompoundsOfTwo(Fraction fraction)
     {
         ArrayList<CompoundFraction> fractions = new ArrayList<>();
-        List<CompoundNumber> nums = Numbers.getCompoundsOfTwo(fraction.getNumerator());
-        List<CompoundNumber> dens = Numbers.getCompoundsOfTwo(fraction.getDenominator());
+        List<CompoundNumber> nums = Numbers.getCompoundsOfTwo(fraction.numerator());
+        List<CompoundNumber> dens = Numbers.getCompoundsOfTwo(fraction.denominator());
         for (CompoundNumber n: nums)
         {
             long[] nf = n.getFactors();
@@ -46,8 +46,8 @@ public class Fractions
     public static List<CompoundFraction> getCompoundsOfThree(Fraction fraction)
     {
         ArrayList<CompoundFraction> fractions = new ArrayList<>();
-        List<CompoundNumber> nums = Numbers.getCompoundsOfThree(fraction.getNumerator());
-        List<CompoundNumber> dens = Numbers.getCompoundsOfThree(fraction.getDenominator());
+        List<CompoundNumber> nums = Numbers.getCompoundsOfThree(fraction.numerator());
+        List<CompoundNumber> dens = Numbers.getCompoundsOfThree(fraction.denominator());
         for (CompoundNumber n: nums)
         {
             long[] nf = n.getFactors();
@@ -79,9 +79,9 @@ public class Fractions
             if (findfirst)
             {
                 Fraction f = initial.getEquivalent(i);
-                if (f.getNumerator() > max || f.getDenominator() > max)
+                if (f.numerator() > max || f.denominator() > max)
                     break;
-                else if (Arrays.binarySearch(numbers, f.getNumerator()) < 0 || Arrays.binarySearch(numbers, f.getDenominator()) < 0)
+                else if (Arrays.binarySearch(numbers, f.numerator()) < 0 || Arrays.binarySearch(numbers, f.denominator()) < 0)
                     i++;
                 else
                     findfirst = false;
@@ -89,9 +89,9 @@ public class Fractions
             else
             {
                 Fraction f = initial.getEquivalent(i);
-                if (Arrays.binarySearch(numbers, f.getNumerator()) >= 0 && Arrays.binarySearch(numbers, f.getDenominator()) >= 0)
+                if (Arrays.binarySearch(numbers, f.numerator()) >= 0 && Arrays.binarySearch(numbers, f.denominator()) >= 0)
                     fractions.add(f);
-                else if (f.getNumerator() > max || f.getDenominator() > max)
+                else if (f.numerator() > max || f.denominator() > max)
                     break;
                 i++;
             }

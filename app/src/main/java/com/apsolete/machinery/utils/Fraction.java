@@ -1,16 +1,16 @@
 package com.apsolete.machinery.utils;
 
-import java.math.*;
+import java.math.BigInteger;
 
 public class Fraction implements Comparable<Fraction>
 {
     private long _numerator;
     private long _denominator;
     
-    public static final Fraction ZERO = new Fraction(0, 1);
-    public static final Fraction ONE = new Fraction(1, 1);
+    public static final Fraction ZERO = new Fraction(0);
+    public static final Fraction ONE = new Fraction(1);
     
-    public Fraction(double decimal)
+    private Fraction(double decimal)
     {
         String[] parts = Double.toString(decimal).split("\\.");
         // denominator
@@ -21,7 +21,7 @@ public class Fraction implements Comparable<Fraction>
         setReduced(num, den);
     }
 
-    public Fraction(double num, double den)
+    private Fraction(double num, double den)
     {
         String[] numParts = Double.toString(num).split("\\.");
         String[] denParts = Double.toString(den).split("\\.");
@@ -33,17 +33,17 @@ public class Fraction implements Comparable<Fraction>
         setReduced(binum, biden);
     }
 
-    public Fraction(long num)
+    private Fraction(long num)
     {
         this(num, 1, false);
     }
 
-    public Fraction(long num, long den)
+    private Fraction(long num, long den)
     {
         this(num, den, false);
     }
 
-    protected Fraction(long num, long den, boolean reduced)
+    private Fraction(long num, long den, boolean reduced)
     {
         if (reduced)
             setReduced(BigInteger.valueOf(num), BigInteger.valueOf(den));
@@ -54,12 +54,32 @@ public class Fraction implements Comparable<Fraction>
         }
     }
 
+    public static Fraction fromLong(long value)
+    {
+        return new Fraction(value);
+    }
+
+    public static Fraction fromLong(long num, long den)
+    {
+        return new Fraction(num, den);
+    }
+
+    public static Fraction fromDouble(double value)
+    {
+        return new Fraction(value);
+    }
+
+    public static Fraction fromDouble(double num, double den)
+    {
+        return new Fraction(num, den);
+    }
+
     protected void setNumerator(long numerator)
     {
         _numerator = numerator;
     }
 
-    public long getNumerator()
+    public long numerator()
     {
         return _numerator;
     }
@@ -69,7 +89,7 @@ public class Fraction implements Comparable<Fraction>
         _denominator = denominator;
     }
 
-    public long getDenominator()
+    public long denominator()
     {
         return _denominator;
     }
@@ -81,20 +101,20 @@ public class Fraction implements Comparable<Fraction>
         _denominator = den.divide(gcd).longValue();
     }
 
-    public Fraction getReduced()
+    public Fraction reduced()
     {
         return new Fraction(_numerator, _denominator, true);
     }
 
-    public static Fraction reduced(long num, long den)
-    {
-        return new Fraction(num, den, true);
-    }
-
-    public static Fraction reduced(Fraction fraction)
-    {
-        return fraction.getReduced();
-    }
+//    public static Fraction reduced(long num, long den)
+//    {
+//        return new Fraction(num, den, true);
+//    }
+//
+//    public static Fraction reduced(Fraction fraction)
+//    {
+//        return fraction.getReduced();
+//    }
     
     public Fraction add(long num)
     {
@@ -138,8 +158,8 @@ public class Fraction implements Comparable<Fraction>
     
     public boolean isOne()
     {
-        Fraction fr = getReduced();
-        return fr.getNumerator() == 1 && fr.getDenominator() == 1;
+        Fraction fr = reduced();
+        return fr.numerator() == 1 && fr.denominator() == 1;
     }
 
     @Override
@@ -155,8 +175,8 @@ public class Fraction implements Comparable<Fraction>
     @Override
     public int compareTo(Fraction fraction)
     {
-        Fraction f1 = getReduced();
-        Fraction f2 = fraction.getReduced();
+        Fraction f1 = reduced();
+        Fraction f2 = fraction.reduced();
         
         if (f1._denominator == f2._denominator)
             return Long.compare(f1._numerator, f2._numerator);

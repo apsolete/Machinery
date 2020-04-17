@@ -62,19 +62,19 @@ public class ChangeGearsViewModel extends CalculationViewModel
     };
 
     private MutableLiveData<Double> mRatio = new MutableLiveData<>();
-    private MutableLiveData<Integer> mRatioNumerator = new MutableLiveData<Integer>()
+    private MutableLiveData<Long> mRatioNumerator = new MutableLiveData<Long>()
     {
         @Override
-        public void setValue(Integer value)
+        public void setValue(Long value)
         {
             super.setValue(value);
             recalculateRatio();
         }
     };
-    private MutableLiveData<Integer> mRatioDenominator = new MutableLiveData<Integer>()
+    private MutableLiveData<Long> mRatioDenominator = new MutableLiveData<Long>()
     {
         @Override
-        public void setValue(Integer value)
+        public void setValue(Long value)
         {
             super.setValue(value);
             recalculateRatio();
@@ -114,36 +114,6 @@ public class ChangeGearsViewModel extends CalculationViewModel
     /*settings*/
     private int mRatioPrecision = 2;
 
-//    private OnResultListener<ChangeGearsResult> _resultListener = new OnResultListener<ChangeGearsResult>()
-//    {
-//        @Override
-//        public void onResult(ChangeGearsResult result)
-//        {
-//            if (mCalculationMode.getValue() == G.THREAD_BY_GEARS)
-//                result.setLeadscrewPitch(mLeadscrewPitch.getValue());
-//            result.setFormat(mRatioFormat);
-//            mResults.add(result);
-//        }
-//
-//        @Override
-//        public void onProgress(int percent)
-//        {
-//            mProgress.postValue(percent);
-//        }
-//
-//        @Override
-//        public void onCompleted(int count)
-//        {
-//            mProgress.postValue(0);
-//            int shown = getNextResults();
-//            mNotificationEvent.postValue(new Event<>("Calculated " + count + " ratios. Shown " + shown + " results."));
-//        }
-//    };
-//
-//    public ChangeGearsViewModel()
-//    {
-//    }
-
     public ChangeGearsViewModel(@NonNull Application application)
     {
         super(application);
@@ -151,16 +121,21 @@ public class ChangeGearsViewModel extends CalculationViewModel
     }
 
     @Override
-    public void start()
+    public void load()
     {
         mEntity = mRepository.getChangeGears(mChangeGearsId);
         if (mEntity == null)
         {
             mEntity = new ChGearsEntity();
             mEntity.id = mChangeGearsId;
+            mEntity.diffLocked23 = true;
+            mEntity.diffLocked45 = true;
+            mEntity.diffGearing12 = true;
+            mEntity.diffGearing34 = true;
+            mEntity.diffGearing56 = true;
+            mEntity.ratio = 1.25;
+            mEntity.accuracy = 0.0001;
         }
-
-        mStarted = false;
 
         mDiffLockedZ2Z3.setValue(true);
         mDiffLockedZ4Z5.setValue(true);
@@ -169,9 +144,12 @@ public class ChangeGearsViewModel extends CalculationViewModel
         mDiffGearingZ5Z6.setValue(true);
 
         mRatio.setValue(1.25);
-        mRatioNumerator.setValue(34);
-        mRatioDenominator.setValue(56);
-        //mRatioEnabled.setValue(true);
+        Fraction fr = Fraction.fromDouble(1.25);
+        mRatioNumerator.setValue(fr.numerator());
+        mRatioDenominator.setValue(fr.denominator());
+        mRatioAsFraction.setValue(false);
+        mCalculationMode.setValue(G.CHG_RATIOS_BY_GEARS);
+        mRatioEnabled.setValue(true);
 
         mThreadPitchUnit.setValue(ThreadPitchUnit.mm);
         mThreadPitch.setValue(0.75);
@@ -190,12 +168,105 @@ public class ChangeGearsViewModel extends CalculationViewModel
         mGearSets.get(G.Z6).setGears("");
 
         mOneSet.setValue(true);
-        mCalculationMode.setValue(G.CHG_RATIOS_BY_GEARS);
-        mRatioAsFraction.setValue(true);
         setRatioPrecision(4);
+    }
 
-        //mCalculator = new ChangeGearsModel();
-        //mCalculator.setResultListener(_resultListener);
+    @Override
+    public void save()
+    {
+        double r = mCalculationMode.getValue() == G.CHG_GEARS_BY_RATIO || mCalculationMode.getValue() == G.CHG_GEARS_BY_THREAD
+                ? _calculatedRatio : 0.0;
+
+        mEntity.accuracy = Math.pow(10, -_ratioPrecision);
+        mEntity.ratio = r;
+        mEntity.diffLocked23 = mDiffLockedZ2Z3.getValue();
+        mEntity.diffLocked45 = mDiffLockedZ4Z5.getValue();
+        mEntity.diffGearing12 = mDiffGearingZ1Z2.getValue();
+        mEntity.diffGearing34 = mDiffGearingZ3Z4.getValue();
+        mEntity.diffGearing56 = mDiffGearingZ5Z6.getValue();
+        mEntity.oneSet = mOneSet.getValue();
+        mEntity.count = mGearSets.getWheelsCount();
+        mEntity.set0 = mGearSets.get(G.Z0).getGearsStr().getValue();
+        mEntity.set1 = mGearSets.get(G.Z1).getGearsStr().getValue();
+        mEntity.set2 = mGearSets.get(G.Z2).getGearsStr().getValue();
+        mEntity.set3 = mGearSets.get(G.Z3).getGearsStr().getValue();
+        mEntity.set4 = mGearSets.get(G.Z4).getGearsStr().getValue();
+        mEntity.set5 = mGearSets.get(G.Z5).getGearsStr().getValue();
+        mEntity.set6 = mGearSets.get(G.Z6).getGearsStr().getValue();
+
+        mRepository.upsert(mEntity);
+    }
+
+    @Override
+    public boolean validate()
+    {
+        if (!mOneSet.getValue())
+        {
+            Integer[] zs1 = mGearSets.get(G.Z1).getGears();
+            Integer[] zs2 = mGearSets.get(G.Z2).getGears();
+            Integer[] zs3 = mGearSets.get(G.Z3).getGears();
+            Integer[] zs4 = mGearSets.get(G.Z4).getGears();
+            Integer[] zs5 = mGearSets.get(G.Z5).getGears();
+            Integer[] zs6 = mGearSets.get(G.Z6).getGears();
+            int total = zs1.length > 0 ? zs1.length : 1;
+            total *= zs2.length > 0 ? zs2.length : 1;
+            total *= zs3.length > 0 ? zs3.length : 1;
+            total *= zs4.length > 0 ? zs4.length : 1;
+            total *= zs5.length > 0 ? zs5.length : 1;
+            total *= zs6.length > 0 ? zs6.length : 1;
+            if (total > 20000)
+            {
+                mNotificationEvent.setValue(new Event<>("Too much gears!"));
+                mCalculationEvent.setValue(new Event<>(null));
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public void calculate()
+    {
+        save();
+
+        if (!validate())
+            return;
+
+        clear();
+
+        Data.Builder db = new Data.Builder();
+        db.putLong(G.ChangeGearsId, mChangeGearsId);
+
+        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(ChangeGearsWorker.class)
+                .setInputData(db.build())
+                .build();
+        mCalculationEvent.setValue(new Event<>(request.getId()));
+
+        WorkManager.getInstance(getApplication()).enqueue(request);
+    }
+
+    @Override
+    public void clear()
+    {
+        mRepository.deleteResultsById(mChangeGearsId);
+    }
+
+    @Override
+    public boolean close()
+    {
+        return true;
+    }
+
+    @Override
+    public void start()
+    {
+        mStarted = false;
+        load();
+
+
+
+
         mStarted = true;
     }
 
@@ -294,6 +365,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
             }
         }
     }
+
     private void switchCalculationMode(int value)
     {
         if (!mStarted)
@@ -374,12 +446,12 @@ public class ChangeGearsViewModel extends CalculationViewModel
         return mRatio;
     }
 
-    public MutableLiveData<Integer> getRatioNumerator()
+    public MutableLiveData<Long> getRatioNumerator()
     {
         return mRatioNumerator;
     }
 
-    public MutableLiveData<Integer> getRatioDenominator()
+    public MutableLiveData<Long> getRatioDenominator()
     {
         return mRatioDenominator;
     }
@@ -525,7 +597,7 @@ public class ChangeGearsViewModel extends CalculationViewModel
                 }
                 else
                 {
-                    Fraction fract = new Fraction(_ratioNumerator, _ratioDenominator);
+                    Fraction fract = Fraction.fromDouble(_ratioNumerator, _ratioDenominator);
                     _calculatedRatio = fract.toDouble();
                     ratioInfo = "R = " + _ratioNumerator + " / " + _ratioDenominator + " = " +
                             fract.toString() + " = " + mRatioFormat.format(_calculatedRatio);
@@ -549,92 +621,5 @@ public class ChangeGearsViewModel extends CalculationViewModel
             pattern.append("#");
         mRatioFormat = CalculationFragment.getNumberFormat(pattern.toString());
         recalculateRatio();
-    }
-
-    @Override
-    public boolean validate()
-    {
-        if (!mOneSet.getValue())
-        {
-            Integer[] zs1 = mGearSets.get(G.Z1).getGears();
-            Integer[] zs2 = mGearSets.get(G.Z2).getGears();
-            Integer[] zs3 = mGearSets.get(G.Z3).getGears();
-            Integer[] zs4 = mGearSets.get(G.Z4).getGears();
-            Integer[] zs5 = mGearSets.get(G.Z5).getGears();
-            Integer[] zs6 = mGearSets.get(G.Z6).getGears();
-            int total = zs1.length > 0 ? zs1.length : 1;
-            total *= zs2.length > 0 ? zs2.length : 1;
-            total *= zs3.length > 0 ? zs3.length : 1;
-            total *= zs4.length > 0 ? zs4.length : 1;
-            total *= zs5.length > 0 ? zs5.length : 1;
-            total *= zs6.length > 0 ? zs6.length : 1;
-            if (total > 20000)
-            {
-                mNotificationEvent.setValue(new Event<>("Too much gears!"));
-                mCalculationEvent.setValue(new Event<>(null));
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    @Override
-    public void save()
-    {
-        double r = mCalculationMode.getValue() == G.CHG_GEARS_BY_RATIO || mCalculationMode.getValue() == G.CHG_GEARS_BY_THREAD
-                ? _calculatedRatio : 0.0;
-
-        mEntity.accuracy = Math.pow(10, -_ratioPrecision);
-        mEntity.ratio = r;
-        mEntity.diffLocked23 = mDiffLockedZ2Z3.getValue();
-        mEntity.diffLocked45 = mDiffLockedZ4Z5.getValue();
-        mEntity.diffGearing12 = mDiffGearingZ1Z2.getValue();
-        mEntity.diffGearing34 = mDiffGearingZ3Z4.getValue();
-        mEntity.diffGearing56 = mDiffGearingZ5Z6.getValue();
-        mEntity.oneSet = mOneSet.getValue();
-        mEntity.count = mGearSets.getWheelsCount();
-        mEntity.set0 = mGearSets.get(G.Z0).getGearsStr().getValue();
-        mEntity.set1 = mGearSets.get(G.Z1).getGearsStr().getValue();
-        mEntity.set2 = mGearSets.get(G.Z2).getGearsStr().getValue();
-        mEntity.set3 = mGearSets.get(G.Z3).getGearsStr().getValue();
-        mEntity.set4 = mGearSets.get(G.Z4).getGearsStr().getValue();
-        mEntity.set5 = mGearSets.get(G.Z5).getGearsStr().getValue();
-        mEntity.set6 = mGearSets.get(G.Z6).getGearsStr().getValue();
-
-        mRepository.upsert(mEntity);
-    }
-
-    @Override
-    public void clear()
-    {
-        mRepository.deleteResultsById(mChangeGearsId);
-    }
-
-    @Override
-    public void calculate()
-    {
-        save();
-
-        if (!validate())
-            return;
-
-        clear();
-
-        Data.Builder db = new Data.Builder();
-        db.putLong(G.ChangeGearsId, mChangeGearsId);
-
-        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(ChangeGearsWorker.class)
-                .setInputData(db.build())
-                .build();
-        mCalculationEvent.setValue(new Event<>(request.getId()));
-
-        WorkManager.getInstance(getApplication()).enqueue(request);
-    }
-
-    @Override
-    public boolean close()
-    {
-        return false;
     }
 }

@@ -8,7 +8,7 @@ public class CompoundFraction extends Fraction
 
     private CompoundFraction(Fraction fraction)
     {
-        super(fraction.getNumerator(), fraction.getDenominator());
+        super(fraction.numerator(), fraction.denominator());
     }
 
     public CompoundFraction(List<Fraction> fractions)
@@ -61,16 +61,16 @@ public class CompoundFraction extends Fraction
         StringBuilder sb = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
         Fraction f = _fractions.get(0);
-        sb.append(f.getNumerator());
-        sb2.append(f.getDenominator());
+        sb.append(f.numerator());
+        sb2.append(f.denominator());
         for (int i = 1; i < _fractions.size(); i++)
         {
             f = _fractions.get(i);
-            sb.append(" * ").append(f.getNumerator());
-            sb2.append(" * ").append(f.getDenominator());
+            sb.append(" * ").append(f.numerator());
+            sb2.append(" * ").append(f.denominator());
         }
         sb.append(" / ").append(sb2).append(" = ")
-            .append(getNumerator()).append(" / ").append(getDenominator());
+            .append(numerator()).append(" / ").append(denominator());
         return sb.toString();
     }
     

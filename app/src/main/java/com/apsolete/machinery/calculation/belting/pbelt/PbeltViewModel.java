@@ -13,9 +13,9 @@ public class PbeltViewModel extends CalculationViewModel
 	}
 
 	@Override
-	public boolean validate()
+	public void load()
 	{
-		return false;
+
 	}
 
 	@Override
@@ -25,13 +25,19 @@ public class PbeltViewModel extends CalculationViewModel
 	}
 
 	@Override
-	public void clear()
+	public boolean validate()
+	{
+		return false;
+	}
+
+	@Override
+	public void calculate()
 	{
 
 	}
 
 	@Override
-	public void calculate()
+	public void clear()
 	{
 
 	}
