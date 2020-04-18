@@ -1,6 +1,5 @@
 package com.apsolete.machinery.calculation.gearing.changegears;
 
-import android.util.SparseArray;
 import androidx.lifecycle.MutableLiveData;
 
 import com.apsolete.machinery.common.G;
@@ -8,14 +7,6 @@ import com.apsolete.machinery.utils.Numbers;
 
 public class GearSetsViewModel
 {
-    private final GSet _set0;
-    private final GSet _set1;
-    private final GSet _set2;
-    private final GSet _set3;
-    private final GSet _set4;
-    private final GSet _set5;
-    private final GSet _set6;
-
     public static class GSet
     {
         private GSet mNext = null;
@@ -55,12 +46,32 @@ public class GearSetsViewModel
             mNext = next;
         }
 
-        public Integer[] getGears()
+        public Integer[] gears()
         {
             return Numbers.getIntegerNumbers(mGearsStr.getValue());
         }
 
-        public MutableLiveData<String> getGearsStr()
+        public String gearsStr()
+        {
+            return mGearsStr.getValue();
+        }
+
+        public Boolean switched()
+        {
+            return mSwitched.getValue();
+        }
+
+        public Boolean editable()
+        {
+            return mEditable.getValue();
+        }
+
+        public Boolean enabled()
+        {
+            return mEnabled.getValue();
+        }
+
+        public MutableLiveData<String> getGears()
         {
             return mGearsStr;
         }
@@ -115,11 +126,16 @@ public class GearSetsViewModel
         }
     }
 
-//    private SparseArray<GSet> mGSets;
+    private final GSet _set0;
+    private final GSet _set1;
+    private final GSet _set2;
+    private final GSet _set3;
+    private final GSet _set4;
+    private final GSet _set5;
+    private final GSet _set6;
 
     public GearSetsViewModel()
     {
-//        mGSets = new SparseArray<>(G.Z6 + 1);
         _set6 = new GSet(null);
         _set5 = new GSet(_set6);
         _set4 = new GSet(_set5);
@@ -127,16 +143,9 @@ public class GearSetsViewModel
         _set2 = new GSet(_set3);
         _set1 = new GSet(_set2);
         _set0 = new GSet(_set1);
-//        mGSets.put(G.Z0, _set0);
-//        mGSets.put(G.Z1, _set1);
-//        mGSets.put(G.Z2, _set2);
-//        mGSets.put(G.Z3, _set3);
-//        mGSets.put(G.Z4, _set4);
-//        mGSets.put(G.Z5, _set5);
-//        mGSets.put(G.Z6, _set6);
     }
 
-    public GSet get(int z)
+    public GSet set(int z)
     {
         switch (z)
         {
@@ -183,13 +192,14 @@ public class GearSetsViewModel
     public int getWheelsCount()
     {
         int count = 2;
-        if(_set3.isSwitched().getValue())
+
+        if(_set3.switched())
             count++;
-        if(_set4.isSwitched().getValue())
+        if(_set4.switched())
             count++;
-        if(_set5.isSwitched().getValue())
+        if(_set5.switched())
             count++;
-        if(_set6.isSwitched().getValue())
+        if(_set6.switched())
             count++;
 
         return count;

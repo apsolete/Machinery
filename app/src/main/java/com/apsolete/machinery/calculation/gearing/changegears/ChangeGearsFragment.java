@@ -100,13 +100,13 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         setEnableObserver(R.id.z5Switch, mViewModel.gearSet(G.Z5).isEnabled());
         setEnableObserver(R.id.z6Switch, mViewModel.gearSet(G.Z6).isEnabled());
 
-        setEditTextObserver(R.id.z0Gears, mViewModel.gearSet(G.Z0).getGearsStr());
-        setEditTextObserver(R.id.z1Gears, mViewModel.gearSet(G.Z1).getGearsStr());
-        setEditTextObserver(R.id.z2Gears, mViewModel.gearSet(G.Z2).getGearsStr());
-        setEditTextObserver(R.id.z3Gears, mViewModel.gearSet(G.Z3).getGearsStr());
-        setEditTextObserver(R.id.z4Gears, mViewModel.gearSet(G.Z4).getGearsStr());
-        setEditTextObserver(R.id.z5Gears, mViewModel.gearSet(G.Z5).getGearsStr());
-        setEditTextObserver(R.id.z6Gears, mViewModel.gearSet(G.Z6).getGearsStr());
+        setEditTextObserver(R.id.z0Gears, mViewModel.gearSet(G.Z0).getGears());
+        setEditTextObserver(R.id.z1Gears, mViewModel.gearSet(G.Z1).getGears());
+        setEditTextObserver(R.id.z2Gears, mViewModel.gearSet(G.Z2).getGears());
+        setEditTextObserver(R.id.z3Gears, mViewModel.gearSet(G.Z3).getGears());
+        setEditTextObserver(R.id.z4Gears, mViewModel.gearSet(G.Z4).getGears());
+        setEditTextObserver(R.id.z5Gears, mViewModel.gearSet(G.Z5).getGears());
+        setEditTextObserver(R.id.z6Gears, mViewModel.gearSet(G.Z6).getGears());
 
         setSpinnerObserver(R.id.calcTypeSpinner, R.array.cg_calctype_array, mViewModel.getCalculationMode());
         setSpinnerEnumObserver(R.id.threadPitchUnit, R.array.cg_pitchunit_array, mViewModel.getThreadPitchUnit(), ThreadPitchUnit.values());
@@ -169,7 +169,7 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
     {
         FragmentManager fragmentManager = Activity.getSupportFragmentManager();
         final GearPickerDialog dialog = new GearPickerDialog();
-        dialog.setGears(mViewModel.gearSet(set).getGearsStr().getValue());
+        dialog.setGears(mViewModel.gearSet(set).getGears().getValue());
         dialog.setResultListener(new DialogBase.ResultListener()
         {
             @Override
