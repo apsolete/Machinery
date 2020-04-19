@@ -1,14 +1,16 @@
-package com.apsolete.machinery.calculation.gearing.changegears;
+package com.apsolete.machinery.calculation.gearing.changegears.db;
 
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
 import com.apsolete.machinery.calculation.CalculationDatabase;
+import com.apsolete.machinery.calculation.gearing.changegears.db.ChGearsDao;
+import com.apsolete.machinery.calculation.gearing.changegears.db.ChGearsEntity;
+import com.apsolete.machinery.calculation.gearing.changegears.db.ChGearsResult;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 

@@ -13,6 +13,9 @@ import androidx.work.WorkManager;
 import com.apsolete.machinery.calculation.Calculation;
 import com.apsolete.machinery.calculation.CalculationFragment;
 import com.apsolete.machinery.calculation.CalculationViewModel;
+import com.apsolete.machinery.calculation.gearing.changegears.db.ChGearsEntity;
+import com.apsolete.machinery.calculation.gearing.changegears.db.ChGearsRepository;
+import com.apsolete.machinery.calculation.gearing.changegears.db.ChGearsResult;
 import com.apsolete.machinery.common.Event;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.utils.Fraction;
@@ -28,7 +31,6 @@ public class ChangeGearsViewModel extends CalculationViewModel
     private long mChangeGearsId = 1;
     private ChGearsEntity mEntity;
 
-    private int mOneSetGearsCount = 2;
     private boolean mStarted = false;
 
     /*settings*/
@@ -106,7 +108,6 @@ public class ChangeGearsViewModel extends CalculationViewModel
     private LiveData<String> mFirstResultNumberStr = Transformations.map(mFirstResultNumber, Object::toString);
     private MutableLiveData<Integer> mLastResultNumber = new MutableLiveData<>();
     private LiveData<String> mLastResultNumberStr = Transformations.map(mLastResultNumber, Object::toString);
-    //private MutableLiveData<Integer> mProgress = new MutableLiveData<>();
     //private ArrayList<ChangeGearsWorker.Result> mResults = new ArrayList<>();
     //private LiveArrayList<Contract.Result> mResultsToShow = new LiveArrayList<>();
     private MutableLiveData<List<ChGearsResult>> mResultsToShow = new MutableLiveData<>();
@@ -118,7 +119,6 @@ public class ChangeGearsViewModel extends CalculationViewModel
         return list;
     });
     private MutableLiveData<List<ChGearsResult>> mResults = new MutableLiveData<>();
-    //private ChangeGearsModel mCalculator;
 
     /*settings*/
     private int mRatioPrecision = 2;

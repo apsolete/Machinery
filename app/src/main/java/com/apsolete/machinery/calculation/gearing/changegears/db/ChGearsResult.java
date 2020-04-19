@@ -1,4 +1,6 @@
-package com.apsolete.machinery.calculation.gearing.changegears;
+package com.apsolete.machinery.calculation.gearing.changegears.db;
+
+import com.apsolete.machinery.calculation.gearing.changegears.db.ChGearsEntity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

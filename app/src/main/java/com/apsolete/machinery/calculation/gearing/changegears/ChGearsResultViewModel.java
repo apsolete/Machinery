@@ -1,5 +1,7 @@
 package com.apsolete.machinery.calculation.gearing.changegears;
 
+import com.apsolete.machinery.calculation.gearing.changegears.db.ChGearsResult;
+
 import java.text.NumberFormat;
 
 public class ChGearsResultViewModel

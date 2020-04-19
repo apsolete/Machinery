@@ -1,4 +1,4 @@
-package com.apsolete.machinery.calculation.gearing.changegears;
+package com.apsolete.machinery.calculation.gearing.changegears.db;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

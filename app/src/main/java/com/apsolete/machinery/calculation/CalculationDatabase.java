@@ -1,17 +1,15 @@
 package com.apsolete.machinery.calculation;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.apsolete.machinery.calculation.gearing.changegears.ChGearsDao;
-import com.apsolete.machinery.calculation.gearing.changegears.ChGearsEntity;
-import com.apsolete.machinery.calculation.gearing.changegears.ChGearsResult;
+import com.apsolete.machinery.calculation.gearing.changegears.db.ChGearsDao;
+import com.apsolete.machinery.calculation.gearing.changegears.db.ChGearsEntity;
+import com.apsolete.machinery.calculation.gearing.changegears.db.ChGearsResult;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;

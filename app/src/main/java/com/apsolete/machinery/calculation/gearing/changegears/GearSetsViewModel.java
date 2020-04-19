@@ -2,6 +2,7 @@ package com.apsolete.machinery.calculation.gearing.changegears;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.apsolete.machinery.calculation.gearing.changegears.db.ChGearsEntity;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.utils.Numbers;
 

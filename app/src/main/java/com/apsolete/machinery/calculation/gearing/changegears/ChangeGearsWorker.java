@@ -7,6 +7,9 @@ import androidx.work.Data;
 import androidx.work.WorkerParameters;
 
 import com.apsolete.machinery.calculation.CalculationWorker;
+import com.apsolete.machinery.calculation.gearing.changegears.db.ChGearsEntity;
+import com.apsolete.machinery.calculation.gearing.changegears.db.ChGearsRepository;
+import com.apsolete.machinery.calculation.gearing.changegears.db.ChGearsResult;
 import com.apsolete.machinery.common.G;
 import com.apsolete.machinery.utils.Numbers;
 
