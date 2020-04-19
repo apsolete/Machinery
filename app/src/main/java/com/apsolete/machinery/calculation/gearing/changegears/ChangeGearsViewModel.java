@@ -10,6 +10,7 @@ import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
+import com.apsolete.machinery.calculation.Calculation;
 import com.apsolete.machinery.calculation.CalculationFragment;
 import com.apsolete.machinery.calculation.CalculationViewModel;
 import com.apsolete.machinery.common.Event;
@@ -18,6 +19,7 @@ import com.apsolete.machinery.utils.Fraction;
 import com.apsolete.machinery.utils.Numbers;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChangeGearsViewModel extends CalculationViewModel
@@ -100,14 +102,21 @@ public class ChangeGearsViewModel extends CalculationViewModel
     private MutableLiveData<Boolean> mLeadscrewPitchEnabled = new MutableLiveData<>();
     private MutableLiveData<Boolean> mThreadPitchEnabled = new MutableLiveData<>();
 
-    private MutableLiveData<Integer> mFirstResultNumber = new MutableLiveData<Integer>();
+    private MutableLiveData<Integer> mFirstResultNumber = new MutableLiveData<>();
     private LiveData<String> mFirstResultNumberStr = Transformations.map(mFirstResultNumber, Object::toString);
-    private MutableLiveData<Integer> mLastResultNumber = new MutableLiveData<Integer>();
+    private MutableLiveData<Integer> mLastResultNumber = new MutableLiveData<>();
     private LiveData<String> mLastResultNumberStr = Transformations.map(mLastResultNumber, Object::toString);
-    private MutableLiveData<Integer> mProgress = new MutableLiveData<>();
+    //private MutableLiveData<Integer> mProgress = new MutableLiveData<>();
     //private ArrayList<ChangeGearsWorker.Result> mResults = new ArrayList<>();
     //private LiveArrayList<Contract.Result> mResultsToShow = new LiveArrayList<>();
     private MutableLiveData<List<ChGearsResult>> mResultsToShow = new MutableLiveData<>();
+    private LiveData<List<ChGearsResultViewModel>> mResultsVmToShow = Transformations.map(mResultsToShow, results ->
+    {
+        List<ChGearsResultViewModel> list = new ArrayList<>();
+        for (ChGearsResult result : results)
+            list.add(new ChGearsResultViewModel(result, mRatioFormat));
+        return list;
+    });
     private MutableLiveData<List<ChGearsResult>> mResults = new MutableLiveData<>();
     //private ChangeGearsModel mCalculator;
 
@@ -177,8 +186,8 @@ public class ChangeGearsViewModel extends CalculationViewModel
         mDiffGearingZ5Z6.setValue(mEntity.diffGearing56);
 
         mGearSets.set0().setGears(mEntity.set0).setEnabled(mEntity.oneSet).setEditable(mEntity.oneSet).setSwitched(mEntity.oneSet);
-        mGearSets.set1().setGears(mEntity.set1).setSwitched(true).setEnabled(true).setEditable(true);
-        mGearSets.set2().setGears(mEntity.set2).setSwitched(true).setEnabled(true).setEditable(true);
+        mGearSets.set1().setGears(mEntity.set1).setSwitched(true).setEnabled(false).setEditable(true);
+        mGearSets.set2().setGears(mEntity.set2).setSwitched(true).setEnabled(false).setEditable(true);
         mGearSets.set3().setGears(mEntity.set3).setSwitched(mEntity.count>2);
         mGearSets.set4().setGears(mEntity.set4).setSwitched(mEntity.count>3);
         mGearSets.set5().setGears(mEntity.set5).setSwitched(mEntity.count>4);
@@ -236,7 +245,17 @@ public class ChangeGearsViewModel extends CalculationViewModel
             total *= zs6.length > 0 ? zs6.length : 1;
             if (total > 20000)
             {
-                mNotificationEvent.setValue(new Event<>("Too much gears!"));
+                mNotificationEvent.setValue(Calculation.notifyMessage("Too much gears in sets!"));
+                mCalculationEvent.setValue(new Event<>(null));
+                return false;
+            }
+        }
+        else
+        {
+            Integer[] set = Numbers.getIntegerNumbers(mEntity.set0);
+            if (mEntity.count > set.length)
+            {
+                mNotificationEvent.setValue(Calculation.notifyMessage("The number of gears in set is less than number of wheels!"));
                 mCalculationEvent.setValue(new Event<>(null));
                 return false;
             }
@@ -270,6 +289,9 @@ public class ChangeGearsViewModel extends CalculationViewModel
     public void clear()
     {
         mRepository.deleteResultsById(mChangeGearsId);
+        mFirstResultNumber.setValue(1);
+        mLastResultNumber.setValue(1);
+        mNotificationEvent.setValue(Calculation.notifyAction(Calculation.NOTIFY_CLEAR));
     }
 
     @Override
@@ -505,6 +527,11 @@ public class ChangeGearsViewModel extends CalculationViewModel
     public LiveData<List<ChGearsResult>> getResultsToShow()
     {
         return mResultsToShow;
+    }
+
+    public LiveData<List<ChGearsResultViewModel>> getResultsVmToShow()
+    {
+        return mResultsVmToShow;
     }
 
     public int getNextResults()

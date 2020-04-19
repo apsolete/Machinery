@@ -21,6 +21,8 @@ public class ChGearsResult
     @ColumnInfo
     public Double ratio;
     @ColumnInfo
+    public Double threadPitch;
+    @ColumnInfo
     public Integer z1;
     @ColumnInfo
     public Integer z2;

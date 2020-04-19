@@ -2,34 +2,39 @@ package com.apsolete.machinery.common;
 
 public class Event<T>
 {
-    private T content;
-    private boolean isHandled = false;
+    private T _content;
+    private boolean _isHandled = false;
 
     public Event(T content)
     {
-        this.content = content;
+        _content = content;
     }
 
     public T getContentIfNotHandled()
     {
-        if (isHandled)
+        if (_isHandled)
         {
             return null;
         }
         else
         {
-            isHandled = true;
-            return content;
+            _isHandled = true;
+            return _content;
         }
     }
 
     public T peekContent()
     {
-        return content;
+        return _content;
     }
 
     public boolean isHandled()
     {
-        return isHandled;
+        return _isHandled;
+    }
+
+    public void setHandled(boolean handled)
+    {
+        _isHandled = handled;
     }
 }

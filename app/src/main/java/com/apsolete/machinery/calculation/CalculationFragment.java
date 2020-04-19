@@ -81,10 +81,14 @@ public abstract class CalculationFragment<VM extends CalculationViewModel> exten
         //The ProgressBar is in Activity layout
         ProgressBar = Activity.findViewById(R.id.progressBar);
 
-        mViewModel.getNotificationEvent().observe(getViewLifecycleOwner(),
-                new Observers.EventObserver<>(this::displayMessage));
+        mViewModel.getNotificationEvent().observe(getViewLifecycleOwner(), new Observers.EventObserver<>(notify ->
+        {
+            if (notify.action == Calculation.NOTIFY_MESSAGE)
+                displayMessage(notify.message);
+            return false;
+        }));
 
-        mViewModel.getCalculationEvent().observe(getViewLifecycleOwner(), new Observers.EventObserver<UUID>(id ->
+        mViewModel.getCalculationEvent().observe(getViewLifecycleOwner(), new Observers.EventObserver<>(id ->
         {
             final LiveData<WorkInfo> workInfo = WorkManager.getInstance(getContext()).getWorkInfoByIdLiveData(id);
             workInfo.observe(getViewLifecycleOwner(), info ->
@@ -98,6 +102,7 @@ public abstract class CalculationFragment<VM extends CalculationViewModel> exten
                     showProgress(value);
                 }
             });
+            return true;
         }));
 
         return view;
@@ -110,7 +115,7 @@ public abstract class CalculationFragment<VM extends CalculationViewModel> exten
 
     protected void displayMessage(String message)
     {
-        Snackbar.make(mRootView, message, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mRootView, message, Snackbar.LENGTH_LONG).show();
     }
 
     protected void showProgress(int progress)

@@ -284,6 +284,10 @@ public class ChangeGearsWorker extends CalculationWorker
         result.chg_id = mEntity.id;
         result.number = number;
         result.ratio = ratio;
+        if (mEntity.mode == G.CHG_THREAD_BY_GEARS)
+            result.threadPitch = ratio * mEntity.leadScrewPitch;
+        else
+            result.threadPitch = 0.0;
         result.z1 = z[0];
         result.z2 = z[1];
         result.z3 = z.length > 2 ? z[2] : 0;

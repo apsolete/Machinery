@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d863327a0e6729ef27fe72c35b42623f",
+    "identityHash": "f6014a5d9aa41394691405007853261d",
     "entities": [
       {
         "tableName": "changegears",
@@ -170,7 +170,7 @@
       },
       {
         "tableName": "changegearsresult",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `chg_id` INTEGER NOT NULL, `number` INTEGER, `ratio` REAL, `z1` INTEGER, `z2` INTEGER, `z3` INTEGER, `z4` INTEGER, `z5` INTEGER, `z6` INTEGER, FOREIGN KEY(`chg_id`) REFERENCES `changegears`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `chg_id` INTEGER NOT NULL, `number` INTEGER, `ratio` REAL, `threadPitch` REAL, `z1` INTEGER, `z2` INTEGER, `z3` INTEGER, `z4` INTEGER, `z5` INTEGER, `z6` INTEGER, FOREIGN KEY(`chg_id`) REFERENCES `changegears`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -193,6 +193,12 @@
           {
             "fieldPath": "ratio",
             "columnName": "ratio",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "threadPitch",
+            "columnName": "threadPitch",
             "affinity": "REAL",
             "notNull": false
           },
@@ -267,7 +273,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd863327a0e6729ef27fe72c35b42623f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f6014a5d9aa41394691405007853261d')"
     ]
   }
 }

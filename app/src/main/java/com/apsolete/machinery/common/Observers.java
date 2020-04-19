@@ -339,14 +339,15 @@ public final class Observers
                 T content = event.getContentIfNotHandled();
                 if (content != null)
                 {
-                    listener.onEventUnhandledContent(content);
+                    boolean handled = listener.onEventUnhandledContent(content);
+                    event.setHandled(handled);
                 }
             }
         }
 
         public interface Listener<T>
         {
-            void onEventUnhandledContent(T t);
+            boolean onEventUnhandledContent(T t);
         }
     }
 }

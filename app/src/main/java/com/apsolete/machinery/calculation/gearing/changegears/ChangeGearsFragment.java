@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.apsolete.machinery.R;
+import com.apsolete.machinery.calculation.Calculation;
 import com.apsolete.machinery.calculation.CalculationFragment;
 import com.apsolete.machinery.common.DialogBase;
 import com.apsolete.machinery.common.G;
+import com.apsolete.machinery.common.Observers;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -133,34 +135,24 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         setTextObserver(R.id.resultFirstNumberText, mViewModel.getFirstResultNumberStr());
         setTextObserver(R.id.resultLastNumberText, mViewModel.getLastResultNumberStr());
 
-        mViewModel.getResultsToShow().observe(getViewLifecycleOwner(), new Observer<List<ChGearsResult>>()
+        mViewModel.getResultsVmToShow().observe(getViewLifecycleOwner(), results ->
         {
-            @Override
-            public void onChanged(List<ChGearsResult> results)
+            _resultView.removeAllViews();
+            for (ChGearsResultViewModel result : results)
             {
+                setResultItem(result);
+            }
+        });
+
+        view.findViewById(R.id.showNext).setOnClickListener(v -> mViewModel.getNextResults());
+        view.findViewById(R.id.showPrev).setOnClickListener(v -> mViewModel.getPrevResults());
+
+        mViewModel.getNotificationEvent().observe(getViewLifecycleOwner(), new Observers.EventObserver<>(notify ->
+        {
+            if (notify.action == Calculation.NOTIFY_CLEAR)
                 _resultView.removeAllViews();
-                for (ChGearsResult result : results)
-                {
-                    setResultItem(result);
-                }
-            }
-        });
-        view.findViewById(R.id.showNext).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                mViewModel.getNextResults();
-            }
-        });
-        view.findViewById(R.id.showPrev).setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                mViewModel.getPrevResults();
-            }
-        });
+            return true;
+        }));
 
         return view;
     }
@@ -186,7 +178,7 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
         dialog.show(fragmentManager, "teethnumbersdialog");
     }
 
-    private void setResultItem(final ChGearsResult result)
+    private void setResultItem(final ChGearsResultViewModel result)
     {
         try
         {
@@ -194,44 +186,44 @@ public class ChangeGearsFragment extends CalculationFragment<ChangeGearsViewMode
             android.view.View view = layoutInflater.inflate(R.layout.view_changegears_result2, null);
 
             TextView text = (TextView)view.findViewById(R.id.resultNumberText);
-            text.setText(result.number.toString());
+            text.setText(result.number());
 
             int visibility;
             text = (TextView)view.findViewById(R.id.z1Text);
-            text.setText(result.z1.toString());
+            text.setText(result.z1());
             text = (TextView)view.findViewById(R.id.z2Text);
-            text.setText(result.z2.toString());
+            text.setText(result.z2());
 
-            visibility = result.z3 > 0 ? android.view.View.VISIBLE : android.view.View.GONE;
+            visibility = result.z3() != null ? android.view.View.VISIBLE : android.view.View.GONE;
             view.findViewById(R.id.gears34Layout).setVisibility(visibility);
             if (visibility == android.view.View.VISIBLE)
             {
                 text = (TextView)view.findViewById(R.id.z3Text);
-                text.setText(result.z3.toString());
+                text.setText(result.z3());
                 text = (TextView)view.findViewById(R.id.z4Text);
-                text.setText(result.z4.toString());
+                text.setText(result.z4());
             }
 
-            visibility = result.z5 > 0 ? android.view.View.VISIBLE : android.view.View.GONE;
+            visibility = result.z5() != null ? android.view.View.VISIBLE : android.view.View.GONE;
             view.findViewById(R.id.gears56Layout).setVisibility(visibility);
             if (visibility == android.view.View.VISIBLE)
             {
                 text = (TextView)view.findViewById(R.id.z5Text);
-                text.setText(result.z5.toString());
+                text.setText(result.z5());
                 text = (TextView)view.findViewById(R.id.z6Text);
-                text.setText(result.z6.toString());
+                text.setText(result.z6());
             }
 
             text = (TextView)view.findViewById(R.id.ratioText);
-            text.setText(result.ratio.toString());
+            text.setText(result.ratio());
 
-//            visibility = result.threadPitch() != null ? android.view.View.VISIBLE : android.view.View.GONE;
-//            view.findViewById(R.id.threadPitchLayout).setVisibility(visibility);
-//            if (visibility == android.view.View.VISIBLE)
-//            {
-//                text = (TextView)view.findViewById(R.id.threadPitchText);
-//                text.setText(result.threadPitch());
-//            }
+            visibility = result.threadPitch() != null ? android.view.View.VISIBLE : android.view.View.GONE;
+            view.findViewById(R.id.threadPitchLayout).setVisibility(visibility);
+            if (visibility == android.view.View.VISIBLE)
+            {
+                text = (TextView)view.findViewById(R.id.threadPitchText);
+                text.setText(result.threadPitch());
+            }
 
             _resultView.addView(view);
         }

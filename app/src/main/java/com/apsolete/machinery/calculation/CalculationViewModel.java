@@ -12,7 +12,7 @@ import com.apsolete.machinery.common.Event;
 
 public abstract class CalculationViewModel extends CustomViewModel implements Calculation.ViewModel
 {
-    protected MutableLiveData<Event<String>> mNotificationEvent = new MutableLiveData<>();
+    protected MutableLiveData<Event<Calculation.Notify>> mNotificationEvent = new MutableLiveData<>();
     protected MutableLiveData<Event<UUID>> mCalculationEvent = new MutableLiveData<>(null);
 
     public CalculationViewModel(@NonNull Application application)
@@ -27,7 +27,7 @@ public abstract class CalculationViewModel extends CustomViewModel implements Ca
     public abstract void clear();
     public abstract boolean close();
 
-    public LiveData<Event<String>> getNotificationEvent()
+    public LiveData<Event<Calculation.Notify>> getNotificationEvent()
     {
         return mNotificationEvent;
     }
