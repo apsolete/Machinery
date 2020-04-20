@@ -18,35 +18,31 @@ import java.util.ArrayList;
 public class GearPickerDialog extends DialogBase
 {
     private static final int COLUMNS = 5;
-    private static final int TEETH_MIN = 13;
-    private static final int TEETH_MAX = 132;
+    private static final int TEETH_MIN = 18;
+    private static final int TEETH_MAX = 127;
 
     private ArrayList<Integer> mGearSet = null;
-    private ArrayMap<Integer, CompoundButton> mButtons = new ArrayMap<Integer, CompoundButton>();
+    private ArrayMap<Integer, CompoundButton> mButtons = new ArrayMap<>();
 
     private GridLayout mGrid;
 
-    private View.OnClickListener _clickListener = new View.OnClickListener()
+    private View.OnClickListener _clickListener = v ->
     {
-        @Override
-        public void onClick(View v)
+        int id = v.getId();
+        switch (id)
         {
-            int id = v.getId();
-            switch (id)
-            {
-                case R.id.buttonSelectAll:
-                    selectAll();
-                    break;
-                case R.id.buttonReset:
-                    reset();
-                    break;
-                case R.id.buttonOk:
-                    apply();
-                    break;
-                case R.id.buttonCancel:
-                    cancel();
-                    break;
-            }
+            case R.id.buttonSelectAll:
+                selectAll();
+                break;
+            case R.id.buttonReset:
+                reset();
+                break;
+            case R.id.buttonOk:
+                apply();
+                break;
+            case R.id.buttonCancel:
+                cancel();
+                break;
         }
     };
 
