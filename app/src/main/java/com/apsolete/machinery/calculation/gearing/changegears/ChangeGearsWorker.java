@@ -105,16 +105,16 @@ public class ChangeGearsWorker extends CalculationWorker
         // calculate by z1, z2
         int totalResults = gs1.length * gs2.length;
         resetProgress(totalResults);
-        for (int z1: gs1)
+        for (int a: gs1)
         {
             publishProgress();
-            for (int z2: gs2)
+            for (int b: gs2)
             {
                 publishProgress();
-                if (_diffGearingZ1Z2 && z1 == z2)
+                if (_diffGearingZ1Z2 && a == b)
                     continue;
 
-                calculateRatio(z1, z2);
+                calculateRatio(a, b);
             }
         }
     }
@@ -124,28 +124,28 @@ public class ChangeGearsWorker extends CalculationWorker
         // calculate by z1, z2, z3, z4
         int totalResults = gs1.length * gs2.length * gs3.length * gs4.length;
         resetProgress(totalResults);
-        for (int z1: gs1)
+        for (int a: gs1)
         {
             publishProgress();
-            for (int z2: gs2)
+            for (int b: gs2)
             {
                 publishProgress();
-                if (_diffGearingZ1Z2 && z1 == z2)
+                if (_diffGearingZ1Z2 && a == b)
                     continue;
 
-                for (int z3: gs3)
+                for (int c: gs3)
                 {
                     publishProgress();
-                    if (_diffLockedZ2Z3 && z2 == z3)
+                    if (_diffLockedZ2Z3 && b == c)
                         continue;
 
-                    for (int z4: gs4)
+                    for (int d: gs4)
                     {
                         publishProgress();
-                        if (_diffGearingZ3Z4 && z3 == z4)
+                        if (_diffGearingZ3Z4 && c == d)
                             continue;
 
-                        calculateRatio(z1, z2, z3, z4);
+                        calculateRatio(a, b, c, d);
                     }
                 }
             }
@@ -158,40 +158,40 @@ public class ChangeGearsWorker extends CalculationWorker
         int totalResults = gs1.length * gs2.length
                 * gs3.length * gs4.length * gs5.length * gs6.length;
         resetProgress(totalResults);
-        for (int z1: gs1)
+        for (int a: gs1)
         {
             publishProgress();
-            for (int z2: gs2)
+            for (int b: gs2)
             {
                 publishProgress();
-                if (_diffGearingZ1Z2 && z1 == z2)
+                if (_diffGearingZ1Z2 && a == b)
                     continue;
 
-                for (int z3: gs3)
+                for (int c: gs3)
                 {
                     publishProgress();
-                    if (_diffLockedZ2Z3 && z2 == z3)
+                    if (_diffLockedZ2Z3 && b == c)
                         continue;
 
-                    for (int z4: gs4)
+                    for (int d: gs4)
                     {
                         publishProgress();
-                        if (_diffGearingZ3Z4 && z3 == z4)
+                        if (_diffGearingZ3Z4 && c == d)
                             continue;
 
-                        for (int z5: gs5)
+                        for (int e: gs5)
                         {
                             publishProgress();
-                            if (_diffLockedZ4Z5 && z4 == z5)
+                            if (_diffLockedZ4Z5 && d == e)
                                 continue;
 
-                            for (int z6: gs6)
+                            for (int f: gs6)
                             {
                                 publishProgress();
-                                if (_diffGearingZ5Z6 && z5 == z6)
+                                if (_diffGearingZ5Z6 && e == f)
                                     continue;
 
-                                calculateRatio(z1, z2, z3, z4, z5, z6);
+                                calculateRatio(a, b, c, d, e, f);
                             }
                         }
                     }
@@ -202,7 +202,6 @@ public class ChangeGearsWorker extends CalculationWorker
 
     private void calculateByOneSet(int count, int[] set)
     {
-        //int count = _gearsCount;
         if (count == 3) count = 2;
         if (count == 5) count = 4;
 
@@ -217,58 +216,70 @@ public class ChangeGearsWorker extends CalculationWorker
             {
                 publishProgress();
                 if (count == 2)
-                    calculateRatio(
-                            set[comb.get(perm.get(0))],
-                            set[comb.get(perm.get(1))]);
+                {
+                    int a = set[comb.get(perm.get(0))];
+                    int b = set[comb.get(perm.get(1))];
+                    calculateRatio(a, b);
+                }
                 else if (count == 4)
-                    calculateRatio(
-                            set[comb.get(perm.get(0))],
-                            set[comb.get(perm.get(1))],
-                            set[comb.get(perm.get(2))],
-                            set[comb.get(perm.get(3))]);
+                {
+                    int a = set[comb.get(perm.get(0))];
+                    int b = set[comb.get(perm.get(1))];
+                    int c = set[comb.get(perm.get(2))];
+                    int d = set[comb.get(perm.get(3))];
+                    calculateRatio(a, b, c, d);
+                }
                 else if (count == 6)
-                    calculateRatio(
-                            set[comb.get(perm.get(0))],
-                            set[comb.get(perm.get(1))],
-                            set[comb.get(perm.get(2))],
-                            set[comb.get(perm.get(3))],
-                            set[comb.get(perm.get(4))],
-                            set[comb.get(perm.get(5))]);
+                {
+                    int a = set[comb.get(perm.get(0))];
+                    int b = set[comb.get(perm.get(1))];
+                    int c = set[comb.get(perm.get(2))];
+                    int d = set[comb.get(perm.get(3))];
+                    int e = set[comb.get(perm.get(4))];
+                    int f = set[comb.get(perm.get(5))];
+                    calculateRatio(a, b, c, d, e, f);
+                }
             }
         }
     }
 
-    private boolean calculateRatio(int z1, int z2)
+    private boolean calculateRatio(int a, int b)
     {
-        double ratio = (double)(z1) / (double)(z2);
+        double ratio = (double)(a) / (double)(b);
         if (checkRatio(ratio))
         {
             _calculatedRatios++;
-            publishResult(_calculatedRatios, ratio, z1, z2);
+            publishResult(_calculatedRatios, ratio, a, b);
             return true;
         }
         return false;
     }
 
-    private boolean calculateRatio(int z1, int z2, int z3, int z4)
+    private boolean calculateRatio(int a, int b, int c, int d)
     {
-        double ratio = (double)(z1 * z3) / (double)(z2 * z4);
+        if (!checkCoupling(15, a, b, c, d))
+            return false;
+
+        double ratio = (double)(a * c) / (double)(b * d);
         if (checkRatio(ratio))
         {
             _calculatedRatios++;
-            publishResult(_calculatedRatios, ratio, z1, z2, z3, z4);
+            publishResult(_calculatedRatios, ratio, a, b, c, d);
             return true;
         }
         return false;
     }
 
-    private boolean calculateRatio(int z1, int z2, int z3, int z4, int z5, int z6)
+    private boolean calculateRatio(int a, int b, int c, int d, int e, int f)
     {
-        double ratio = (double)(z1 * z3 * z5) / (double)(z2 * z4 * z6);
+        if (!checkCoupling(15, a, b, c, d, e, f))
+            return false;
+
+        double ratio = (double)(a * c * e) / (double)(b * d * f);
         if (checkRatio(ratio))
         {
             _calculatedRatios++;
-            publishResult(_calculatedRatios, ratio, z1, z2, z3, z4, z5, z6);
+            publishResult(_calculatedRatios, ratio, a, b, c, d, e, f);
             return true;
         }
         return false;
@@ -299,4 +310,15 @@ public class ChangeGearsWorker extends CalculationWorker
         result.z6 = z.length > 5 ? z[5] : 0;
         mRepository.insert(result);
     }
+
+    private boolean checkCoupling(int dm, int a, int b, int c, int d)
+    {
+        return ((a + b) >= (c + dm)) && ((c + d) >= (b + dm));
+    }
+
+    private boolean checkCoupling(int dm, int a, int b, int c, int d, int e, int f)
+    {
+        return ((a + b) >= (c + dm)) && ((c + d) >= (b + dm)) && ((c + d) >= (e + dm)) && ((e + f) >= (d + dm));
+    }
+
 }
