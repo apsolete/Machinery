@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    buildToolsVersion '29.0.2'
     defaultConfig {
         applicationId "com.apsolete.machinery"
         minSdkVersion 21
@@ -28,8 +28,8 @@ android {
     }
     productFlavors {
     }
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        dataBinding = true
     }
     compileOptions {
         sourceCompatibility = 1.8
