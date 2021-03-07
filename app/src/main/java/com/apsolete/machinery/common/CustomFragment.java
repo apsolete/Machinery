@@ -41,6 +41,7 @@ public abstract class CustomFragment<VM extends CustomViewModel> extends Fragmen
     public CustomFragment(@LayoutRes int contentLayoutId, @StringRes int titleId, Class<VM> vmClass)
     {
         super(contentLayoutId);
+        _titleId = titleId;
         mVmClass = vmClass;
     }
 
