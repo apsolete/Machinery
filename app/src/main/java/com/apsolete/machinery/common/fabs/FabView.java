@@ -36,7 +36,7 @@ public class FabView extends LinearLayout implements FabManager, Animator.Animat
             _header = ta.getString(R.styleable.FabView_header);
             _offset = ta.getDimension(R.styleable.FabView_offset, 0.0f);
             //_expandable = ta.getBoolean(R.styleable.FabView_expandable, false);
-            _srcId = ta.getResourceId(R.styleable.FabView_src, R.id.mi_home);
+            _srcId = ta.getResourceId(R.styleable.FabView_src, 0);
         }
         finally
         {
