@@ -1,12 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion '29.0.2'
+    compileSdk 34
     defaultConfig {
         applicationId "com.apsolete.machinery"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -35,6 +34,7 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+    namespace 'com.apsolete.machinery'
 }
 
 //configurations.all {
@@ -49,18 +49,16 @@ android {
 //}
 
 dependencies {
-    def room_version = '2.2.6'
-
     //compile project(path: ':machineries')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.preference:preference:1.1.1'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.preference:preference:1.2.1'
+    implementation 'com.google.android.material:material:1.10.0'
+    implementation 'androidx.annotation:annotation:1.7.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.work:work-runtime:2.5.0'
+    implementation 'androidx.work:work-runtime:2.8.1'
 
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-runtime:2.6.0"
+    annotationProcessor "androidx.room:room-compiler:2.6.0"
 }
